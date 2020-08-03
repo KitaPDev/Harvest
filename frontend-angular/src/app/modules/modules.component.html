@@ -1,0 +1,57 @@
+<div class="container-fluid" style="margin-top: 30px">
+
+  <form class="form-group"
+        [formGroup]="createModuleForm">
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="moduleLabel">Label</label>
+        <input
+          type="text"
+          class="form-control"
+          id="moduleLabel"
+          formControlName="moduleLabel"
+        >
+      </div>
+      <div class="col-sm-4">
+        <label for="room">Room</label>
+        <select
+          id="room"
+          class="form-control"
+          formControlName="room"
+          (change)="updateRoom($event)">
+          <option disabled>Select Room</option>
+          <option>-</option>
+          <option *ngFor="let room of rooms">{{ room.roomLabel }}</option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <label for="room">Reservoir</label>
+        <select
+          id="reservoir"
+          class="form-control"
+          formControlName="reservoir"
+          (change)="updateReservoir($event)">
+          <option disabled>Select Reservoir</option>
+          <option>-</option>
+          <option *ngFor="let reservoir of reservoirs">{{ reservoir.reservoirLabel }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+      <div class="col-sm-12">
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="onSubmitCreateModule()"
+          >Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<hr>
+<app-modules-list></app-modules-list>

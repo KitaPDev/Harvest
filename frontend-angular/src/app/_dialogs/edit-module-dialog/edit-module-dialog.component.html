@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit {{ moduleLabel }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    class="form-group"
+    [formGroup]="editModuleForm"
+  >
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="moduleLabel">Module Label</label>
+        <input
+          type="text"
+          class="form-control"
+          id="moduleLabel"
+          formControlName="moduleLabel"
+        >
+      </div>
+      <div class="col-sm-4">
+        <label for="room">Room</label>
+        <select
+          id="room"
+          class="form-control"
+          formControlName="room"
+          (change)="updateRoom($event)">
+          <option disabled>Select Room</option>
+          <option>-</option>
+          <option *ngFor="let room of rooms" [value]="room.roomLabel">{{ room.roomLabel }}</option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <label for="reservoir">Reservoir</label>
+        <select
+          id="reservoir"
+          class="form-control"
+          formControlName="reservoir"
+          (change)="updateReservoir($event)">
+          <option disabled>Select Reservoir</option>
+          <option>-</option>
+          <option *ngFor="let reservoir of reservoirs" [value]="reservoir.reservoirLabel">{{ reservoir.reservoirLabel }}</option>
+        </select>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmitEditReservoir()">Submit</button>
+</div>

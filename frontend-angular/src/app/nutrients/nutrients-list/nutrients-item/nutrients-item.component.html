@@ -1,0 +1,35 @@
+<div class="row text-center" style="margin-top: 10px;">
+  <div class="col-sm-3 my-auto">
+    {{ nutrient.nutrientLabel }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ parts[nutrient.part - 1] }}
+  </div>
+  <div class="col-sm-2 my-auto">
+    {{ nutrientTypes[nutrient.nutrientType - 1] }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ nutrient.ccPerLiter }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ nutrient.n }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ nutrient.p }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ nutrient.k }}
+  </div>
+  <div class="col-sm-2 text-right">
+    <button
+      class="btn btn-primary"
+      (click)="onEditNutrient()"
+    >Edit
+    </button>{{" "}}
+    <button
+      class="btn btn-danger"
+      (click)="onDeleteNutrient()"
+    >Delete
+    </button>
+  </div>
+</div>

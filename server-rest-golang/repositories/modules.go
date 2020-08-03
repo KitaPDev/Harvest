@@ -1,0 +1,84 @@
+package repositories
+
+import (
+	"github.com/Modern-Farms/server-rest-golang/lib/database"
+	"github.com/Modern-Farms/server-rest-golang/models"
+)
+
+func GetAllModules() ([]models.Module, error) {
+	db := database.GetDB()
+
+	sqlStatement := `SELECT module_id, reservoir_id, room_id, module_label FROM module ORDER BY module_id;`
+
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		return nil, err
+	}
+
+	modules := make([]models.Module, 0)
+
+	defer rows.Close()
+	for rows.Next() {
+		module := models.Module{}
+
+		err = rows.Scan(
+			&module.ModuleID,
+			&module.ReservoirID,
+			&module.RoomID,
+			&module.ModuleLabel,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		modules = append(modules, module)
+	}
+
+	return modules, nil
+}
+
+func CreateModule(reservoirID int, roomID int, moduleLabel string) error {
+
+	db := database.GetDB()
+
+	sqlStatement := `INSERT INTO module (reservoir_id, room_id, module_label) 
+			VALUES ($1, $2, $3);`
+
+	_, err := db.Query(sqlStatement, reservoirID, roomID, moduleLabel)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string) error {
+
+	db := database.GetDB()
+
+	sqlStatement := `UPDATE module 
+			SET module_label = $2,
+			    reservoir_id = $3,
+			    room_id = $4
+			WHERE module_id = $1;`
+
+	_, err := db.Query(sqlStatement, moduleID, moduleLabel, reservoirID, roomID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteModule(moduleID int) error {
+	db := database.GetDB()
+
+	sqlStatement := `DELETE FROM module WHERE module_id = $1;`
+
+	_, err := db.Query(sqlStatement, moduleID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

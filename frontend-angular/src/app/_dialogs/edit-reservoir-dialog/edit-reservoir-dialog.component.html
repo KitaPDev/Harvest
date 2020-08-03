@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit {{ reservoirLabel }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="form-group" [formGroup]="editReservoirForm">
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="reservoirLabel">Reservoir Label</label>
+        <input
+          type="text"
+          class="form-control"
+          id="reservoirLabel"
+          formControlName="reservoirLabel"
+        />
+      </div>
+      <div class="col-sm-4">
+        <label for="nutrientLabel">Nutrients</label>
+        <select
+          id="nutrientLabel"
+          class="form-control"
+          formControlName="nutrientLabel"
+          (change)="updateNutrients($event)"
+        >
+          <option disabled>Select Nutrient(s)</option>
+          <option>-</option>
+          <option *ngFor="let nutrient of nutrients">{{
+            nutrient.nutrientLabel
+          }}</option>
+        </select>
+      </div>
+      <div class="col-sm-2" style="margin-top: 31px;">
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="onAddNutrient()"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <div
+          *ngFor="
+            let nutrient of selectedNutrients;
+            trackBy: trackByNutrientID
+          "
+          class="addedNutrient"
+          (click)="onRemoveNutrient($event)"
+        >
+          {{ nutrient.nutrientLabel }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="cancel()">
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="onSubmitEditReservoir()"
+  >
+    Submit
+  </button>
+</div>

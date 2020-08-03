@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row font-weight-bold text-center border-bottom">
+    <div class="col-sm-4 my-auto">
+      Label
+    </div>
+    <div class="col-sm-3 my-auto">
+      Room
+    </div>
+    <div class="col-sm-3 my-auto">
+      Reservoir
+    </div>
+    <div class="col-sm-2 my-auto">
+    </div>
+  </div>
+  <app-modules-item
+    *ngFor="let module of modules; let i = index"
+    [module]="module"
+    [index]="i"
+  ></app-modules-item>
+</div>

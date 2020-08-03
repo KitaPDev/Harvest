@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title">Change {{ roomLabel }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    class="form-group"
+    [formGroup]="editRoomForm"
+  >
+    <label for="roomLabel">Room Label</label>
+    <input
+      type="text"
+      class="form-control"
+      id="roomLabel"
+      formControlName="roomLabel"
+    >
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmitEditRoom()">Submit</button>
+</div>

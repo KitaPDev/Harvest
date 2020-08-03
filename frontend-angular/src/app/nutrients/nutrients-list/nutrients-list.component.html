@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="row font-weight-bold text-center border-bottom">
+    <div class="col-sm-3 my-auto">
+      Label
+    </div>
+    <div class="col-sm-1 my-auto">
+      Part
+    </div>
+    <div class="col-sm-2 my-auto">
+      Type
+    </div>
+    <div class="col-sm-1 my-auto">
+      cc/liter
+    </div>
+    <div class="col-sm-1 my-auto">
+      N
+    </div>
+    <div class="col-sm-1 my-auto">
+      P
+    </div>
+    <div class="col-sm-1 my-auto">
+      K
+    </div>
+    <div class="col-sm-2 my-auto">
+    </div>
+  </div>
+  <app-nutrients-item
+    *ngFor="let nutrient of nutrients; let i = index"
+    [nutrient]="nutrient"
+    [index]="i"
+  ></app-nutrients-item>
+</div>

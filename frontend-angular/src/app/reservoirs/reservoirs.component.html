@@ -1,0 +1,67 @@
+<div class="container-fluid" style="margin-top: 30px">
+
+  <form class="form-group"
+        [formGroup]="createReservoirForm">
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="reservoirLabel">Label</label>
+        <input
+          type="text"
+          class="form-control"
+          id="reservoirLabel"
+          formControlName="reservoirLabel"
+        >
+      </div>
+      <div class="col-sm-4">
+        <label for="nutrientLabel">Nutrient</label>
+        <select
+          id="nutrientLabel"
+          class="form-control"
+          formControlName="nutrientLabel"
+          (change)="updateNutrients($event)">
+          <option disabled>Select Nutrient</option>
+          <option>-</option>
+          <option *ngFor="let nutrient of nutrients">{{ nutrient.nutrientLabel }}</option>
+        </select>
+      </div>
+      <div class="col-sm-2" style="margin-top: 31px">
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="onAddNutrient()">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <div
+          *ngFor="let nutrient of selectedNutrients; trackBy: trackByNutrientID"
+          class="addedNutrient"
+          (click)="removeNutrient($event)">
+          {{ nutrient.nutrientLabel }}
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+      <div class="col-sm-12">
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="onSubmitCreateReservoir()"
+          >Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<hr>
+<app-reservoirs-list></app-reservoirs-list>

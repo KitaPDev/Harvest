@@ -1,0 +1,23 @@
+<div class="row text-center" style="margin-top: 10px;">
+  <div class="col-sm-4 my-auto ">
+    {{ module.moduleLabel }}
+  </div>
+  <div class="col-sm-3 my-auto">
+    {{ room.roomLabel ? room.roomLabel : '-' }}
+  </div>
+  <div class="col-sm-3 my-auto">
+    {{ reservoir.reservoirLabel ? reservoir.reservoirLabel : '-' }}
+  </div>
+  <div class="col-sm-2 my-auto text-right">
+    <button
+      class="btn btn-primary"
+      (click)="onEditModule()"
+    >Edit
+    </button>{{" "}}
+    <button
+      class="btn btn-danger"
+      (click)="onDeleteModule()"
+    >Delete
+    </button>
+  </div>
+</div>

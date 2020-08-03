@@ -1,0 +1,123 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit {{ plantLabel }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form
+    class="form-group"
+    [formGroup]="editPlantForm"
+  >
+
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="plantLabel">Label</label>
+        <input
+          type="text"
+          class="form-control"
+          id="plantLabel"
+          formControlName="plantLabel"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="tdsLow">TDS - Low (ppm)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="tdsLow"
+          formControlName="tdsLow"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="tdsHigh">TDS - High (ppm)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="tdsHigh"
+          formControlName="tdsHigh"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="phLow">pH - Low</label>
+        <input
+          type="number"
+          class="form-control"
+          id="phLow"
+          formControlName="phLow"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="phHigh">pH - High</label>
+        <input
+          type="number"
+          class="form-control"
+          id="phHigh"
+          formControlName="phHigh"
+        >
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-sm-2">
+        <label for="temperatureLow">Temperature - Low (Celsius)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="temperatureLow"
+          formControlName="temperatureLow"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="temperatureHigh">Temperature - High (Celsius)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="temperatureHigh"
+          formControlName="temperatureHigh"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="lightsOnHour">Lights On (hour)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="lightsOnHour"
+          formControlName="lightsOnHour"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="lightsOffHour">Lights Off (hour)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="lightsOffHour"
+          formControlName="lightsOffHour"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="mistingOnSecond">Misting On (second)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="mistingOnSecond"
+          formControlName="mistingOnSecond"
+        >
+      </div>
+      <div class="col-sm-2">
+        <label for="mistingOffSecond">Misting Off (second)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="mistingOffSecond"
+          formControlName="mistingOffSecond"
+        >
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmitEditPlant()">Submit</button>
+</div>

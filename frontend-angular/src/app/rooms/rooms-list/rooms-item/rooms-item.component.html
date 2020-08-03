@@ -1,0 +1,17 @@
+<div class="row" style="margin-top: 10px;">
+  <div class="col-sm-10 my-auto text-center">
+    {{ room.roomLabel }}
+  </div>
+  <div class="col-sm-2 text-right">
+    <button
+      class="btn btn-primary"
+      (click)="onEditRoom()"
+    >Edit
+    </button>{{" "}}
+    <button
+      class="btn btn-danger"
+      (click)="onDeleteRoom()"
+    >Delete
+    </button>
+  </div>
+</div>

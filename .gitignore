@@ -1,0 +1,68 @@
+db/data
+
+# compiled output
+frontend-angular/dist
+frontend-angular/tmp
+frontend-angular/out-tsc
+# Only exists if Bazel was run
+frontend-angular/bazel-out
+
+# dependencies
+frontend-angular/node_modules
+
+# profiling files
+frontend-angularchrome-profiler-events*.json
+frontend-angularspeed-measure-plugin*.json
+
+# IDEs and editors
+frontend-angular/.idea
+frontend-angular/.project
+frontend-angular/.classpath
+frontend-angular/.c9/
+frontend-angular/*.launch
+frontend-angular/.settings/
+frontend-angular/*.sublime-workspace
+
+# IDE - VSCode
+frontend-angular/.vscode/*
+frontend-angular/!.vscode/settings.json
+frontend-angular/!.vscode/tasks.json
+frontend-angular/!.vscode/launch.json
+frontend-angular/!.vscode/extensions.json
+frontend-angular/.history/*
+
+# misc
+frontend-angular/.sass-cache
+frontend-angular/connect.lock
+frontend-angular/coverage
+frontend-angular/libpeerconnection.log
+frontend-angular/npm-debug.log
+frontend-angular/yarn-error.log
+frontend-angular/testem.log
+frontend-angular/typings
+
+# System Files
+frontend-angular/.DS_Store
+frontend-angular/Thumbs.db
+
+# Binaries for programs and plugins
+server-rest-golang/*.exe
+server-rest-golang/*.exe~
+server-rest-golang/*.dll
+server-rest-golang/*.so
+server-rest-golang/*.dylib
+
+# Test binary, built with `go test -c`
+server-rest-golang/*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+server-rest-golang/*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+server-rest-golang/.DS_Store
+server-rest-golang/.idea/
+server-rest-golang/pkg
+
+iot/.vscode/*

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row font-weight-bold text-center border-bottom">
+    <div class="col-sm-2 my-auto">
+      Label
+    </div>
+    <div class="col-sm-2 my-auto">
+      Plant
+    </div>
+    <div class="col-sm-1 my-auto">
+      Weight
+    </div>
+    <div class="col-sm-2 my-auto">
+      Begin
+    </div>
+    <div class="col-sm-3 my-auto">
+      Remarks
+    </div>
+    <div class="col-sm-2 my-auto">
+    </div>
+  </div>
+  <app-batches-item
+    *ngFor="let batch of batches; let i = index"
+    [batch]="batch"
+    [modules]="modules"
+    [plants]="plants"
+    [reservoirs]="reservoirs"
+    [nutrients]="nutrients"
+    [rooms]="rooms"
+  ></app-batches-item>
+</div>

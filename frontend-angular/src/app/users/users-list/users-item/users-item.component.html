@@ -1,0 +1,29 @@
+<div class="row text-center" style="margin-top: 10px;">
+  <div class="col-sm-4 my-auto">
+    {{ user.username }}
+  </div>
+  <div class="col-sm-2 my-auto">
+    <label for="isAdmin"></label>
+    <input
+      type="checkbox"
+      id="isAdmin"
+      [checked]="user.isAdmin"
+      (click)="toggleAdmin()"
+    >
+  </div>
+  <div class="col-sm-3 my-auto">
+    {{ user.createdAt | date: "dd-MM-yyyy HH:mm:SSS" }}
+  </div>
+  <div class="col-sm-3 text-right">
+    <button
+      class="btn btn-primary"
+      (click)="onChangePassword()"
+    >Change Password
+    </button>{{" "}}
+    <button
+      class="btn btn-danger"
+      (click)="onDeleteUser()"
+    >Delete
+    </button>
+  </div>
+</div>

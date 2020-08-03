@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row font-weight-bold text-center border-bottom">
+    <div class="col-sm-4 my-auto">
+      Label
+    </div>
+    <div class="col-sm-6 my-auto">
+      Nutrients
+    </div>
+    <div class="col-sm-2 my-auto">
+    </div>
+  </div>
+  <app-reservoirs-item
+    *ngFor="let reservoir of reservoirs; let i = index"
+    [reservoir]="reservoir"
+    [nutrients]="nutrients"
+    [index]="i"
+  ></app-reservoirs-item>
+</div>

@@ -1,0 +1,32 @@
+<div class="row text-center" style="margin-top: 10px;">
+  <div class="col-sm-3 my-auto">
+    {{ plant.plantLabel }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ plant.tdsLow }} - {{ plant.tdsHigh }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ plant.phLow }} - {{ plant.phHigh }}
+  </div>
+  <div class="col-sm-1 my-auto">
+    {{ plant.temperatureLow }} - {{ plant.temperatureHigh }}
+  </div>
+  <div class="col-sm-2 my-auto">
+    {{ plant.lightsOnHour }} / {{ plant.lightsOffHour }}
+  </div>
+  <div class="col-sm-2 my-auto">
+    {{ plant.mistingOnSecond }} / {{ plant.mistingOffSecond }}
+  </div>
+  <div class="col-sm-2 my-auto text-right">
+    <button
+      class="btn btn-primary"
+      (click)="onEditPlant()"
+    >Edit
+    </button>{{" "}}
+    <button
+      class="btn btn-danger"
+      (click)="onDeletePlant()"
+    >Delete
+    </button>
+  </div>
+</div>

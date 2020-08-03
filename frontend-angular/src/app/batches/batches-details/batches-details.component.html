@@ -1,0 +1,302 @@
+<div *ngIf="isDataReady">
+  <div class="container-fluid" style="margin-top: 10px; font-weight: bold">
+    <div class="row">
+      <div class="col-sm-11">
+        <h3 style="margin-top: 10px">{{ batch.batchLabel }}</h3>
+      </div>
+      <div class="col-sm-1">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          style="margin-top: 10px;"
+          (click)="onBackClick()"
+        >Back
+        </button>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div class="container-fluid" style="margin-top: 30px">
+    <form class="form-group"
+          [formGroup]="editBatchForm">
+
+      <div class="row">
+        <div class="col-sm-3">
+          <label class="control-label" for="batchLabel">Label</label>
+          <input
+            type="text"
+            class="form-control"
+            id="batchLabel"
+            formControlName="batchLabel"
+          >
+        </div>
+        <div class="col-sm-3">
+          <label for="plantLabel">Plant</label>
+          <select
+            id="plantLabel"
+            class="form-control"
+            formControlName="plantLabel">
+            <option disabled>Select Plant</option>
+            <option>-</option>
+            <option *ngFor="let plant of plants" [value]="plant.plantID">{{ plant.plantLabel }}</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="timeStampBegin">Begin</label>
+          <input
+            id="timeStampBegin"
+            type="datetime-local"
+            class="form-control"
+            formControlName="timeStampBegin">
+        </div>
+        <div class="col-sm-3">
+          <label for="timeStampEnd">End</label>
+          <input
+            id="timeStampEnd"
+            type="datetime-local"
+            class="form-control"
+            formControlName="timeStampEnd">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <label for="weight">Weight (kg)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="weight"
+            formControlName="weight">
+        </div>
+        <div class="col-sm-2">
+          <label for="lightsOnHour">Lights On Hour</label>
+          <input
+            type="number"
+            class="form-control"
+            id="lightsOnHour"
+            formControlName="lightsOnHour">
+        </div>
+        <div class="col-sm-2">
+          <label for="lightsOffHour">Lights Off Hour</label>
+          <input
+            type="number"
+            class="form-control"
+            id="lightsOffHour"
+            formControlName="lightsOffHour">
+        </div>
+        <div class="col-sm-2">
+          <label for="mistingOnSecond">Misting On Second</label>
+          <input
+            type="number"
+            class="form-control"
+            id="mistingOnSecond"
+            formControlName="mistingOnSecond">
+        </div>
+        <div class="col-sm-2">
+          <label for="mistingOffSecond">Misting Off Second</label>
+          <input
+            type="number"
+            class="form-control"
+            id="mistingOffSecond"
+            formControlName="mistingOffSecond">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px">
+        <div class="col-sm-12">
+          <label for="remarks">Remarks</label>
+          <textarea
+            type="text"
+            class="form-control"
+            id="remarks"
+            formControlName="remarks">
+        </textarea>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-2">
+          <label for="moduleLabel">Module</label>
+          <select
+            id="moduleLabel"
+            class="form-control"
+            formControlName="moduleLabel"
+            (change)="updateModules($event)">
+            <option disabled>Select Module</option>
+            <option>-</option>
+            <option *ngFor="let module of modules">{{ module.moduleLabel }}</option>
+          </select>
+        </div>
+        <div class="col-sm-1" style="margin-top: 31px;">
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              (click)="onAddModule()">
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <label for="roomLabel">Room</label>
+          <select
+            id="roomLabel"
+            class="form-control"
+            formControlName="roomLabel"
+            (change)="updateRooms($event)">
+            <option disabled>Select Room</option>
+            <option>-</option>
+            <option *ngFor="let room of rooms">{{ room.roomLabel }}</option>
+          </select>
+        </div>
+        <div class="col-sm-1" style="margin-top: 31px;">
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              (click)="onAddRoom()">
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <label for="reservoirLabel">Reservoir</label>
+          <select
+            id="reservoirLabel"
+            class="form-control"
+            formControlName="reservoirLabel"
+            (change)="updateReservoirs($event)">
+            <option disabled>Select Reservoir</option>
+            <option>-</option>
+            <option *ngFor="let reservoir of reservoirs">{{ reservoir.reservoirLabel }}</option>
+          </select>
+        </div>
+        <div class="col-sm-1" style="margin-top: 31px;">
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              (click)="onAddReservoir()">
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <label for="nutrientLabel">Nutrient</label>
+          <select
+            id="nutrientLabel"
+            class="form-control"
+            formControlName="nutrientLabel"
+            (change)="updateNutrients($event)">
+            <option disabled>Select Nutrient</option>
+            <option>-</option>
+            <option *ngFor="let nutrient of nutrients">{{ nutrient.nutrientLabel }}</option>
+          </select>
+        </div>
+        <div class="col-sm-1" style="margin-top: 31px;">
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              (click)="onAddNutrient()">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <div
+            *ngFor="let module of selectedModules; trackBy: trackSelectedModules"
+            class="addedItem"
+            (click)="removeModule($event)">
+            {{ module.moduleLabel }}
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div
+            *ngFor="let room of selectedRooms; trackBy: trackSelectedRooms"
+            class="addedItem"
+            (click)="removeRoom($event)">
+            {{ room.roomLabel }}
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div
+            *ngFor="let reservoir of selectedReservoirs; trackBy: trackSelectedReservoirs"
+            class="addedItem"
+            (click)="removeReservoir($event)">
+            {{ reservoir.reservoirLabel }}
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div
+            *ngFor="let nutrient of selectedNutrients; trackBy: trackSelectedNutrients"
+            class="addedItem"
+            (click)="removeNutrient($event)">
+            {{ nutrient.nutrientLabel }}
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <div *ngIf="isEditMode === true; else notEditBlock">
+      <div class="row">
+        <div class="col-sm-8">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="onSubmitEditBatch()"
+          >Confirm Edit Batch
+          </button>
+        </div>
+        <div class="col-sm-4">
+          <button
+            type="button"
+            class="btn btn-danger btn-block"
+            (click)="onCancelEditMode()"
+          >Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #notEditBlock>
+      <div class="row">
+        <div class="col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary btn-block"
+            (click)="toEditMode()"
+          >Edit Batch
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <div class="container-fluid">
+    <hr>
+    <h3 style="margin-top: 10px">Graph</h3>
+    <hr>
+  </div>
+
+  <app-batches-details-reservoir-list
+    [reservoirIDs]="batch.reservoirIDs"
+    [reservoirs]="reservoirs"
+    [logSensorReservoirs]="batchDetail.logSensorReservoirs"></app-batches-details-reservoir-list>
+
+  <app-batches-details-room-list
+    [roomIDs]="batch.roomIDs"
+    [rooms]="selectedRooms"
+    [logSensorRooms]="batchDetail.logSensorRooms"></app-batches-details-room-list>
+
+  <app-batches-details-module-list
+    [moduleIDs]="batch.moduleIDs"
+    [modules]="modules"
+    [logSensorModules]="batchDetail.logSensorModuleLevels"></app-batches-details-module-list>
+
+</div>

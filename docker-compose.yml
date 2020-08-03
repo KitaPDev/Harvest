@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  db-postgresql:
+    image: postgres:11.5
+    container_name: modernfarms-db-postgresql
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: modernfarms
+    ports:
+      - 5432:5432
+
+  server-rest-golang:
+    build: ./server-rest-golang
+    container_name: modernfarms-server
+    ports:
+      - 9090:9090
+    depends_on: 
+      - db-postgresql
+
+  frontend-angular:
+    build: ./frontend-angular
+    container_name: modernfarms-frontend
+    ports:
+      - 4200:80
+    depends_on: 
+      - server-rest-golang

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row font-weight-bold text-center border-bottom">
+    <div class="col-sm-3 my-auto">
+      Label
+    </div>
+    <div class="col-sm-1 my-auto">
+      TDS
+    </div>
+    <div class="col-sm-1 my-auto">
+      pH
+    </div>
+    <div class="col-sm-1 my-auto">
+      Temperature
+    </div>
+    <div class="col-sm-2 my-auto">
+      Light Cycle (hour)
+    </div>
+    <div class="col-sm-2 my-auto">
+      Misting Cycle (second)
+    </div>
+    <div class="col-sm-2 my-auto">
+    </div>
+  </div>
+  <app-plants-item
+    *ngFor="let plant of plants; let i = index"
+    [plant]="plant"
+    [index]="i"
+  ></app-plants-item>
+</div>
