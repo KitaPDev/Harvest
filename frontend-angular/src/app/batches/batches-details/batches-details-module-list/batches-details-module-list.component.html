@@ -1,1 +1,7 @@
-<p>batches-details-module-list works!</p>
+<div class="container-fluid">
+  <app-batches-details-module-item
+    *ngFor="let module of modules; let i = index"
+    [module]="module"
+    [logSensorModuleLevels]="this.logSensorModuleLevels"
+  ></app-batches-details-module-item>
+</div>

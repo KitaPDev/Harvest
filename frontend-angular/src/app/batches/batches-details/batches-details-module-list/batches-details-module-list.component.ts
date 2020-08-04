@@ -10,7 +10,7 @@ import { LogSensorModuleLevel } from '../../../../_models/logsensormodulelevel.m
 export class BatchesDetailsModuleListComponent implements OnInit {
   @Input() moduleIDs: number[];
   @Input() modules: Module[];
-  @Input() logSensorModules: LogSensorModuleLevel[];
+  @Input() logSensorModuleLevels: LogSensorModuleLevel[];
 
   constructor() {}
 

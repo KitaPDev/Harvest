@@ -19,7 +19,7 @@ import { BatchDetail } from '../../../_models/batchdetail.model';
 export class BatchesDetailsComponent implements OnInit {
   editBatchForm: FormGroup;
 
-  id: number;
+  id: number = 0;
   batch: Batch;
   modules: Module[] = [];
   plants: Plant[] = [];
@@ -31,7 +31,7 @@ export class BatchesDetailsComponent implements OnInit {
   selectedNutrients: Nutrient[] = [];
   selectedRooms: Room[] = [];
 
-  batchDetail: BatchDetail;
+  batchDetail: BatchDetail = new BatchDetail();
 
   isDataReady: boolean = false;
   isEditMode: boolean = false;
@@ -41,7 +41,11 @@ export class BatchesDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router
-  ) {}
+  ) {
+    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
+      this.batchDetail = batchDetails[this.id];
+    });
+  }
 
   ngOnInit(): void {
     this.batchesService.updateBatchesData();

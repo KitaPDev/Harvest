@@ -1,1 +1,7 @@
-<p>batches-details-reservoir-list works!</p>
+<div class="container-fluid">
+  <app-batches-details-reservoir-item
+    *ngFor="let reservoir of reservoirs; let i = index"
+    [reservoir]="reservoir"
+    [logSensorReservoirs]="this.logSensorReservoirs"
+  ></app-batches-details-reservoir-item>
+</div>
