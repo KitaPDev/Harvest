@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db-postgresql:
-    build: modernfarms/harvest_db-postgresql
+    build: ./db
     container_name: modernfarms-db-postgresql
     volumes:
       - ./db/backup/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
@@ -12,7 +12,7 @@ services:
       - 5432:5432
 
   server-rest-golang:
-    build: modernfarms/harvest_server-rest-golang
+    build: ./server-rest-golang
     image: server-rest-golang:latest
     container_name: modernfarms-server
     ports:
@@ -21,7 +21,7 @@ services:
       - db-postgresql
 
   frontend-angular:
-    build: modernfarms/harvest_frontend-angular
+    build: ./frontend-angular
     image: frontend-angular:latest
     container_name: modernfarms-frontend
     ports:

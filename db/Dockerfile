@@ -1,0 +1,7 @@
+FROM postgres:11.5
+
+ENV POSTGRES_USER=admin
+ENV POSTGRES_PASSWORD=modernfarms
+ENV POSTGRES_DB=modernfarms
+
+COPY . .
