@@ -66,3 +66,4 @@ server-rest-golang/.idea/
 server-rest-golang/pkg
 
 iot/.vscode/*
+iot/BasicServer/basicExpressServer/node_modules
