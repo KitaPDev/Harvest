@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfirmationDialogService } from "../../../../_services/dialogs/confirmation-dialog.service";
-import { ModulesService } from "../../../../_services/modules.service";
-import { Module } from "../../../../_models/module.model";
-import { EditModuleDialogService } from "../../../../_services/dialogs/edit-module-dialog.service";
-import { Reservoir } from "../../../../_models/reservoir.model";
-import { Room } from "../../../../_models/room.model";
+import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
+import { ModulesService } from '../../../../_services/modules.service';
+import { Module } from '../../../../_models/module.model';
+import { EditModuleDialogService } from '../../../../_services/dialogs/edit-module-dialog.service';
+import { Reservoir } from '../../../../_models/reservoir.model';
+import { Room } from '../../../../_models/room.model';
 
 @Component({
   selector: 'app-modules-item',
   templateUrl: './modules-item.component.html',
-  styleUrls: ['./modules-item.component.css']
+  styleUrls: ['./modules-item.component.css'],
 })
 export class ModulesItemComponent implements OnInit {
   @Input() module: Module;
@@ -21,10 +21,11 @@ export class ModulesItemComponent implements OnInit {
   room: Room = new Room();
   reservoir: Reservoir = new Reservoir();
 
-  constructor(private modulesService: ModulesService,
-              private editModuleDialogService: EditModuleDialogService,
-              private confirmationDialogService: ConfirmationDialogService) {
-  }
+  constructor(
+    private modulesService: ModulesService,
+    private editModuleDialogService: EditModuleDialogService,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {}
 
   ngOnInit(): void {
     this.modulesService.rooms.subscribe((rooms) => {
@@ -50,19 +51,25 @@ export class ModulesItemComponent implements OnInit {
   }
 
   onEditModule() {
-    this.editModuleDialogService.init(this.index, this.module.moduleLabel, this.room, this.reservoir);
+    this.editModuleDialogService.init(
+      this.index,
+      this.module.moduleLabel,
+      this.module.level,
+      this.room,
+      this.reservoir
+    );
   }
 
   onDeleteModule() {
-    this.confirmationDialogService.confirm(
-      'Confirm Delete Module',
-      'Module Label: ' + this.module.moduleLabel
-    ).then((confirmed) => {
+    this.confirmationDialogService
+      .confirm(
+        'Confirm Delete Module',
+        'Module Label: ' + this.module.moduleLabel
+      )
+      .then((confirmed) => {
         if (confirmed) {
           this.modulesService.deleteModule(this.index);
         }
-      }
-    );
+      });
   }
 }
-

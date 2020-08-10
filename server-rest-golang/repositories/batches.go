@@ -450,7 +450,7 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 
 	for moduleID := range moduleIDs {
 		sqlStatement = `SELECT logged_at, module_id, level, temperature, humidity, lux
-			FROM log_sensor_module_level 
+			FROM log_sensor_module 
 			WHERE module_id = $1 
 			  AND logged_at >= $2 
 			  AND logged_at <= $3;`

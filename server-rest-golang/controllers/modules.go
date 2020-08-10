@@ -54,12 +54,13 @@ func CreateModule(w http.ResponseWriter, r *http.Request) {
 		ReservoirID int    `json:"reservoir_id"`
 		RoomID      int    `json:"room_id"`
 		ModuleLabel string `json:"module_label"`
+		Level       int    `json:"level"`
 	}
 	input := Input{}
 
 	jsonhandler.DecodeJsonFromBody(w, r, &input)
 
-	err := services.CreateModule(input.ReservoirID, input.RoomID, input.ModuleLabel)
+	err := services.CreateModule(input.ReservoirID, input.RoomID, input.ModuleLabel, input.Level)
 	if err != nil {
 		msg := "Error: Failed to Create Module"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -79,9 +80,9 @@ func EditModule(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromBody(w, r, &input)
 
-	err := services.EditModule(input.ModuleID, input.ReservoirID, input.RoomID, input.ModuleLabel)
+	err := services.EditModule(input.ModuleID, input.ReservoirID, input.RoomID, input.ModuleLabel, input.Level)
 	if err != nil {
-		msg := "Error: Failed to Create Module"
+		msg := "Error: Failed to Edit Module"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return

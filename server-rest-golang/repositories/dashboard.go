@@ -17,7 +17,7 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 
 	sqlStatement :=
 		`SELECT DISTINCT ON (module_id, level) logged_at, module_id, level, temperature, humidity, lux
-		FROM log_sensor_module_level
+		FROM log_sensor_module
 		ORDER BY module_id, level, logged_at DESC;`
 
 	rows, err := db.Query(sqlStatement)
@@ -108,7 +108,7 @@ func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) (
 	db := database.GetDB()
 
 	sqlStatement := `SELECT logged_at, module_id, level, temperature, humidity, lux
-			FROM log_sensor_module_level 
+			FROM log_sensor_module 
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2;`
 

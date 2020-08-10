@@ -15,6 +15,7 @@ export class EditModuleDialogComponent implements OnInit {
   editModuleForm: FormGroup;
   @Input() index: number;
   @Input() moduleLabel: string;
+  @Input() level: number;
   @Input() selectedRoom: Room = new Room();
   @Input() selectedReservoir: Reservoir = new Reservoir();
 
@@ -49,6 +50,10 @@ export class EditModuleDialogComponent implements OnInit {
   initForms() {
     this.editModuleForm = new FormGroup({
       moduleLabel: new FormControl(this.moduleLabel, Validators.required),
+      level: new FormControl(this.level, [
+        Validators.required,
+        Validators.min(0),
+      ]),
       room: new FormControl(this.selectedRoom.roomLabel, Validators.required),
       reservoir: new FormControl(
         this.selectedReservoir.reservoirLabel,
@@ -59,6 +64,7 @@ export class EditModuleDialogComponent implements OnInit {
 
   public onSubmitEditReservoir() {
     let moduleLabel = this.editModuleForm.value['moduleLabel'];
+    let level = this.editModuleForm.value['level'];
     let roomLabel = this.editModuleForm.value['room'];
     let reservoirLabel = this.editModuleForm.value['reservoir'];
 
@@ -83,7 +89,9 @@ export class EditModuleDialogComponent implements OnInit {
       .confirm(
         'Confirm Module Edit',
         'Module Label: ' +
-          this.moduleLabel +
+          moduleLabel +
+          '\nLevel: ' +
+          level +
           '\nRoom:' +
           (this.selectedRoom.roomID !== 0 ? roomLabel : '') +
           '\nReservoir:' +
@@ -93,7 +101,8 @@ export class EditModuleDialogComponent implements OnInit {
         if (confirmed) {
           this.modulesService.editModule(
             this.index,
-            this.moduleLabel,
+            moduleLabel,
+            level,
             this.selectedRoom.roomID,
             this.selectedReservoir.reservoirID
           );

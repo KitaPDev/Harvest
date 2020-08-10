@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-func UpdateModuleLevelSensor(w http.ResponseWriter, r *http.Request) {
+func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
 	inputs := make([]models.LogSensorModuleLevel, 0)
 
 	jsonhandler.DecodeJsonFromBody(w, r, &inputs)
 
 	err := services.UpdateModuleLevelSensor(inputs)
 	if err != nil {
-		msg := "Error: Failed to Update Module Level Sensor"
+		msg := "Error: Failed to Update Module Sensor"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return

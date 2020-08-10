@@ -1,6 +1,9 @@
 <div class="row text-center" style="margin-top: 10px;">
-  <div class="col-sm-4 my-auto ">
+  <div class="col-sm-3 my-auto ">
     {{ module.moduleLabel }}
+  </div>
+  <div class="col-sm-1 my-auto ">
+    {{ module.level }}
   </div>
   <div class="col-sm-3 my-auto">
     {{ room.roomLabel ? room.roomLabel : '-' }}
@@ -13,7 +16,8 @@
       class="btn btn-primary"
       (click)="onEditModule()"
     >Edit
-    </button>{{" "}}
+    </button>
+    {{" "}}
     <button
       class="btn btn-danger"
       (click)="onDeleteModule()"

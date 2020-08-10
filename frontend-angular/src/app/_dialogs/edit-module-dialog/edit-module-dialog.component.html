@@ -19,7 +19,17 @@
           formControlName="moduleLabel"
         >
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-2">
+        <label for="level">Level</label>
+        <input
+          type="number"
+          min="0"
+          class="form-control"
+          id="level"
+          formControlName="level"
+        >
+      </div>
+      <div class="col-sm-3">
         <label for="room">Room</label>
         <select
           id="room"
@@ -31,7 +41,7 @@
           <option *ngFor="let room of rooms" [value]="room.roomLabel">{{ room.roomLabel }}</option>
         </select>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <label for="reservoir">Reservoir</label>
         <select
           id="reservoir"

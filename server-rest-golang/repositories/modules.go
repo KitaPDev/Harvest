@@ -8,7 +8,7 @@ import (
 func GetAllModules() ([]models.Module, error) {
 	db := database.GetDB()
 
-	sqlStatement := `SELECT module_id, reservoir_id, room_id, module_label FROM module ORDER BY module_id;`
+	sqlStatement := `SELECT module_id, reservoir_id, room_id, module_label, level FROM module ORDER BY module_id;`
 
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
@@ -26,6 +26,7 @@ func GetAllModules() ([]models.Module, error) {
 			&module.ReservoirID,
 			&module.RoomID,
 			&module.ModuleLabel,
+			&module.Level,
 		)
 		if err != nil {
 			return nil, err
@@ -37,14 +38,13 @@ func GetAllModules() ([]models.Module, error) {
 	return modules, nil
 }
 
-func CreateModule(reservoirID int, roomID int, moduleLabel string) error {
-
+func CreateModule(reservoirID int, roomID int, moduleLabel string, level int) error {
 	db := database.GetDB()
 
-	sqlStatement := `INSERT INTO module (reservoir_id, room_id, module_label) 
-			VALUES ($1, $2, $3);`
+	sqlStatement := `INSERT INTO module (reservoir_id, room_id, module_label, level) 
+			VALUES ($1, $2, $3, $4);`
 
-	_, err := db.Query(sqlStatement, reservoirID, roomID, moduleLabel)
+	_, err := db.Query(sqlStatement, reservoirID, roomID, moduleLabel, level)
 	if err != nil {
 		return err
 	}
@@ -52,17 +52,17 @@ func CreateModule(reservoirID int, roomID int, moduleLabel string) error {
 	return nil
 }
 
-func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string) error {
-
+func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string, level int) error {
 	db := database.GetDB()
 
 	sqlStatement := `UPDATE module 
 			SET module_label = $2,
 			    reservoir_id = $3,
-			    room_id = $4
+			    room_id = $4,
+				level = $5
 			WHERE module_id = $1;`
 
-	_, err := db.Query(sqlStatement, moduleID, moduleLabel, reservoirID, roomID)
+	_, err := db.Query(sqlStatement, moduleID, moduleLabel, reservoirID, roomID, level)
 	if err != nil {
 		return err
 	}

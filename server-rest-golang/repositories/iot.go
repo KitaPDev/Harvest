@@ -45,10 +45,10 @@ func InitializeModule(moduleID int, remoteAddr string) (float64, float64, float6
 	return pressureLowerLimit, pressureUpperLimit, lightsOffHour, lightsOnHour, mistingOffSecond, mistingOnSecond, nil
 }
 
-func UpdateModuleLevelSensor(logs []models.LogSensorModuleLevel) error {
+func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
 	db := database.GetDB()
 
-	sqlStatement := `INSERT INTO log_sensor_module_level (logged_at, module_id, level, temperature, humidity, lux)
+	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature, humidity, lux)
 					VALUES `
 
 	for i, log := range logs {
@@ -63,20 +63,6 @@ func UpdateModuleLevelSensor(logs []models.LogSensorModuleLevel) error {
 	sqlStatement = sqlStatement + `;`
 
 	_, err := db.Query(sqlStatement)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func UpdateModuleSensor(moduleID int, pressure float64) error {
-	db := database.GetDB()
-
-	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, pressure)
-					VALUES (NOW(), $1, $2);`
-
-	_, err := db.Query(sqlStatement, moduleID, pressure)
 	if err != nil {
 		return err
 	}

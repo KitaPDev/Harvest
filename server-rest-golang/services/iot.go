@@ -10,11 +10,20 @@ func InitializeModule(moduleID int, remoteAddr string) (float64, float64, float6
 }
 
 func UpdateModuleLevelSensor(logs []models.LogSensorModuleLevel) error {
-	return repositories.UpdateModuleLevelSensor(logs)
-}
+	modules, err := repositories.GetAllModules()
+	if err != nil {
+		return err
+	}
 
-func UpdateModuleSensor(moduleID int, pressure float64) error {
-	return repositories.UpdateModuleSensor(moduleID, pressure)
+	for _, log := range logs {
+		for _, module := range modules {
+			if module.ModuleID == log.ModuleID && log.Level > module.Level {
+				return err
+			}
+		}
+	}
+
+	return repositories.UpdateModuleSensor(logs)
 }
 
 func UpdateRoomSensor(roomID int, temperature float64, humidity float64) error {

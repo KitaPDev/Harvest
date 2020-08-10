@@ -9,7 +9,7 @@ import (
 func MakeIotHandler() http.Handler {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/iot/update/module_level/sensor", controllers.UpdateModuleLevelSensor).
+	router.HandleFunc("/iot/update/module/sensor", controllers.UpdateModuleSensor).
 		Methods("POST")
 
 	router.HandleFunc("/iot/update/room/sensor", controllers.UpdateRoomSensor).

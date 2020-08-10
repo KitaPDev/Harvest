@@ -3,13 +3,23 @@
   <form class="form-group"
         [formGroup]="createModuleForm">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <label for="moduleLabel">Label</label>
         <input
           type="text"
           class="form-control"
           id="moduleLabel"
           formControlName="moduleLabel"
+        >
+      </div>
+      <div class="col-sm-1">
+        <label for="level">Level</label>
+        <input
+          type="number"
+          min="0"
+          class="form-control"
+          id="level"
+          formControlName="level"
         >
       </div>
       <div class="col-sm-4">

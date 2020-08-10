@@ -24,12 +24,12 @@ func GetPopulateModulesData() ([]models.Module, []models.Reservoir, []models.Roo
 	return modules, reservoirs, rooms, nil
 }
 
-func CreateModule(reservoirID int, roomID int, moduleLabel string) error {
-	return repositories.CreateModule(reservoirID, roomID, moduleLabel)
+func CreateModule(reservoirID int, roomID int, moduleLabel string, level int) error {
+	return repositories.CreateModule(reservoirID, roomID, moduleLabel, level)
 }
 
-func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string) error {
-	return repositories.EditModule(moduleID, reservoirID, roomID, moduleLabel)
+func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string, level int) error {
+	return repositories.EditModule(moduleID, reservoirID, roomID, moduleLabel, level)
 }
 
 func DeleteModule(moduleID int) error {

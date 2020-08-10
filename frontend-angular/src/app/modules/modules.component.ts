@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ConfirmationDialogService } from "../../_services/dialogs/confirmation-dialog.service";
-import { Reservoir } from "../../_models/reservoir.model";
-import { Room } from "../../_models/room.model";
-import { ModulesService } from "../../_services/modules.service";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationDialogService } from '../../_services/dialogs/confirmation-dialog.service';
+import { Reservoir } from '../../_models/reservoir.model';
+import { Room } from '../../_models/room.model';
+import { ModulesService } from '../../_services/modules.service';
 
 @Component({
   selector: 'app-modules',
   templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.css']
+  styleUrls: ['./modules.component.css'],
 })
 export class ModulesComponent implements OnInit {
   createModuleForm: FormGroup;
   rooms: Room[] = [];
   reservoirs: Reservoir[] = [];
 
-  constructor(private modulesService: ModulesService,
-              private confirmationDialogService: ConfirmationDialogService) {
+  constructor(
+    private modulesService: ModulesService,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {
     modulesService.updateModulesData();
     modulesService.rooms.subscribe((rooms) => {
       this.rooms = rooms;
@@ -34,14 +36,16 @@ export class ModulesComponent implements OnInit {
     let moduleLabel = '';
 
     this.createModuleForm = new FormGroup({
-      'moduleLabel': new FormControl(moduleLabel, Validators.required),
-      'room': new FormControl('', Validators.required),
-      'reservoir': new FormControl('', Validators.required),
+      moduleLabel: new FormControl(moduleLabel, Validators.required),
+      level: new FormControl(0, [Validators.required, Validators.min(0)]),
+      room: new FormControl('', Validators.required),
+      reservoir: new FormControl('', Validators.required),
     });
   }
 
   onSubmitCreateModule() {
     let moduleLabel = this.createModuleForm.value['moduleLabel'];
+    let level = this.createModuleForm.value['level'];
     let roomLabel = this.createModuleForm.value['room'];
     let reservoirLabel = this.createModuleForm.value['reservoir'];
 
@@ -65,28 +69,37 @@ export class ModulesComponent implements OnInit {
       }
     }
 
-    this.confirmationDialogService.confirm(
-      'Confirm Create Module',
-      'Module Label: ' + moduleLabel +
-      '\nRoom:' + roomLabel +
-      '\nReservoir:' + reservoirLabel
-    ).then((confirmed) => {
+    this.confirmationDialogService
+      .confirm(
+        'Confirm Create Module',
+        'Module Label: ' +
+          moduleLabel +
+          '\nRoom:' +
+          roomLabel +
+          '\nReservoir:' +
+          reservoirLabel
+      )
+      .then((confirmed) => {
         if (confirmed) {
-          this.modulesService.createModule(moduleLabel, selectedRoom.roomID, selectedReservoir.reservoirID);
+          this.modulesService.createModule(
+            moduleLabel,
+            level,
+            selectedRoom.roomID,
+            selectedReservoir.reservoirID
+          );
         }
-      }
-    );
+      });
   }
 
   updateRoom(e) {
     this.createModuleForm.get('room').setValue(e.target.value, {
-      onlySelf: true
-    })
+      onlySelf: true,
+    });
   }
 
   updateReservoir(e) {
     this.createModuleForm.get('reservoir').setValue(e.target.value, {
-      onlySelf: true
-    })
+      onlySelf: true,
+    });
   }
 }

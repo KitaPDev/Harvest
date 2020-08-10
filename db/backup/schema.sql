@@ -5,7 +5,7 @@
 -- Dumped from database version 11.5 (Debian 11.5-3.pgdg90+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-08-09 15:48:23 +07
+-- Started on 2020-08-10 10:32:15 +07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -59,7 +59,7 @@ CREATE SEQUENCE public.batch_batch_id_seq
 ALTER TABLE public.batch_batch_id_seq OWNER TO admin;
 
 --
--- TOC entry 3018 (class 0 OID 0)
+-- TOC entry 3019 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: batch_batch_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -121,10 +121,10 @@ ALTER TABLE public.batches_rooms OWNER TO admin;
 
 --
 -- TOC entry 222 (class 1259 OID 17001)
--- Name: log_sensor_module_level; Type: TABLE; Schema: public; Owner: admin
+-- Name: log_sensor_module; Type: TABLE; Schema: public; Owner: admin
 --
 
-CREATE TABLE public.log_sensor_module_level (
+CREATE TABLE public.log_sensor_module (
     logged_at timestamp without time zone DEFAULT now() NOT NULL,
     module_id integer NOT NULL,
     level integer NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE public.log_sensor_module_level (
 );
 
 
-ALTER TABLE public.log_sensor_module_level OWNER TO admin;
+ALTER TABLE public.log_sensor_module OWNER TO admin;
 
 --
 -- TOC entry 221 (class 1259 OID 16751)
@@ -178,7 +178,8 @@ CREATE TABLE public.module (
     module_id integer NOT NULL,
     reservoir_id integer DEFAULT 0 NOT NULL,
     room_id integer DEFAULT 0 NOT NULL,
-    module_label character varying(256) NOT NULL
+    module_label character varying(256) NOT NULL,
+    level integer DEFAULT 0
 );
 
 
@@ -201,7 +202,7 @@ CREATE SEQUENCE public.module_module_id_seq
 ALTER TABLE public.module_module_id_seq OWNER TO admin;
 
 --
--- TOC entry 3019 (class 0 OID 0)
+-- TOC entry 3020 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: module_module_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -247,7 +248,7 @@ CREATE SEQUENCE public.nutrient_nutrient_id_seq
 ALTER TABLE public.nutrient_nutrient_id_seq OWNER TO admin;
 
 --
--- TOC entry 3020 (class 0 OID 0)
+-- TOC entry 3021 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: nutrient_nutrient_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -295,7 +296,7 @@ CREATE SEQUENCE public.plant_plant_id_seq
 ALTER TABLE public.plant_plant_id_seq OWNER TO admin;
 
 --
--- TOC entry 3021 (class 0 OID 0)
+-- TOC entry 3022 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: plant_plant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -333,7 +334,7 @@ CREATE SEQUENCE public.reservoir_reservoir_id_seq
 ALTER TABLE public.reservoir_reservoir_id_seq OWNER TO admin;
 
 --
--- TOC entry 3022 (class 0 OID 0)
+-- TOC entry 3023 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: reservoir_reservoir_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -384,7 +385,7 @@ CREATE SEQUENCE public.room_room_id_seq
 ALTER TABLE public.room_room_id_seq OWNER TO admin;
 
 --
--- TOC entry 3023 (class 0 OID 0)
+-- TOC entry 3024 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: room_room_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -426,7 +427,7 @@ CREATE SEQUENCE public.users_user_id_seq
 ALTER TABLE public.users_user_id_seq OWNER TO admin;
 
 --
--- TOC entry 3024 (class 0 OID 0)
+-- TOC entry 3025 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
@@ -435,7 +436,7 @@ ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 
 
 --
--- TOC entry 2841 (class 2604 OID 17348)
+-- TOC entry 2842 (class 2604 OID 17348)
 -- Name: batch batch_id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -491,7 +492,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 
 
 --
--- TOC entry 2873 (class 2606 OID 17355)
+-- TOC entry 2874 (class 2606 OID 17355)
 -- Name: batch batch_batch_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -500,7 +501,7 @@ ALTER TABLE ONLY public.batch
 
 
 --
--- TOC entry 2875 (class 2606 OID 17353)
+-- TOC entry 2876 (class 2606 OID 17353)
 -- Name: batch batch_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -509,7 +510,7 @@ ALTER TABLE ONLY public.batch
 
 
 --
--- TOC entry 2865 (class 2606 OID 16703)
+-- TOC entry 2866 (class 2606 OID 16703)
 -- Name: module module_module_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -518,7 +519,7 @@ ALTER TABLE ONLY public.module
 
 
 --
--- TOC entry 2867 (class 2606 OID 16701)
+-- TOC entry 2868 (class 2606 OID 16701)
 -- Name: module module_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -527,7 +528,7 @@ ALTER TABLE ONLY public.module
 
 
 --
--- TOC entry 2848 (class 2606 OID 16411)
+-- TOC entry 2849 (class 2606 OID 16411)
 -- Name: nutrient nutrient_nutrient_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -536,7 +537,7 @@ ALTER TABLE ONLY public.nutrient
 
 
 --
--- TOC entry 2850 (class 2606 OID 16409)
+-- TOC entry 2851 (class 2606 OID 16409)
 -- Name: nutrient nutrient_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -545,7 +546,7 @@ ALTER TABLE ONLY public.nutrient
 
 
 --
--- TOC entry 2857 (class 2606 OID 16598)
+-- TOC entry 2858 (class 2606 OID 16598)
 -- Name: plant plant_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -554,7 +555,7 @@ ALTER TABLE ONLY public.plant
 
 
 --
--- TOC entry 2859 (class 2606 OID 16600)
+-- TOC entry 2860 (class 2606 OID 16600)
 -- Name: plant plant_plant_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -563,7 +564,7 @@ ALTER TABLE ONLY public.plant
 
 
 --
--- TOC entry 2871 (class 2606 OID 17172)
+-- TOC entry 2872 (class 2606 OID 17172)
 -- Name: reservoirs_nutrients reservoir_nutrients_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -572,7 +573,7 @@ ALTER TABLE ONLY public.reservoirs_nutrients
 
 
 --
--- TOC entry 2861 (class 2606 OID 16676)
+-- TOC entry 2862 (class 2606 OID 16676)
 -- Name: reservoir reservoir_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -581,7 +582,7 @@ ALTER TABLE ONLY public.reservoir
 
 
 --
--- TOC entry 2863 (class 2606 OID 16678)
+-- TOC entry 2864 (class 2606 OID 16678)
 -- Name: reservoir reservoir_reservoir_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -590,7 +591,7 @@ ALTER TABLE ONLY public.reservoir
 
 
 --
--- TOC entry 2852 (class 2606 OID 16444)
+-- TOC entry 2853 (class 2606 OID 16444)
 -- Name: room room_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -599,7 +600,7 @@ ALTER TABLE ONLY public.room
 
 
 --
--- TOC entry 2854 (class 2606 OID 16446)
+-- TOC entry 2855 (class 2606 OID 16446)
 -- Name: room room_room_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -608,7 +609,7 @@ ALTER TABLE ONLY public.room
 
 
 --
--- TOC entry 2844 (class 2606 OID 16397)
+-- TOC entry 2845 (class 2606 OID 16397)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -617,7 +618,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2846 (class 2606 OID 16399)
+-- TOC entry 2847 (class 2606 OID 16399)
 -- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -626,15 +627,15 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2869 (class 1259 OID 17038)
+-- TOC entry 2870 (class 1259 OID 17038)
 -- Name: idx_log_sensor_module_level_logged_at; Type: INDEX; Schema: public; Owner: admin
 --
 
-CREATE INDEX idx_log_sensor_module_level_logged_at ON public.log_sensor_module_level USING btree (logged_at);
+CREATE INDEX idx_log_sensor_module_level_logged_at ON public.log_sensor_module USING btree (logged_at);
 
 
 --
--- TOC entry 2868 (class 1259 OID 17068)
+-- TOC entry 2869 (class 1259 OID 17068)
 -- Name: idx_log_sensor_reservoir_logged_at; Type: INDEX; Schema: public; Owner: admin
 --
 
@@ -642,7 +643,7 @@ CREATE INDEX idx_log_sensor_reservoir_logged_at ON public.log_sensor_reservoir U
 
 
 --
--- TOC entry 2855 (class 1259 OID 17069)
+-- TOC entry 2856 (class 1259 OID 17069)
 -- Name: idx_log_sensor_room_logged_at; Type: INDEX; Schema: public; Owner: admin
 --
 
@@ -650,7 +651,7 @@ CREATE INDEX idx_log_sensor_room_logged_at ON public.log_sensor_room USING btree
 
 
 --
--- TOC entry 2883 (class 2606 OID 17361)
+-- TOC entry 2884 (class 2606 OID 17361)
 -- Name: batch batch_plant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -659,7 +660,7 @@ ALTER TABLE ONLY public.batch
 
 
 --
--- TOC entry 2886 (class 2606 OID 17460)
+-- TOC entry 2887 (class 2606 OID 17460)
 -- Name: batches_modules batches_modules_batch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -668,7 +669,7 @@ ALTER TABLE ONLY public.batches_modules
 
 
 --
--- TOC entry 2887 (class 2606 OID 17465)
+-- TOC entry 2888 (class 2606 OID 17465)
 -- Name: batches_modules batches_modules_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -677,7 +678,7 @@ ALTER TABLE ONLY public.batches_modules
 
 
 --
--- TOC entry 2884 (class 2606 OID 17470)
+-- TOC entry 2885 (class 2606 OID 17470)
 -- Name: batches_nutrients batches_nutrients_batch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -686,7 +687,7 @@ ALTER TABLE ONLY public.batches_nutrients
 
 
 --
--- TOC entry 2885 (class 2606 OID 17475)
+-- TOC entry 2886 (class 2606 OID 17475)
 -- Name: batches_nutrients batches_nutrients_nutrient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -695,7 +696,7 @@ ALTER TABLE ONLY public.batches_nutrients
 
 
 --
--- TOC entry 2888 (class 2606 OID 17480)
+-- TOC entry 2889 (class 2606 OID 17480)
 -- Name: batches_reservoirs batches_reservoirs_batch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -704,7 +705,7 @@ ALTER TABLE ONLY public.batches_reservoirs
 
 
 --
--- TOC entry 2889 (class 2606 OID 17485)
+-- TOC entry 2890 (class 2606 OID 17485)
 -- Name: batches_reservoirs batches_reservoirs_reservoir_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -713,7 +714,7 @@ ALTER TABLE ONLY public.batches_reservoirs
 
 
 --
--- TOC entry 2890 (class 2606 OID 17490)
+-- TOC entry 2891 (class 2606 OID 17490)
 -- Name: batches_rooms batches_rooms_batch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -722,7 +723,7 @@ ALTER TABLE ONLY public.batches_rooms
 
 
 --
--- TOC entry 2891 (class 2606 OID 17495)
+-- TOC entry 2892 (class 2606 OID 17495)
 -- Name: batches_rooms batches_rooms_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -731,16 +732,16 @@ ALTER TABLE ONLY public.batches_rooms
 
 
 --
--- TOC entry 2880 (class 2606 OID 17436)
--- Name: log_sensor_module_level log_sensor_module_level_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+-- TOC entry 2881 (class 2606 OID 17436)
+-- Name: log_sensor_module log_sensor_module_level_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
-ALTER TABLE ONLY public.log_sensor_module_level
+ALTER TABLE ONLY public.log_sensor_module
     ADD CONSTRAINT log_sensor_module_level_module_id_fkey FOREIGN KEY (module_id) REFERENCES public.module(module_id) ON DELETE CASCADE;
 
 
 --
--- TOC entry 2879 (class 2606 OID 17441)
+-- TOC entry 2880 (class 2606 OID 17441)
 -- Name: log_sensor_reservoir log_sensor_reservoir_reservoir_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -749,7 +750,7 @@ ALTER TABLE ONLY public.log_sensor_reservoir
 
 
 --
--- TOC entry 2876 (class 2606 OID 17431)
+-- TOC entry 2877 (class 2606 OID 17431)
 -- Name: log_sensor_room log_sensor_room_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -758,7 +759,7 @@ ALTER TABLE ONLY public.log_sensor_room
 
 
 --
--- TOC entry 2878 (class 2606 OID 17455)
+-- TOC entry 2879 (class 2606 OID 17455)
 -- Name: module module_reservoir_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -767,7 +768,7 @@ ALTER TABLE ONLY public.module
 
 
 --
--- TOC entry 2877 (class 2606 OID 17450)
+-- TOC entry 2878 (class 2606 OID 17450)
 -- Name: module module_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -776,7 +777,7 @@ ALTER TABLE ONLY public.module
 
 
 --
--- TOC entry 2882 (class 2606 OID 17178)
+-- TOC entry 2883 (class 2606 OID 17178)
 -- Name: reservoirs_nutrients reservoir_nutrients_nutrient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -785,7 +786,7 @@ ALTER TABLE ONLY public.reservoirs_nutrients
 
 
 --
--- TOC entry 2881 (class 2606 OID 17173)
+-- TOC entry 2882 (class 2606 OID 17173)
 -- Name: reservoirs_nutrients reservoir_nutrients_reservoir_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -793,7 +794,7 @@ ALTER TABLE ONLY public.reservoirs_nutrients
     ADD CONSTRAINT reservoir_nutrients_reservoir_id_fkey FOREIGN KEY (reservoir_id) REFERENCES public.reservoir(reservoir_id) ON DELETE CASCADE;
 
 
--- Completed on 2020-08-09 15:48:24 +07
+-- Completed on 2020-08-10 10:32:16 +07
 
 --
 -- PostgreSQL database dump complete

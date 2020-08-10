@@ -11,12 +11,16 @@ export class EditModuleDialogService {
   public init(
     index: number,
     moduleLabel: string,
+    level: number,
     room: Room,
     reservoir: Reservoir
   ) {
-    const modalRef = this.modalService.open(EditModuleDialogComponent);
+    const modalRef = this.modalService.open(EditModuleDialogComponent, {
+      size: 'lg',
+    });
     modalRef.componentInstance.index = index;
     modalRef.componentInstance.moduleLabel = moduleLabel;
+    modalRef.componentInstance.level = level;
     modalRef.componentInstance.selectedRoom = room;
     modalRef.componentInstance.selectedReservoir = reservoir;
   }

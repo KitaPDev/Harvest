@@ -27,9 +27,15 @@ export class ModulesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  createModule(moduleLabel: string, roomID: number, reservoirID: number) {
+  createModule(
+    moduleLabel: string,
+    level: number,
+    roomID: number,
+    reservoirID: number
+  ) {
     const body = {
       module_label: moduleLabel,
+      level: level,
       room_id: roomID,
       reservoir_id: reservoirID,
     };
@@ -59,12 +65,14 @@ export class ModulesService {
   editModule(
     index: number,
     moduleLabel: string,
+    level: number,
     roomID: number,
     reservoirID: number
   ) {
     const body = {
       module_id: this.modulesSource.getValue()[index].moduleID,
       module_label: this.modulesSource.getValue()[index].moduleLabel,
+      level: level,
       room_id: roomID,
       reservoir_id: reservoirID,
     };
@@ -120,6 +128,7 @@ export class ModulesService {
 
           module.moduleID = fetchedModule['module_id'];
           module.moduleLabel = fetchedModule['module_label'];
+          module.level = fetchedModule['level'];
           module.roomID = fetchedModule['room_id'];
           module.reservoirID = fetchedModule['reservoir_id'];
 

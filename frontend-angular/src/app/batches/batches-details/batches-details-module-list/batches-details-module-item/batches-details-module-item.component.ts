@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Module } from '../../../../../_models/module.model';
-import { LogSensorModuleLevel } from '../../../../../_models/logsensormodulelevel.model';
+import { LogSensorModuleLevel } from '../../../../../_models/logsensormodule.model';
 
 @Component({
   selector: 'app-batches-details-module-item',
