@@ -12,11 +12,17 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
   @Input() reservoir: Reservoir;
   @Input() logSensorReservoirs: LogSensorReservoir[];
 
+  isDisplayDetails: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {
     this.logSensorReservoirs.filter(
       (log) => log.reservoirID === this.reservoir.reservoirID
     );
+  }
+
+  onClick() {
+    this.isDisplayDetails = !this.isDisplayDetails;
   }
 }

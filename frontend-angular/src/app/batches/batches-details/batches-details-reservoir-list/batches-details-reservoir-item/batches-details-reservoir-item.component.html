@@ -1,5 +1,25 @@
-<div class="dropdown">
-  <button class="btn btn-outline-info btn-block btn-lg dropdown-toggle" type="button">
-    {{ reservoir.reservoirLabel }}
-  </button>
+<button
+  class="btn btn-outline-info btn-block btn-lg"
+  [ngClass]="{'active': isDisplayDetails}"
+  (click)="onClick()"
+>
+  {{ reservoir.reservoirLabel }}
+</button>
+<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+  <div class="row">
+    <div class="col-sm-2 text-center">
+      <h5>TDS</h5>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-sm-2">
+      <h5>pH</h5>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-sm-2">
+      <h5>Solution Temperature</h5>
+    </div>
+  </div>
 </div>
+

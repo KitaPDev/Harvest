@@ -1,7 +1,10 @@
 <div class="container-fluid">
+  <h4>Room</h4>
+  <hr>
   <app-batches-details-room-item
     *ngFor="let room of rooms; let i = index"
     [room]="room"
     [logSensorRooms]="this.logSensorRooms"
   ></app-batches-details-room-item>
+  <hr>
 </div>

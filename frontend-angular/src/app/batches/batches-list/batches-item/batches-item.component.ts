@@ -41,7 +41,9 @@ export class BatchesItemComponent implements OnInit {
     }
   }
 
-  onEditBatch() {
+  onEditBatch(event: Event) {
+    event.stopPropagation();
+
     this.editBatchDialogService.init(
       this.batch,
       this.reservoirs,
@@ -52,7 +54,9 @@ export class BatchesItemComponent implements OnInit {
     );
   }
 
-  onDeleteBatch() {
+  onDeleteBatch(event: Event) {
+    event.stopPropagation();
+
     this.confirmationDialogService
       .confirm('Confirm Delete Batch', 'Batch Label: ' + this.batch.batchLabel)
       .then((confirmed) => {

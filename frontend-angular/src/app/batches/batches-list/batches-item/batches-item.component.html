@@ -1,5 +1,5 @@
-<div class="row text-center" style="margin-top: 10px;">
-    <div class="col-sm-2 my-auto batch-label" (click)="onClick()" style="cursor: pointer">
+<div class="row text-center" style="margin-top: 10px; cursor: pointer;" (click)="onClick()">
+    <div class="col-sm-2 my-auto">
       {{ batch.batchLabel }}
     </div>
     <div class="col-sm-2 my-auto">
@@ -15,7 +15,7 @@
       {{ batch.remarks }}
     </div>
   <div class="col-sm-2 my-auto text-right">
-    <button class="btn btn-primary" (click)="onEditBatch()">Edit</button>{{" "}}
-    <button class="btn btn-danger" (click)="onDeleteBatch()">Delete</button>
+    <button class="btn btn-primary" (click)="onEditBatch($event)">Edit</button>{{" "}}
+    <button class="btn btn-danger" (click)="onDeleteBatch($event)">Delete</button>
   </div>
 </div>
