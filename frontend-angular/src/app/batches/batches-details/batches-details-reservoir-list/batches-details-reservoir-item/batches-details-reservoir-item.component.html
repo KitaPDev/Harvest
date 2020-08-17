@@ -7,19 +7,44 @@
 </button>
 <div *ngIf="isDisplayDetails" style="margin-top: 10px;">
   <div class="row">
-    <div class="col-sm-2 text-center">
-      <h5>TDS</h5>
+    <div class="col-sm-12" style="padding: 10px;">
+      <canvas
+        baseChart
+        [datasets]="tdsChartData"
+        [labels]="tdsChartLabels"
+        [options]="tdsChartOptions"
+        [colors]="tdsChartColors"
+        [chartType]="tdsChartType">
+      </canvas>
     </div>
   </div>
-  <div class="row text-center">
-    <div class="col-sm-2">
-      <h5>pH</h5>
+  <div class="row">
+    <div class="col-sm-12" style="padding: 10px;">
+      <canvas
+        baseChart
+        [datasets]="pHChartData"
+        [labels]="pHChartLabels"
+        [options]="pHChartOptions"
+        [colors]="pHChartColors"
+        [chartType]="pHChartType">
+      </canvas>
     </div>
   </div>
-  <div class="row text-center">
-    <div class="col-sm-2">
-      <h5>Solution Temperature</h5>
+  <div class="row">
+    <div class="col-sm-12" style="padding: 10px;">
+      <canvas
+        baseChart
+        [datasets]="solnTempChartData"
+        [labels]="solnTempChartLabels"
+        [options]="solnTempChartOptions"
+        [colors]="solnTempChartColors"
+        [chartType]="solnTempChartType">
+      </canvas>
     </div>
+  </div>
+  <div class="row">
+  </div>
+  <div class="row">
   </div>
 </div>
 

@@ -59,6 +59,7 @@ import { BatchesDetailsModuleListComponent } from './batches/batches-details/bat
 import { BatchesDetailsReservoirItemComponent } from './batches/batches-details/batches-details-reservoir-list/batches-details-reservoir-item/batches-details-reservoir-item.component';
 import { BatchesDetailsRoomItemComponent } from './batches/batches-details/batches-details-room-list/batches-details-room-item/batches-details-room-item.component';
 import { BatchesDetailsModuleItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-item.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { BatchesDetailsModuleItemComponent } from './batches/batches-details/bat
     ReactiveFormsModule,
     BsDropdownModule,
     NgbModule,
+    ChartsModule,
   ],
   providers: [
     httpInterceptorProviders,

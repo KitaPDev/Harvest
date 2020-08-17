@@ -1,1 +1,39 @@
-<p>batches-details-room-item works!</p>
+<button
+  class="btn btn-outline-info btn-block btn-lg"
+  [ngClass]="{'active': isDisplayDetails}"
+  (click)="onClick()"
+  style="margin-bottom: 10px"
+>
+  {{ room.roomLabel }}
+</button>
+<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+  <div class="row">
+    <div class="col-sm-12" style="padding: 10px;">
+      <canvas
+        baseChart
+        [datasets]="tempChartData"
+        [labels]="tempChartLabels"
+        [options]="tempChartOptions"
+        [colors]="tempChartColors"
+        [chartType]="tempChartType">
+      </canvas>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12" style="padding: 10px;">
+      <canvas
+        baseChart
+        [datasets]="humidityChartData"
+        [labels]="humidityChartLabels"
+        [options]="humidityChartOptions"
+        [colors]="humidityChartColors"
+        [chartType]="humidityChartType">
+      </canvas>
+    </div>
+  </div>
+  <div class="row">
+  </div>
+  <div class="row">
+  </div>
+</div>
+
