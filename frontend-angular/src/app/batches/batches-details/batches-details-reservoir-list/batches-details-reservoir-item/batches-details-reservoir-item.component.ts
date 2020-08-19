@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Reservoir } from '../../../../../_models/reservoir.model';
 import { LogSensorReservoir } from '../../../../../_models/logsensorreservoir.model';
 import 'chartjs-plugin-zoom';
+import { BatchesService } from '../../../../../_services/batches.service';
 
 @Component({
   selector: 'app-batches-details-reservoir-item',
@@ -9,18 +10,12 @@ import 'chartjs-plugin-zoom';
   styleUrls: ['./batches-details-reservoir-item.component.css'],
 })
 export class BatchesDetailsReservoirItemComponent implements OnInit {
+  @Input() batchID: number;
   @Input() reservoir: Reservoir;
-  @Input() logSensorReservoirs: LogSensorReservoir[];
+
+  logSensorReservoirs: LogSensorReservoir[];
 
   isDisplayDetails: boolean = false;
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.logSensorReservoirs.filter(
-      (log) => log.reservoirID === this.reservoir.reservoirID
-    );
-  }
 
   // tds chart config
   tdsChartType = 'line';
@@ -229,6 +224,18 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       },
     },
   };
+
+  constructor(private batchesService: BatchesService) {
+    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
+      this.logSensorReservoirs = batchDetails[
+        this.batchID
+      ].logSensorReservoirs.filter(
+        (log) => log.reservoirID === this.reservoir.reservoirID
+      );
+    });
+  }
+
+  ngOnInit(): void {}
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;

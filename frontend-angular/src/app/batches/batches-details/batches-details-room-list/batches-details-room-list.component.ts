@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../_models/room.model';
-import { LogSensorRoom } from '../../../../_models/logsensorroom.model';
 
 @Component({
   selector: 'app-batches-details-room-list',
@@ -8,9 +7,8 @@ import { LogSensorRoom } from '../../../../_models/logsensorroom.model';
   styleUrls: ['./batches-details-room-list.component.css'],
 })
 export class BatchesDetailsRoomListComponent implements OnInit {
-  @Input() roomIDs: number[];
+  @Input() batchID: number;
   @Input() rooms: Room[];
-  @Input() logSensorRooms: LogSensorRoom[];
 
   constructor() {}
 

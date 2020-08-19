@@ -16,6 +16,7 @@
     </div>
     <hr>
   </div>
+
   <div class="container-fluid" style="margin-top: 30px">
     <form class="form-group"
           [formGroup]="editBatchForm">
@@ -275,7 +276,6 @@
         </div>
       </div>
     </ng-template>
-
   </div>
 
   <div class="container-fluid">
@@ -285,18 +285,15 @@
   </div>
 
   <app-batches-details-reservoir-list
-    [reservoirIDs]="batch.reservoirIDs"
     [reservoirs]="reservoirs"
-    [logSensorReservoirs]="batchDetail.logSensorReservoirs"></app-batches-details-reservoir-list>
+    [batchID]="batchID"></app-batches-details-reservoir-list>
 
   <app-batches-details-room-list
-    [roomIDs]="batch.roomIDs"
     [rooms]="selectedRooms"
-    [logSensorRooms]="batchDetail.logSensorRooms"></app-batches-details-room-list>
+    [batchID]="batchID"></app-batches-details-room-list>
 
   <app-batches-details-module-list
-    [moduleIDs]="batch.moduleIDs"
     [modules]="modules"
-    [logSensorModuleLevels]="batchDetail.logSensorModuleLevels"></app-batches-details-module-list>
+    [batchID]="batchID"></app-batches-details-module-list>
 
 </div>

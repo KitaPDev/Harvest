@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Module } from '../../../../_models/module.model';
-import { LogSensorModuleLevel } from '../../../../_models/logsensormodule.model';
 
 @Component({
   selector: 'app-batches-details-module-list',
@@ -8,9 +7,8 @@ import { LogSensorModuleLevel } from '../../../../_models/logsensormodule.model'
   styleUrls: ['./batches-details-module-list.component.css'],
 })
 export class BatchesDetailsModuleListComponent implements OnInit {
-  @Input() moduleIDs: number[];
+  @Input() batchID: number;
   @Input() modules: Module[];
-  @Input() logSensorModuleLevels: LogSensorModuleLevel[];
 
   constructor() {}
 

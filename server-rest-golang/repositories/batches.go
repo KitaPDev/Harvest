@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/Modern-Farms/server-rest-golang/lib/database"
 	"github.com/Modern-Farms/server-rest-golang/models"
+	"github.com/lib/pq"
 	"strconv"
 	"time"
 )
@@ -448,14 +449,14 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 
 	logSensorModuleLevels := make([]models.LogSensorModuleLevel, 0)
 
-	for moduleID := range moduleIDs {
+	for _, moduleID := range moduleIDs {
 		sqlStatement = `SELECT logged_at, module_id, level, temperature, humidity, lux
 			FROM log_sensor_module 
 			WHERE module_id = $1 
 			  AND logged_at >= $2 
 			  AND logged_at <= $3;`
 
-		rows, err = db.Query(sqlStatement, moduleID, batch.TimeStampBegin, batch.TimeStampEnd)
+		rows, err = db.Query(sqlStatement, moduleID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
 			return nil, nil, nil, err
 		}
@@ -481,14 +482,14 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 
 	logSensorReservoirs := make([]models.LogSensorReservoir, 0)
 
-	for reservoirID := range reservoirIDs {
+	for _, reservoirID := range reservoirIDs {
 		sqlStatement = `SELECT logged_at, reservoir_id, tds, soln_temp, soln_level, ph
 			FROM log_sensor_reservoir
 			WHERE reservoir_id = $1 
 			  AND logged_at >= $2 
 			  AND logged_at <= $3;`
 
-		rows, err = db.Query(sqlStatement, reservoirID, batch.TimeStampBegin, batch.TimeStampEnd)
+		rows, err = db.Query(sqlStatement, reservoirID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
 			return nil, nil, nil, err
 		}
@@ -516,14 +517,14 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 
 	logSensorRooms := make([]models.LogSensorRoom, 0)
 
-	for roomID := range roomIDs {
+	for _, roomID := range roomIDs {
 		sqlStatement = `SELECT logged_at, room_id, temperature, humidity
 			FROM log_sensor_room
 			WHERE room_id = $1 
 			  AND logged_at >= $2 
 			  AND logged_at <= $3;`
 
-		rows, err = db.Query(sqlStatement, roomID, batch.TimeStampBegin, batch.TimeStampEnd)
+		rows, err = db.Query(sqlStatement, roomID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
 			return nil, nil, nil, err
 		}

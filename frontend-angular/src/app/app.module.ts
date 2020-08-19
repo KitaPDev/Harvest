@@ -60,6 +60,8 @@ import { BatchesDetailsReservoirItemComponent } from './batches/batches-details/
 import { BatchesDetailsRoomItemComponent } from './batches/batches-details/batches-details-room-list/batches-details-room-item/batches-details-room-item.component';
 import { BatchesDetailsModuleItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-item.component';
 import { ChartsModule } from 'ng2-charts';
+import { BatchesDetailsModuleLevelListComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-list.component';
+import { BatchesDetailsModuleLevelItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-item/batches-details-module-level-item.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,8 @@ import { ChartsModule } from 'ng2-charts';
     BatchesDetailsReservoirItemComponent,
     BatchesDetailsRoomItemComponent,
     BatchesDetailsModuleItemComponent,
+    BatchesDetailsModuleLevelListComponent,
+    BatchesDetailsModuleLevelItemComponent,
   ],
   imports: [
     BrowserModule,

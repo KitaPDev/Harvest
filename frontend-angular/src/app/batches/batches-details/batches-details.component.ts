@@ -9,7 +9,6 @@ import { Reservoir } from '../../../_models/reservoir.model';
 import { Nutrient } from '../../../_models/nutrient.model';
 import { Room } from '../../../_models/room.model';
 import { ConfirmationDialogService } from '../../../_services/dialogs/confirmation-dialog.service';
-import { BatchDetail } from '../../../_models/batchdetail.model';
 
 @Component({
   selector: 'app-batches-details',
@@ -19,7 +18,7 @@ import { BatchDetail } from '../../../_models/batchdetail.model';
 export class BatchesDetailsComponent implements OnInit {
   editBatchForm: FormGroup;
 
-  id: number = 0;
+  batchID: number = 0;
   batch: Batch;
   modules: Module[] = [];
   plants: Plant[] = [];
@@ -31,8 +30,6 @@ export class BatchesDetailsComponent implements OnInit {
   selectedNutrients: Nutrient[] = [];
   selectedRooms: Room[] = [];
 
-  batchDetail: BatchDetail = new BatchDetail();
-
   isDataReady: boolean = false;
   isEditMode: boolean = false;
 
@@ -41,11 +38,7 @@ export class BatchesDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router
-  ) {
-    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
-      this.batchDetail = batchDetails[this.id];
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.batchesService.updateBatchesData();
@@ -107,10 +100,10 @@ export class BatchesDetailsComponent implements OnInit {
     this.nutrients = [];
     this.rooms = [];
 
-    this.id = +this.route.snapshot.params['id'];
-    this.batchesService.fetchBatchDetails(this.id);
+    this.batchID = +this.route.snapshot.params['id'];
+    this.batchesService.fetchBatchDetails(this.batchID);
 
-    this.batch = this.batchesService.getBatch(this.id);
+    this.batch = this.batchesService.getBatch(this.batchID);
     this.plants = this.batchesService.getPlants();
     this.reservoirs = this.batchesService.getReservoirs();
     this.nutrients = this.batchesService.getNutrients();
