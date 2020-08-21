@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BatchesService } from '../../../../../../../_services/batches.service';
 import { LogSensorModuleLevel } from '../../../../../../../_models/logsensormodule.model';
+import { ActivatedRoute } from '@angular/router';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-batches-details-module-level-item',
@@ -8,18 +10,18 @@ import { LogSensorModuleLevel } from '../../../../../../../_models/logsensormodu
   styleUrls: ['./batches-details-module-level-item.component.css'],
 })
 export class BatchesDetailsModuleLevelItemComponent implements OnInit {
-  @Input() batchID: number;
+  @ViewChild('tempChart') tempChart: Chart;
+
   @Input() moduleID: number;
   @Input() level: number;
+  @Input() logSensorModuleLevels: LogSensorModuleLevel[];
 
-  logSensorModuleLevels: LogSensorModuleLevel[] = [];
+  batchID: number;
 
   isDisplayDetails: boolean = false;
 
   // temp chart config
-  tempChartType = 'line';
-  tempChartLabels = [];
-  tempChartData = [{ data: [] }];
+  tempChartDataSet = [{ data: [] }];
   tempChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -35,6 +37,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
@@ -59,7 +66,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
           mode: 'x',
           rangeMin: {
             x: null,
-            y: 0,
+            y: null,
           },
           rangeMax: {
             x: null,
@@ -68,13 +75,13 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         },
         zoom: {
           enabled: true,
-          mode: 'x',
+          mode: 'xy',
           rangeMin: {
-            x: this.tempChartLabels[0],
-            y: 0,
+            x: null,
+            y: null,
           },
           rangeMax: {
-            x: this.tempChartLabels[this.tempChartLabels.length - 1],
+            x: null,
             y: null,
           },
         },
@@ -83,17 +90,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   };
 
   // humidity chart config
-  humidityChartType = 'line';
-  humidityChartLabels = [
-    '2006',
-    '2007',
-    '2008',
-    '2009',
-    '2010',
-    '2011',
-    '2012',
-  ];
-  humidityChartData = [{ data: [650, 600, 590, 640, 700, 500, 600] }];
+  humidityChartDataSet = [{ data: [] }];
   humidityChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -110,6 +107,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
@@ -134,7 +136,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
           mode: 'x',
           rangeMin: {
             x: null,
-            y: 0,
+            y: null,
           },
           rangeMax: {
             x: null,
@@ -143,13 +145,13 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         },
         zoom: {
           enabled: true,
-          mode: 'x',
+          mode: 'xy',
           rangeMin: {
-            x: this.tempChartLabels[0],
-            y: 0,
+            x: null,
+            y: null,
           },
           rangeMax: {
-            x: this.tempChartLabels[this.tempChartLabels.length - 1],
+            x: null,
             y: null,
           },
         },
@@ -158,9 +160,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   };
 
   // lux chart config
-  luxChartType = 'line';
-  luxChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  luxChartData = [{ data: [650, 600, 590, 640, 700, 500, 600] }];
+  luxChartDataSet = [{ data: [] }];
   luxChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -177,6 +177,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
@@ -201,7 +206,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
           mode: 'x',
           rangeMin: {
             x: null,
-            y: 0,
+            y: null,
           },
           rangeMax: {
             x: null,
@@ -210,13 +215,13 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         },
         zoom: {
           enabled: true,
-          mode: 'x',
+          mode: 'xy',
           rangeMin: {
-            x: this.tempChartLabels[0],
-            y: 0,
+            x: null,
+            y: null,
           },
           rangeMax: {
-            x: this.tempChartLabels[this.tempChartLabels.length - 1],
+            x: null,
             y: null,
           },
         },
@@ -224,32 +229,61 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     },
   };
 
-  constructor(private batchesService: BatchesService) {
-    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
-      this.logSensorModuleLevels = batchDetails[
-        this.batchID
-      ].logSensorModuleLevels.filter(
-        (log) => log.moduleID === this.moduleID && log.level === this.level
-      );
-
-      let tempData = [];
-      let humidityData = [];
-      let luxData = [];
-      let logTimes = [];
-
-      for (let log of this.logSensorModuleLevels) {
-        tempData.push(log.temperature);
-        humidityData.push(log.humidity);
-        luxData.push(log.lux);
-        logTimes.push(log.loggedAt);
-      }
-
-      this.tempChartData = [{ data: tempData }];
-      this.tempChartLabels = logTimes;
-    });
+  constructor(
+    private batchesService: BatchesService,
+    private route: ActivatedRoute
+  ) {
+    this.batchID = +this.route.snapshot.params['id'];
+    batchesService.fetchBatchDetails(this.batchID);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logSensorModuleLevels = this.logSensorModuleLevels.filter(
+      (log) => log.level === this.level
+    );
+
+    let minDateTime = new Date(this.logSensorModuleLevels[0].loggedAt);
+    let maxDateTime = new Date(
+      this.logSensorModuleLevels[this.logSensorModuleLevels.length - 1].loggedAt
+    );
+
+    this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+    this.tempChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
+    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
+    this.tempChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
+
+    this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+    this.humidityChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
+    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
+    this.humidityChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
+
+    this.luxChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.luxChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+    this.luxChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
+    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
+    this.luxChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
+
+    this.tempChartDataSet[0].data.length = 0;
+    this.humidityChartDataSet[0].data.length = 0;
+    this.luxChartDataSet[0].data.length = 0;
+
+    for (let log of this.logSensorModuleLevels) {
+      this.tempChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.temperature,
+      });
+      this.humidityChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.humidity,
+      });
+      this.luxChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.lux,
+      });
+    }
+  }
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;

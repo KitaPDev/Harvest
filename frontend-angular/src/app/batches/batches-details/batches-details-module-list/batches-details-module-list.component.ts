@@ -7,7 +7,6 @@ import { Module } from '../../../../_models/module.model';
   styleUrls: ['./batches-details-module-list.component.css'],
 })
 export class BatchesDetailsModuleListComponent implements OnInit {
-  @Input() batchID: number;
   @Input() modules: Module[];
 
   constructor() {}

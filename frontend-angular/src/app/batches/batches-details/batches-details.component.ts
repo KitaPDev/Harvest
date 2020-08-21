@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Batch } from '../../../_models/batch.model';
 import { BatchesService } from '../../../_services/batches.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,7 +38,9 @@ export class BatchesDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router
-  ) {}
+  ) {
+    this.batchID = +this.route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
     this.batchesService.updateBatchesData();
@@ -100,7 +102,6 @@ export class BatchesDetailsComponent implements OnInit {
     this.nutrients = [];
     this.rooms = [];
 
-    this.batchID = +this.route.snapshot.params['id'];
     this.batchesService.fetchBatchDetails(this.batchID);
 
     this.batch = this.batchesService.getBatch(this.batchID);

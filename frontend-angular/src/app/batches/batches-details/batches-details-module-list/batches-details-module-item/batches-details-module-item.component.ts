@@ -7,7 +7,6 @@ import { Module } from '../../../../../_models/module.model';
   styleUrls: ['./batches-details-module-item.component.css'],
 })
 export class BatchesDetailsModuleItemComponent implements OnInit {
-  @Input() batchID: number;
   @Input() module: Module;
 
   isDisplayDetails: boolean = false;

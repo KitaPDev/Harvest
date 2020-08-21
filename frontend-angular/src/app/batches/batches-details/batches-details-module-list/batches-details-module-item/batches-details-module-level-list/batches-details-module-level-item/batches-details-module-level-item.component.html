@@ -6,16 +6,16 @@
 >
   {{ level }}
 </button>
-<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+<div [style.display]="isDisplayDetails ? 'block' : 'none'" style="margin-top: 10px;">
   <div class="row">
     <div class="col-sm-12" style="padding: 10px;">
       <canvas
+        #tempChart
         baseChart
-        [datasets]="tempChartData"
-        [labels]="tempChartLabels"
+        [datasets]="tempChartDataSet"
         [options]="tempChartOptions"
         [colors]="tempChartColors"
-        [chartType]="tempChartType">
+        [chartType]="'line'">
       </canvas>
     </div>
   </div>
@@ -23,11 +23,10 @@
     <div class="col-sm-12" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="humidityChartData"
-        [labels]="humidityChartLabels"
+        [datasets]="humidityChartDataSet"
         [options]="humidityChartOptions"
         [colors]="humidityChartColors"
-        [chartType]="humidityChartType">
+        [chartType]="'line'">
       </canvas>
     </div>
   </div>
@@ -35,11 +34,10 @@
     <div class="col-sm-12" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="luxChartData"
-        [labels]="luxChartLabels"
+        [datasets]="luxChartDataSet"
         [options]="luxChartOptions"
         [colors]="luxChartColors"
-        [chartType]="luxChartType">
+        [chartType]="'line'">
       </canvas>
     </div>
   </div>

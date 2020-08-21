@@ -3,6 +3,7 @@ import { Reservoir } from '../../../../../_models/reservoir.model';
 import { LogSensorReservoir } from '../../../../../_models/logsensorreservoir.model';
 import 'chartjs-plugin-zoom';
 import { BatchesService } from '../../../../../_services/batches.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-batches-details-reservoir-item',
@@ -225,8 +226,16 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
     },
   };
 
-  constructor(private batchesService: BatchesService) {
-    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
+  constructor(
+    private batchesService: BatchesService,
+    private route: ActivatedRoute
+  ) {
+    this.batchID = +this.route.snapshot.params['id'];
+    batchesService.fetchBatchDetails(this.batchID);
+  }
+
+  ngOnInit(): void {
+    this.batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
       this.logSensorReservoirs = batchDetails[
         this.batchID
       ].logSensorReservoirs.filter(
@@ -234,8 +243,6 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       );
     });
   }
-
-  ngOnInit(): void {}
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;
