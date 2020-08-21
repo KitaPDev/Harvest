@@ -1,8 +1,14 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { BatchesService } from '../../../../../../../_services/batches.service';
 import { LogSensorModuleLevel } from '../../../../../../../_models/logsensormodule.model';
 import { ActivatedRoute } from '@angular/router';
-import { Chart } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-batches-details-module-level-item',
@@ -10,7 +16,7 @@ import { Chart } from 'chart.js';
   styleUrls: ['./batches-details-module-level-item.component.css'],
 })
 export class BatchesDetailsModuleLevelItemComponent implements OnInit {
-  @ViewChild('tempChart') tempChart: Chart;
+  @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective>;
 
   @Input() moduleID: number;
   @Input() level: number;
@@ -101,7 +107,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     },
   ];
 
-  // humidity chart config
   humidityChartOptions = {
     scales: {
       xAxes: [
@@ -171,7 +176,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     },
   ];
 
-  // lux chart config
   luxChartOptions = {
     scales: {
       xAxes: [
@@ -287,5 +291,10 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;
+  }
+
+  onClickReset(chartIndex: number) {
+    // @ts-ignore
+    this.charts._results[chartIndex].chart.resetZoom();
   }
 }
