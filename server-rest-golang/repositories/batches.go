@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/Modern-Farms/server-rest-golang/lib/database"
+	"github.com/Modern-Farms/server-rest-golang/lib/util"
 	"github.com/Modern-Farms/server-rest-golang/models"
 	"github.com/lib/pq"
 	"strconv"
@@ -442,9 +443,17 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 			return nil, nil, nil, err
 		}
 
-		moduleIDs = append(moduleIDs, moduleID)
-		reservoirIDs = append(reservoirIDs, reservoirID)
-		roomIDs = append(roomIDs, roomID)
+		if !util.IntSliceContains(moduleIDs, moduleID) {
+			moduleIDs = append(moduleIDs, moduleID)
+		}
+
+		if !util.IntSliceContains(reservoirIDs, reservoirID) {
+			reservoirIDs = append(reservoirIDs, reservoirID)
+		}
+
+		if !util.IntSliceContains(roomIDs, roomID) {
+			roomIDs = append(roomIDs, roomID)
+		}
 	}
 
 	logSensorModuleLevels := make([]models.LogSensorModuleLevel, 0)
@@ -454,7 +463,8 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 			FROM log_sensor_module 
 			WHERE module_id = $1 
 			  AND logged_at >= $2 
-			  AND logged_at <= $3;`
+			  AND logged_at <= $3
+			ORDER BY (logged_at);`
 
 		rows, err = db.Query(sqlStatement, moduleID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
@@ -487,14 +497,13 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 			FROM log_sensor_reservoir
 			WHERE reservoir_id = $1 
 			  AND logged_at >= $2 
-			  AND logged_at <= $3;`
+			  AND logged_at <= $3
+			ORDER BY (logged_at);`
 
 		rows, err = db.Query(sqlStatement, reservoirID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
 			return nil, nil, nil, err
 		}
-
-		logSensorReservoirs := make([]models.LogSensorReservoir, 0)
 
 		for rows.Next() {
 			logSensorReservoir := models.LogSensorReservoir{}
@@ -519,17 +528,16 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 
 	for _, roomID := range roomIDs {
 		sqlStatement = `SELECT logged_at, room_id, temperature, humidity
-			FROM log_sensor_room
+			FROM log_sensor_room 
 			WHERE room_id = $1 
 			  AND logged_at >= $2 
-			  AND logged_at <= $3;`
+			  AND logged_at <= $3
+			ORDER BY (logged_at);`
 
 		rows, err = db.Query(sqlStatement, roomID, pq.FormatTimestamp(batch.TimeStampBegin), pq.FormatTimestamp(batch.TimeStampEnd))
 		if err != nil {
 			return nil, nil, nil, err
 		}
-
-		logSensorRooms := make([]models.LogSensorRoom, 0)
 
 		for rows.Next() {
 			logSensorRoom := models.LogSensorRoom{}

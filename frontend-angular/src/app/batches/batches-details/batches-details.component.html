@@ -285,12 +285,15 @@
   </div>
 
   <app-batches-details-reservoir-list
-    [reservoirs]="reservoirs"></app-batches-details-reservoir-list>
+    [reservoirs]="reservoirs"
+    [batchesService]="batchesService"></app-batches-details-reservoir-list>
 
   <app-batches-details-room-list
-    [rooms]="selectedRooms"></app-batches-details-room-list>
+    [rooms]="selectedRooms"
+    [batchesService]="batchesService"></app-batches-details-room-list>
 
   <app-batches-details-module-list
-    [modules]="modules"></app-batches-details-module-list>
+    [modules]="modules"
+    [batchesService]="batchesService"></app-batches-details-module-list>
 
 </div>

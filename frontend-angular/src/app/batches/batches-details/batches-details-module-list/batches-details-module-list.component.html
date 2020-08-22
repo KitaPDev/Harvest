@@ -4,6 +4,7 @@
   <app-batches-details-module-item
     *ngFor="let module of modules; let i = index"
     [module]="module"
+    [batchesService]="batchesService"
   ></app-batches-details-module-item>
   <hr>
 </div>

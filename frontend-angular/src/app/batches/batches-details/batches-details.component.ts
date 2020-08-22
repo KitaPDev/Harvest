@@ -34,58 +34,50 @@ export class BatchesDetailsComponent implements OnInit {
   isEditMode: boolean = false;
 
   constructor(
-    private batchesService: BatchesService,
+    public batchesService: BatchesService,
     private route: ActivatedRoute,
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router
   ) {
     this.batchID = +this.route.snapshot.params['id'];
+    this.batchesService.updateBatchesData();
   }
 
   ngOnInit(): void {
-    this.batchesService.updateBatchesData();
     this.batchesService.plants.subscribe((plants) => {
       this.plants = plants;
     });
 
-    this.batchesService.modules.subscribe((module) => {
-      this.modules = module;
+    this.batchesService.modules.subscribe((modules) => {
+      this.modules = modules;
 
-      for (let module of this.modules) {
-        if (this.batch.moduleIDs.includes(module.moduleID)) {
-          this.selectedModules.push(module);
-        }
-      }
+      this.selectedModules = modules.filter((m) =>
+        this.batch.moduleIDs.includes(m.moduleID)
+      );
     });
 
     this.batchesService.reservoirs.subscribe((reservoirs) => {
       this.reservoirs = reservoirs;
 
-      for (let reservoir of this.reservoirs) {
-        if (this.batch.reservoirIDs.includes(reservoir.reservoirID)) {
-          this.selectedReservoirs.push(reservoir);
-        }
-      }
+      this.selectedReservoirs = reservoirs.filter((r) =>
+        this.batch.reservoirIDs.includes(r.reservoirID)
+      );
     });
 
     this.batchesService.nutrients.subscribe((nutrients) => {
       this.nutrients = nutrients;
 
-      for (let nutrient of this.nutrients) {
-        if (this.batch.nutrientIDs.includes(nutrient.nutrientID)) {
-          this.selectedNutrients.push(nutrient);
-        }
-      }
+      this.selectedNutrients = nutrients.filter((n) =>
+        this.batch.nutrientIDs.includes(n.nutrientID)
+      );
     });
 
     this.batchesService.rooms.subscribe((rooms) => {
       this.rooms = rooms;
 
-      for (let room of this.rooms) {
-        if (this.batch.roomIDs.includes(room.roomID)) {
-          this.selectedRooms.push(room);
-        }
-      }
+      this.selectedRooms = rooms.filter((r) =>
+        this.batch.roomIDs.includes(r.roomID)
+      );
     });
 
     this.batchesService.batches.subscribe((batches) => {

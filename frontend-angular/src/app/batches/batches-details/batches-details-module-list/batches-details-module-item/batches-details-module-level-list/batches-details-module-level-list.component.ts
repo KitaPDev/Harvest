@@ -11,25 +11,29 @@ import { ActivatedRoute } from '@angular/router';
 export class BatchesDetailsModuleLevelListComponent implements OnInit {
   @Input() moduleID: number;
   @Input() level: number;
+  @Input() batchesService: BatchesService;
 
   batchID: number;
 
-  levels = Array(this.level).fill(1);
+  levels = [];
+
   logSensorModuleLevels: LogSensorModuleLevel[];
 
-  constructor(
-    private batchesService: BatchesService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
     this.batchID = +this.route.snapshot.params['id'];
-    batchesService.fetchBatchDetails(this.batchID);
   }
 
   ngOnInit(): void {
-    this.batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
-      this.logSensorModuleLevels = batchDetails[
-        this.batchID
-      ].logSensorModuleLevels.filter((log) => log.moduleID === this.moduleID);
-    });
+    for (let i = 0; i < this.level; i++) {
+      this.levels.push(i + 1);
+    }
+
+    this.batchesService.recBatchID_BatchDetail.subscribe(
+      (recBatchID_BatchDetail) => {
+        this.logSensorModuleLevels = recBatchID_BatchDetail[
+          this.batchID
+        ].logSensorModuleLevels.filter((log) => log.moduleID === this.moduleID);
+      }
+    );
   }
 }

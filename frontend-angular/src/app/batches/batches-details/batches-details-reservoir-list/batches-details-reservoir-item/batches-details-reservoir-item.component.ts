@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { Reservoir } from '../../../../../_models/reservoir.model';
 import { LogSensorReservoir } from '../../../../../_models/logsensorreservoir.model';
 import 'chartjs-plugin-zoom';
 import { BatchesService } from '../../../../../_services/batches.service';
 import { ActivatedRoute } from '@angular/router';
+import { BatchDetail } from '../../../../../_models/batchdetail.model';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-batches-details-reservoir-item',
@@ -11,17 +13,19 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./batches-details-reservoir-item.component.css'],
 })
 export class BatchesDetailsReservoirItemComponent implements OnInit {
-  @Input() batchID: number;
-  @Input() reservoir: Reservoir;
+  @ViewChildren(BaseChartDirective) charts: BaseChartDirective;
 
+  @Input() reservoir: Reservoir;
+  @Input() batchesService: BatchesService;
+
+  batchID: number;
   logSensorReservoirs: LogSensorReservoir[];
 
   isDisplayDetails: boolean = false;
 
   // tds chart config
-  tdsChartType = 'line';
-  tdsChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  tdsChartData = [{ data: [650, 600, 590, 640, 700, 500, 600] }];
+  tdsChartLabels = [];
+  tdsChartDataSet = [{ data: [] }];
   tdsChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -34,16 +38,25 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
 
   tdsChartOptions = {
     scales: {
+      title: {
+        display: true,
+        text: 'TDS',
+      },
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
         {
           scaleLabel: {
             display: true,
-            labelString: 'TDS (ppm)',
+            labelString: 'ppm',
           },
         },
       ],
@@ -58,36 +71,19 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: 0,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: this.tdsChartLabels[0],
-            y: 0,
-          },
-          rangeMax: {
-            x: this.tdsChartLabels[this.tdsChartLabels.length - 1],
-            y: null,
-          },
+          mode: 'xy',
         },
       },
     },
   };
 
   // ph chart config
-  pHChartType = 'line';
-  pHChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  pHChartData = [{ data: [7.0, 6.0, 6.5, 6.8, 6.9, 7.1, 6.0] }];
+  pHChartLabels = [];
+  pHChartDataSet = [{ data: [] }];
   pHChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -98,17 +94,18 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
     },
   ];
   pHChartOptions = {
+    title: {
+      display: true,
+      text: 'pH',
+    },
     scales: {
       xAxes: [
         {
           type: 'time',
-        },
-      ],
-      yAxes: [
-        {
-          scaleLabel: {
-            display: true,
-            labelString: 'pH',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
           },
         },
       ],
@@ -123,46 +120,21 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: this.pHChartLabels[0],
-            y: 0,
-          },
-          rangeMax: {
-            x: this.pHChartLabels[this.pHChartLabels.length - 1],
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: 0,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
       },
     },
   };
 
   // soln temp chart config
-  solnTempChartType = 'line';
-  solnTempChartLabels = [
-    '2006',
-    '2007',
-    '2008',
-    '2009',
-    '2010',
-    '2011',
-    '2012',
-  ];
-  solnTempChartData = [
+  solnTempChartLabels = [];
+  solnTempChartDataSet = [
     {
-      data: [25.7, 26.0, 24.9, 25.5, 26.1, 25.7, 27.0],
+      data: [],
     },
   ];
   solnTempChartColors: Array<any> = [
@@ -175,17 +147,26 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
     },
   ];
   solnTempChartOptions = {
+    title: {
+      display: true,
+      text: 'Solution Temperature',
+    },
     scales: {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
         {
           scaleLabel: {
             display: true,
-            labelString: 'Solution Temperature (Celsius)',
+            labelString: 'Celsius',
           },
         },
       ],
@@ -200,51 +181,77 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: this.solnTempChartLabels[0],
-            y: 0,
-          },
-          rangeMax: {
-            x: this.solnTempChartLabels[this.solnTempChartLabels.length - 1],
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: 0,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
       },
     },
   };
 
-  constructor(
-    private batchesService: BatchesService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
     this.batchID = +this.route.snapshot.params['id'];
-    batchesService.fetchBatchDetails(this.batchID);
   }
 
   ngOnInit(): void {
-    this.batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
-      this.logSensorReservoirs = batchDetails[
-        this.batchID
-      ].logSensorReservoirs.filter(
-        (log) => log.reservoirID === this.reservoir.reservoirID
-      );
-    });
+    this.batchesService.recBatchID_BatchDetail.subscribe(
+      (recBatchID_BatchDetail) => {
+        if (recBatchID_BatchDetail[this.batchID] !== undefined) {
+          this.setupCharts(recBatchID_BatchDetail);
+        }
+      }
+    );
+  }
+
+  setupCharts(recBatchID_BatchDetail: Record<number, BatchDetail>) {
+    this.logSensorReservoirs = recBatchID_BatchDetail[
+      this.batchID
+    ].logSensorReservoirs.filter(
+      (log) => log.reservoirID === this.reservoir.reservoirID
+    );
+
+    let minDateTime = new Date(this.logSensorReservoirs[0].loggedAt);
+    let maxDateTime = new Date(
+      this.logSensorReservoirs[this.logSensorReservoirs.length - 1].loggedAt
+    );
+
+    this.tdsChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.tdsChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+    this.pHChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.pHChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+    this.solnTempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.solnTempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+    this.tdsChartDataSet[0].data.length = 0;
+    this.pHChartDataSet[0].data.length = 0;
+    this.solnTempChartDataSet[0].data.length = 0;
+
+    for (let log of this.logSensorReservoirs) {
+      this.tdsChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.tds,
+      });
+      this.pHChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.ph,
+      });
+      this.solnTempChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.solnTemp,
+      });
+    }
   }
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;
+  }
+
+  onClickReset(chartIndex: number) {
+    // @ts-ignore
+    this.charts._results[chartIndex].chart.resetZoom();
   }
 }

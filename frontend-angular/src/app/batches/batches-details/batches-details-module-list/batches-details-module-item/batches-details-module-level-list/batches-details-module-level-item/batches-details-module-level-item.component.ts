@@ -21,6 +21,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   @Input() moduleID: number;
   @Input() level: number;
   @Input() logSensorModuleLevels: LogSensorModuleLevel[];
+  @Input() batchesService: BatchesService;
 
   batchID: number;
 
@@ -39,6 +40,10 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   ];
 
   tempChartOptions = {
+    title: {
+      display: true,
+      text: 'Temperature',
+    },
     scales: {
       xAxes: [
         {
@@ -54,7 +59,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: 'Temperature (Celsius)',
+            labelString: 'Celsius',
           },
         },
       ],
@@ -69,27 +74,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
           mode: 'xy',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
         },
       },
     },
@@ -109,6 +98,10 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
 
   humidityChartOptions = {
     scales: {
+      title: {
+        display: true,
+        text: 'Humidity',
+      },
       xAxes: [
         {
           type: 'time',
@@ -123,7 +116,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: 'Humidity (%)',
+            labelString: '%',
           },
         },
       ],
@@ -138,27 +131,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
           mode: 'xy',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
         },
       },
     },
@@ -177,6 +154,10 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   ];
 
   luxChartOptions = {
+    title: {
+      display: true,
+      text: 'Lux',
+    },
     scales: {
       xAxes: [
         {
@@ -192,7 +173,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: 'Lux (lumen)',
+            labelString: 'lumen',
           },
         },
       ],
@@ -207,38 +188,18 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
           mode: 'xy',
-          rangeMin: {
-            x: null,
-            y: null,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
         },
       },
     },
   };
 
-  constructor(
-    private batchesService: BatchesService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
     this.batchID = +this.route.snapshot.params['id'];
-    batchesService.fetchBatchDetails(this.batchID);
   }
 
   ngOnInit(): void {
@@ -253,21 +214,12 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
 
     this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
     this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
-    this.tempChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
-    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
-    this.tempChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
 
     this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
     this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
-    this.humidityChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
-    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
-    this.humidityChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
 
     this.luxChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
     this.luxChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
-    this.luxChartOptions.plugins.zoom.zoom.rangeMin.x = minDateTime.valueOf();
-    this.tempChartOptions.plugins.zoom.zoom.rangeMin.y = 0;
-    this.luxChartOptions.plugins.zoom.zoom.rangeMax.x = maxDateTime.valueOf();
 
     this.tempChartDataSet[0].data.length = 0;
     this.humidityChartDataSet[0].data.length = 0;

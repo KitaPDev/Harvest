@@ -6,29 +6,33 @@
 >
   {{ room.roomLabel }}
 </button>
-<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+<div [style.display]="isDisplayDetails ? 'block' : 'none'" style="margin-top: 10px;">
   <div class="row">
-    <div class="col-sm-12" style="padding: 10px;">
+    <div class="col-sm-11" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="tempChartData"
-        [labels]="tempChartLabels"
+        [datasets]="tempChartDataSet"
         [options]="tempChartOptions"
         [colors]="tempChartColors"
-        [chartType]="tempChartType">
+        [chartType]="'line'">
       </canvas>
+    </div>
+    <div class="col-sm-1 my-auto">
+      <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12" style="padding: 10px;">
+    <div class="col-sm-11" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="humidityChartData"
-        [labels]="humidityChartLabels"
+        [datasets]="humidityChartDataSet"
         [options]="humidityChartOptions"
         [colors]="humidityChartColors"
-        [chartType]="humidityChartType">
+        [chartType]="'line'">
       </canvas>
+    </div>
+    <div class="col-sm-1 my-auto">
+      <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
     </div>
   </div>
   <div class="row">

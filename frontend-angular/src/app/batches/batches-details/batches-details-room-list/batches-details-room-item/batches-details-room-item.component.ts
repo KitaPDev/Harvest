@@ -1,7 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Room } from '../../../../../_models/room.model';
 import { LogSensorRoom } from '../../../../../_models/logsensorroom.model';
 import { BatchesService } from '../../../../../_services/batches.service';
+import { ActivatedRoute } from '@angular/router';
+import { BaseChartDirective } from 'ng2-charts';
+import { BatchDetail } from '../../../../../_models/batchdetail.model';
 
 @Component({
   selector: 'app-batches-details-room-item',
@@ -9,17 +18,18 @@ import { BatchesService } from '../../../../../_services/batches.service';
   styleUrls: ['./batches-details-room-item.component.css'],
 })
 export class BatchesDetailsRoomItemComponent implements OnInit {
-  @Input() batchID: number;
-  @Input() room: Room;
+  @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective>;
 
+  @Input() room: Room;
+  @Input() batchesService: BatchesService;
+
+  batchID: number;
   logSensorRooms: LogSensorRoom[];
 
   isDisplayDetails: boolean = false;
 
   // temp chart config
-  tempChartType = 'line';
-  tempChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  tempChartData = [{ data: [650, 600, 590, 640, 700, 500, 600] }];
+  tempChartDataSet = [{ data: [] }];
   tempChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -31,17 +41,26 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
   ];
 
   tempChartOptions = {
+    title: {
+      display: true,
+      text: 'Temperature',
+    },
     scales: {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
         {
           scaleLabel: {
             display: true,
-            labelString: 'Temperature (Celsius)',
+            labelString: 'Celsius',
           },
         },
       ],
@@ -56,43 +75,18 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: 0,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: this.tempChartLabels[0],
-            y: 0,
-          },
-          rangeMax: {
-            x: this.tempChartLabels[this.tempChartLabels.length - 1],
-            y: null,
-          },
+          mode: 'xy',
         },
       },
     },
   };
 
-  humidityChartType = 'line';
-  humidityChartLabels = [
-    '2006',
-    '2007',
-    '2008',
-    '2009',
-    '2010',
-    '2011',
-    '2012',
-  ];
-  humidityChartData = [{ data: [650, 600, 590, 640, 700, 500, 600] }];
+  // humidity chart config
+  humidityChartDataSet = [{ data: [] }];
   humidityChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
@@ -105,17 +99,26 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
 
   // humidity chart config
   humidityChartOptions = {
+    title: {
+      display: true,
+      text: 'Humidity',
+    },
     scales: {
       xAxes: [
         {
           type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
         },
       ],
       yAxes: [
         {
           scaleLabel: {
             display: true,
-            labelString: 'Humidity (%)',
+            labelString: '%',
           },
         },
       ],
@@ -130,43 +133,67 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
       zoom: {
         pan: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: null,
-            y: 0,
-          },
-          rangeMax: {
-            x: null,
-            y: null,
-          },
+          mode: 'xy',
         },
         zoom: {
           enabled: true,
-          mode: 'x',
-          rangeMin: {
-            x: this.tempChartLabels[0],
-            y: 0,
-          },
-          rangeMax: {
-            x: this.tempChartLabels[this.tempChartLabels.length - 1],
-            y: null,
-          },
+          mode: 'xy',
         },
       },
     },
   };
 
-  constructor(private batchesService: BatchesService) {
-    batchesService.recBatchID_BatchDetail.subscribe((batchDetails) => {
-      this.logSensorRooms = batchDetails[this.batchID].logSensorRooms.filter(
-        (log) => log.roomID === this.room.roomID
-      );
-    });
+  constructor(private route: ActivatedRoute) {
+    this.batchID = +this.route.snapshot.params['id'];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.batchesService.recBatchID_BatchDetail.subscribe(
+      (recBatchID_BatchDetail) => {
+        if (recBatchID_BatchDetail[this.batchID] !== undefined) {
+          this.setupCharts(recBatchID_BatchDetail);
+        }
+      }
+    );
+  }
+
+  setupCharts(recBatchID_BatchDetail: Record<number, BatchDetail>) {
+    this.logSensorRooms = recBatchID_BatchDetail[
+      this.batchID
+    ].logSensorRooms.filter((log) => log.roomID === this.room.roomID);
+
+    let minDateTime = new Date(this.logSensorRooms[0].loggedAt);
+    let maxDateTime = new Date(
+      this.logSensorRooms[this.logSensorRooms.length - 1].loggedAt
+    );
+
+    this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+    this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+    this.tempChartDataSet[0].data.length = 0;
+    this.humidityChartDataSet[0].data.length = 0;
+
+    for (let log of this.logSensorRooms) {
+      this.tempChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.temperature,
+      });
+      this.humidityChartDataSet[0].data.push({
+        x: new Date(log.loggedAt).valueOf(),
+        y: log.humidity,
+      });
+    }
+  }
 
   onClick() {
     this.isDisplayDetails = !this.isDisplayDetails;
+  }
+
+  onClickReset(chartIndex: number) {
+    // @ts-ignore
+    this.charts._results[chartIndex].chart.resetZoom();
   }
 }

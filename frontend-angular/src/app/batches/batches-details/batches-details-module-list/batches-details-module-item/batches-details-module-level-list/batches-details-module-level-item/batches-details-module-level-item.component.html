@@ -6,7 +6,7 @@
 >
   {{ level }}
 </button>
-<div [style.display]="isDisplayDetails ? 'block' : 'none'" style="margin-top: 10px;">
+<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
   <div class="row">
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
