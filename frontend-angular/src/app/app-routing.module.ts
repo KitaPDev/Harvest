@@ -44,7 +44,7 @@ const routes: Routes = [
       { path: ':id', component: BatchesDetailsComponent },
     ],
   },
-  { path: '', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
