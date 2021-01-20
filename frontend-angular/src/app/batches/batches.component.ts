@@ -27,7 +27,7 @@ export class BatchesComponent implements OnInit {
   selectedRooms: Room[] = [];
 
   constructor(
-    private batchesService: BatchesService,
+    public batchesService: BatchesService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
     batchesService.updateBatchesData();

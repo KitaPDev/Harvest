@@ -14,10 +14,10 @@ export class ReservoirsItemComponent implements OnInit {
   @Input() reservoir: Reservoir;
   @Input() nutrients: Nutrient[] = [];
   @Input() index: number;
+  @Input() reservoirsService: ReservoirsService;
   nutrientLabels = '';
 
   constructor(
-    private reservoirsService: ReservoirsService,
     private editReservoirDialogService: EditReservoirDialogService,
     private confirmationDialogService: ConfirmationDialogService
   ) {}

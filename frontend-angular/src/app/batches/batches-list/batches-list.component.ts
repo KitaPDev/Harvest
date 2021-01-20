@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Batch } from '../../../_models/batch.model';
 import { Module } from '../../../_models/module.model';
 import { Plant } from '../../../_models/plant.model';
@@ -13,6 +13,8 @@ import { BatchesService } from '../../../_services/batches.service';
   styleUrls: ['./batches-list.component.css'],
 })
 export class BatchesListComponent implements OnInit {
+  @Input() batchesService: BatchesService;
+
   batches: Batch[] = [];
   modules: Module[] = [];
   plants: Plant[] = [];
@@ -20,26 +22,26 @@ export class BatchesListComponent implements OnInit {
   nutrients: Nutrient[] = [];
   rooms: Room[] = [];
 
-  constructor(private batchesService: BatchesService) {
-    batchesService.batches.subscribe((batches) => {
+  constructor() {}
+
+  ngOnInit(): void {
+    this.batchesService.batches.subscribe((batches) => {
       this.batches = batches;
     });
-    batchesService.modules.subscribe((modules) => {
+    this.batchesService.modules.subscribe((modules) => {
       this.modules = modules;
     });
-    batchesService.plants.subscribe((plants) => {
+    this.batchesService.plants.subscribe((plants) => {
       this.plants = plants;
     });
-    batchesService.reservoirs.subscribe((reservoirs) => {
+    this.batchesService.reservoirs.subscribe((reservoirs) => {
       this.reservoirs = reservoirs;
     });
-    batchesService.nutrients.subscribe((nutrients) => {
+    this.batchesService.nutrients.subscribe((nutrients) => {
       this.nutrients = nutrients;
     });
-    batchesService.rooms.subscribe((rooms) => {
+    this.batchesService.rooms.subscribe((rooms) => {
       this.rooms = rooms;
     });
   }
-
-  ngOnInit(): void {}
 }

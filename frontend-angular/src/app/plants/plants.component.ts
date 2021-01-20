@@ -12,7 +12,7 @@ export class PlantsComponent implements OnInit {
   createPlantForm: FormGroup;
 
   constructor(
-    private plantsService: PlantsService,
+    public plantsService: PlantsService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
     plantsService.updatePlantsData();

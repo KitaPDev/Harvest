@@ -1,27 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from "../../../../_models/user.model";
-import { UsersService } from "../../../../_services/users.service";
-import { ChangePasswordDialogService } from "../../../../_services/dialogs/change-password-dialog.service";
-import { ConfirmationDialogService } from "../../../../_services/dialogs/confirmation-dialog.service";
+import { User } from '../../../../_models/user.model';
+import { UsersService } from '../../../../_services/users.service';
+import { ChangePasswordDialogService } from '../../../../_services/dialogs/change-password-dialog.service';
+import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
 
 @Component({
   selector: 'app-users-item',
   templateUrl: './users-item.component.html',
-  styleUrls: ['./users-item.component.css']
+  styleUrls: ['./users-item.component.css'],
 })
 export class UsersItemComponent implements OnInit {
   @Input() user: User;
   @Input() index: number;
+  @Input() usersService: UsersService;
 
-  constructor(private userService: UsersService,
-              private changePasswordDialogService: ChangePasswordDialogService,
-              private confirmationDialogService: ConfirmationDialogService) { }
+  constructor(
+    private changePasswordDialogService: ChangePasswordDialogService,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleAdmin() {
-    this.userService.toggleAdmin(this.index)
+    this.usersService.toggleAdmin(this.index);
   }
 
   onChangePassword() {
@@ -29,14 +30,12 @@ export class UsersItemComponent implements OnInit {
   }
 
   onDeleteUser() {
-    this.confirmationDialogService.confirm(
-      'Confirm Delete User',
-      'username: ' + this.user.username,
-    ).then((confirmed) => {
-        if(confirmed) {
-          this.userService.deleteUser(this.index);
+    this.confirmationDialogService
+      .confirm('Confirm Delete User', 'username: ' + this.user.username)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.usersService.deleteUser(this.index);
         }
-      }
-    );
+      });
   }
 }

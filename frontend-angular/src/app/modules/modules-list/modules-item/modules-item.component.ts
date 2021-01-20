@@ -14,6 +14,7 @@ import { Room } from '../../../../_models/room.model';
 export class ModulesItemComponent implements OnInit {
   @Input() module: Module;
   @Input() index: number;
+  @Input() modulesService: ModulesService;
 
   rooms: Room[] = [];
   reservoirs: Reservoir[] = [];
@@ -22,7 +23,6 @@ export class ModulesItemComponent implements OnInit {
   reservoir: Reservoir = new Reservoir();
 
   constructor(
-    private modulesService: ModulesService,
     private editModuleDialogService: EditModuleDialogService,
     private confirmationDialogService: ConfirmationDialogService
   ) {}

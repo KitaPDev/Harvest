@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Reservoir } from '../../../_models/reservoir.model';
 import { Room } from '../../../_models/room.model';
 import { ModulesService } from '../../../_services/modules.service';
@@ -10,11 +10,13 @@ import { Module } from '../../../_models/module.model';
   styleUrls: ['./modules-list.component.css'],
 })
 export class ModulesListComponent implements OnInit {
+  @Input() modulesService: ModulesService;
+
   modules: Module[] = [];
   rooms: Room[] = [];
   reservoirs: Reservoir[];
 
-  constructor(private modulesService: ModulesService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.modulesService.modules.subscribe((modules: Module[]) => {

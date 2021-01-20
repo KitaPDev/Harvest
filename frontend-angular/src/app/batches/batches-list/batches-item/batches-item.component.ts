@@ -22,11 +22,11 @@ export class BatchesItemComponent implements OnInit {
   @Input() reservoirs: Reservoir[] = [];
   @Input() nutrients: Nutrient[] = [];
   @Input() rooms: Room[] = [];
+  @Input() batchesService: BatchesService;
 
   plant: Plant;
 
   constructor(
-    private batchesService: BatchesService,
     private editBatchDialogService: EditBatchDialogService,
     private confirmationDialogService: ConfirmationDialogService,
     private router: Router,

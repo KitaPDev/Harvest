@@ -14,7 +14,7 @@ export class NutrientsComponent implements OnInit {
   nutrientTypes: string[];
 
   constructor(
-    private nutrientsService: NutrientsService,
+    public nutrientsService: NutrientsService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
     nutrientsService.updateNutrientsData();

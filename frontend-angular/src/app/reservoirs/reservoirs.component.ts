@@ -15,7 +15,7 @@ export class ReservoirsComponent implements OnInit {
   selectedNutrients: Nutrient[] = [];
 
   constructor(
-    private reservoirsService: ReservoirsService,
+    public reservoirsService: ReservoirsService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
     reservoirsService.updateReservoirsData();

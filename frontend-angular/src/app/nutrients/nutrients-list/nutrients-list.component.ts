@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Nutrient } from '../../../_models/nutrient.model';
 import { NutrientsService } from '../../../_services/nutrients.service';
 
@@ -8,9 +8,11 @@ import { NutrientsService } from '../../../_services/nutrients.service';
   styleUrls: ['./nutrients-list.component.css'],
 })
 export class NutrientsListComponent implements OnInit {
+  @Input() nutrientsService: NutrientsService;
+
   nutrients: Nutrient[];
 
-  constructor(private nutrientsService: NutrientsService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.nutrientsService.nutrients.subscribe((nutrients: Nutrient[]) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Reservoir } from '../../../_models/reservoir.model';
 import { ReservoirsService } from '../../../_services/reservoirs.service';
 import { Nutrient } from '../../../_models/nutrient.model';
@@ -9,10 +9,12 @@ import { Nutrient } from '../../../_models/nutrient.model';
   styleUrls: ['./reservoirs-list.component.css'],
 })
 export class ReservoirsListComponent implements OnInit {
+  @Input() reservoirsService: ReservoirsService;
+
   reservoirs: Reservoir[] = [];
   nutrients: Nutrient[] = [];
 
-  constructor(private reservoirsService: ReservoirsService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.reservoirsService.reservoirs.subscribe((reservoirs: Reservoir[]) => {

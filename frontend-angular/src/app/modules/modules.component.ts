@@ -16,7 +16,7 @@ export class ModulesComponent implements OnInit {
   reservoirs: Reservoir[] = [];
 
   constructor(
-    private modulesService: ModulesService,
+    public modulesService: ModulesService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
     modulesService.updateModulesData();
