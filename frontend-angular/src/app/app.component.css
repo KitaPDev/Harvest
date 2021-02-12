@@ -1,0 +1,10 @@
+:host {
+  --clr-green: #3d998a;
+  --clr-grey: #f8f9fb;
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+  --transition: all 0.3s linear;
+  --box-shadow: 1px 1px 3px var(--clr-black);
+  --nav-shadow: 0 1px 10px var(--clr-black);
+}
+
