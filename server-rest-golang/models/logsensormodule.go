@@ -8,5 +8,4 @@ type LogSensorModuleLevel struct {
 	Level       int       `json:"level"`
 	Temperature float64   `json:"temperature"`
 	Humidity    float64   `json:"humidity"`
-	Lux         float64   `json:"lux"`
 }

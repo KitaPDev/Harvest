@@ -7,44 +7,6 @@ import (
 	"strconv"
 )
 
-func InitializeModule(moduleID int, remoteAddr string) (float64, float64, float64, float64, float64, float64, error) {
-	db := database.GetDB()
-
-	sqlStatement := `UPDATE module SET address = $2 WHERE module_id = $1;`
-
-	_, err := db.Query(sqlStatement, moduleID, remoteAddr)
-	if err != nil {
-		return 0, 0, 0, 0, 0, 0, err
-	}
-
-	sqlStatement = `SELECT pressure_lower_limit, pressure_upper_limit, lights_off_hour, lights_on_hour, misting_off_second,
-				misting_on_second FROM module WHERE module_id = $1;`
-
-	rows, err := db.Query(sqlStatement, moduleID)
-	if err != nil {
-		return 0, 0, 0, 0, 0, 0, err
-	}
-
-	var pressureLowerLimit, pressureUpperLimit, lightsOffHour, lightsOnHour, mistingOffSecond, mistingOnSecond float64
-
-	defer rows.Close()
-	for rows.Next() {
-		err = rows.Scan(
-			&pressureLowerLimit,
-			&pressureUpperLimit,
-			&lightsOffHour,
-			&lightsOnHour,
-			&mistingOffSecond,
-			&mistingOnSecond,
-		)
-		if err != nil {
-			return 0, 0, 0, 0, 0, 0, err
-		}
-	}
-
-	return pressureLowerLimit, pressureUpperLimit, lightsOffHour, lightsOnHour, mistingOffSecond, mistingOnSecond, nil
-}
-
 func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
 	db := database.GetDB()
 
@@ -53,7 +15,7 @@ func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
 
 	for i, log := range logs {
 		sqlStatement = sqlStatement + `(NOW(), ` + strconv.Itoa(log.ModuleID) + `,` + strconv.Itoa(log.Level) + `,` + util.FloatToString(log.Temperature) +
-			`,` + util.FloatToString(log.Humidity) + `,` + util.FloatToString(log.Lux) + `)`
+			`,` + util.FloatToString(log.Humidity) + `)`
 
 		if i < len(logs)-1 {
 			sqlStatement = sqlStatement + `, `
