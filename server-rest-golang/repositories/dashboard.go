@@ -16,7 +16,7 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 	roomLogs := make([]models.LogSensorRoom, 0)
 
 	sqlStatement :=
-		`SELECT DISTINCT ON (module_id, level) logged_at, module_id, level, temperature, humidity, lux
+		`SELECT DISTINCT ON (module_id, level) logged_at, module_id, level, temperature_root, humidity_root, lux
 		FROM log_sensor_module
 		ORDER BY module_id, level, logged_at DESC;`
 
@@ -33,8 +33,8 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 			&moduleLevelLog.LoggedAt,
 			&moduleLevelLog.ModuleID,
 			&moduleLevelLog.Level,
-			&moduleLevelLog.Temperature,
-			&moduleLevelLog.Humidity,
+			&moduleLevelLog.TemperatureRoot,
+			&moduleLevelLog.HumidityRoot,
 			&moduleLevelLog.Lux,
 		)
 		if err != nil {
@@ -107,7 +107,7 @@ func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) (
 
 	db := database.GetDB()
 
-	sqlStatement := `SELECT logged_at, module_id, level, temperature, humidity, lux
+	sqlStatement := `SELECT logged_at, module_id, level, temperature_root, humidity_root, lux
 			FROM log_sensor_module 
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2;`
@@ -127,8 +127,8 @@ func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) (
 			&logSensorModuleLevel.LoggedAt,
 			&logSensorModuleLevel.ModuleID,
 			&logSensorModuleLevel.Level,
-			&logSensorModuleLevel.Temperature,
-			&logSensorModuleLevel.Humidity,
+			&logSensorModuleLevel.TemperatureRoot,
+			&logSensorModuleLevel.HumidityRoot,
 			&logSensorModuleLevel.Lux,
 		)
 		if err != nil {

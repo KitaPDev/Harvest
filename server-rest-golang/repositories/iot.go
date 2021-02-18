@@ -10,12 +10,12 @@ import (
 func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
 	db := database.GetDB()
 
-	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature, humidity, lux)
+	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature_root, humidity_root, lux)
 					VALUES `
 
 	for i, log := range logs {
-		sqlStatement = sqlStatement + `(NOW(), ` + strconv.Itoa(log.ModuleID) + `,` + strconv.Itoa(log.Level) + `,` + util.FloatToString(log.Temperature) +
-			`,` + util.FloatToString(log.Humidity) + `)`
+		sqlStatement = sqlStatement + `(NOW(), ` + strconv.Itoa(log.ModuleID) + `,` + strconv.Itoa(log.Level) + `,` + util.FloatToString(log.TemperatureRoot) +
+			`,` + util.FloatToString(log.HumidityRoot) + `)`
 
 		if i < len(logs)-1 {
 			sqlStatement = sqlStatement + `, `
