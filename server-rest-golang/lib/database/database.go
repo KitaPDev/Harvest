@@ -13,7 +13,7 @@ const (
 	HOST = "localhost"
 	PORT = 5432
 	USER = "admin"
-	PASS = "admin"
+	PASS = "modernfarms"
 	NAME = "modernfarms"
 	SSL  = "disable"
 )

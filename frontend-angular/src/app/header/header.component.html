@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-md navbar-dark" *ngIf="isNavbarVisible">
-  <a class="navbar-brand" routerLink="/home">ModernFarms</a>
+<nav class="navbar" *ngIf="isNavbarVisible">
+  <a class="brand-title" routerLink="/home">ModernFarms</a>
 
-  <button
+  <!-- <button
     class="navbar-toggler"
     type="button"
     [attr.aria-expanded]="isToggleExpanded"
@@ -13,45 +13,48 @@
   <div
     class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2"
     [ngClass]="{ 'show': isToggleExpanded }"
-  >
-    <ul class="navbar-nav mr-auto">
+  > -->
+  <div class="navbar-links">
+    <ul>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/home" routerLinkActive="active">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/batches" routerLinkActive="active">Batches</a>
+        <a routerLink="/batches" routerLinkActive="active">Batches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/plants" routerLinkActive="active">Plants</a>
+        <a routerLink="/plants" routerLinkActive="active">Plants</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/nutrients" routerLinkActive="active">Nutrients</a>
+        <a routerLink="/nutrients" routerLinkActive="active">Nutrients</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/reservoirs" routerLinkActive="active">Reservoirs</a>
+        <a routerLink="/reservoirs" routerLinkActive="active">Reservoirs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/rooms" routerLinkActive="active">Rooms</a>
+        <a routerLink="/rooms" routerLinkActive="active">Rooms</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/modules" routerLinkActive="active">Modules</a>
+        <a routerLink="/modules" routerLinkActive="active">Modules</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+        <a routerLink="/users" routerLinkActive="active">Users</a>
       </li>
     </ul>
-  </div>
+    </div>
+  <!-- </div> -->
 
-  <div
+  <!-- <div
     class="collapse navbar-collapse order-2"
     [ngClass]="{ 'show': isToggleExpanded }"
-  >
-    <ul class="navbar-nav ml-auto">
+  > -->
+  <div class="navbar-links">
+    <ul>
       <li class="nav-item">
         <a class="nav-link"
-           style="cursor: pointer;"
-           (click)="onLogout()">Logout</a>
+          (click)="onLogout()">Logout</a>
       </li>
     </ul>
-  </div>
+    </div>
+  <!-- </div> -->
 </nav>
