@@ -3,9 +3,13 @@
   --clr-grey: #f8f9fb;
   --clr-black: #000000;
   --clr-white: #ffffff;
+  --clr-red: #dd3545;
+  --clr-blue: #037aff;
+  --clr-border: #a9a9a9;
   --transition: all 0.3s linear;
   --box-shadow: 1px 1px 3px var(--clr-black);
   --nav-shadow: 0 1px 10px var(--clr-black);
+  background: var(--clr-grey);
 }
 
 /* ใส่ btn และ btn:hover ของ edit/delete/create */
