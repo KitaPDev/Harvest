@@ -40,8 +40,9 @@ float getTDS() {
 
 float getPH() {
   int measurements = 0;
-  int samples = 10;
+  int maxSample = 10;
   float adcResolution = 4096.0;
+  
   
   for (int i = 0; i < maxSample; i++) {
     measurements += analogRead(PIN_PH);
@@ -49,7 +50,7 @@ float getPH() {
   }
   
   float voltage = 5 / adcResolution * measurements/maxSample;
-  float pH = 7 + ((2.5 - voltage) / 0.18)
+  float pH = 7 + ((2.5 - voltage) / 0.18);
   Serial.print("pH = ");
   Serial.println(pH);
 }
@@ -57,20 +58,24 @@ float getPH() {
 float getRootTemperature(int level) {
   float temperature = 0;
   
-  switch(int) {
+  switch(level) {
     case 1:
-      DHT dht(PIN_DHT22_1, DHT22);
-      dht.begin();
-      temperature = dht.readTemperature();
+      {
+        DHT dht(PIN_DHT22_1, DHT22);
+        dht.begin();
+        temperature = dht.readTemperature(); 
+      }
       break;
     case 2:
-      DHT dht(PIN_DHT22_2, DHT22);
-      dht.begin();
-      temperature = dht.readTemperature();
+      {
+        DHT dht(PIN_DHT22_2, DHT22);
+        dht.begin();
+        temperature = dht.readTemperature();
+      }
       break;
   }
 
-  Serial.print("Temperature = ");
+  Serial.print("Root Temperature = ");
   Serial.print(temperature);
   Serial.println(" Celsius");
   
@@ -80,20 +85,24 @@ float getRootTemperature(int level) {
 float getRootHumidity(int level) {
   float humidity = 0;
   
-  switch(int) {
+  switch(level) {
     case 1:
-      DHT dht(PIN_DHT22_1, DHT22);
-      dht.begin();
-      humidity = dht.readHumidity();
+      {
+        DHT dht(PIN_DHT22_1, DHT22);
+        dht.begin();
+        humidity = dht.readHumidity();
+      }
       break;
     case 2:
-      DHT dht(PIN_DHT22_2, DHT22);
-      dht.begin();
-      humidity = dht.readHumidity();
+      {
+        DHT dht(PIN_DHT22_2, DHT22);
+        dht.begin();
+        humidity = dht.readHumidity();
+      }
       break;
   }
 
-  Serial.print("Humidity = ");
+  Serial.print("Root Humidity = ");
   Serial.print(humidity);
   Serial.println(" %");
 
@@ -103,9 +112,9 @@ float getRootHumidity(int level) {
 float getRoomTemperature() {
   DHT dht(PIN_DHT11, DHT11);
   dht.begin();
-  temperature = dht.readTemperature();
+  float temperature = dht.readTemperature();
 
-  Serial.print("Temperature = ");
+  Serial.print("Room Temperature = ");
   Serial.print(temperature);
   Serial.println(" Celsius");
   
@@ -115,9 +124,9 @@ float getRoomTemperature() {
 float getRoomHumidity() {
   DHT dht(PIN_DHT11, DHT11);
   dht.begin();
-  humidity = dht.readHumidity();
+  float humidity = dht.readHumidity();
 
-  Serial.print("Humidity = ");
+  Serial.print("Room Humidity = ");
   Serial.print(humidity);
   Serial.println(" %");
   

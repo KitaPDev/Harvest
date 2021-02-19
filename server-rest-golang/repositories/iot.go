@@ -10,7 +10,7 @@ import (
 func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
 	db := database.GetDB()
 
-	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature_root, humidity_root, lux)
+	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature_root, humidity_root)
 					VALUES `
 
 	for i, log := range logs {

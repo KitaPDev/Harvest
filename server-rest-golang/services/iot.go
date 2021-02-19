@@ -5,10 +5,6 @@ import (
 	"github.com/Modern-Farms/server-rest-golang/repositories"
 )
 
-func InitializeModule(moduleID int, remoteAddr string) (float64, float64, float64, float64, float64, float64, error) {
-	return repositories.InitializeModule(moduleID, remoteAddr)
-}
-
 func UpdateModuleLevelSensor(logs []models.LogSensorModuleLevel) error {
 	modules, err := repositories.GetAllModules()
 	if err != nil {
