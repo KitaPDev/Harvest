@@ -1,11 +1,14 @@
-<div class="container-fluid">
-  <div class="row font-weight-bold text-center border-bottom">
-    <div class="col-sm-10 my-auto">
+<div>
+  <div class="container">
+
+    <div class="cell">
       Label
     </div>
-    <div class="col-sm-2 my-auto">
-    </div>
+
+    <div class="cell"></div>
+
   </div>
+  <hr>
   <app-rooms-item
     *ngFor="let room of rooms; let i = index"
     [room]="room"

@@ -71,6 +71,11 @@
   transition: all 0.2s linear;
 }
 
+.input {
+  font-family: Quicksand_Regular;
+  letter-spacing: 0.2px;
+}
+
 .addedNutrient {
   margin-top: 1rem;
 }
