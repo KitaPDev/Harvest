@@ -1,0 +1,133 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
+.label {
+  text-transform: capitalize;
+  font-size: 1.25rem;
+  font-family: Quicksand_Bold;
+  margin-right: 2rem;
+}
+
+.input-1 {
+  box-sizing: border-box;
+  width: 18rem;
+  height: 2.25rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 0.25rem;
+}
+.input-2 {
+  box-sizing: border-box;
+  width: 5rem;
+  height: 2.25rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"] {
+  font-family: Quicksand_Regular;
+  font-size: 1rem;
+  padding-left: 0.75rem;
+  letter-spacing: 0.2px;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: var(--clr-white);
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: var(--box-shadow);
+  border-radius: 1rem;
+}
+
+.btn-create {
+  font-size: 1.25rem;
+  padding: 0.5rem 3rem;
+  background-color: var(--clr-green);
+}
+
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}
+
+.container {
+  display: grid;
+  width: 1280px;
+  grid-template-areas:
+    "a a"
+    "b c"
+    "d e"
+    "f g"
+    "h i"
+    "j k"
+    "l l";
+  gap: 2rem 10rem;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell {
+  margin-left: 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell-1 {
+  grid-area: a;
+  justify-self: start;
+}
+.cell-2 {
+  grid-area: b;
+}
+.cell-3 {
+  grid-area: c;
+}
+.cell-4 {
+  grid-area: d;
+}
+.cell-5 {
+  grid-area: e;
+}
+.cell-6 {
+  grid-area: f;
+}
+.cell-7 {
+  grid-area: g;
+}
+.cell-8 {
+  grid-area: h;
+}
+.cell-9 {
+  grid-area: i;
+}
+.cell-10 {
+  grid-area: j;
+}
+.cell-11 {
+  grid-area: k;
+}
+.cell-12 {
+  grid-area: l;
+  justify-self: center;
+}
+
+hr {
+  width: 1280px;
+  opacity: 50%;
+  margin: 0 auto;
+  border: 0.3px solid grey;
+  display: block;
+}
+
+

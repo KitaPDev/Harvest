@@ -12,5 +12,11 @@
   background: var(--clr-grey);
 }
 
+.whole-page {
+  width: 100vw;
+  height: 100vh;
+  background: #f4f4f4;
+}
+
 /* ใส่ btn และ btn:hover ของ edit/delete/create */
 /* ul / a */

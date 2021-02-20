@@ -9,23 +9,22 @@
 }
 
 .container {
-    margin-top: 3rem;
-    margin-bottom: 2rem;
-    display: grid;
-    grid-template-areas: 
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-areas:
     "a"
     "b";
-    grid-row-gap: 2rem;
+  grid-row-gap: 2rem;
 }
 
 .cell-1 {
-    grid-area: a;
-    justify-self: center;
-    
+  grid-area: a;
+  justify-self: center;
 }
 .cell-2 {
-    grid-area: b;
-    justify-self: center;
+  grid-area: b;
+  justify-self: center;
 }
 .label {
   text-transform: capitalize;
@@ -73,8 +72,8 @@ input[type="text"] {
 
 hr {
   width: 1280px;
-  opacity: 100%;
+  opacity: 50%;
   margin: 0 auto;
-  color: var(--clr-black);
+  border: 0.3px solid grey;
   display: block;
 }

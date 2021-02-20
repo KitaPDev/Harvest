@@ -1,124 +1,133 @@
-<div class="container-fluid" style="margin-top: 30px">
+<div>
 
-  <form class="form-group"
+  <form class="form-group container"
         [formGroup]="createPlantForm">
-    <div class="row">
-      <div class="col-sm-4">
-        <label for="plantLabel">Label</label>
+    
+        <div class="cell cell-1">
+        <label for="plantLabel" class="label">Label</label>
         <input
           type="text"
-          class="form-control"
+          class="input-1"
           id="plantLabel"
           formControlName="plantLabel"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="tdsLow">TDS - Low (ppm)</label>
+        </div>
+    
+        <div class="cell cell-2">
+        <label for="tdsHigh" class="label">TDS - High (ppm)</label>
         <input
           type="number"
-          class="form-control"
-          id="tdsLow"
-          formControlName="tdsLow"
-        >
-      </div>
-      <div class="col-sm-2">
-        <label for="tdsHigh">TDS - High (ppm)</label>
-        <input
-          type="number"
-          class="form-control"
+          class="input-2"
           id="tdsHigh"
           formControlName="tdsHigh"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="phLow">pH - Low</label>
+        </div>
+    
+        <div class="cell cell-3">
+        <label for="tdsLow" class="label">TDS - Low (ppm)</label>
         <input
           type="number"
-          class="form-control"
-          id="phLow"
-          formControlName="phLow"
+          class="input-2"
+          id="tdsLow"
+          formControlName="tdsLow"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="phHigh">pH - High</label>
+        </div>
+        
+        <div class="cell cell-4">
+        <label for="phHigh" class="label">pH - High</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
           id="phHigh"
           formControlName="phHigh"
         >
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 10px;">
-      <div class="col-sm-2">
-        <label for="temperatureLow">Temperature - Low (Celsius)</label>
+        </div>
+        
+        <div class="cell cell-5">
+        <label for="phLow" class="label">pH - Low</label>
         <input
           type="number"
-          class="form-control"
-          id="temperatureLow"
-          formControlName="temperatureLow"
+          class="input-2"
+          id="phLow"
+          formControlName="phLow"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="temperatureHigh">Temperature - High (Celsius)</label>
+        </div>
+        
+        <div class="cell cell-6">
+        <label for="temperatureHigh" class="label">Temperature - High (Celsius)</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
           id="temperatureHigh"
           formControlName="temperatureHigh"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="lightsOnHour">Lights On (hour)</label>
+        </div>
+    
+    
+
+  
+        <div class="cell cell-7">
+        <label for="temperatureLow" class="label">Temperature - Low (Celsius)</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
+          id="temperatureLow"
+          formControlName="temperatureLow"
+        >
+        </div>
+    
+      
+        <div class="cell cell-8">
+        <label for="lightsOnHour" class="label">Lights On (hour)</label>
+        <input
+          type="number"
+          class="input-2"
           id="lightsOnHour"
           formControlName="lightsOnHour"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="lightsOffHour">Lights Off (hour)</label>
+        </div>
+    
+        <div class="cell cell-9">
+        <label for="lightsOffHour" class="label">Lights Off (hour)</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
           id="lightsOffHour"
           formControlName="lightsOffHour"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="mistingOnSecond">Misting On (second)</label>
+        </div>
+
+        <div class="cell cell-10">
+        <label for="mistingOnSecond" class="label">Misting On (second)</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
           id="mistingOnSecond"
           formControlName="mistingOnSecond"
         >
-      </div>
-      <div class="col-sm-2">
-        <label for="mistingOffSecond">Misting Off (second)</label>
+        </div>
+    
+        <div class="cell cell-11">
+        <label for="mistingOffSecond" class="label">Misting Off (second)</label>
         <input
           type="number"
-          class="form-control"
+          class="input-2"
           id="mistingOffSecond"
           formControlName="mistingOffSecond"
         >
-      </div>
-    </div>
+        </div>
+    
+  
 
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-12">
-        <div class="text-center">
+    
+        <div class="cell cell-12">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreatePlant()"
           >Create
           </button>
-        </div>
-      </div>
-    </div>
+          </div>
   </form>
 
 </div>

@@ -22,9 +22,10 @@
 }
 
 hr {
-    width: 1280px;
-    opacity: 100%;
-    margin: 0 auto;
-    color: var(--clr-black);
-    display: block;
+  width: 1280px;
+  opacity: 50%;
+  margin: 0 auto;
+  border: 0.3px solid grey;
+  display: block;
 }
+

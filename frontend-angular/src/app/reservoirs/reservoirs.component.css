@@ -105,31 +105,29 @@ input[type="text"] {
 .cell {
   margin-left: 3rem;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cell-1 {
   grid-area: a;
-  justify-content: center;
-  align-items: center;
 }
 
 .cell-2 {
   grid-area: b;
-  justify-content: flex-start;
-  align-items: center;
+  justify-self: flex-start;
+
 }
 
 .cell-3 {
   grid-area: c;
-  justify-content: center;
-  align-items: center;
 }
 
 hr {
   width: 1280px;
-  opacity: 100%;
+  opacity: 50%;
   margin: 0 auto;
-  color: var(--clr-black);
+  border: 0.3px solid grey;
   display: block;
 }
 
