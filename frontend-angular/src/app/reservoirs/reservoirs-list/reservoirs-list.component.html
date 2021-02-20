@@ -1,14 +1,15 @@
-<div class="container-fluid">
-  <div class="row font-weight-bold text-center border-bottom">
-    <div class="col-sm-4 my-auto">
+<div>
+  <div class="container">
+    <div class="cell">
       Label
     </div>
-    <div class="col-sm-6 my-auto">
+    <div class="cell">
       Nutrients
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
     </div>
   </div>
+  <hr>
   <app-reservoirs-item
     *ngFor="let reservoir of reservoirs; let i = index"
     [reservoir]="reservoir"

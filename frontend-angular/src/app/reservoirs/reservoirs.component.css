@@ -1,19 +1,18 @@
 .addedNutrient {
   background-color: #f2f2f2;
   padding: 10px;
-  margin-top: 10px;
+  margin-left: 10px;
   text-align: center;
   cursor: pointer;
+  font-family: Quicksand_Regular;
+  border-radius: 1rem;
+  background-color: var(--clr-grey);
 }
 
 .addedNutrient:hover {
-  background-color: lightgray;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+  background: var(--clr-red);
+  color: var(--clr-white);
+  transition: var(--transition);
 }
 
 @font-face {
@@ -73,22 +72,10 @@ input[type="text"] {
   border-radius: 1rem;
 }
 
-.btn-edit,
-.btn-delete {
-  font-size: 1.25rem;
-  padding: 0.3rem 1rem;
-}
-.btn-add {
+.btn-blue {
   background: var(--clr-blue);
   font-size: 1rem;
   padding: 0.3rem 1rem;
-}
-.btn-edit {
-  background: var(--clr-blue);
-}
-.btn-delete {
-  background: var(--clr-red);
-  margin-left: 0.75rem;
 }
 
 .btn-create {
@@ -103,19 +90,15 @@ input[type="text"] {
   transition: all 0.2s linear;
 }
 
-form.form-group {
-  text-align: center;
-}
 .container {
   display: grid;
+  width: 1280px;
   grid-template-areas:
     "a b"
     "c c";
   gap: 2rem 3rem;
   margin-top: 3rem;
   margin-bottom: 2rem;
-  margin-left: 17rem;
-  margin-right: 10rem;
   justify-content: center;
 }
 
@@ -123,9 +106,10 @@ form.form-group {
   margin-left: 3rem;
   display: flex;
 }
+
 .cell-1 {
   grid-area: a;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
@@ -142,9 +126,21 @@ form.form-group {
 }
 
 hr {
-  width: 80rem;
-  opacity: 50%;
+  width: 1280px;
+  opacity: 100%;
   margin: 0 auto;
   color: var(--clr-black);
   display: block;
+}
+
+@media screen and (max-width:1080px) {
+  .container {
+    grid-template-areas:
+    "a"
+    "b"
+    "c" ;
+  }
+  .cell-1 {
+    justify-content: flex-start;
+  }
 }
