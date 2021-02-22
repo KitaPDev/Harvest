@@ -50,3 +50,11 @@
   transform: translateY(-0.25rem);
   transition: all 0.2s linear;
 }
+
+.cell-1 {
+  justify-self: start;
+}
+
+.cell-2 {
+  justify-self: end;
+}

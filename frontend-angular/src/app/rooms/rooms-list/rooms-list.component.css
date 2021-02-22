@@ -29,3 +29,11 @@ hr {
   border: 0.3px solid grey;
   display: block;
 }
+
+.cell-1 {
+  justify-self: start;
+}
+
+.cell-2 {
+  justify-self: end;
+}

@@ -6,7 +6,7 @@
   cursor: pointer;
   font-family: Quicksand_Regular;
   border-radius: 1rem;
-  background-color: var(--clr-grey);
+  background-color: darkgray;
 }
 
 .addedNutrient:hover {

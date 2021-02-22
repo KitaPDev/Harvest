@@ -13,7 +13,7 @@
     display: grid;
     justify-content: center;
     width: 1280px;
-    grid-template-columns: 25% 8% 12% 10% 8% 8% 8% 24%;
+    grid-template-columns: 25% 8% 12% 10% 8% 8% 8% 21%;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -31,3 +31,10 @@ hr {
   display: block;
 }
 
+.cell-1 {
+  justify-self: start;
+}
+
+.cell-2 {
+  justify-self: end;
+}

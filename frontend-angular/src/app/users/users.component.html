@@ -1,38 +1,41 @@
   <form class="form-group container"
         [formGroup]="createUserForm">
     
-      <div class="cell cell-2">
-        <label for="username">Username</label>
+      <div class="cell cell-1">
+        <label for="username" class="label">Username</label>
         <input
           type="text"
-          class="form-control"
+          class="input-1"
           id="username"
           formControlName="username"
         >
       </div>
+
       <div class="cell cell-2">
-        <label for="password">Password</label>
+        <label for="password" class="label">Password</label>
         <input
           type="password"
-          class="form-control"
+          class="input-1"
           id="password"
           formControlName="password"
         >
       </div>
-  
+      
       <div class="cell cell-3">
-        <label class="form-check-inline" for="isAdmin">Is Admin</label>
+        <label class="label" for="isAdmin">Is Admin</label>
         <input
-          type="checkbox"
-          id="isAdmin"
-          formControlName="isAdmin"
+        type="checkbox"
+        id="isAdmin"
+        class="input-2"
+        formControlName="isAdmin"
         >
       </div>
+
       <div class="cell cell-4">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword" class="label">Confirm Password</label>
         <input
           type="password"
-          class="form-control"
+          class="input-1"
           id="confirmPassword"
           formControlName="confirmPassword"
         >
@@ -41,7 +44,7 @@
         <div class="cell cell-5">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreateUser()"
           >Create
           </button>

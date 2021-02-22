@@ -21,6 +21,14 @@
     font-size: 1.25rem;
 }
 
+.cell-1 {
+  justify-self: start;
+}
+
+.cell-2 {
+  justify-self: end;
+}
+
 hr {
   width: 1280px;
   opacity: 50%;
@@ -28,4 +36,3 @@ hr {
   border: 0.3px solid grey;
   display: block;
 }
-

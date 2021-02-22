@@ -126,6 +126,8 @@ select.select {
 }
 .cell-8 {
   grid-area: h;
+  display: flex;
+  justify-self: center;
 }
 hr {
   width: 1280px;

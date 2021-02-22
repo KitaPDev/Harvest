@@ -8,7 +8,7 @@
   <form class="form-group" [formGroup]="editBatchForm">
     <div class="row">
       <div class="col-sm-3">
-        <label class="control-label" for="batchLabel">Label</label>
+        <label class="label" for="batchLabel">Label</label>
         <input
           type="text"
           class="form-control"
@@ -17,7 +17,7 @@
         />
       </div>
       <div class="col-sm-3">
-        <label for="plantLabel">Plant</label>
+        <label for="plantLabel" class="label">Plant</label>
         <select
           id="plantLabel"
           class="form-control"
@@ -29,20 +29,20 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <label for="timeStampBegin">Begin</label>
+        <label for="timeStampBegin" class="label">Begin</label>
         <input
           id="timeStampBegin"
           type="datetime-local"
-          class="form-control"
+          class="form-control input-datetime"
           formControlName="timeStampBegin"
         />
       </div>
       <div class="col-sm-3">
-        <label for="timeStampEnd">End</label>
+        <label for="timeStampEnd" class="label">End</label>
         <input
           id="timeStampEnd"
           type="datetime-local"
-          class="form-control"
+          class="form-control input-datetime"
           formControlName="timeStampEnd"
         />
       </div>
@@ -51,68 +51,57 @@
     <div class="row" style="margin-top: 10px;">
       <div class="col-sm-1"></div>
       <div class="col-sm-2">
-        <label for="weight">Weight (kg)</label>
+        <label for="weight" class="label">Weight (kg)</label>
         <input
           type="number"
-          class="form-control"
+          class="form-control input-number"
           id="weight"
           formControlName="weight"
         />
       </div>
       <div class="col-sm-2">
-        <label for="lightsOnHour">Lights On Hour</label>
+        <label for="lightsOnHour" class="label">Lights On Hour</label>
         <input
           type="number"
-          class="form-control"
+          class="form-control input-number"
           id="lightsOnHour"
           formControlName="lightsOnHour"
         />
       </div>
       <div class="col-sm-2">
-        <label for="lightsOffHour">Lights Off Hour</label>
+        <label for="lightsOffHour" class="label">Lights Off Hour</label>
         <input
           type="number"
-          class="form-control"
+          class="form-control input-number"
           id="lightsOffHour"
           formControlName="lightsOffHour"
         />
       </div>
       <div class="col-sm-2">
-        <label for="mistingOnSecond">Misting On Second</label>
+        <label for="mistingOnSecond" class="label">Misting On Second</label>
         <input
           type="number"
-          class="form-control"
+          class="form-control input-number"
           id="mistingOnSecond"
           formControlName="mistingOnSecond"
         />
       </div>
       <div class="col-sm-2">
-        <label for="mistingOffSecond">Misting Off Second</label>
+        <label for="mistingOffSecond" class="label">Misting Off Second</label>
         <input
           type="number"
-          class="form-control"
+          class="form-control input-number"
           id="mistingOffSecond"
           formControlName="mistingOffSecond"
         />
       </div>
     </div>
-
-    <div class="row" style="margin-top: 10px;">
-      <div class="col-sm-12">
-        <label for="remarks">Remarks</label>
-        <textarea
-          type="text"
-          class="form-control"
-          id="remarks"
-          formControlName="remarks"
-        >
-        </textarea>
-      </div>
-    </div>
+    <!-- start -->
+    
 
     <div class="row" style="margin-top: 10px;">
       <div class="col-sm-2">
-        <label for="moduleLabel">Module</label>
+        <label for="moduleLabel" class="label">Module</label>
         <select
           id="moduleLabel"
           class="form-control"
@@ -130,7 +119,7 @@
         <div class="text-center">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-blue"
             (click)="onAddModule()"
           >
             Add
@@ -138,7 +127,7 @@
         </div>
       </div>
       <div class="col-sm-2">
-        <label for="roomLabel">Room</label>
+        <label for="roomLabel" class="label">Room</label>
         <select
           id="roomLabel"
           class="form-control"
@@ -154,7 +143,7 @@
         <div class="text-center">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-blue"
             (click)="onAddRoom()"
           >
             Add
@@ -162,7 +151,7 @@
         </div>
       </div>
       <div class="col-sm-2">
-        <label for="reservoirLabel">Reservoir</label>
+        <label for="reservoirLabel" class="label">Reservoir</label>
         <select
           id="reservoirLabel"
           class="form-control"
@@ -180,7 +169,7 @@
         <div class="text-center">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-blue"
             (click)="onAddReservoir()"
           >
             Add
@@ -188,7 +177,7 @@
         </div>
       </div>
       <div class="col-sm-2">
-        <label for="nutrientLabel">Nutrient</label>
+        <label for="nutrientLabel" class="label">Nutrient</label>
         <select
           id="nutrientLabel"
           class="form-control"
@@ -206,7 +195,7 @@
         <div class="text-center">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-blue"
             (click)="onAddNutrient()"
           >
             Add
@@ -259,13 +248,22 @@
         </div>
       </div>
     </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-sm-12">
+        <label for="remarks" class="label">Remarks</label>
+        <textarea type="text" class="form-control input-remark" id="remarks" formControlName="remarks">
+            </textarea>
+      </div>
+    </div>
+
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="cancel()">
+  <button type="button" class="btn btn-red" (click)="cancel()">
     Cancel
   </button>
-  <button type="button" class="btn btn-primary" (click)="onSubmitEditBatch()">
+  <button type="button" class="btn btn-blue" (click)="onSubmitEditBatch()">
     Submit
   </button>
 </div>

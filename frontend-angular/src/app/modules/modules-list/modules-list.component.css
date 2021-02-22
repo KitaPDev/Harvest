@@ -29,3 +29,10 @@ hr {
   display: block;
 }
 
+.cell-1 {
+  justify-self: start;
+}
+
+.cell-2 {
+  justify-self: end;
+}
