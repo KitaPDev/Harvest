@@ -24,16 +24,18 @@ export class ReservoirsItemComponent implements OnInit {
 
   ngOnInit(): void {
     for (let nutrient of this.nutrients) {
-      if (this.reservoir.nutrientIDs.includes(nutrient.nutrientID)) {
-        if (
-          this.nutrients.indexOf(nutrient) <
-          this.reservoir.nutrientIDs.length - 1
-        ) {
-          this.nutrientLabels =
-            this.nutrientLabels + ' ' + nutrient.nutrientLabel + ',';
-        } else {
-          this.nutrientLabels =
-            this.nutrientLabels + ' ' + nutrient.nutrientLabel;
+      if (this.reservoir.nutrientIDs != null) {
+        if (this.reservoir.nutrientIDs.includes(nutrient.nutrientID)) {
+          if (
+            this.nutrients.indexOf(nutrient) <
+            this.reservoir.nutrientIDs.length - 1
+          ) {
+            this.nutrientLabels =
+              this.nutrientLabels + ' ' + nutrient.nutrientLabel + ',';
+          } else {
+            this.nutrientLabels =
+              this.nutrientLabels + ' ' + nutrient.nutrientLabel;
+          }
         }
       }
     }
@@ -42,10 +44,12 @@ export class ReservoirsItemComponent implements OnInit {
   onEditReservoir() {
     let selectedNutrients: Nutrient[] = [];
 
-    for (let nutrientID of this.reservoir.nutrientIDs) {
-      for (let nutrient of this.nutrients) {
-        if (nutrient.nutrientID === nutrientID) {
-          selectedNutrients.push(nutrient);
+    if (this.reservoir.nutrientIDs != null) {
+      for (let nutrientID of this.reservoir.nutrientIDs) {
+        for (let nutrient of this.nutrients) {
+          if (nutrient.nutrientID === nutrientID) {
+            selectedNutrients.push(nutrient);
+          }
         }
       }
     }

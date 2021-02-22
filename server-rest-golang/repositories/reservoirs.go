@@ -128,21 +128,23 @@ func EditReservoir(reservoirID int, reservoirLabel string, nutrientIDs []int) er
 		return err
 	}
 
-	sqlStatement = `INSERT INTO reservoirs_nutrients (reservoir_id, nutrient_id) VALUES `
+	if len(nutrientIDs) > 0 {
+		sqlStatement = `INSERT INTO reservoirs_nutrients (reservoir_id, nutrient_id) VALUES `
 
-	for i, nutrientID := range nutrientIDs {
-		sqlStatement = sqlStatement + `(` + strconv.Itoa(reservoirID) + `,` + strconv.Itoa(nutrientID) + `)`
+		for i, nutrientID := range nutrientIDs {
+			sqlStatement = sqlStatement + `(` + strconv.Itoa(reservoirID) + `,` + strconv.Itoa(nutrientID) + `)`
 
-		if i < len(nutrientIDs)-1 {
-			sqlStatement = sqlStatement + `, `
+			if i < len(nutrientIDs)-1 {
+				sqlStatement = sqlStatement + `, `
+			}
 		}
-	}
 
-	sqlStatement = sqlStatement + `;`
+		sqlStatement = sqlStatement + `;`
 
-	_, err = db.Query(sqlStatement)
-	if err != nil {
-		return err
+		_, err = db.Query(sqlStatement)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
