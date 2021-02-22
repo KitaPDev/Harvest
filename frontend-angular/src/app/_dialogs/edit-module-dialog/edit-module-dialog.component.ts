@@ -76,12 +76,16 @@ export class EditModuleDialogComponent implements OnInit {
     for (let room of this.rooms) {
       if (room.roomLabel === roomLabel) {
         this.selectedRoom = room;
+      } else {
+        this.selectedRoom.roomID = 0;
       }
     }
 
     for (let reservoir of this.reservoirs) {
       if (reservoir.reservoirLabel === reservoirLabel) {
         this.selectedReservoir = reservoir;
+      } else {
+        this.selectedReservoir.reservoirID = 0;
       }
     }
 
