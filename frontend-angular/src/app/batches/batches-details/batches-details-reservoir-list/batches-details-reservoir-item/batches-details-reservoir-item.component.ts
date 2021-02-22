@@ -131,13 +131,13 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
   };
 
   // soln temp chart config
-  solnTempChartLabels = [];
-  solnTempChartDataSet = [
+  temperatureSolutionChartLabels = [];
+  temperatureSolutionChartDataSet = [
     {
       data: [],
     },
   ];
-  solnTempChartColors: Array<any> = [
+  temperatureSolutionChartColors: Array<any> = [
     {
       borderColor: '#3D998A',
       pointBackgroundColor: '#3D998A',
@@ -146,7 +146,7 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
       pointHoverBorderColor: '#3D998A',
     },
   ];
-  solnTempChartOptions = {
+  temperatureSolutionChartOptions = {
     title: {
       display: true,
       text: 'Solution Temperature',
@@ -223,12 +223,12 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
     this.pHChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
     this.pHChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-    this.solnTempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-    this.solnTempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+    this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+    this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
     this.tdsChartDataSet[0].data.length = 0;
     this.pHChartDataSet[0].data.length = 0;
-    this.solnTempChartDataSet[0].data.length = 0;
+    this.temperatureSolutionChartDataSet[0].data.length = 0;
 
     for (let log of this.logSensorReservoirs) {
       this.tdsChartDataSet[0].data.push({
@@ -239,9 +239,9 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
         x: new Date(log.loggedAt).valueOf(),
         y: log.ph,
       });
-      this.solnTempChartDataSet[0].data.push({
+      this.temperatureSolutionChartDataSet[0].data.push({
         x: new Date(log.loggedAt).valueOf(),
-        y: log.solnTemp,
+        y: log.temperatureSolution,
       });
     }
   }

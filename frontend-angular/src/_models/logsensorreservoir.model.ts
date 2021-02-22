@@ -3,6 +3,6 @@ export class LogSensorReservoir {
   reservoirID: number;
   tds: number;
   ph: number;
-  solnTemp: number;
+  temperatureSolution: number;
   solnLevel: number;
 }

@@ -320,7 +320,8 @@ export class BatchesService {
             fetchedLogSensorReservoir['reservoir_id'];
           logSensorReservoir.tds = fetchedLogSensorReservoir['tds'];
           logSensorReservoir.ph = fetchedLogSensorReservoir['ph'];
-          logSensorReservoir.solnTemp = fetchedLogSensorReservoir['soln_temp'];
+          logSensorReservoir.temperatureSolution =
+            fetchedLogSensorReservoir['soln_temp'];
           logSensorReservoir.solnLevel =
             fetchedLogSensorReservoir['soln_level'];
 

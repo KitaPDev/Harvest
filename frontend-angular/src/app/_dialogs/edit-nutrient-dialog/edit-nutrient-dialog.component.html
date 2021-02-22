@@ -25,8 +25,7 @@
           id="part"
           class="form-control"
           formControlName="part"
-          (change)="changePart($event)"
-          [ngModel]="part">
+          (change)="changePart($event)">
           <option disabled>Select Nutrient Part</option>
           <option *ngFor="let part of parts">{{ part }}</option>
         </select>
@@ -37,8 +36,7 @@
           id="nutrientType"
           class="form-control"
           formControlName="nutrientType"
-          (change)="changeNutrientType($event)"
-          [ngModel]="nutrientType">
+          (change)="changeNutrientType($event)">
           <option disabled>Select Nutrient Type</option>
           <option *ngFor="let nutrientType of nutrientTypes">{{ nutrientType }}</option>
         </select>
