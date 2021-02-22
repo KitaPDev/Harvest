@@ -26,6 +26,6 @@ func UpdateRoomSensor(roomID int, temperature float64, humidity float64) error {
 	return repositories.UpdateRoomSensor(roomID, temperature, humidity)
 }
 
-func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, solnTemp float64, solnLevel float64) error {
-	return repositories.UpdateReservoirSensor(reservoirID, tds, ph, solnTemp, solnLevel)
+func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, temperatureSolution float64, solnLevel float64) error {
+	return repositories.UpdateReservoirSensor(reservoirID, tds, ph, temperatureSolution, solnLevel)
 }

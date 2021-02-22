@@ -15,7 +15,7 @@ void initSensors() {
   gravityTds.begin();
 }
 
-float getSolutionTemperature() {
+float getTemperatureSolution() {
   dallasTemp.requestTemperatures();
   float solnTemp = dallasTemp.getTempCByIndex(0);
 
@@ -27,7 +27,7 @@ float getSolutionTemperature() {
 }
 
 float getTDS() {
-  gravityTds.setTemperature(getSolutionTemperature());
+  gravityTds.setTemperature(getTemperatureSolution());
   gravityTds.update();
   float tds = gravityTds.getTdsValue();
   
@@ -55,7 +55,7 @@ float getPH() {
   Serial.println(pH);
 }
 
-float getRootTemperature(int level) {
+float getTemperatureRoot(int level) {
   float temperature = 0;
   
   switch(level) {
@@ -82,7 +82,7 @@ float getRootTemperature(int level) {
   return temperature;
 }
 
-float getRootHumidity(int level) {
+float getHumidityRoot(int level) {
   float humidity = 0;
   
   switch(level) {

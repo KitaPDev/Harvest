@@ -7,14 +7,16 @@
 #define PIN_FAN_2 19
 #define PIN_SV_WATER 21
 #define PIN_SV_RESERVOIR 22
+#define PIN_SV_1 23
+#define PIN_SV_2 25
 
 // sensors
-#define PIN_DHT11 23
-#define PIN_DHT22_1 25
-#define PIN_DHT22_2 26
-#define PIN_US_TRIG 27
-#define PIN_US_ECHO 32
-#define PIN_SOLNTEMP 33
+#define PIN_DHT11 26
+#define PIN_DHT22_1 27
+#define PIN_DHT22_2 32
+#define PIN_US_TRIG 33
+#define PIN_US_ECHO 13
+#define PIN_SOLNTEMP 14
 #define PIN_PH 34
 #define PIN_TDS 35
 

@@ -44,7 +44,7 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 	}
 
 	sqlStatement =
-		`SELECT DISTINCT ON (reservoir_id) logged_at, reservoir_id, tds, soln_temp, soln_level
+		`SELECT DISTINCT ON (reservoir_id) logged_at, reservoir_id, tds, temperature_solution, soln_level
 		FROM log_sensor_reservoir
 		ORDER BY reservoir_id, logged_at DESC;`
 
@@ -61,7 +61,7 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 			&reservoirLog.LoggedAt,
 			&reservoirLog.ReservoirID,
 			&reservoirLog.TDS,
-			&reservoirLog.SolnTemp,
+			&reservoirLog.TemperatureSolution,
 			&reservoirLog.SolnLevel,
 		)
 		if err != nil {
@@ -136,7 +136,7 @@ func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) (
 		logSensorModuleLevels = append(logSensorModuleLevels, logSensorModuleLevel)
 	}
 
-	sqlStatement = `SELECT logged_at, reservoir_id, tds, soln_temp, soln_level, ph
+	sqlStatement = `SELECT logged_at, reservoir_id, tds, temperature_solution, soln_level, ph
 			FROM log_sensor_reservoir
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2;`
@@ -156,7 +156,7 @@ func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) (
 			&logSensorReservoir.LoggedAt,
 			&logSensorReservoir.ReservoirID,
 			&logSensorReservoir.TDS,
-			&logSensorReservoir.SolnTemp,
+			&logSensorReservoir.TemperatureSolution,
 			&logSensorReservoir.SolnLevel,
 			&logSensorReservoir.PH,
 		)

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var API_KEY string = "MODKJ2021"
+var APIKEY = "MODKJ2021"
 
 func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
@@ -20,7 +20,7 @@ func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromBody(w, r, &input)
 
-	if input.ApiKey == API_KEY {
+	if input.ApiKey == APIKEY {
 		err := services.UpdateModuleLevelSensor(input.LogSensorModuleLevels)
 		if err != nil {
 			msg := "Error: Failed to Update Module Sensor"
@@ -48,7 +48,7 @@ func UpdateRoomSensor(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromBody(w, r, &input)
 
-	if input.ApiKey == API_KEY {
+	if input.ApiKey == APIKEY {
 		err := services.UpdateRoomSensor(input.RoomID, input.Temperature, input.Humidity)
 		if err != nil {
 			msg := "Error: Failed to Update Room Sensor"
@@ -66,19 +66,19 @@ func UpdateRoomSensor(w http.ResponseWriter, r *http.Request) {
 
 func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
-		ApiKey      string  `json:"api_key"`
-		ReservoirID int     `json:"reservoir_id"`
-		TDS         float64 `json:"tds"`
-		PH          float64 `json:"ph"`
-		SolnTemp    float64 `json:"soln_temp"`
-		SolnLevel   float64 `json:"soln_level"`
+		ApiKey              string  `json:"api_key"`
+		ReservoirID         int     `json:"reservoir_id"`
+		TDS                 float64 `json:"tds"`
+		PH                  float64 `json:"ph"`
+		TemperatureSolution float64 `json:"temperature_solution"`
+		SolnLevel           float64 `json:"soln_level"`
 	}
 	input := Input{}
 
 	jsonhandler.DecodeJsonFromBody(w, r, &input)
 
-	if input.ApiKey == API_KEY {
-		err := services.UpdateReservoirSensor(input.ReservoirID, input.TDS, input.PH, input.SolnTemp, input.SolnLevel)
+	if input.ApiKey == APIKEY {
+		err := services.UpdateReservoirSensor(input.ReservoirID, input.TDS, input.PH, input.TemperatureSolution, input.SolnLevel)
 		if err != nil {
 			msg := "Error: Failed to Update Reservoir Sensor"
 			http.Error(w, msg, http.StatusInternalServerError)

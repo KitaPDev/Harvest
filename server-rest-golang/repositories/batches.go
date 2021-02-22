@@ -492,7 +492,7 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 	logSensorReservoirs := make([]models.LogSensorReservoir, 0)
 
 	for _, reservoirID := range reservoirIDs {
-		sqlStatement = `SELECT logged_at, reservoir_id, tds, soln_temp, soln_level, ph
+		sqlStatement = `SELECT logged_at, reservoir_id, tds, temperature_solution, soln_level, ph
 			FROM log_sensor_reservoir
 			WHERE reservoir_id = $1 
 			  AND logged_at >= $2 
@@ -511,7 +511,7 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 				&logSensorReservoir.LoggedAt,
 				&logSensorReservoir.ReservoirID,
 				&logSensorReservoir.TDS,
-				&logSensorReservoir.SolnTemp,
+				&logSensorReservoir.TemperatureSolution,
 				&logSensorReservoir.SolnLevel,
 				&logSensorReservoir.PH,
 			)

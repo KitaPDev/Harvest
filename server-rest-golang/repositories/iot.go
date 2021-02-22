@@ -45,13 +45,13 @@ func UpdateRoomSensor(roomID int, temperature float64, humidity float64) error {
 	return nil
 }
 
-func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, solnTemp float64, solnLevel float64) error {
+func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, temperatureSolution float64, solnLevel float64) error {
 	db := database.GetDB()
 
-	sqlStatement := `INSERT INTO log_sensor_reservoir (logged_at, reservoir_id, tds, ph, soln_temp, soln_level) 
+	sqlStatement := `INSERT INTO log_sensor_reservoir (logged_at, reservoir_id, tds, ph, temperature_solution, soln_level) 
 					VALUES (NOW(), $1, $2, $3, $4, $5);`
 
-	_, err := db.Query(sqlStatement, reservoirID, tds, ph, solnTemp, solnLevel)
+	_, err := db.Query(sqlStatement, reservoirID, tds, ph, temperatureSolution, solnLevel)
 	if err != nil {
 		return err
 	}
