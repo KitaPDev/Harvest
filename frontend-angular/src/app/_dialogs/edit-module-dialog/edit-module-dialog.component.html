@@ -11,7 +11,7 @@
   >
     <div class="row">
       <div class="col-sm-4">
-        <label for="moduleLabel">Module Label</label>
+        <label for="moduleLabel" class="label">Module Label</label>
         <input
           type="text"
           class="form-control"
@@ -20,7 +20,7 @@
         >
       </div>
       <div class="col-sm-2">
-        <label for="level">Level</label>
+        <label for="level" class="label">Level</label>
         <input
           type="number"
           min="0"
@@ -30,7 +30,7 @@
         >
       </div>
       <div class="col-sm-3">
-        <label for="room">Room</label>
+        <label for="room" class="label">Room</label>
         <select
           id="room"
           class="form-control"
@@ -42,7 +42,7 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <label for="reservoir">Reservoir</label>
+        <label for="reservoir" class="label">Reservoir</label>
         <select
           id="reservoir"
           class="form-control"
@@ -58,6 +58,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-red" (click)="cancel()">Cancel</button>
   <button type="button" class="btn btn-primary" (click)="onSubmitEditReservoir()">Submit</button>
 </div>

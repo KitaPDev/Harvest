@@ -79,7 +79,7 @@ input[type="number"] {
 
 .cell {
   margin-left: 3rem;
-  display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -129,5 +129,3 @@ hr {
   border: 0.3px solid grey;
   display: block;
 }
-
-

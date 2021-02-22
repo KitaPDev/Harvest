@@ -1,32 +1,32 @@
-<div class="container-fluid" style="margin-top: 30px">
-
-  <form class="form-group"
+  <form class="form-group container"
         [formGroup]="createModuleForm">
-    <div class="row">
-      <div class="col-sm-3">
-        <label for="moduleLabel">Label</label>
+    
+      <div class="cell cell-1">
+        <label for="moduleLabel" class="label">Label</label>
         <input
           type="text"
-          class="form-control"
+          class="input-1"
           id="moduleLabel"
           formControlName="moduleLabel"
         >
       </div>
-      <div class="col-sm-1">
-        <label for="level">Level</label>
+
+      <div class="cell cell-2">
+        <label for="level" class="label">Level</label>
         <input
           type="number"
           min="0"
-          class="form-control"
+          class="input-1 input-num"
           id="level"
           formControlName="level"
         >
       </div>
-      <div class="col-sm-4">
-        <label for="room">Room</label>
+
+      <div class="cell cell-3">
+        <label for="room" class="label">Room</label>
         <select
           id="room"
-          class="form-control"
+          class="select"
           formControlName="room"
           (change)="updateRoom($event)">
           <option disabled>Select Room</option>
@@ -34,11 +34,12 @@
           <option *ngFor="let room of rooms">{{ room.roomLabel }}</option>
         </select>
       </div>
-      <div class="col-sm-4">
-        <label for="room">Reservoir</label>
+
+      <div class="cell cell-4">
+        <label for="room" class="label">Reservoir</label>
         <select
           id="reservoir"
-          class="form-control"
+          class="select"
           formControlName="reservoir"
           (change)="updateReservoir($event)">
           <option disabled>Select Reservoir</option>
@@ -46,22 +47,16 @@
           <option *ngFor="let reservoir of reservoirs">{{ reservoir.reservoirLabel }}</option>
         </select>
       </div>
-    </div>
 
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-12">
-        <div class="text-center">
-          <button
+    <div class="cell cell-5">
+        <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreateModule()"
           >Create
           </button>
-        </div>
-      </div>
     </div>
   </form>
 
-</div>
 <hr>
 <app-modules-list [modulesService]="modulesService"></app-modules-list>

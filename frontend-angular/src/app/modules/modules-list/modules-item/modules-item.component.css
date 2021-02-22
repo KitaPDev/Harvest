@@ -1,0 +1,51 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    width: 1280px;
+    grid-template-columns: 20% 15% 20% 20% 25%;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.cell {
+    text-align: center;
+    font-family: Quicksand_Regular;
+    font-size: 1.25rem;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: var(--clr-white);
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: var(--box-shadow);
+  border-radius: 1rem;
+}
+
+.btn-blue,
+.btn-red {
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+}
+
+.btn-blue {
+  background: var(--clr-blue);
+}
+.btn-red {
+  background: var(--clr-red);
+  margin-left: 0.75rem;
+}
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}

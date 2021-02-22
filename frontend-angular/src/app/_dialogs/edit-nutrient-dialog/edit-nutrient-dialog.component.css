@@ -1,0 +1,68 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+.modal-header,
+.modal-body {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.modal-title {
+  font-family: Quicksand_Bold;
+  font-size: 1.25rem;
+  color: #000000;
+  margin: 0.25rem;
+  margin-left: 1rem;
+}
+
+.label {
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-family: Quicksand_Regular;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: #ffffff;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: 1px 1px 3px #000000;
+  border-radius: 1rem;
+}
+
+.btn-blue,
+.btn-red {
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+}
+
+.btn-blue {
+  background: #037aff;
+}
+.btn-red {
+  background: #dd3545;
+  margin-left: 0.75rem;
+}
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}
+
+.input {
+  font-family: Quicksand_Regular;
+  letter-spacing: 0.2px;
+}
+
+select:hover {
+  background-color: #e0e0e0;
+}
+select,
+input[type="text"] {
+  font-family: Quicksand_Regular;
+}

@@ -46,6 +46,10 @@ input[type="text"] {
   letter-spacing: 0.2px;
 }
 
+select.select {
+  padding-left: 0.5rem;
+}
+
 .select {
   box-sizing: border-box;
   background-color: var(--clr-white);
@@ -104,7 +108,6 @@ input[type="text"] {
 
 .cell {
   margin-left: 3rem;
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -116,11 +119,12 @@ input[type="text"] {
 .cell-2 {
   grid-area: b;
   justify-self: flex-start;
-
 }
 
 .cell-3 {
   grid-area: c;
+  display: flex;
+  justify-content: center;
 }
 
 hr {
@@ -131,12 +135,12 @@ hr {
   display: block;
 }
 
-@media screen and (max-width:1080px) {
+@media screen and (max-width: 1080px) {
   .container {
     grid-template-areas:
-    "a"
-    "b"
-    "c" ;
+      "a"
+      "b"
+      "c";
   }
   .cell-1 {
     justify-content: flex-start;
