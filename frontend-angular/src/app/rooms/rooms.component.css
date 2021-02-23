@@ -1,11 +1,11 @@
 @font-face {
   font-family: Quicksand_Regular;
-  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+  src: url("/assets/Quicksand/static/Quicksand-Regular.ttf");
 }
 
 @font-face {
   font-family: Quicksand_Bold;
-  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+  src: url("/assets/Quicksand/static/Quicksand-Bold.ttf");
 }
 
 .container {

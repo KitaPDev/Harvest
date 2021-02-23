@@ -3,8 +3,8 @@
     <div class="cell cell-1">
       {{ batch.batchLabel }}
     </div>
-    <div class="cell">
-      {{ plant.plantLabel }}
+    <div class="col-sm-2 my-auto">
+      {{ plant.plantID == 0 ? "-" : plant.plantLabel }}
     </div>
     <div class="cell">
       {{ batch.weight }}

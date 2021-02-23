@@ -90,8 +90,8 @@ export class EditBatchDialogComponent implements OnInit {
       roomLabel: new FormControl([], Validators.required),
       timeStampBegin: new FormControl(
         new Date(
-          this.batch.timeStampBegin.getTime() -
-            this.batch.timeStampBegin.getTimezoneOffset() * 60000
+          new Date(this.batch.timeStampBegin).getTime() -
+            new Date(this.batch.timeStampBegin).getTimezoneOffset() * 60000
         )
           .toISOString()
           .slice(0, 16),
@@ -99,8 +99,8 @@ export class EditBatchDialogComponent implements OnInit {
       ),
       timeStampEnd: new FormControl(
         new Date(
-          this.batch.timeStampEnd.getTime() -
-            this.batch.timeStampEnd.getTimezoneOffset() * 60000
+          new Date(this.batch.timeStampEnd).getTime() -
+            new Date(this.batch.timeStampEnd).getTimezoneOffset() * 60000
         )
           .toISOString()
           .slice(0, 16),

@@ -35,6 +35,10 @@ export class BatchesItemComponent implements OnInit {
 
   ngOnInit(): void {
     for (let plant of this.plants) {
+      if (this.batch.plantID == 0) {
+        this.plant = new Plant();
+      }
+
       if (plant.plantID === this.batch.plantID) {
         this.plant = plant;
       }
