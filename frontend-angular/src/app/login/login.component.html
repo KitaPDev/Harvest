@@ -1,52 +1,28 @@
-<div class="container" style="margin-top: 20px;">
-  <div class="row justify-content-center">
-    <div class="col-sm-6">
-
-      <form class="form-group" [formGroup]="loginForm">
-
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
+<div class="container-fluid section-signin">
+  <form class="form-group" [formGroup]="loginForm">
+        <h1 id="title">modern farm</h1>
+        <div class="inline-block">      
+              <label for="username" class="txt-signin">Username</label>
+              <input type="text"
                 id="username"
                 class="form-control"
                 formControlName="username"
               >
-            </div>
-          </div>
         </div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <label for="password">Password</label>
+        <div class="inline-block">
+              <label for="password" class="txt-signin">Password</label>
               <input
                 type="password"
                 id="password"
                 class="form-control"
                 formControlName="password"
               >
-            </div>
-          </div>
         </div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="text-center">
-              <button
-                class="btn btn-primary btn-block"
-                type="button"
-                (click)="onLogin()"
-              >Login
-              </button>
-            </div>
-          </div>
-        </div>
-
+          <button
+            class="btn-signin"
+            type="button"
+            (click)="onLogin()"
+            >sign in
+          </button>     
       </form>
-
-    </div>
-  </div>
 </div>

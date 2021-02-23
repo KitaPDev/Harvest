@@ -1,20 +1,21 @@
-<div class="container-fluid">
-  <div class="row font-weight-bold text-center border-bottom">
-    <div class="col-sm-3 my-auto">
+<div>
+  <div class="container">
+    <div class="cell cell-1">
       Label
     </div>
-    <div class="col-sm-1 my-auto">
+    <div class="cell">
       Level
     </div>
-    <div class="col-sm-3 my-auto">
+    <div class="cell">
       Room
     </div>
-    <div class="col-sm-3 my-auto">
+    <div class="cell">
       Reservoir
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell cell-2">
     </div>
   </div>
+  <hr>
   <app-modules-item
     *ngFor="let module of modules; let i = index"
     [module]="module"

@@ -1,8 +1,8 @@
-<div class="row text-center" style="margin-top: 10px;">
-  <div class="col-sm-4 my-auto">
+<div class="container">
+  <div class="cell cell-1">
     {{ user.username }}
   </div>
-  <div class="col-sm-2 my-auto">
+  <div class="cell">
     <label for="isAdmin"></label>
     <input
       type="checkbox"
@@ -11,17 +11,17 @@
       (click)="toggleAdmin()"
     >
   </div>
-  <div class="col-sm-3 my-auto">
+  <div class="cell">
     {{ user.createdAt | date: "dd-MM-yyyy HH:mm:SSS" }}
   </div>
-  <div class="col-sm-3 text-right">
+  <div class="cell cell-4">
     <button
-      class="btn btn-primary"
+      class="btn btn-blue"
       (click)="onChangePassword()"
     >Change Password
     </button>{{" "}}
     <button
-      class="btn btn-danger"
+      class="btn btn-red"
       (click)="onDeleteUser()"
     >Delete
     </button>

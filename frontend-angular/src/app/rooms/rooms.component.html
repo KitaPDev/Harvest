@@ -1,33 +1,26 @@
-<div class="container-fluid" style="margin-top: 30px">
-
+<div>
   <form class="form-group"
         [formGroup]="createRoomForm">
-    <div class="row">
-      <div class="col-sm-12">
-        <label for="roomLabel">Label</label>
+    <div class="container">
+      <div class="cell-1">
+        <label for="roomLabel" class="label">Label</label>
         <input
           type="text"
-          class="form-control"
+          class="input-1"
           id="roomLabel"
           formControlName="roomLabel"
         >
       </div>
-    </div>
-
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-12">
-        <div class="text-center">
+      <div class="cell-2">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreateRoom()"
           >Create
           </button>
-        </div>
-      </div>
+          </div>
     </div>
   </form>
-
 </div>
 <hr>
 <app-rooms-list [roomsService]="roomsService"></app-rooms-list>

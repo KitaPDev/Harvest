@@ -1,11 +1,100 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
 .addedNutrient {
   background-color: #f2f2f2;
   padding: 10px;
-  margin-top: 10px;
+  margin-left: 10px;
   text-align: center;
   cursor: pointer;
+  font-family: Quicksand_Regular;
+  border-radius: 1rem;
+  background-color: #f8f9fb;
 }
 
 .addedNutrient:hover {
-  background-color: lightgray;
+  background: #dd3545;
+  color: #ffffff;
+  transition: all 0.3s linear;
 }
+.modal-header,
+.modal-body {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.modal-title {
+  font-family: Quicksand_Bold;
+  font-size: 1.25rem;
+  color: #000000;
+  margin: 0.25rem;
+  margin-left: 1rem;
+}
+
+select:hover {
+  background-color: #e0e0e0;
+}
+select, input[type="text"]  {
+  font-family: Quicksand_Regular;
+}
+
+.label {
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-family: Quicksand_Regular;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: #ffffff;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: 1px 1px 3px #000000;
+  border-radius: 1rem;
+}
+
+.btn-blue,
+.btn-red {
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+}
+
+.btn-blue {
+  background: #037aff;
+}
+.btn-red {
+  background: #dd3545;
+  margin-left: 0.75rem;
+}
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}
+
+.input {
+  font-family: Quicksand_Regular;
+  letter-spacing: 0.2px;
+}
+
+.addedNutrient {
+  margin-top: 1rem;
+}
+
+/* --clr-green: #3d998a;
+  --clr-grey: #f8f9fb;
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+  --clr-red: #dd3545;
+  --clr-blue: #037aff;
+  --clr-border: #a9a9a9;
+  --transition: all 0.3s linear;
+  --box-shadow: 1px 1px 3px var(--clr-black);
+  --nav-shadow: 0 1px 10px var(--clr-black);
+  background: var(--clr-grey); */

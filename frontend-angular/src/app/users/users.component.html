@@ -1,62 +1,56 @@
-<div class="container-fluid" style="margin-top: 30px">
-
-  <form class="form-group"
+  <form class="form-group container"
         [formGroup]="createUserForm">
-    <div class="row">
-      <div class="col-sm-6">
-        <label for="username">Username</label>
+    
+      <div class="cell cell-1">
+        <label for="username" class="label">Username</label>
         <input
           type="text"
-          class="form-control"
+          class="input-1"
           id="username"
           formControlName="username"
         >
       </div>
-      <div class="col-sm-6">
-        <label for="password">Password</label>
+
+      <div class="cell cell-2">
+        <label for="password" class="label">Password</label>
         <input
           type="password"
-          class="form-control"
+          class="input-1"
           id="password"
           formControlName="password"
         >
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6 my-auto">
-        <label class="form-check-inline" for="isAdmin">Is Admin</label>
+      
+      <div class="cell cell-3">
+        <label class="label" for="isAdmin">Is Admin</label>
         <input
-          type="checkbox"
-          id="isAdmin"
-          formControlName="isAdmin"
+        type="checkbox"
+        id="isAdmin"
+        class="input-2"
+        formControlName="isAdmin"
         >
       </div>
-      <div class="col-sm-6">
-        <label for="confirmPassword">Confirm Password</label>
+
+      <div class="cell cell-4">
+        <label for="confirmPassword" class="label">Confirm Password</label>
         <input
           type="password"
-          class="form-control"
+          class="input-1"
           id="confirmPassword"
           formControlName="confirmPassword"
         >
       </div>
-    </div>
-
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-12">
-        <div class="text-center">
+    
+        <div class="cell cell-5">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreateUser()"
           >Create
           </button>
         </div>
-      </div>
-    </div>
+      
   </form>
 
-</div>
 <hr>
 <app-users-list [usersService]="usersService"></app-users-list>

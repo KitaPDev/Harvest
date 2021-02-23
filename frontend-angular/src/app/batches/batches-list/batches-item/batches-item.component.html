@@ -1,21 +1,21 @@
-<div class="row text-center" style="margin-top: 10px; cursor: pointer;" (click)="onClick()">
-    <div class="col-sm-2 my-auto">
+<div class="container" (click)="onClick()">
+    <div class="cell cell-1">
       {{ batch.batchLabel }}
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
       {{ plant.plantLabel }}
     </div>
-    <div class="col-sm-1 my-auto">
+    <div class="cell">
       {{ batch.weight }}
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
       {{ batch.timeStampBegin | date: "dd/MM/yyyy hh:mm" }}
     </div>
-    <div class="col-sm-3 my-auto">
+    <div class="cell">
       {{ batch.remarks }}
     </div>
-  <div class="col-sm-2 my-auto text-right">
-    <button class="btn btn-primary" (click)="onEditBatch($event)">Edit</button>{{" "}}
-    <button class="btn btn-danger" (click)="onDeleteBatch($event)">Delete</button>
+  <div class="cell cell-2">
+    <button class="btn btn-blue" (click)="onEditBatch($event)">Edit</button>{{" "}}
+    <button class="btn btn-red" (click)="onDeleteBatch($event)">Delete</button>
   </div>
 </div>
