@@ -7,11 +7,15 @@
   src: url(/Quicksand/static/Quicksand-Bold.ttf);
 }
 
+.container-1 {
+  display: flex;
+  justify-content: center;
+}
 .container {
     display: grid;
     justify-content: center;
     width: 1280px;
-    grid-template-columns: 15% 15% 10% 20% 20% 20%;
+    grid-template-columns: repeat(6, 1fr);
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -22,7 +26,7 @@
 }
 
 .cell-1 {
-  justify-self: start;
+  /* justify-self: start; */
 }
 
 
