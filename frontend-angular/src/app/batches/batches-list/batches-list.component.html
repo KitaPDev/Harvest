@@ -1,23 +1,24 @@
-<div class="container-fluid">
-  <div class="row font-weight-bold text-center border-bottom">
-    <div class="col-sm-2 my-auto">
+<div>
+  <div class="container">
+    <div class="cell cell-1">
       Label
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
       Plant
     </div>
-    <div class="col-sm-1 my-auto">
+    <div class="cell">
       Weight
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
       Begin
     </div>
-    <div class="col-sm-3 my-auto">
+    <div class="cell">
       Remarks
     </div>
-    <div class="col-sm-2 my-auto">
+    <div class="cell">
     </div>
   </div>
+  <hr>
   <app-batches-item
     *ngFor="let batch of batches; let i = index"
     [batch]="batch"

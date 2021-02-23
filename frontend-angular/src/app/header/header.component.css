@@ -1,3 +1,76 @@
+:root {
+  --clr-green: #3d998a;
+  --clr-grey: #f8f9fb;
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+  --clr-red: #dd3545;
+  --clr-blue: #037aff;
+  --transition: all 0.3s linear;
+  --box-shadow: 1px 1px 3px var(--clr-black);
+  --nav-shadow: 0 1px 10px var(--clr-black);
+  background: var(--clr-grey);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(../Quicksand/static/Quicksand-Regular.ttf);
+}
+
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(../Quicksand/static/Quicksand-Bold.ttf);
+}
+
 .navbar {
-  background-color: #3D998A;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.5rem 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--clr-green);
+  font-family: Quicksand_Bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  box-shadow: var(--nav-shadow);
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  color: var(--clr-white);
+  font-family: Quicksand_Bold;
+}
+
+.navbar-links ul {
+  margin: 0 2rem;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-links li {
+  list-style: none;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  padding: 1rem 0.8rem;
+  font-size: 1rem;
+  color: var(--clr-white);
+  opacity: 50%;
+  display: block;
+}
+
+.navbar-links li a:hover {
+  transition: var(--transition);
+  opacity: 100%;
+}
+
+.active {
+  opacity: 100%;
 }

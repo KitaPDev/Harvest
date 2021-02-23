@@ -1,95 +1,95 @@
-<div class="container-fluid" style="margin-top: 30px">
-
-  <form class="form-group"
+<form class="form-group container"
         [formGroup]="createNutrientForm">
-    <div class="row">
-      <div class="col-sm-6">
-        <label for="nutrientLabel">Label</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nutrientLabel"
-          formControlName="nutrientLabel"
-        >
-      </div>
-      <div class="col-sm-2">
-        <label for="part">Part</label>
-        <select
-          id="part"
-          class="form-control"
-          formControlName="part"
-          (change)="changePart($event)">
-          <option disabled>Select Nutrient Part</option>
-          <option>-</option>
-          <option *ngFor="let part of parts">{{ part }}</option>
-        </select>
-      </div>
-      <div class="col-sm-4">
-        <label for="nutrientType">Type</label>
-        <select
-          id="nutrientType"
-          class="form-control"
-          formControlName="nutrientType"
-          (change)="changeNutrientType($event)">
-          <option disabled>Select Nutrient Type</option>
-          <option>-</option>
-          <option *ngFor="let nutrientType of nutrientTypes">{{ nutrientType }}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 10px">
-      <div class="col-sm-3">
-        <label for="ccPerLiter">cc/liter</label>
-        <input
-          type="number"
-          min="0"
-          class="form-control"
-          id="ccPerLiter"
-          formControlName="ccPerLiter">
-      </div>
-      <div class="col-sm-3">
-        <label for="n">N</label>
-        <input
-          type="number"
-          min="0"
-          class="form-control"
-          id="n"
-          formControlName="n">
-      </div>
-      <div class="col-sm-3">
-        <label for="p">P</label>
-        <input
-          type="number"
-          min="0"
-          class="form-control"
-          id="p"
-          formControlName="p">
-      </div>
-      <div class="col-sm-3">
-        <label for="k">K</label>
-        <input
-          type="number"
-          min="0"
-          class="form-control"
-          id="k"
-          formControlName="k">
-      </div>
-    </div>
+      
+        <div class="cell cell-1">
+          <label for="nutrientLabel" class="label">Label</label>
+          <input
+            type="text"
+            class="input-1"
+            id="nutrientLabel"
+            formControlName="nutrientLabel"
+          >
+        </div>
 
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-12">
-        <div class="text-center">
+        <div class="cell cell-2">
+          <label for="part" class="label">Part</label>
+          <select
+            id="part"
+            class="select select-part"
+            formControlName="part"
+            (change)="changePart($event)">
+            <option disabled>Select Nutrient Part</option>
+            <option>-</option>
+            <option *ngFor="let part of parts">{{ part }}</option>
+          </select>
+        </div>
+
+        <div class="cell cell-3">
+          <label for="nutrientType" class="label">Type</label>
+          <select
+            id="nutrientType"
+            class="select select-type"
+            formControlName="nutrientType"
+            (change)="changeNutrientType($event)">
+            <option disabled>Select Nutrient Type</option>
+            <option>-</option>
+            <option *ngFor="let nutrientType of nutrientTypes">{{ nutrientType }}</option>
+          </select>
+        </div>
+    
+        <div class="cell cell-4">
+          <label for="ccPerLiter" class="label">cc/liter</label>
+          <input
+            type="number"
+            min="0"
+            class="input-1 input-cc"
+            id="ccPerLiter"
+            formControlName="ccPerLiter">
+        </div>
+
+        <div class="cell cell-5">
+          <label for="n" class="label">N</label>
+          <input
+            type="number"
+            min="0"
+            class="input-1 input-num"
+            id="n"
+            formControlName="n">
+        </div>
+
+        <div class="cell cell-6">
+          <label for="p" class="label">P</label>
+          <input
+            type="number"
+            min="0"
+            class="input-1 input-num"
+            id="p"
+            formControlName="p">
+        </div>
+
+        <div class="cell cell-7">
+          <label for="k" class="label">K</label>
+          <input
+            type="number"
+            min="0"
+            class="input-1 input-num"
+            id="k"
+            formControlName="k">
+        </div>
+
+        <div class="cell cell-8">
           <button
             type="button"
-            class="btn btn-primary btn-block"
+            class="btn btn-create"
             (click)="onSubmitCreateNutrient()"
           >Create
           </button>
         </div>
-      </div>
-    </div>
+      
   </form>
 
-</div>
+
+
 <hr>
+
 <app-nutrients-list [nutrientsService]="nutrientsService"></app-nutrients-list>

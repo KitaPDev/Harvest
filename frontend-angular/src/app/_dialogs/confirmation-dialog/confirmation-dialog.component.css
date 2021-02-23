@@ -1,0 +1,55 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
+.modal-header,
+.modal-body {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.modal-title {
+  font-family: Quicksand_Bold;
+  font-size: 1.25rem;
+  color: #000000;
+  margin: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.modal-body {
+  font-family: Quicksand_regular;
+  font-size: 1rem;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: #ffffff;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: 1px 1px 3px var(--clr-black);
+  border-radius: 1rem;
+}
+
+.btn-blue,
+.btn-red {
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+}
+
+.btn-blue {
+  background: #037aff;
+}
+.btn-red {
+  background: #dd3545;
+  margin-left: 0.75rem;
+}
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}

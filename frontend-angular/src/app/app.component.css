@@ -1,0 +1,22 @@
+:host {
+  --clr-green: #3d998a;
+  --clr-grey: #f8f9fb;
+  --clr-black: #000000;
+  --clr-white: #ffffff;
+  --clr-red: #dd3545;
+  --clr-blue: #037aff;
+  --clr-border: #a9a9a9;
+  --transition: all 0.3s linear;
+  --box-shadow: 1px 1px 3px var(--clr-black);
+  --nav-shadow: 0 1px 10px var(--clr-black);
+  background: var(--clr-grey);
+}
+
+.whole-page {
+  width: 100vw;
+  height: 100vh;
+  background: #f4f4f4;
+}
+
+/* ใส่ btn และ btn:hover ของ edit/delete/create */
+/* ul / a */

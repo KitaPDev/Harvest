@@ -1,11 +1,148 @@
 .addedNutrient {
   background-color: #f2f2f2;
   padding: 10px;
-  margin-top: 10px;
+  margin-left: 10px;
   text-align: center;
   cursor: pointer;
+  font-family: Quicksand_Regular;
+  border-radius: 1rem;
+  background-color: darkgray;
 }
 
 .addedNutrient:hover {
-  background-color: lightgray;
+  background: var(--clr-red);
+  color: var(--clr-white);
+  transition: var(--transition);
+}
+
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
+.label {
+  text-transform: capitalize;
+  font-size: 1.25rem;
+  font-family: Quicksand_Bold;
+  margin-right: 2rem;
+}
+
+.input-1 {
+  box-sizing: border-box;
+  width: 18rem;
+  height: 2.25rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 0.25rem;
+}
+
+input[type="text"] {
+  font-family: Quicksand_Regular;
+  font-size: 1rem;
+  padding-left: 0.75rem;
+  letter-spacing: 0.2px;
+}
+
+select.select {
+  padding-left: 0.5rem;
+}
+
+.select {
+  box-sizing: border-box;
+  background-color: var(--clr-white);
+  border: 1px solid var(--clr-border);
+  width: 18rem;
+  height: 2.25rem;
+  cursor: pointer;
+  font-family: Quicksand_Regular;
+  font-size: 1rem;
+  margin-right: 2rem;
+}
+
+.select:hover {
+  background-color: #e0e0e0;
+}
+
+.btn {
+  font-family: Quicksand_Bold;
+  color: var(--clr-white);
+  text-transform: capitalize;
+  cursor: pointer;
+  border-style: none;
+  box-shadow: var(--box-shadow);
+  border-radius: 1rem;
+}
+
+.btn-blue {
+  background: var(--clr-blue);
+  font-size: 1rem;
+  padding: 0.3rem 1rem;
+}
+
+.btn-create {
+  font-size: 1.25rem;
+  padding: 0.5rem 3rem;
+  background-color: var(--clr-green);
+}
+
+.btn:hover,
+.btn:focus {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
+}
+
+.container {
+  display: grid;
+  width: 1280px;
+  grid-template-areas:
+    "a b"
+    "c c";
+  gap: 2rem 3rem;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.cell {
+  margin-left: 3rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell-1 {
+  grid-area: a;
+}
+
+.cell-2 {
+  grid-area: b;
+  justify-self: flex-start;
+}
+
+.cell-3 {
+  grid-area: c;
+  display: flex;
+  justify-content: center;
+}
+
+hr {
+  width: 1280px;
+  opacity: 50%;
+  margin: 0 auto;
+  border: 0.3px solid grey;
+  display: block;
+}
+
+@media screen and (max-width: 1080px) {
+  .container {
+    grid-template-areas:
+      "a"
+      "b"
+      "c";
+  }
+  .cell-1 {
+    justify-content: flex-start;
+  }
 }

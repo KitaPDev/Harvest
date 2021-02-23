@@ -1,0 +1,42 @@
+@font-face {
+  font-family: Quicksand_Regular;
+  src: url(/Quicksand/static/Quicksand-Regular.ttf);
+}
+@font-face {
+  font-family: Quicksand_Bold;
+  src: url(/Quicksand/static/Quicksand-Bold.ttf);
+}
+
+.container {
+    
+    display: grid;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80rem;
+    grid-template-columns: 1fr 0.5fr 0.5fr 1fr 1fr 1fr 1fr;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.cell {
+    text-align: center;
+    font-family: Quicksand_Bold;
+    font-size: 1.25rem;
+}
+.cell-1 {
+    justify-self: start;
+}
+
+hr {
+  width: 1280px;
+  opacity: 50%;
+  margin: 0 auto;
+  border: 0.3px solid grey;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .cell-1 {
+    justify-self: center;
+  }
+}
