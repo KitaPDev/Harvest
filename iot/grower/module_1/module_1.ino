@@ -58,6 +58,17 @@ struct ManualSettings {
 };
 struct ManualSettings manualSettings;
 
+// TDS Sensor Variables
+#define sampleCount 30         // sum of sample point
+int voltageRef = 3.3;          // analog reference voltage(Volt) of the ADC
+int analogBuffer[30];          // store the analog value in the array, read from ADC
+int analogBufferTemp[30];
+int analogBufferIndex = 0;
+float averageVoltage = 0, tdsValue = 0;
+
+// pH Sensor Variables
+int phBufferIndex = 0;
+
 void setup() {
   Serial.begin(115200); 
   Serial.println("Module 1");
@@ -90,6 +101,7 @@ void setup() {
   server.begin();
 
   timer.every(2000, updateModuleSensor);
+  timer.every(40, updateTDSBuffer);
 }
 
 void loop() {
@@ -200,6 +212,9 @@ void loop() {
   }
   
   updateHardware(led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2);
+
+  getTDSNutrient();
+  getPHNutrient();
 }
 
 void printWiFiStatus() {
@@ -240,6 +255,15 @@ bool updateModuleSensor(void *) {
   Serial.print("HTTP Response Code = ");
   Serial.println(httpResponseCode);
   
+  return true;
+}
+
+bool updateTDSBuffer(void *) {
+  analogBuffer[analogBufferIndex] = analogRead(PIN_TDS); //read the analog value and store into the buffer
+  analogBufferIndex++;
+  if(analogBufferIndex == sampleCount) {
+    analogBufferIndex = 0;
+  }
   return true;
 }
 

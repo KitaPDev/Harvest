@@ -3,7 +3,7 @@ int sensorValue = 0;
 unsigned long int avgValue; 
 float b;
 int buf[10], temp;
-float calibration = 0;
+float calibration = 7.00 + 42.00;
 
 void setup() {
   Serial.begin(115200);
@@ -33,9 +33,9 @@ void loop() {
   }
   
   float pHVolt = (float) avgValue * 3.3 / 1024 / 6;
-  float phValue = -5.70 * pHVolt + (7.00 + 59.67 - 3);
+  float phValue = -5.70 * pHVolt + calibration;
   
   Serial.print("sensor = ");
   Serial.println(phValue);
-  delay(1000);
+  delay(10);
   }
