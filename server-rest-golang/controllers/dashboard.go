@@ -99,7 +99,7 @@ func History(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	logSensorModuleLevels, logSensorReservoirs, logSensorRooms, err := services.GetHistorySensorLogData(input.TimeStampBegin,
 		input.TimeStampEnd)

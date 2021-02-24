@@ -54,7 +54,7 @@ func CreatePlant(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreatePlant(input.PlantLabel, input.TDSHigh, input.TDSLow, input.PHHigh, input.PHLow, input.TemperatureHigh,
 		input.TemperatureLow, input.LightsOffHour, input.LightsOnHour, input.MistingOffSecond, input.MistingOnSecond)
@@ -75,7 +75,7 @@ func EditPlant(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Plant{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditPlant(input.PlantID, input.PlantLabel, input.TDSHigh, input.TDSLow, input.PHHigh, input.PHLow, input.TemperatureHigh,
 		input.TemperatureLow, input.LightsOffHour, input.LightsOnHour, input.MistingOffSecond, input.MistingOnSecond)
@@ -99,7 +99,7 @@ func DeletePlant(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeletePlant(input.PlantID)
 	if err != nil {

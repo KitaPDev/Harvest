@@ -58,7 +58,7 @@ func CreateModule(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateModule(input.ReservoirID, input.RoomID, input.ModuleLabel, input.Level)
 	if err != nil {
@@ -78,7 +78,7 @@ func EditModule(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Module{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditModule(input.ModuleID, input.ReservoirID, input.RoomID, input.ModuleLabel, input.Level)
 	if err != nil {
@@ -101,7 +101,7 @@ func DeleteModule(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteModule(input.ModuleID)
 	if err != nil {

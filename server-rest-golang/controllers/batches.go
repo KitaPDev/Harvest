@@ -75,7 +75,7 @@ func CreateBatch(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateBatch(input.BatchLabel, input.PlantID, input.ReservoirIDs, input.NutrientIDs, input.ModuleIDs, input.RoomIDs,
 		input.TimeStampBegin, input.TimeStampEnd, input.Weight, input.LightsOnHour, input.LightsOffHour, input.MistingOnSecond,
@@ -97,7 +97,7 @@ func EditBatch(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Batch{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditBatch(input.BatchID, input.PlantID, input.ReservoirIDs, input.NutrientIDs, input.ModuleIDs, input.RoomIDs,
 		input.TimeStampBegin, input.TimeStampEnd, input.Weight, input.LightsOnHour, input.LightsOffHour, input.MistingOnSecond,
@@ -122,7 +122,7 @@ func DeleteBatch(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteBatch(input.BatchID)
 	if err != nil {
@@ -145,7 +145,7 @@ func BatchDetails(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	logSensorModuleLevels, logSensorReservoirs, logSensorRooms, err := services.GetBatchSensorData(input.BatchID)
 	if err != nil {

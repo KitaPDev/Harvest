@@ -5,6 +5,7 @@
 #include <EEPROM.h>
 #include <GravityTDS.h>
 #include <WiFi.h>
+#include <DHT.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <arduino-timer.h>
@@ -15,6 +16,20 @@ auto timer = timer_create_default();
 OneWire oneWire(PIN_SOLNTEMP);
 DallasTemperature dallasTemp(&oneWire);
 GravityTDS gravityTds;
+DHT dht11_room(PIN_DHT11, DHT11);
+DHT dht22_level1(PIN_DHT22_1, DHT22);
+DHT dht22_level2(PIN_DHT22_2, DHT22);
+
+// TDS Sensor Variables
+#define sampleCount 30
+int voltageRef = 3.3;
+int analogBuffer[30];
+int analogBufferTemp[30];
+int analogBufferIndex = 0;
+float averageVoltage = 0, tdsValue = 0;
+
+// pH Sensor Variables
+int phBufferIndex = 0;
 
 WiFiServer server(8090);
 WiFiClient client;
@@ -37,8 +52,8 @@ int previousStateLED1 = 0;
 int previousStateLED2 = 0;
 
 struct Settings {
-  boolean isAuto;
-  boolean isWaterOnly;
+  int isAuto;
+  int isWaterOnly;
   long lightOnTime;
   long lightOffTime;
   float humidityRootLow;
@@ -58,19 +73,8 @@ struct ManualSettings {
 };
 struct ManualSettings manualSettings;
 
-// TDS Sensor Variables
-#define sampleCount 30         // sum of sample point
-int voltageRef = 3.3;          // analog reference voltage(Volt) of the ADC
-int analogBuffer[30];          // store the analog value in the array, read from ADC
-int analogBufferTemp[30];
-int analogBufferIndex = 0;
-float averageVoltage = 0, tdsValue = 0;
-
-// pH Sensor Variables
-int phBufferIndex = 0;
-
 void setup() {
-  Serial.begin(115200); 
+  Serial.begin(115200);
   Serial.println("Module 1");
 
   WiFi.begin(ssid, password);
@@ -78,7 +82,7 @@ void setup() {
 
   WiFi.config(local_ip, dns, gateway, subnet);
 
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
@@ -88,8 +92,8 @@ void setup() {
   Serial.println(WiFi.localIP());
   printWiFiStatus();
 
-  settings.isAuto = false;
-  settings.isWaterOnly = false;
+  settings.isAuto = 0;
+  settings.isWaterOnly = 0;
   settings.lightOnTime = 0;
   settings.lightOffTime = 0;
   settings.humidityRootLow = 0;
@@ -97,16 +101,18 @@ void setup() {
 
   initSensors();
   initHardware();
-  
+
   server.begin();
 
+  timer.every(2000, updateModuleSensor);
+  timer.every(2000, updateModuleSensor);
   timer.every(2000, updateModuleSensor);
   timer.every(40, updateTDSBuffer);
 }
 
 void loop() {
   timer.tick();
-  
+
   checkForConnections();
 
   int led1 = manualSettings.led1;
@@ -123,13 +129,13 @@ void loop() {
 
   if (client) {
     while (client.connected()) {
-      if(client.available()) {
+      if (client.available()) {
         client.readString().toCharArray(received, sizeof received);
 
-        if(strchr(received, '{') != NULL) {
+        if (strchr(received, '{') != NULL) {
           strncpy(body, received + (strchr(received, '{') - received), (strlen(received)) - (strchr(received, '{') - received));
           body[sizeof body + 1] = '\0';
-    
+
           DeserializationError error = deserializeJson(doc, body);
           if (error) {
             Serial.print(F("deserializeJson() failed: "));
@@ -139,23 +145,27 @@ void loop() {
             client.println();
             client.stop();
             Serial.println("Client disconnected");
-            
+
             continue;
           }
         }
-        
-        JsonObject root = doc.as<JsonObject>();
-    
-        settings.isAuto = root["is_auto"];
 
-        if(settings.isAuto) {
+        JsonObject root = doc.as<JsonObject>();
+
+        if(root.containsKey("is_auto")) {
+          if(root["is_auto"] != -1) {
+            settings.isAuto = root["is_auto"];
+          }
+        }
+
+        if (settings.isAuto) {
           settings.isWaterOnly = root["is_water_only"];
           settings.lightOnTime = root["light_on_time"];
           settings.lightOffTime = root["light_off_time"];
           settings.humidityRootLow = root["humidity_root_low"];
           settings.humidityRootHigh = root["humidity_root_high"];
           continue;
-          
+
         } else {
           manualSettings.led1 = root["led_1"];
           manualSettings.led2 = root["led_2"];
@@ -166,7 +176,7 @@ void loop() {
           manualSettings.sv1 = root["sv_1"];
           manualSettings.sv2 = root["sv_2"];
         }
-        
+
         int led1 = manualSettings.led1;
         int led2 = manualSettings.led2;
         int fan1 = manualSettings.fan1;
@@ -178,11 +188,11 @@ void loop() {
 
         client.println("HTTP/1.0 200 OK");
         client.println("Content-Type: application/json");
-        client.println(getHardwareStatus_Json(led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2));
+        client.println(getHardwareStatus_Json(settings.isAuto, led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2));
         client.println();
         client.stop();
         Serial.println("Client disconnected");
-        
+
       } else {
         client.println("HTTP/1.0 200 OK");
         client.println();
@@ -194,27 +204,24 @@ void loop() {
   }
 
   memset(received, 0, sizeof received);
-  
-  if(settings.isAuto) {
-    if(settings.isWaterOnly) {
+
+  if (settings.isAuto) {
+    if (settings.isWaterOnly) {
       useWater();
     } else {
       useNutrientSolution();
     }
-    
-    for(int i = 1; i <= levels; i++) {
-      if(getHumidityRoot(i) <= settings.humidityRootLow) {
+
+    for (int i = 1; i <= levels; i++) {
+      if (getHumidityRoot(i) <= settings.humidityRootLow) {
         setLevelMist(i, 1);
       } else {
         setLevelMist(i, 0);
       }
     }
   }
-  
-  updateHardware(led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2);
 
-  getTDSNutrient();
-  getPHNutrient();
+  updateHardware(led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2);
 }
 
 void printWiFiStatus() {
@@ -254,22 +261,46 @@ bool updateModuleSensor(void *) {
   int httpResponseCode = http.POST(getLogSensorModule_Json());
   Serial.print("HTTP Response Code = ");
   Serial.println(httpResponseCode);
-  
+
+  return true;
+}
+
+bool updateRoomSensor(void *) {
+  HTTPClient http;
+  http.begin(serverURL);
+  http.addHeader("Content-Type", "application/json");
+
+  int httpResponseCode = http.POST(getLogSensorRoom_Json());
+  Serial.print("HTTP Response Code = ");
+  Serial.println(httpResponseCode);
+
+  return true;
+}
+
+bool updateReservoirSensor(void *) {
+  HTTPClient http;
+  http.begin(serverURL);
+  http.addHeader("Content-Type", "application/json");
+
+  int httpResponseCode = http.POST(getLogSensorReservoir_Json());
+  Serial.print("HTTP Response Code = ");
+  Serial.println(httpResponseCode);
+
   return true;
 }
 
 bool updateTDSBuffer(void *) {
   analogBuffer[analogBufferIndex] = analogRead(PIN_TDS); //read the analog value and store into the buffer
   analogBufferIndex++;
-  if(analogBufferIndex == sampleCount) {
+  if (analogBufferIndex == sampleCount) {
     analogBufferIndex = 0;
   }
   return true;
 }
 
 bool updatePHBuffer(void *) {
-  
-  
+
+
   return true;
 }
 
@@ -277,28 +308,57 @@ char * getLogSensorModule_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["module_id"] = 1;
-  for(int i = 1; i <= levels; i++) {
+  for (int i = 1; i <= levels; i++) {
     doc[i]["temperature_root"] = getTemperatureRoot(1);
     doc[i]["humidity_root"] = getHumidityRoot(1);
   }
-  
+
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);
 
   return jsonPayload;
 }
 
-char * getHardwareStatus_Json(int led1, int led2, int fan1, int fan2, int svWater, int svReservoir, int sv1, int sv2) {
+char * getLogSensorRoom_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["led1"] = led1;
-  doc["led2"] = led2;
-  doc["fan1"] = fan2;
-  doc["fan2"] = fan2;
-  doc["svWater"] = svWater;
-  doc["svReservoir"] = svReservoir;
-  doc["sv1"] = sv1;
-  doc["sv2"] = sv2;
+  doc["room_id"] = 1;
+  doc["temperature_room"] = getTemperatureRoom();
+  doc["humidity_room"] = getHumidityRoom();
+
+  char jsonPayload[512];
+  serializeJson(doc, jsonPayload);
+
+  return jsonPayload;
+}
+
+char * getLogSensorReservoir_Json() {
+  DynamicJsonDocument doc(1024);
+  doc["api_key"] = API_KEY;
+  doc["reservoir_id"] = 1;
+  doc["temperature_solution"] = getTemperatureSolution();
+  doc["tds"] = getTDSNutrient();
+  doc["ph"] = getPHNutrient();
+  doc["soln_level"] = getSolutionLevel();
+
+  char jsonPayload[512];
+  serializeJson(doc, jsonPayload);
+
+  return jsonPayload;
+}
+
+char * getHardwareStatus_Json(int isAuto, int led1, int led2, int fan1, int fan2, int svWater, int svReservoir, int sv1, int sv2) {
+  DynamicJsonDocument doc(1024);
+  doc["api_key"] = API_KEY;
+  doc["is_auto"] = isAuto;
+  doc["led_1"] = led1;
+  doc["led_2"] = led2;
+  doc["fan_1"] = fan2;
+  doc["fan_2"] = fan2;
+  doc["sv_Water"] = svWater;
+  doc["sv_Reservoir"] = svReservoir;
+  doc["sv_1"] = sv1;
+  doc["sv_2"] = sv2;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

@@ -1,13 +1,13 @@
 #include <DHT.h>
 
-#define PIN_DHT11 26
-#define DHTTYPE DHT11
+#define PIN_DHT22 32
+#define DHTTYPE DHT22
 
-DHT dht(PIN_DHT11, DHTTYPE);
+DHT dht(PIN_DHT22, DHTTYPE);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("DHT11 Test");
+  Serial.println("DHT22 Test");
   dht.begin();
 
   delay(2000);

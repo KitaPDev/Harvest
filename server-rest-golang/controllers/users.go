@@ -50,7 +50,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateUser(input.Username, input.Password, input.IsAdmin)
 	if err != nil {
@@ -75,7 +75,7 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := Input{}
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	user, err := services.GetUserByID(input.UserID)
 	if err != nil {
@@ -115,7 +115,7 @@ func ChangeUsername(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := Input{}
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.ChangeUsername(input.UserID, input.NewUsername)
 	if err != nil {
@@ -138,7 +138,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := Input{}
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteUser(input.UserID)
 	if err != nil {
@@ -161,7 +161,7 @@ func AssignAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := Input{}
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.AssignAdmin(input.UserID)
 	if err != nil {
@@ -184,7 +184,7 @@ func UnassignAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	input := Input{}
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.UnassignAdmin(input.UserID)
 	if err != nil {

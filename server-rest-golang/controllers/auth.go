@@ -27,7 +27,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	var credentials Input
 
-	jsonhandler.DecodeJsonFromBody(w, r, &credentials)
+	jsonhandler.DecodeJsonFromRequest(w, r, &credentials)
 
 	username := credentials.Username
 	password := credentials.Password
