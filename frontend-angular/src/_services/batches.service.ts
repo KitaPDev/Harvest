@@ -303,11 +303,10 @@ export class BatchesService {
           logSensorModuleLevel.moduleID =
             fetchedLogSensorModuleLevel['module_id'];
           logSensorModuleLevel.level = fetchedLogSensorModuleLevel['level'];
-          logSensorModuleLevel.temperature =
-            fetchedLogSensorModuleLevel['temperature'];
-          logSensorModuleLevel.humidity =
-            fetchedLogSensorModuleLevel['humidity'];
-          logSensorModuleLevel.lux = fetchedLogSensorModuleLevel['lux'];
+          logSensorModuleLevel.temperatureRoot =
+            fetchedLogSensorModuleLevel['temperature_root'];
+          logSensorModuleLevel.humidityRoot =
+            fetchedLogSensorModuleLevel['humidity_root'];
 
           logSensorModuleLevels.push(logSensorModuleLevel);
         }
@@ -321,7 +320,7 @@ export class BatchesService {
           logSensorReservoir.tds = fetchedLogSensorReservoir['tds'];
           logSensorReservoir.ph = fetchedLogSensorReservoir['ph'];
           logSensorReservoir.temperatureSolution =
-            fetchedLogSensorReservoir['soln_temp'];
+            fetchedLogSensorReservoir['temperature_solution'];
           logSensorReservoir.solnLevel =
             fetchedLogSensorReservoir['soln_level'];
 

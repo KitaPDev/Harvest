@@ -170,11 +170,11 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       for (let log of this.logSensorModuleLevels) {
         this.tempChartDataSet[0].data.push({
           x: new Date(log.loggedAt).valueOf(),
-          y: log.temperature,
+          y: log.temperatureRoot,
         });
         this.humidityChartDataSet[0].data.push({
           x: new Date(log.loggedAt).valueOf(),
-          y: log.humidity,
+          y: log.humidityRoot,
         });
       }
     }
