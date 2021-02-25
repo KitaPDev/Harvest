@@ -51,9 +51,11 @@ export class BatchesDetailsComponent implements OnInit {
     this.batchesService.modules.subscribe((modules) => {
       this.modules = modules;
 
-      this.selectedModules = modules.filter((m) =>
-        this.batch.moduleIDs.includes(m.moduleID)
-      );
+      if (modules.length > 0) {
+        this.selectedModules = modules.filter((m) =>
+          this.batch.moduleIDs.includes(m.moduleID)
+        );
+      }
     });
 
     this.batchesService.reservoirs.subscribe((reservoirs) => {
