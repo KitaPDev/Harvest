@@ -42,7 +42,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   tempChartOptions = {
     title: {
       display: true,
-      text: 'Temperature',
+      text: 'Root Temperature',
     },
     scales: {
       xAxes: [
@@ -100,7 +100,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     scales: {
       title: {
         display: true,
-        text: 'Humidity',
+        text: 'Root Humidity',
       },
       xAxes: [
         {
@@ -117,63 +117,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
           scaleLabel: {
             display: true,
             labelString: '%',
-          },
-        },
-      ],
-    },
-    scaleShowVerticalLines: false,
-    responsive: true,
-    aspectRatio: 5,
-    legend: {
-      display: false,
-    },
-    plugins: {
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: 'xy',
-        },
-        zoom: {
-          enabled: true,
-          mode: 'xy',
-        },
-      },
-    },
-  };
-
-  // lux chart config
-  luxChartDataSet = [{ data: [] }];
-  luxChartColors: Array<any> = [
-    {
-      borderColor: '#3D998A',
-      pointBackgroundColor: '#3D998A',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: '#3D998A',
-    },
-  ];
-
-  luxChartOptions = {
-    title: {
-      display: true,
-      text: 'Lux',
-    },
-    scales: {
-      xAxes: [
-        {
-          type: 'time',
-          ticks: {
-            source: 'data',
-            min: new Date().valueOf(),
-            max: new Date().valueOf(),
-          },
-        },
-      ],
-      yAxes: [
-        {
-          scaleLabel: {
-            display: true,
-            labelString: 'lumen',
           },
         },
       ],
@@ -221,12 +164,8 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
       this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
       this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.luxChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.luxChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
-
       this.tempChartDataSet[0].data.length = 0;
       this.humidityChartDataSet[0].data.length = 0;
-      this.luxChartDataSet[0].data.length = 0;
 
       for (let log of this.logSensorModuleLevels) {
         this.tempChartDataSet[0].data.push({
@@ -236,10 +175,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         this.humidityChartDataSet[0].data.push({
           x: new Date(log.loggedAt).valueOf(),
           y: log.humidity,
-        });
-        this.luxChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.lux,
         });
       }
     }
