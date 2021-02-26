@@ -38,7 +38,8 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.53:9090/iot/update/module/sensor";
+char serverURL_module[] = "http://192.168.1.53:9090/iot/update/module/sensor";
+char serverURL_reservoir[] = "http://192.168.1.53:9090/iot/update/reservoir/sensor";
 const char* API_KEY = "MODKJ2021";
 
 const char* ssid = "xincaima";
@@ -186,9 +187,29 @@ void loop() {
         int sv1 = manualSettings.sv1;
         int sv2 = manualSettings.sv2;
 
+        if(root.containsKey("module")) {
+          if(root["module"] == 1) {
+            client.println("HTTP/1.0 200 OK");
+            client.println("Content-Type: application/json");
+            client.println(getModuleHardwareStatus_Json(settings.isAuto, led1, led2, fan1, fan2, sv1, sv2));
+            client.println();
+            client.stop();
+            Serial.println("Client disconnected");
+          }
+        }
+
+        if(root.containsKey("reservoir")) {
+          if(root["reservoir"] == 1) {
+            client.println("HTTP/1.0 200 OK");
+            client.println("Content-Type: application/json");
+            client.println(getReservoirHardwareStatus_Json(svWater, svReservoir));
+            client.println();
+            client.stop();
+            Serial.println("Client disconnected");
+          }
+        }
+
         client.println("HTTP/1.0 200 OK");
-        client.println("Content-Type: application/json");
-        client.println(getHardwareStatus_Json(settings.isAuto, led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2));
         client.println();
         client.stop();
         Serial.println("Client disconnected");
@@ -255,7 +276,7 @@ void checkForConnections() {
 
 bool updateModuleSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL);
+  http.begin(serverURL_module);
   http.addHeader("Content-Type", "application/json");
 
   int httpResponseCode = http.POST(getLogSensorModule_Json());
@@ -267,7 +288,7 @@ bool updateModuleSensor(void *) {
 
 bool updateRoomSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL);
+  http.begin(serverURL_reservoir);
   http.addHeader("Content-Type", "application/json");
 
   int httpResponseCode = http.POST(getLogSensorRoom_Json());
@@ -347,7 +368,7 @@ char * getLogSensorReservoir_Json() {
   return jsonPayload;
 }
 
-char * getHardwareStatus_Json(int isAuto, int led1, int led2, int fan1, int fan2, int svWater, int svReservoir, int sv1, int sv2) {
+char * getModuleHardwareStatus_Json(int isAuto, int led1, int led2, int fan1, int fan2, int sv1, int sv2) {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["is_auto"] = isAuto;
@@ -355,10 +376,20 @@ char * getHardwareStatus_Json(int isAuto, int led1, int led2, int fan1, int fan2
   doc["led_2"] = led2;
   doc["fan_1"] = fan2;
   doc["fan_2"] = fan2;
-  doc["sv_Water"] = svWater;
-  doc["sv_Reservoir"] = svReservoir;
   doc["sv_1"] = sv1;
   doc["sv_2"] = sv2;
+
+  char jsonPayload[512];
+  serializeJson(doc, jsonPayload);
+
+  return jsonPayload;
+}
+
+char * getReservoirHardwareStatus_Json(int svWater, int svReservoir) {
+  DynamicJsonDocument doc(1024);
+  doc["api_key"] = API_KEY;
+  doc["sv_Water"] = svWater;
+  doc["sv_Reservoir"] = svReservoir;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

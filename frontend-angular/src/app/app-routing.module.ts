@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuardService } from '../_services/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { RoleGuardService } from '../_services/role-guard.service';
 import { RoomsComponent } from './rooms/rooms.component';
@@ -44,7 +43,7 @@ const routes: Routes = [
       { path: ':id', component: BatchesDetailsComponent },
     ],
   },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'home', component: HomeComponent, canActivate: [RoleGuardService] },
 ];
 
 @NgModule({
