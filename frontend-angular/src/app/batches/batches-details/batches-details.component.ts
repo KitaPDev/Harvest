@@ -51,7 +51,7 @@ export class BatchesDetailsComponent implements OnInit {
     this.batchesService.modules.subscribe((modules) => {
       this.modules = modules;
 
-      if (modules.length > 0) {
+      if (modules.length > 0 && this.batch != undefined) {
         this.selectedModules = modules.filter((m) =>
           this.batch.moduleIDs.includes(m.moduleID)
         );
@@ -61,25 +61,31 @@ export class BatchesDetailsComponent implements OnInit {
     this.batchesService.reservoirs.subscribe((reservoirs) => {
       this.reservoirs = reservoirs;
 
-      this.selectedReservoirs = reservoirs.filter((r) =>
-        this.batch.reservoirIDs.includes(r.reservoirID)
-      );
+      if (reservoirs.length > 0 && this.batch != undefined) {
+        this.selectedReservoirs = reservoirs.filter((r) =>
+          this.batch.reservoirIDs.includes(r.reservoirID)
+        );
+      }
     });
 
     this.batchesService.nutrients.subscribe((nutrients) => {
       this.nutrients = nutrients;
 
-      this.selectedNutrients = nutrients.filter((n) =>
-        this.batch.nutrientIDs.includes(n.nutrientID)
-      );
+      if (nutrients.length > 0 && this.batch != undefined) {
+        this.selectedNutrients = nutrients.filter((n) =>
+          this.batch.nutrientIDs.includes(n.nutrientID)
+        );
+      }
     });
 
     this.batchesService.rooms.subscribe((rooms) => {
       this.rooms = rooms;
 
-      this.selectedRooms = rooms.filter((r) =>
-        this.batch.roomIDs.includes(r.roomID)
-      );
+      if (rooms.length > 0 && this.batch != undefined) {
+        this.selectedRooms = rooms.filter((r) =>
+          this.batch.roomIDs.includes(r.roomID)
+        );
+      }
     });
 
     this.batchesService.batches.subscribe((batches) => {
