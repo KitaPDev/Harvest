@@ -62,7 +62,8 @@ import { BatchesDetailsModuleItemComponent } from './batches/batches-details/bat
 import { ChartsModule } from 'ng2-charts';
 import { BatchesDetailsModuleLevelListComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-list.component';
 import { BatchesDetailsModuleLevelItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-item/batches-details-module-level-item.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardGrowerComponent } from './dashboard/dashboard-grower/dashboard-grower.component';
+import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/dashboard-germinator.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BatchesDetailsModuleItemComponent,
     BatchesDetailsModuleLevelListComponent,
     BatchesDetailsModuleLevelItemComponent,
-    DashboardComponent,
+    DashboardGrowerComponent,
+    DashboardGerminatorComponent,
   ],
   imports: [
     BrowserModule,
