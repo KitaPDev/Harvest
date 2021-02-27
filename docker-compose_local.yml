@@ -5,9 +5,7 @@ services:
     build: ./db
     container_name: modernfarms-db-postgresql
     volumes:
-      - ./db/backup/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./db/backup/data.sql:/docker-entrypoint-initdb.d/2-data.sql
-      - ./db/data/postgres:/var/lib/postgresql/data
+      - ./db/backup/backup.sql:/docker-entrypoint-initdb.d/1-backup.sql
     ports:
       - 5432:5432
 

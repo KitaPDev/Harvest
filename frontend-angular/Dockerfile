@@ -1,10 +1,9 @@
 FROM node:alpine
 LABEL maintainer="Modern Farms <themodernfarms@gmail.com>"
 WORKDIR /usr/src/app
-COPY package*.json .
-RUN yarn install
+COPY ./yarn.lock ./
+RUN yarn
 COPY . .
-RUN yarn build
 CMD ["yarn", "start"]
 
 # FROM nginx:alpine
