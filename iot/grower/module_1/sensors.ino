@@ -1,19 +1,32 @@
 #include "pins.h"
 
-#include <OneWire.h>
-#include <DallasTemperature.h>
-#include <EEPROM.h>
-#include "DHT.h"
-
 void initSensors() {
+  pinMode(PIN_DHT11, INPUT);
+  pinMode(PIN_DHT22_1, INPUT);
+  pinMode(PIN_DHT22_2, INPUT);
+  pinMode(PIN_US_TRIG, OUTPUT);
+  pinMode(PIN_US_ECHO, INPUT);
+  pinMode(PIN_SOLNTEMP, INPUT);
+  pinMode(PIN_PH, INPUT);
+  pinMode(PIN_TDS, INPUT);
+  
   dallasTemp.begin();
+  dht11_room.begin();
+  dht22_level1.begin();
+  dht22_level2.begin();
+
+  delay(1000);
 }
 
-float getTemperatureNutrient() {
+float getSolutionLevel() {
+  
+}
+
+float getTemperatureSolution() {
   dallasTemp.requestTemperatures();
   float solnTemp = dallasTemp.getTempCByIndex(0);
 
-  Serial.print("Nutrient Temperature = ");
+  Serial.print("Solution Temperature = ");
   Serial.print(solnTemp);
   Serial.println(" Celsius");
 
@@ -26,7 +39,7 @@ float getTDSNutrient() {
   }
   
   averageVoltage = getMedianNum(analogBufferTemp, sampleCount) * (float)voltageRef / 1024.0; // read the analog value more stable by the median filtering algorithm, and convert to voltage value
-  float compensationCoefficient = 1.0 + 0.02 * (getTemperatureNutrient() - 25.0);    //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.02*(fTP-25.0));
+  float compensationCoefficient = 1.0 + 0.02 * (getTemperatureSolution() - 25.0);    //temperature compensation formula: fFinalResult(25^C) = fFinalResult(current)/(1.0+0.02*(fTP-25.0));
   float compensationVoltage = averageVoltage/compensationCoefficient;  //temperature compensation
   tdsValue = (133.42 * compensationVoltage * compensationVoltage * compensationVoltage 
     - 255.86 * compensationVoltage * compensationVoltage + 857.39 * compensationVoltage) * 0.5; //convert voltage value to tds value
@@ -90,19 +103,21 @@ float getTemperatureRoot(int level) {
       {
         DHT dht(PIN_DHT22_1, DHT22);
         dht.begin();
-        temperature = dht.readTemperature(); 
+        temperature = dht22_level1.readTemperature(); 
       }
       break;
     case 2:
       {
         DHT dht(PIN_DHT22_2, DHT22);
         dht.begin();
-        temperature = dht.readTemperature();
+        temperature = dht22_level2.readTemperature();
       }
       break;
   }
 
-  Serial.print("Root Temperature = ");
+  Serial.print("Root Temperature Level ");
+  Serial.print(level);
+  Serial.print(" = ");
   Serial.print(temperature);
   Serial.println(" Celsius");
   
@@ -115,31 +130,27 @@ float getHumidityRoot(int level) {
   switch(level) {
     case 1:
       {
-        DHT dht(PIN_DHT22_1, DHT22);
-        dht.begin();
-        humidity = dht.readHumidity();
+        humidity = dht22_level1.readHumidity();
       }
       break;
     case 2:
       {
-        DHT dht(PIN_DHT22_2, DHT22);
-        dht.begin();
-        humidity = dht.readHumidity();
+        humidity = dht22_level2.readHumidity();
       }
       break;
   }
 
-  Serial.print("Root Humidity = ");
+  Serial.print("Root Humidity Level ");
+  Serial.print(level);
+  Serial.print(" = ");
   Serial.print(humidity);
   Serial.println(" %");
 
   return humidity;
 }
 
-float getRoomTemperature() {
-  DHT dht(PIN_DHT11, DHT11);
-  dht.begin();
-  float temperature = dht.readTemperature();
+float getTemperatureRoom() {
+  float temperature = dht11_room.readTemperature();
 
   Serial.print("Room Temperature = ");
   Serial.print(temperature);
@@ -148,10 +159,8 @@ float getRoomTemperature() {
   return temperature;
 }
 
-float getRoomHumidity() {
-  DHT dht(PIN_DHT11, DHT11);
-  dht.begin();
-  float humidity = dht.readHumidity();
+float getHumidityRoom() {
+  float humidity = dht11_room.readHumidity();
 
   Serial.print("Room Humidity = ");
   Serial.print(humidity);

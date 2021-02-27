@@ -14,10 +14,10 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router,
               private authService: AuthService) {
     router.events.subscribe(e => {
-        if (e instanceof NavigationEnd) {
-          this.isNavbarVisible = e.url !== '/login';
-        }
-      });
+      if (e instanceof NavigationEnd) {
+        this.isNavbarVisible = e.url !== '/login';
+      }
+    });
   }
 
   ngOnInit(): void {

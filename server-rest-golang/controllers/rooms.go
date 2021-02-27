@@ -51,7 +51,7 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateRoom(input.RoomLabel)
 	if err != nil {
@@ -71,7 +71,7 @@ func EditRoom(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Room{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditRoom(input.RoomID, input.RoomLabel)
 	if err != nil {
@@ -94,7 +94,7 @@ func DeleteRoom(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteRoom(input.RoomID)
 	if err != nil {

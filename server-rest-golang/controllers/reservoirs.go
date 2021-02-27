@@ -54,7 +54,7 @@ func CreateReservoir(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateReservoir(input.ReservoirLabel, input.NutrientIDs)
 	if err != nil {
@@ -74,7 +74,7 @@ func EditReservoir(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Reservoir{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditReservoir(input.ReservoirID, input.ReservoirLabel, input.NutrientIDs)
 	if err != nil {
@@ -97,7 +97,7 @@ func DeleteReservoir(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteReservoir(input.ReservoirID)
 	if err != nil {

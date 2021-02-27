@@ -35,3 +35,7 @@ func EditModule(moduleID int, reservoirID int, roomID int, moduleLabel string, l
 func DeleteModule(moduleID int) error {
 	return repositories.DeleteModule(moduleID)
 }
+
+func GetModuleUrls() (map[int]string, error) {
+	return repositories.GetModuleUrls()
+}

@@ -18,7 +18,7 @@ func PopulateProfile(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	user, err := services.GetPopulateProfileData(input.UserID)
 	if err != nil {

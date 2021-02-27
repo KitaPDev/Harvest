@@ -50,7 +50,7 @@ func CreateNutrient(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.CreateNutrient(input.NutrientLabel, input.Part, input.NutrientType, input.CCPerLiter, input.N, input.P,
 		input.K)
@@ -71,7 +71,7 @@ func EditNutrient(w http.ResponseWriter, r *http.Request) {
 
 	input := models.Nutrient{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.EditNutrient(input.NutrientID, input.NutrientLabel, input.Part, input.NutrientType, input.CCPerLiter,
 		input.N, input.P, input.K)
@@ -95,7 +95,7 @@ func DeleteNutrient(w http.ResponseWriter, r *http.Request) {
 	}
 	input := Input{}
 
-	jsonhandler.DecodeJsonFromBody(w, r, &input)
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	err := services.DeleteNutrient(input.NutrientID)
 	if err != nil {

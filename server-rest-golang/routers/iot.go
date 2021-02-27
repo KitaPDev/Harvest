@@ -18,5 +18,8 @@ func MakeIotHandler() http.Handler {
 	router.HandleFunc("/iot/update/reservoir/sensor", controllers.UpdateReservoirSensor).
 		Methods("POST")
 
+	router.HandleFunc("/iot/update/hardware/module", controllers.UpdateModuleHardware).
+		Methods("POST")
+
 	return router
 }
