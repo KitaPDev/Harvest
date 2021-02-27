@@ -1,10 +1,10 @@
-<div class="container-fluid">
-  <h4>Reservoir</h4>
-  <hr>
+<div class="container container-1">
+  <h4 class="title">Reservoir</h4>
   <app-batches-details-reservoir-item
-    *ngFor="let reservoir of reservoirs; let i = index"
-    [reservoir]="reservoir"
-    [batchesService]="batchesService"
+  *ngFor="let reservoir of reservoirs; let i = index"
+  [reservoir]="reservoir"
+  [batchesService]="batchesService"
   ></app-batches-details-reservoir-item>
   <hr>
 </div>
+

@@ -98,7 +98,7 @@ select:hover, .input-timestamp:hover {
     "l l m m"
     "n n n n"
     "o o o o";
-  gap: 2rem 3rem;
+  gap: 1.5rem 3rem;
   margin-top: 3rem;
   align-items: center;
   justify-content: center;

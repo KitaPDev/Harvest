@@ -1,11 +1,7 @@
-<button
-  class="btn btn-outline-info btn-block btn-lg"
-  [ngClass]="{'active': isDisplayDetails}"
-  (click)="onClick()"
->
+<div class="title">
   {{ reservoir.reservoirLabel }}
-</button>
-<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+</div>
+<div style="margin-top: 10px;">
   <div class="row">
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
@@ -50,10 +46,6 @@
     <div class="col-sm-1 my-auto">
       <button class="btn btn-primary" (click)="onClickReset(2)">Reset</button>
     </div>
-  </div>
-  <div class="row">
-  </div>
-  <div class="row">
   </div>
 </div>
 

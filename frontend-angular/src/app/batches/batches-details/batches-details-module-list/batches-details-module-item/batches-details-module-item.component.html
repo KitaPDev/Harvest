@@ -1,18 +1,9 @@
-<button
-  class="btn btn-outline-info btn-block btn-lg"
-  [ngClass]="{'active': isDisplayDetails}"
-  (click)="onClick()"
-  style="margin-bottom: 10px"
->
+<div class="title">
   {{ module.moduleLabel }}
-</button>
-<div
-  class="container-fluid"
-  *ngIf="isDisplayDetails"
-  style="margin-top: 10px;">
-  <app-batches-details-module-level-list
-    [moduleID]="module.moduleID"
-    [level]="module.level"
-    [batchesService]="batchesService">
-  </app-batches-details-module-level-list>
 </div>
+  <app-batches-details-module-level-list
+  [moduleID]="module.moduleID"
+  [level]="module.level"
+  [batchesService]="batchesService">
+</app-batches-details-module-level-list>
+<hr>

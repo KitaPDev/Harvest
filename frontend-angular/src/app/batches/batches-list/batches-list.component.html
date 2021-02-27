@@ -1,5 +1,5 @@
-<div>
-  <div class="container">
+<div class="container-0 container">
+  <div class=" container-1">
     <div class="cell cell-1">
       Label
     </div>
@@ -15,18 +15,19 @@
     <div class="cell">
       Remarks
     </div>
-    <div class="cell">
-    </div>
   </div>
-  <hr>
-  <app-batches-item
-    *ngFor="let batch of batches; let i = index"
-    [batch]="batch"
-    [modules]="modules"
-    [plants]="plants"
-    [reservoirs]="reservoirs"
-    [nutrients]="nutrients"
-    [rooms]="rooms"
-    [batchesService]="batchesService"
-  ></app-batches-item>
+  <div class="container-2">
+    <div class="cell cell-2"></div>
+  </div>
 </div>
+<hr>
+<app-batches-item
+  *ngFor="let batch of batches; let i = index"
+  [batch]="batch"
+  [modules]="modules"
+  [plants]="plants"
+  [reservoirs]="reservoirs"
+  [nutrients]="nutrients"
+  [rooms]="rooms"
+  [batchesService]="batchesService"
+></app-batches-item>
