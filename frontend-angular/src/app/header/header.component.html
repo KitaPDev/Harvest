@@ -16,8 +16,29 @@
   > -->
   <div class="navbar-links">
     <ul>
-      <li class="nav-item" *ngFor="let menuItem of menuItems" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="menuItem.path">{{menuItem.title}}</a>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/batches" routerLinkActive="active">Batches</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/plants" routerLinkActive="active">Plants</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/nutrients" routerLinkActive="active">Nutrients</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/reservoirs" routerLinkActive="active">Reservoirs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/rooms" routerLinkActive="active">Rooms</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/modules" routerLinkActive="active">Modules</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
       </li>
     </ul>
   </div>
@@ -30,7 +51,7 @@
   <div class="navbar-links">
     <ul>
       <li class="nav-item">
-        <a class="nav-link" style="cursor: pointer"
+        <a class="nav-link"
            (click)="onLogout()">Logout</a>
       </li>
     </ul>

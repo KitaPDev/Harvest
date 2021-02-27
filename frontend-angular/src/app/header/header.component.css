@@ -71,6 +71,6 @@
   opacity: 100%;
 }
 
-.navbar-links li a:active {
-  opacity: 100% !important;
+.active {
+  opacity: 100%;
 }
