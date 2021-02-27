@@ -1,5 +1,5 @@
 <div *ngIf="isDataReady">
-  <div class="container-title">
+  <div class="container container-0">
     <h1 class="title">{{ batch.batchLabel }}</h1>
     <button
       type="button"
@@ -14,7 +14,7 @@
   <hr />
 
   
-    <form class="form-group container" [formGroup]="editBatchForm">
+    <form class="form-group container container-1" [formGroup]="editBatchForm">
       <div class="cell cell-1">
         <label class="control-label label" for="batchLabel">Label</label>
         <input
@@ -228,9 +228,10 @@
         >
         </textarea>
       </div>
+    </form>
 
-      <div class="cell cell-15">
-      <ng-template #notEditBlock>
+    <div class="container container-2">
+    <ng-template #notEditBlock>
         
           <button
           type="button"
@@ -241,37 +242,39 @@
         </button>
       
       </ng-template>
-      </div>
-    </form>
-
-    <div *ngIf="isEditMode === true; else notEditBlock">
+      <div *ngIf="isEditMode === true; else notEditBlock">
+        
+        
+        <button
+        type="button"
+        class="btn btn-blue-2"
+        (click)="onSubmitEditBatch()"
+        >
+        Confirm Edit Batch
+      </button>
       
       
-          <button
-            type="button"
-            class="btn btn-blue-2"
-            (click)="onSubmitEditBatch()"
-          >
-            Confirm Edit Batch
-          </button>
-        
-        
-          <button
-            type="button"
-            class="btn btn-red"
-            (click)="onCancelEditMode()"
-          >
-            Cancel
-          </button>
-        
-    </div>
+      <button
+      type="button"
+      class="btn btn-red"
+      (click)="onCancelEditMode()"
+      >
+      Cancel
+    </button>
+    
+  </div>
+</div>
 
-  <div class="ha">
-    <hr />
-    <h3 style="margin-top: 10px">Graph</h3>
-    <hr />
+<hr>
+
+  <div class="container container-3">
+    
+    <h1 class="title data">Data</h1>
+    
   </div>
 
+  <hr> 
+  
   <app-batches-details-reservoir-list
     [reservoirs]="reservoirs"
     [batchesService]="batchesService"

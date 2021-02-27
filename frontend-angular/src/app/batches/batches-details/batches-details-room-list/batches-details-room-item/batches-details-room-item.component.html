@@ -1,12 +1,7 @@
-<button
-  class="btn btn-outline-info btn-block btn-lg"
-  [ngClass]="{'active': isDisplayDetails}"
-  (click)="onClick()"
-  style="margin-bottom: 10px"
->
+<div class="title">
   {{ room.roomLabel }}
-</button>
-<div [style.display]="isDisplayDetails ? 'block' : 'none'" style="margin-top: 10px;">
+</div>
+<div style="margin-top: 10px;">
   <div class="row">
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
@@ -34,10 +29,6 @@
     <div class="col-sm-1 my-auto">
       <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
     </div>
-  </div>
-  <div class="row">
-  </div>
-  <div class="row">
   </div>
 </div>
 

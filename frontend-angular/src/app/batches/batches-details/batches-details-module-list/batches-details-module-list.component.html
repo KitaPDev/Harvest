@@ -1,10 +1,8 @@
-<div class="container-fluid">
-  <h4>Module</h4>
-  <hr>
+<div class="container container-1">
+  <h4 class="title">Module</h4>
   <app-batches-details-module-item
     *ngFor="let module of modules; let i = index"
     [module]="module"
     [batchesService]="batchesService"
   ></app-batches-details-module-item>
-  <hr>
 </div>

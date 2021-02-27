@@ -24,8 +24,7 @@
 .container-2 {
   display: flex;
   justify-content: flex-end;
-  /* align-items: center; */
-  margin-left: 6rem;
+  margin-left: 2rem;
   width: 320px;
 }
 .container-1:hover {
@@ -50,7 +49,7 @@
   border-style: none;
   box-shadow: var(--box-shadow);
   border-radius: 1rem;
-  display: inline-block
+  display: inline-block;
 }
 
 .btn-blue,

@@ -38,6 +38,7 @@
   font-family: Quicksand_Bold;
 }
 
+
 .label {
   text-transform: capitalize;
   font-size: 1.25rem;
@@ -139,8 +140,20 @@ hr {
   border: 0.3px solid grey;
   display: block;
 }
+.container-0, .container-2, .container-3 {
+  display: flex;
+  width: 1280px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
 
-.container {
+.container-2 {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.container-1 {
   display: grid;
   width: 1280px;
   grid-template-areas:
@@ -150,9 +163,8 @@ hr {
     "f g h i"
     "j j k k"
     "l l m m"
-    "n n n n"
-    "o o o o";
-  gap: 2rem 3rem;
+    "n n n n";
+  gap: 1.5rem 3rem;
   margin-top: 3rem;
   align-items: center;
   justify-content: center;
@@ -206,6 +218,4 @@ hr {
 .cell-14 {
   grid-area: n;
 }
-.cell-15 {
-  grid-area: o;
-}
+

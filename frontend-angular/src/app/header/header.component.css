@@ -71,6 +71,6 @@
   opacity: 100%;
 }
 
-.active {
+ul li a.active {
   opacity: 100%;
 }
