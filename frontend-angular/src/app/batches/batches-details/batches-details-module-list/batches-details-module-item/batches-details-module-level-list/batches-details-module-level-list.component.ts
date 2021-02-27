@@ -30,9 +30,13 @@ export class BatchesDetailsModuleLevelListComponent implements OnInit {
 
     this.batchesService.recBatchID_BatchDetail.subscribe(
       (recBatchID_BatchDetail) => {
-        this.logSensorModuleLevels = recBatchID_BatchDetail[
-          this.batchID
-        ].logSensorModuleLevels.filter((log) => log.moduleID === this.moduleID);
+        if (recBatchID_BatchDetail[this.batchID] != undefined) {
+          this.logSensorModuleLevels = recBatchID_BatchDetail[
+            this.batchID
+          ].logSensorModuleLevels.filter(
+            (log) => log.moduleID === this.moduleID
+          );
+        }
       }
     );
   }

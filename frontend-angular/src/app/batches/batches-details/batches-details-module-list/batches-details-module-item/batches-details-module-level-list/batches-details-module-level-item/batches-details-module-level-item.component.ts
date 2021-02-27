@@ -22,7 +22,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   @Input() level: number;
   @Input() logSensorModuleLevels: LogSensorModuleLevel[];
   @Input() batchesService: BatchesService;
-
   batchID: number;
 
   isDisplayDetails: boolean = false;
@@ -146,36 +145,38 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.logSensorModuleLevels = this.logSensorModuleLevels.filter(
-      (log) => log.level === this.level
-    );
-
-    if (this.logSensorModuleLevels.length > 0) {
-      let minDateTime = new Date(this.logSensorModuleLevels[0].loggedAt);
-      let maxDateTime = new Date(
-        this.logSensorModuleLevels[
-          this.logSensorModuleLevels.length - 1
-        ].loggedAt
+    if (this.logSensorModuleLevels != undefined) {
+      this.logSensorModuleLevels = this.logSensorModuleLevels.filter(
+        (log) => log.level === this.level
       );
 
-      this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+      if (this.logSensorModuleLevels.length > 0) {
+        let minDateTime = new Date(this.logSensorModuleLevels[0].loggedAt);
+        let maxDateTime = new Date(
+          this.logSensorModuleLevels[
+            this.logSensorModuleLevels.length - 1
+          ].loggedAt
+        );
 
-      this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+        this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.tempChartDataSet[0].data.length = 0;
-      this.humidityChartDataSet[0].data.length = 0;
+        this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      for (let log of this.logSensorModuleLevels) {
-        this.tempChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.temperatureRoot,
-        });
-        this.humidityChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.humidityRoot,
-        });
+        this.tempChartDataSet[0].data.length = 0;
+        this.humidityChartDataSet[0].data.length = 0;
+
+        for (let log of this.logSensorModuleLevels) {
+          this.tempChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.temperatureRoot,
+          });
+          this.humidityChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.humidityRoot,
+          });
+        }
       }
     }
   }
