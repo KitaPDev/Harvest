@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-func GetPopulateDashboardData() ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom,
+func GetPopulateGrowerDashboardData(timestampBegin time.Time) ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom,
 	[]models.Module, []models.Reservoir, []models.Room, error) {
 
-	moduleLevelLogs, reservoirLogs, roomLogs, err := repositories.GetLatestSensorLog()
+	moduleLevelLogs, reservoirLogs, roomLogs, err := repositories.GetLatestGrowerSensorLogs(timestampBegin)
 	if err != nil {
 		return nil, nil, nil, nil, nil, nil, err
 	}
@@ -32,9 +32,12 @@ func GetPopulateDashboardData() ([]models.LogSensorModuleLevel, []models.LogSens
 	return moduleLevelLogs, reservoirLogs, roomLogs, modules, reservoirs, rooms, nil
 }
 
-func GetLatestSensorLogData() ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom, error) {
+func GetLatestGrowerSensorLogData(timestampBegin time.Time) ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom, error) {
+	return repositories.GetLatestGrowerSensorLogs(timestampBegin)
+}
 
-	return repositories.GetLatestSensorLog()
+func GetLatestGerminatorSensorLogData(timestampBegin time.Time) ([]models.LogSensorGerminator, error) {
+	return repositories.GetLatestGerminatorSensorLogs(timestampBegin)
 }
 
 func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) ([]models.LogSensorModuleLevel, []models.LogSensorReservoir,

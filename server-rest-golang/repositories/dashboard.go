@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom,
+func GetLatestGrowerSensorLogs(timestampBegin time.Time) ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom,
 	error) {
 
 	db := database.GetDB()
@@ -18,9 +18,10 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 	sqlStatement :=
 		`SELECT DISTINCT ON (module_id, level) logged_at, module_id, level, temperature_root, humidity_root
 		FROM log_sensor_module
+		WHERE logged_at >= $1
 		ORDER BY module_id, level, logged_at DESC;`
 
-	rows, err := db.Query(sqlStatement)
+	rows, err := db.Query(sqlStatement, timestampBegin)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -99,6 +100,41 @@ func GetLatestSensorLog() ([]models.LogSensorModuleLevel, []models.LogSensorRese
 	}
 
 	return moduleLevelLogs, reservoirLogs, roomLogs, nil
+}
+
+func GetLatestGerminatorSensorLogs(timestampBegin time.Time) ([]models.LogSensorGerminator,	error) {
+
+	db := database.GetDB()
+
+	germinatorLogs := make([]models.LogSensorGerminator, 0)
+
+	sqlStatement :=
+		`SELECT logged_at, temperature, humidity
+		FROM log_sensor_germinator
+		ORDER BY logged_at DESC;`
+
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		germinatorLog := models.LogSensorGerminator{}
+
+		err := rows.Scan(
+			&germinatorLog.LoggedAt,
+			&germinatorLog.Temperature,
+			&germinatorLog.Humidity,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		germinatorLogs = append(germinatorLogs, germinatorLog)
+	}
+
+	return germinatorLogs, nil
 }
 
 func GetHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) ([]models.LogSensorModuleLevel, []models.LogSensorReservoir,
