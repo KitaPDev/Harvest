@@ -79,7 +79,7 @@ ul li a.active {
   display: none;
 }
 
-.navbar-links ul li:hover .sub-menu{
+.navbar-links ul li:hover .sub-menu {
   display: block;
   position: absolute;
   background: var(--clr-green);
@@ -96,7 +96,7 @@ ul li a.active {
 }
 
 .navbar-links ul li:hover .sub-menu ul li {
-  border-bottom: 1px dotted var(--clr-white);
+  border-bottom: 1px solid var(--clr-white);
   background: transparent;
   text-align: left;
 }

@@ -1,0 +1,49 @@
+h1 {
+  font-family: Quicksand_Bold;
+}
+
+h2 {
+    font-family: Quicksand_Bold;
+    font-size: 0.75rem;
+}
+input[type="checkbox"] {
+  width: 60px;
+  height: 30px;
+  position: relative;
+  appearance: none;
+  background: gray;
+  outline: none;
+  border-radius: 15px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.25s;
+}
+
+input:checked[type="checkbox"] {
+  background: var(--clr-green);
+}
+
+input[type="checkbox"]:before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  top: 0;
+  left: 0;
+  background: var(--clr-white);
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.25s;
+}
+
+input:checked[type="checkbox"]:before {
+    left: 30px;
+}
+
+.toggler {
+    display: block;
+}
+.power {
+    display: inline-flex;
+    justify-content: space-between;
+}
