@@ -48,7 +48,7 @@
 }
 
 .navbar-links ul {
-  margin: 0 2rem;
+  margin: 0 1rem;
   padding: 0;
   display: flex;
 }
@@ -75,50 +75,32 @@ ul li a.active {
   opacity: 100%;
 }
 
-/* Dropdown CSS */
-.dropbtn {
-  background-color: var(--clr-green);
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  opacity: 50%;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
+.sub-menu {
   display: none;
+}
+
+.navbar-links ul li:hover .sub-menu{
+  display: block;
   position: absolute;
-  background-color: var(--clr-grey);
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  background: var(--clr-green);
+  margin-top: 1.5px;
+  margin-bottom: 1.5px;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 10px 10px -10px var(--clr-black);
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
+.navbar-links ul li:hover .sub-menu ul {
   display: block;
+  margin: 10px;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: var(--clr-green)}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
+.navbar-links ul li:hover .sub-menu ul li {
+  border-bottom: 1px dotted var(--clr-white);
+  background: transparent;
+  text-align: left;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-  background-color: var(--clr-green);
+.navbar-links ul li:hover .sub-menu ul li:last-child {
+  border-bottom: none;
 }

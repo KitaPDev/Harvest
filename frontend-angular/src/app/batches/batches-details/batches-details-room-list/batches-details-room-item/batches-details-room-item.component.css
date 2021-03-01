@@ -12,12 +12,18 @@
   font-size: 1rem;
   padding: 0.5rem 2rem;
   color: white;
+  background: #037AFF;
   text-transform: capitalize;
   cursor: pointer;
   border-style: none;
   box-shadow: var(--box-shadow);
   border-radius: 1rem;
   display: inline-block;
+}
+
+.btn:hover {
+  transform: translateY(-0.25rem);
+  transition: all 0.2s linear;
 }
 
 .title {

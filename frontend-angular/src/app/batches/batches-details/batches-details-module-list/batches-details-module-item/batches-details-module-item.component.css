@@ -1,0 +1,12 @@
+.title {
+    font-family: Quicksand_Bold;
+    border-style: none;
+    background: rgb(232, 232, 232);
+    border-radius: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
