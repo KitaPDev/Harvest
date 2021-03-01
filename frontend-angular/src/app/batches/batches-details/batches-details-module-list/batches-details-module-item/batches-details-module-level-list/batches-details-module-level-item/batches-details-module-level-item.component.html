@@ -1,12 +1,16 @@
-<button
+<!-- <button
   class="btn btn-outline-warning btn-block btn-lg"
   [ngClass]="{'active': isDisplayDetails}"
   (click)="onClick()"
   style="margin-bottom: 10px"
 >
   {{ level }}
-</button>
-<div *ngIf="isDisplayDetails" style="margin-top: 10px;">
+</button> -->
+<div class="title">
+  <span>Level </span> {{ level }}
+  
+</div>
+<div style="margin-top: 10px;">
   <div class="row">
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
@@ -18,7 +22,7 @@
       </canvas>
     </div>
     <div class="col-sm-1 my-auto">
-      <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
+      <button class="btn" (click)="onClickReset(0)">Reset</button>
     </div>
   </div>
   <div class="row">
@@ -32,7 +36,7 @@
       </canvas>
     </div>
     <div class="col-sm-1 my-auto">
-      <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
+      <button class="btn" (click)="onClickReset(1)">Reset</button>
     </div>
   </div>
 </div>
