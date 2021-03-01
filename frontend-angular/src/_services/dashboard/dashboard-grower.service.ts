@@ -9,11 +9,16 @@ import { LogSensorModuleLevel } from '../../_models/logsensormodule.model';
 import { LogSensorReservoir } from '../../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../../_models/logsensorroom.model';
 
-const DASHBOARD_GROWER_API = 'http://localhost:9090/dashboard/grower';
-const DASHBOARD_GROWER_UPDATE_API =
-  'http://localhost:9090/dashboard/grower/update';
-const IOT_UPDATE_MODULE_HARDWARE_API =
-  'http://localhost:9090/iot/update/hardware/module';
+const DASHBOARD_GROWER_CURRENT_API =
+  'http://localhost:9090/dashboard/grower/current';
+const DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API =
+  'http://localhost:9090/dashboard/grower/sensor/latest';
+const DASHBOARD_GROWER_HISTORY_API =
+  'http://localhost:9090/dashboard/grower/history';
+const DASHBOARD_UPDATE_MODULE_HARDWARE_API =
+  'http://localhost:9090/dashboard/module/update/hardware';
+const DASHBOARD_UPDATE_RESERVOIR_HARDWARE_API =
+  'http://localhost:9090/dashboard/reservoir/update/hardware';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGrowerService {
@@ -49,18 +54,14 @@ export class DashboardGrowerService {
 
   constructor(private httpClient: HttpClient) {}
 
-  fetchGrowerDashboardData(timeStampBegin: Date): Promise<any> {
-    const body = {
-      time_stamp_begin: new Date(timeStampBegin).toJSON(),
-    };
-
+  fetchGrowerDashboardCurrentData(): Promise<any> {
     return this.httpClient
-      .post<any>(DASHBOARD_GROWER_API, body, httpPostOptions)
+      .get<any>(DASHBOARD_GROWER_CURRENT_API, httpPostOptions)
       .toPromise();
   }
 
-  populateGrowerDashboard(timeStampBegin: Date) {
-    this.fetchGrowerDashboardData(timeStampBegin).then(
+  populateGrowerDashboardCurrent() {
+    this.fetchGrowerDashboardCurrentData().then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
@@ -160,18 +161,14 @@ export class DashboardGrowerService {
     );
   }
 
-  fetchSensorLogs(timeStampBegin: Date): Promise<any> {
-    const body = {
-      time_stamp_begin: new Date(timeStampBegin).toJSON(),
-    };
-
+  fetchLatestGrowerSensorLogs(): Promise<any> {
     return this.httpClient
-      .post<any>(DASHBOARD_GROWER_UPDATE_API, body, httpPostOptions)
+      .post<any>(DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API, httpPostOptions)
       .toPromise();
   }
 
-  updateGrowerSensorLogs(timeStampBegin: Date) {
-    this.fetchSensorLogs(timeStampBegin).then((response: HttpResponse<any>) => {
+  getLatestGrowerSensorLogs() {
+    this.fetchLatestGrowerSensorLogs().then((response: HttpResponse<any>) => {
       let fetchedData = JSON.parse(JSON.stringify(response.body));
 
       let logSensorModuleLevels: LogSensorModuleLevel[] = [];
@@ -223,6 +220,78 @@ export class DashboardGrowerService {
       }
       this.logSensorRoomsSource.next(logSensorRooms);
     });
+  }
+
+  fetchGrowerDashboardHistoryData(
+    timeStampBegin: Date,
+    timeStampEnd: Date
+  ): Promise<any> {
+    const body = {
+      time_stamp_begin: timeStampBegin,
+      time_stamp_end: timeStampEnd,
+    };
+
+    return this.httpClient
+      .post<any>(DASHBOARD_GROWER_HISTORY_API, body, httpPostOptions)
+      .toPromise();
+  }
+
+  populateGrowerDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
+    this.fetchGrowerDashboardHistoryData(timeStampBegin, timeStampEnd).then(
+      (response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+
+        let logSensorModuleLevels: LogSensorModuleLevel[] = [];
+        let logSensorReservoirs: LogSensorReservoir[] = [];
+        let logSensorRooms: LogSensorRoom[] = [];
+
+        for (let fetchedLogSensorModuleLevel of fetchedData.log_sensor_module_levels) {
+          let logSensorModuleLevel = new LogSensorModuleLevel();
+
+          logSensorModuleLevel.loggedAt =
+            fetchedLogSensorModuleLevel['logged_at'];
+          logSensorModuleLevel.moduleID =
+            fetchedLogSensorModuleLevel['module_id'];
+          logSensorModuleLevel.level = fetchedLogSensorModuleLevel['level'];
+          logSensorModuleLevel.temperatureRoot =
+            fetchedLogSensorModuleLevel['temperature_root'];
+          logSensorModuleLevel.humidityRoot =
+            fetchedLogSensorModuleLevel['humidity_root'];
+
+          logSensorModuleLevels.push(logSensorModuleLevel);
+        }
+        this.logSensorModuleLevelsSource.next(logSensorModuleLevels);
+
+        for (let fetchedLogSensorReservoir of fetchedData.log_sensor_reservoirs) {
+          let logSensorReservoir = new LogSensorReservoir();
+
+          logSensorReservoir.loggedAt = fetchedLogSensorReservoir['logged_at'];
+          logSensorReservoir.reservoirID =
+            fetchedLogSensorReservoir['reservoir_id'];
+          logSensorReservoir.tds = fetchedLogSensorReservoir['tds'];
+          logSensorReservoir.ph = fetchedLogSensorReservoir['ph'];
+          logSensorReservoir.temperatureSolution =
+            fetchedLogSensorReservoir['temperature_solution'];
+          logSensorReservoir.solnLevel =
+            fetchedLogSensorReservoir['soln_level'];
+
+          logSensorReservoirs.push(logSensorReservoir);
+        }
+        this.logSensorReservoirsSource.next(logSensorReservoirs);
+
+        for (let fetchedLogSensorRoom of fetchedData.log_sensor_rooms) {
+          let logSensorRoom = new LogSensorRoom();
+
+          logSensorRoom.loggedAt = fetchedLogSensorRoom['logged_at'];
+          logSensorRoom.roomID = fetchedLogSensorRoom['room_id'];
+          logSensorRoom.temperature = fetchedLogSensorRoom['temperature'];
+          logSensorRoom.humidity = fetchedLogSensorRoom['humidity'];
+
+          logSensorRooms.push(logSensorRoom);
+        }
+        this.logSensorRoomsSource.next(logSensorRooms);
+      }
+    );
   }
 
   getModules(): Module[] {
