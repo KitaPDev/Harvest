@@ -11,13 +11,7 @@ export class BatchesDetailsModuleItemComponent implements OnInit {
   @Input() module: Module;
   @Input() batchesService: BatchesService;
 
-  isDisplayDetails: boolean = false;
-
   constructor() {}
 
   ngOnInit(): void {}
-
-  onClick() {
-    this.isDisplayDetails = !this.isDisplayDetails;
-  }
 }

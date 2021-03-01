@@ -1,7 +1,9 @@
-<app-batches-details-module-level-item
-  *ngFor="let level of levels"
-  [moduleID]="moduleID"
-  [level]="level"
-  [logSensorModuleLevels]="logSensorModuleLevels"
-  [batchesService]="batchesService">
-</app-batches-details-module-level-item>
+<ng-container *ngIf="logSensorModuleLevels">
+  <app-batches-details-module-level-item
+    *ngFor="let level of levels"
+    [moduleID]="moduleID"
+    [level]="level"
+    [logSensorModuleLevels]="logSensorModuleLevels"
+    [batchesService]="batchesService">
+  </app-batches-details-module-level-item>
+</ng-container>

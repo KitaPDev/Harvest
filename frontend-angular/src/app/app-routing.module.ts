@@ -11,6 +11,8 @@ import { ModulesComponent } from './modules/modules.component';
 import { PlantsComponent } from './plants/plants.component';
 import { BatchesComponent } from './batches/batches.component';
 import { BatchesDetailsComponent } from './batches/batches-details/batches-details.component';
+import { DashboardGrowerComponent } from './dashboard/dashboard-grower/dashboard-grower.component';
+import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/dashboard-germinator.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -43,7 +45,17 @@ const routes: Routes = [
       { path: ':id', component: BatchesDetailsComponent },
     ],
   },
-  { path: 'home', component: HomeComponent, canActivate: [RoleGuardService] },
+  {
+    path: 'dashboard/grower',
+    component: DashboardGrowerComponent,
+    canActivate: [RoleGuardService],
+  },
+  {
+    path: 'dashboard/germinator',
+    component: DashboardGerminatorComponent,
+    canActivate: [RoleGuardService],
+  },
+  { path: '', component: HomeComponent, canActivate: [RoleGuardService] },
 ];
 
 @NgModule({

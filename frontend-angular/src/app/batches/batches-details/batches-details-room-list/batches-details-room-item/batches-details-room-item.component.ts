@@ -26,8 +26,6 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
   batchID: number;
   logSensorRooms: LogSensorRoom[];
 
-  isDisplayDetails: boolean = false;
-
   // temp chart config
   tempChartDataSet = [{ data: [] }];
   tempChartColors: Array<any> = [
@@ -158,40 +156,38 @@ export class BatchesDetailsRoomItemComponent implements OnInit {
   }
 
   setupCharts(recBatchID_BatchDetail: Record<number, BatchDetail>) {
-    this.logSensorRooms = recBatchID_BatchDetail[
-      this.batchID
-    ].logSensorRooms.filter((log) => log.roomID === this.room.roomID);
+    if (this.logSensorRooms != undefined) {
+      this.logSensorRooms = recBatchID_BatchDetail[
+        this.batchID
+      ].logSensorRooms.filter((log) => log.roomID === this.room.roomID);
 
-    if (this.logSensorRooms.length > 0) {
-      let minDateTime = new Date(this.logSensorRooms[0].loggedAt);
-      let maxDateTime = new Date(
-        this.logSensorRooms[this.logSensorRooms.length - 1].loggedAt
-      );
+      if (this.logSensorRooms.length > 0) {
+        let minDateTime = new Date(this.logSensorRooms[0].loggedAt);
+        let maxDateTime = new Date(
+          this.logSensorRooms[this.logSensorRooms.length - 1].loggedAt
+        );
 
-      this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+        this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+        this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.tempChartDataSet[0].data.length = 0;
-      this.humidityChartDataSet[0].data.length = 0;
+        this.tempChartDataSet[0].data.length = 0;
+        this.humidityChartDataSet[0].data.length = 0;
 
-      for (let log of this.logSensorRooms) {
-        this.tempChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.temperature,
-        });
-        this.humidityChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.humidity,
-        });
+        for (let log of this.logSensorRooms) {
+          this.tempChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.temperature,
+          });
+          this.humidityChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.humidity,
+          });
+        }
       }
     }
-  }
-
-  onClick() {
-    this.isDisplayDetails = !this.isDisplayDetails;
   }
 
   onClickReset(chartIndex: number) {

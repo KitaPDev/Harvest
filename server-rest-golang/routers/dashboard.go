@@ -9,11 +9,14 @@ import (
 func MakeDashboardHandler() http.Handler {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/dashboard", controllers.PopulateDashboard).
-		Methods("GET")
+	router.HandleFunc("/dashboard/grower", controllers.PopulateGrowerDashboard).
+		Methods("POST")
 
-	router.HandleFunc("/dashboard/update_sensor_logs", controllers.UpdateSensorLogs).
-		Methods("GET")
+	router.HandleFunc("/dashboard/grower/update", controllers.UpdateGrowerSensorLogs).
+		Methods("POST")
+
+	router.HandleFunc("/dashboard/germinator", controllers.PopulateGerminatorDashboard).
+		Methods("POST")
 
 	router.HandleFunc("/dashboard/history", controllers.History).
 		Methods("POST")

@@ -21,8 +21,6 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
   batchID: number;
   logSensorReservoirs: LogSensorReservoir[];
 
-  isDisplayDetails: boolean = false;
-
   // tds chart config
   tdsChartLabels = [];
   tdsChartDataSet = [{ data: [] }];
@@ -206,50 +204,48 @@ export class BatchesDetailsReservoirItemComponent implements OnInit {
   }
 
   setupCharts(recBatchID_BatchDetail: Record<number, BatchDetail>) {
-    this.logSensorReservoirs = recBatchID_BatchDetail[
-      this.batchID
-    ].logSensorReservoirs.filter(
-      (log) => log.reservoirID === this.reservoir.reservoirID
-    );
-
-    if (this.logSensorReservoirs.length > 0) {
-      let minDateTime = new Date(this.logSensorReservoirs[0].loggedAt);
-      let maxDateTime = new Date(
-        this.logSensorReservoirs[this.logSensorReservoirs.length - 1].loggedAt
+    if (this.logSensorReservoirs != undefined) {
+      this.logSensorReservoirs = recBatchID_BatchDetail[
+        this.batchID
+      ].logSensorReservoirs.filter(
+        (log) => log.reservoirID === this.reservoir.reservoirID
       );
 
-      this.tdsChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.tdsChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+      if (this.logSensorReservoirs.length > 0) {
+        let minDateTime = new Date(this.logSensorReservoirs[0].loggedAt);
+        let maxDateTime = new Date(
+          this.logSensorReservoirs[this.logSensorReservoirs.length - 1].loggedAt
+        );
 
-      this.pHChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.pHChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+        this.tdsChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.tdsChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
-      this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+        this.pHChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.pHChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      this.tdsChartDataSet[0].data.length = 0;
-      this.pHChartDataSet[0].data.length = 0;
-      this.temperatureSolutionChartDataSet[0].data.length = 0;
+        this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+        this.temperatureSolutionChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
 
-      for (let log of this.logSensorReservoirs) {
-        this.tdsChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.tds,
-        });
-        this.pHChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.ph,
-        });
-        this.temperatureSolutionChartDataSet[0].data.push({
-          x: new Date(log.loggedAt).valueOf(),
-          y: log.temperatureSolution,
-        });
+        this.tdsChartDataSet[0].data.length = 0;
+        this.pHChartDataSet[0].data.length = 0;
+        this.temperatureSolutionChartDataSet[0].data.length = 0;
+
+        for (let log of this.logSensorReservoirs) {
+          this.tdsChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.tds,
+          });
+          this.pHChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.ph,
+          });
+          this.temperatureSolutionChartDataSet[0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.temperatureSolution,
+          });
+        }
       }
     }
-  }
-
-  onClick() {
-    this.isDisplayDetails = !this.isDisplayDetails;
   }
 
   onClickReset(chartIndex: number) {
