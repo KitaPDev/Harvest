@@ -1,32 +1,19 @@
 <nav class="navbar" *ngIf="isNavbarVisible">
   <a class="brand-title" routerLink="/home">ModernFarms</a>
-
-  <!-- <button
-    class="navbar-toggler"
-    type="button"
-    [attr.aria-expanded]="isToggleExpanded"
-    (click)="toggleNavbar()"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div
-    class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2"
-    [ngClass]="{ 'show': isToggleExpanded }"
-  > -->
   <div class="navbar-links">
     <ul>
       <li class="nav-item">
         <a class="nav-link" routerLink="" routerLinkActive="active">Home</a>
       </li>
       <li class="nav-item">
-        <div class="dropdown">
-          <button class="dropbtn">Dashboards</button>
-          <div class="dropdown-content">
-            <a routerLink="/dashboard/grower">Grower</a>
-            <a routerLink="/dashboard/germinator">Germinator</a>
+          <a class="nav-link dropdown">Dashboards</a>
+          <div class="sub-menu">
+            <ul>
+            <li><a class="nav-link" routerLink="/dashboard/grower">Grower</a></li>
+            <li><a class="nav-link" routerLink="/dashboard/germinator">Germinator</a></li>
+            </ul> 
           </div>
-        </div>
+
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/batches" routerLinkActive="active">Batches</a>
@@ -49,21 +36,10 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
       </li>
-    </ul>
-  </div>
-  <!-- </div> -->
-
-  <!-- <div
-    class="collapse navbar-collapse order-2"
-    [ngClass]="{ 'show': isToggleExpanded }"
-  > -->
-  <div class="navbar-links">
-    <ul>
       <li class="nav-item">
         <a class="nav-link"
            (click)="onLogout()">Logout</a>
       </li>
     </ul>
   </div>
-  <!-- </div> -->
 </nav>
