@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BatchesService } from '../../../../../../_services/batches.service';
-import { LogSensorModuleLevel } from '../../../../../../_models/logsensormodule.model';
+import { LogSensorModuleLevel } from '../../../../../../_models/logsensormodulelevel.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

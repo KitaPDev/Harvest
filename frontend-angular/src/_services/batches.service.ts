@@ -8,7 +8,7 @@ import { Batch } from '../_models/batch.model';
 import { Module } from '../_models/module.model';
 import { Plant } from '../_models/plant.model';
 import { BatchDetail } from '../_models/batchdetail.model';
-import { LogSensorModuleLevel } from '../_models/logsensormodule.model';
+import { LogSensorModuleLevel } from '../_models/logsensormodulelevel.model';
 import { LogSensorReservoir } from '../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../_models/logsensorroom.model';
 import { Room } from '../_models/room.model';

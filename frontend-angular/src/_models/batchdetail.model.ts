@@ -1,4 +1,4 @@
-import { LogSensorModuleLevel } from "./logsensormodule.model";
+import { LogSensorModuleLevel } from "./logsensormodulelevel.model";
 import { LogSensorReservoir } from "./logsensorreservoir.model";
 import { LogSensorRoom } from "./logsensorroom.model";
 

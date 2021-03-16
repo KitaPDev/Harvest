@@ -41,14 +41,14 @@ hr {
 .title {
   font-family: Quicksand_Bold;
   text-transform: uppercase;
-  font-size: 1.75rem;
-  width: 50%;
+  font-size: 1.6rem;
+  width: 100%;
   padding: 0.75rem;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   color: white;
   background-color: var(--clr-green);
   text-align: center;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 h1 {
@@ -59,8 +59,15 @@ h1 {
 
 h2 {
   font-size: 1rem;
-  font-family: Quicksand_Regular;
+  font-family: Quicksand_Bold;
   color: grey;
+}
+
+h3 {
+  font-size: 1rem;
+  font-family: Quicksand_Bold;
+  color:white;
+  text-align: center;
 }
 
 .center {
@@ -73,7 +80,10 @@ h2 {
   display: block;
   margin: 2rem auto;
   width: 80%;
-  border: 4px solid red;
+  border-radius: 1rem;
+  background: #E5E5E5;
+  /* border: 4px solid red; */
+  padding-bottom: 1rem;
 }
 
 .room-list {
@@ -81,25 +91,26 @@ h2 {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 90%;
-  margin: 1rem auto;
-  background: var(--clr-white);
+  margin: auto;
   border-radius: 1rem;
-  border: 4px solid blue;
+  /* border: 4px solid blue; */
 }
 
 .each-room {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: "a b c";
+  margin-top: 1rem;
   align-items: center;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
   padding-left: 2rem;
   padding-right: 0;
-  margin-bottom: 1rem;
   color: var(--clr-green);
   width: 48%;
-  border: 3px solid green;
+  border-radius: 1rem;
+  background: white;
+  /* border: 3px solid green; */
 }
 
 .cell-1 {
@@ -119,52 +130,71 @@ h2 {
   float: left;
   left: 0;
   margin-left: 10%;
-  border: 2px solid black;
+  border-radius: 1rem;
+  background: #e5e5e5;
+  margin-bottom: 40px;
+  /* border: 2px solid black; */
 }
 
 .module-list {
   display: flex;
   flex-wrap: wrap;
   width: 95%;
-  margin: 1rem auto;
-  background: var(--clr-white);
-  border-radius: 1rem;
-  border: 4px solid blue;
+  margin: 2rem auto 1rem auto;
+  /* border: 4px solid blue; */
 }
 
 .each-module {
+  width: 100%;
+}
+
+.each-module-data {
   display: grid;
   width: 100%;
-  background: blueviolet;
+  background: white;
   padding: 1rem;
   padding-left: 2rem;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas:
-    "a b c"
-    "a d e";
   align-items: center;
   color: var(--clr-green);
-  border: 3px solid green;
-  border-radius: 1rem;
-  margin-bottom: 2rem;
+  /* border: 3px solid green; */
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
 }
 
-.cell-a {
-  grid-area: a;
-}
-.cell-b {
-  grid-area: b;
-}
-.cell-c {
-  grid-area: c;
-}
-.cell-d {
-  grid-area: d;
-}
-.cell-e {
-  grid-area: e;
+.each-module-controller {
+  display: grid; 
+  /* grid-template-columns: 1fr 1.5fr 1.5fr; */
+  grid-template-columns: repeat(5, 1fr);
+  row-gap: 1rem;
+  grid-template-areas: 
+  "v w x y z";
+  /* "v y z"; */
+  align-items: center;
+  color: var(--clr-green);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 1rem;
+  background: #c7c7c7;
+  margin-bottom: 1rem;
 }
 
+.cell-v {
+  grid-area: v;
+}
+.cell-w {
+  grid-area: w;
+}
+.cell-x {
+  grid-area: x;
+
+}
+.cell-y {
+  grid-area: y;
+}
+.cell-z {
+  grid-area: z;
+}
 /* ********************** RESERVOIR ********************** */
 
 .reservoir-container {
@@ -172,34 +202,41 @@ h2 {
   float: right;
   right: 0;
   margin-right: 10%;
-  border: 2px solid green;
+  border-radius: 1rem;
+  background: #E5E5E5;
+  padding-bottom: 0rem;
+  margin-bottom: 40px;
+  /* border: 2px solid green; */
 }
 
 .reservoir-list {
   display: flex;
   flex-wrap: wrap;
   width: 95%;
-  margin: 1rem auto;
+  margin: 2rem auto 0 auto;
   background: var(--clr-white);
   border-radius: 1rem;
-  border: 4px solid blue;
+  background: #E5E5E5;
+  /* border: 4px solid blue; */
 }
 
 .each-reservoir {
   display: grid;
   width: 100%;
   padding: 1rem;
+  padding-left: 2rem;
   grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 1rem;
+  row-gap: 2rem;
   grid-template-areas:
     "a b c"
     "a d e"
     "a f g";
   align-items: center;
   color: var(--clr-green);
-  border: 3px solid blue;
-  border-radius: 1rem;
   margin-bottom: 2rem;
+  border-radius: 1rem;
+  background: white;
+  /* border: 3px solid red; */
 }
 
 .cell-aa {
@@ -219,10 +256,73 @@ h2 {
 }
 .cell-ff {
   grid-area: f;
+  margin: auto;
 }
 .cell-gg {
   grid-area: g;
+  margin: auto;
 }
 
 /* ********************** Switch Button ********************** */
+.onoffswitch {
+    position: relative; 
+    width: 76px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 27px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "ON";
+  padding-left: 10px;
+  background-color: #3782FF; color: #FFFFFF;
+}
+.auto:before {
+  background-color: var(--clr-green);
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.auto:after {
+  background-color: red;
+  color: white;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 42px;
+    border: 2px solid #999999; border-radius: 27px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
 
+.footer {
+  height: 20px;
+  display: block;
+}
