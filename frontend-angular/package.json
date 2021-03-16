@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "angular-bootstrap-multiselect": "^1.1.11",
     "bootstrap": "^4.5.0",
+    "bootstrap4-toggle": "^3.6.1",
     "cerialize": "^0.1.18",
     "chart.js": "^2.9.3",
     "chartjs-plugin-annotation": "^0.5.7",
