@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/Modern-Farms/server-rest-golang/lib/jsonhandler"
 	"github.com/Modern-Farms/server-rest-golang/models"
@@ -10,19 +11,12 @@ import (
 	"time"
 )
 
-func PopulateGrowerDashboard(w http.ResponseWriter, r *http.Request) {
+func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
 		return
 	}
 
-	type Input struct {
-		TimeStampBegin time.Time `json:"time_stamp_begin"`
-	}
-	input := Input{}
-
-	jsonhandler.DecodeJsonFromRequest(w, r, &input)
-
-	moduleLevelLogs, reservoirLogs, roomLogs, modules, reservoirs, rooms, err := services.GetPopulateGrowerDashboardData(input.TimeStampBegin)
+	moduleLevelLogs, reservoirLogs, roomLogs, modules, reservoirs, rooms, err := services.GetPopulateGrowerDashboardData()
 	if err != nil {
 		msg := "Error: Failed to Get Populate Grower Dashboard Data"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -59,25 +53,14 @@ func PopulateGrowerDashboard(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-func UpdateGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
+func GetLatestGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
 		return
 	}
 
-	if !services.AuthenticateToken(w, r, false) {
-		return
-	}
-
-	type Input struct {
-		TimeStampBegin time.Time `json:"time_stamp_begin"`
-	}
-	input := Input{}
-
-	jsonhandler.DecodeJsonFromRequest(w, r, &input)
-
-	moduleLevelLogs, reservoirLogs, roomLogs, err := services.GetLatestGrowerSensorLogData(input.TimeStampBegin)
+	moduleLevelLogs, reservoirLogs, roomLogs, err := services.GetLatestGrowerSensorLogs()
 	if err != nil {
-		msg := "Error: Failed to Update Grower Sensor Logs"
+		msg := "Error: Failed to Get Latest Grower Sensor Logs"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
@@ -106,34 +89,45 @@ func UpdateGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-func PopulateGerminatorDashboard(w http.ResponseWriter, r *http.Request) {
-	if !services.AuthenticateToken(w, r, false) {
-		return
-	}
-
-	type Input struct {
-		TimeStampBegin time.Time `json:"time_stamp_begin"`
-	}
-	input := Input{}
+func UpdateModuleIsAuto(w http.ResponseWriter, r *http.Request) {
+	input := models.IoTIsAutoSettingsBody{}
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	logSensorGerminator, err := services.GetLatestGerminatorSensorLogData(input.TimeStampBegin)
+	moduleUrl, err := services.GetModuleUrlByID(input.ModuleID)
 	if err != nil {
-		msg := "Error: Failed to Get Populate Germinator Dashboard Data"
+		msg := "Error: Failed to Get Module Urls"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
 
-	type Output struct {
-		LogSensorGerminator []models.LogSensorGerminator `json:"log_sensor_germinator"`
-	}
-	output := Output{
-		LogSensorGerminator: logSensorGerminator,
+	requestBody, err := json.Marshal(input)
+	if err != nil {
+		msg := "Error: Failed to Marshal IoT Body"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
 	}
 
-	jsonData, err := json.Marshal(output)
+	resp, err := http.Post(moduleUrl, "application/json", bytes.NewReader(requestBody))
+	if err != nil {
+		msg := "Error: Failed to Send HTTP Post request to IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	iotInput := models.IoTModuleHardwareInput{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, iotInput)
+	if err != nil {
+		msg := "Error: Failed to Decode Json from Response"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonData, err := json.Marshal(iotInput)
 	if err != nil {
 		msg := "Error: Failed to marshal JSON"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -145,7 +139,7 @@ func PopulateGerminatorDashboard(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-func History(w http.ResponseWriter, r *http.Request) {
+func PopulateGrowerDashboardHistory(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
 		return
 	}
@@ -158,10 +152,10 @@ func History(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	logSensorModuleLevels, logSensorReservoirs, logSensorRooms, err := services.GetHistorySensorLogData(input.TimeStampBegin,
+	logSensorModuleLevels, logSensorReservoirs, logSensorRooms, err := services.GetGrowerHistorySensorLogData(input.TimeStampBegin,
 		input.TimeStampEnd)
 	if err != nil {
-		msg := "Error: Failed to Get History Sensor Log Data"
+		msg := "Error: Failed to Get Populate Grower Dashboard History Sensor Log Data"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
@@ -176,6 +170,79 @@ func History(w http.ResponseWriter, r *http.Request) {
 		LogSensorModuleLevels: logSensorModuleLevels,
 		LogSensorReservoirs:   logSensorReservoirs,
 		LogSensorRooms:        logSensorRooms,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func PopulateGerminatorDashboardCurrent(w http.ResponseWriter, r *http.Request) {
+	if !services.AuthenticateToken(w, r, false) {
+		return
+	}
+
+	logSensorGerminator, err := services.GetLatestGerminatorSensorLogs()
+	if err != nil {
+		msg := "Error: Failed to Get Populate Germinator Dashboard Data"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Output struct {
+		LogSensorGerminators []models.LogSensorGerminator `json:"log_sensor_germinators"`
+	}
+	output := Output{
+		LogSensorGerminators: logSensorGerminator,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func PopulateGerminatorDashboardHistory(w http.ResponseWriter, r *http.Request) {
+	if !services.AuthenticateToken(w, r, false) {
+		return
+	}
+
+	type Input struct {
+		TimeStampBegin time.Time `json:"time_stamp_begin"`
+		TimeStampEnd   time.Time `json:"time_stamp_end"`
+	}
+	input := Input{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	logSensorGerminator, err := services.GetGerminatorHistorySensorLogData(input.TimeStampBegin,
+		input.TimeStampEnd)
+	if err != nil {
+		msg := "Error: Failed to Get Populate Germinator Dashboard History Sensor Log Data"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Output struct {
+		LogSensorGerminators []models.LogSensorGerminator `json:"log_sensor_germinators"`
+	}
+	output := Output{
+		LogSensorGerminators: logSensorGerminator,
 	}
 
 	jsonData, err := json.Marshal(output)

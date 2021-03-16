@@ -11,6 +11,8 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
+#define moduleID 1;
+
 auto timer = timer_create_default();
 
 OneWire oneWire(PIN_SOLNTEMP);
@@ -40,6 +42,7 @@ IPAddress subnet(255, 255, 255, 0);
 
 char serverURL_module[] = "http://192.168.1.53:9090/iot/update/module/sensor";
 char serverURL_reservoir[] = "http://192.168.1.53:9090/iot/update/reservoir/sensor";
+char serverURL_room[] = "http://192.168.1.53:9090/iot/update/room/sensor";
 const char* API_KEY = "MODKJ2021";
 
 const char* ssid = "xincaima";
@@ -106,8 +109,8 @@ void setup() {
   server.begin();
 
   timer.every(2000, updateModuleSensor);
-  timer.every(2000, updateModuleSensor);
-  timer.every(2000, updateModuleSensor);
+  timer.every(2000, updateRoomSensor);
+  timer.every(2000, updateReservoirSensor);
   timer.every(40, updateTDSBuffer);
 }
 
@@ -154,65 +157,72 @@ void loop() {
         JsonObject root = doc.as<JsonObject>();
 
         if(root.containsKey("is_auto")) {
-          if(root["is_auto"] != -1) {
-            settings.isAuto = root["is_auto"];
-          }
+          settings.isAuto = root["is_auto"];
         }
 
-        if (settings.isAuto) {
+        if(settings.isAuto) {
           settings.isWaterOnly = root["is_water_only"];
           settings.lightOnTime = root["light_on_time"];
           settings.lightOffTime = root["light_off_time"];
           settings.humidityRootLow = root["humidity_root_low"];
           settings.humidityRootHigh = root["humidity_root_high"];
+            
+          client.println("HTTP/1.0 200 OK");
+          client.println("Content-Type: application/json");
+          client.println(getIsAutoSettings_JSON());
+          client.println();
+          client.stop();
+          Serial.println("Client disconnected");
           continue;
 
         } else {
-          manualSettings.led1 = root["led_1"];
-          manualSettings.led2 = root["led_2"];
-          manualSettings.fan1 = root["fan_1"];
-          manualSettings.fan2 = root["fan_2"];
-          manualSettings.svWater = root["sv_water"];
-          manualSettings.svReservoir = root["sv_reservoir"];
-          manualSettings.sv1 = root["sv_1"];
-          manualSettings.sv2 = root["sv_2"];
-        }
+          
+          if(root.containsKey("module")) {
+            manualSettings.led1 = root["led_1"];
+            manualSettings.led2 = root["led_2"];
+            manualSettings.fan1 = root["fan_1"];
+            manualSettings.fan2 = root["fan_2"];
+            manualSettings.sv1 = root["sv_1"];
+            manualSettings.sv2 = root["sv_2"];
 
-        int led1 = manualSettings.led1;
-        int led2 = manualSettings.led2;
-        int fan1 = manualSettings.fan1;
-        int fan2 = manualSettings.fan2;
-        int svWater = manualSettings.svWater;
-        int svReservoir = manualSettings.svReservoir;
-        int sv1 = manualSettings.sv1;
-        int sv2 = manualSettings.sv2;
-
-        if(root.containsKey("module")) {
-          if(root["module"] == 1) {
+            led1 = manualSettings.led1;
+            led2 = manualSettings.led2;
+            fan1 = manualSettings.fan1;
+            fan2 = manualSettings.fan2;
+            sv1 = manualSettings.sv1;
+            sv2 = manualSettings.sv2;
+            
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
             client.println(getModuleHardwareStatus_Json(settings.isAuto, led1, led2, fan1, fan2, sv1, sv2));
             client.println();
             client.stop();
             Serial.println("Client disconnected");
-          }
-        }
+            continue;
+            
+          } else if(root.containsKey("reservoir")) {
+            manualSettings.svWater = root["sv_water"];
+            manualSettings.svReservoir = root["sv_reservoir"];
 
-        if(root.containsKey("reservoir")) {
-          if(root["reservoir"] == 1) {
+            svWater = manualSettings.svWater;
+            svReservoir = manualSettings.svReservoir;
+            
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
             client.println(getReservoirHardwareStatus_Json(svWater, svReservoir));
             client.println();
             client.stop();
             Serial.println("Client disconnected");
+            continue;
+            
+          } else {
+            client.println("HTTP/1.0 200 OK");
+            client.println();
+            client.stop();
+            Serial.println("Client disconnected");
+            continue;
           }
         }
-
-        client.println("HTTP/1.0 200 OK");
-        client.println();
-        client.stop();
-        Serial.println("Client disconnected");
 
       } else {
         client.println("HTTP/1.0 200 OK");
@@ -242,7 +252,7 @@ void loop() {
     }
   }
 
-  updateHardware(led1, led2, fan1, fan2, svWater, svReservoir, sv1, sv2);
+  updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svReservoir);
 }
 
 void printWiFiStatus() {
@@ -288,7 +298,7 @@ bool updateModuleSensor(void *) {
 
 bool updateRoomSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL_reservoir);
+  http.begin(serverURL_room);
   http.addHeader("Content-Type", "application/json");
 
   int httpResponseCode = http.POST(getLogSensorRoom_Json());
@@ -300,7 +310,7 @@ bool updateRoomSensor(void *) {
 
 bool updateReservoirSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL);
+  http.begin(serverURL_reservoir);
   http.addHeader("Content-Type", "application/json");
 
   int httpResponseCode = http.POST(getLogSensorReservoir_Json());
@@ -316,12 +326,6 @@ bool updateTDSBuffer(void *) {
   if (analogBufferIndex == sampleCount) {
     analogBufferIndex = 0;
   }
-  return true;
-}
-
-bool updatePHBuffer(void *) {
-
-
   return true;
 }
 
@@ -361,6 +365,23 @@ char * getLogSensorReservoir_Json() {
   doc["tds"] = getTDSNutrient();
   doc["ph"] = getPHNutrient();
   doc["soln_level"] = getSolutionLevel();
+
+  char jsonPayload[512];
+  serializeJson(doc, jsonPayload);
+
+  return jsonPayload;
+}
+
+char * getIsAutoSettings_JSON() {
+  DynamicJsonDocument doc(1024);
+  doc["api_key"] = API_KEY;
+  doc["moduleID"] = moduleID;
+  doc["is_auto"] = settings.isAuto;
+  doc["is_water_only"] = settings.isWaterOnly;
+  doc["light_on_time"] = settings.lightOnTime;
+  doc["light_off_time"] = settings.lightOffTime;
+  doc["humidity_root_low"] = settings.humidityRootLow;
+  doc["humidity_root_high"] = settings.humidityRootHigh;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

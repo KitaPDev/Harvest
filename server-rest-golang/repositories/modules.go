@@ -83,36 +83,27 @@ func DeleteModule(moduleID int) error {
 	return nil
 }
 
-func GetModuleUrls() (map[int]string, error) {
+func GetModuleUrlByID(moduleID int) (string, error) {
 	db := database.GetDB()
 
-	sqlStatement := `SELECT * FROM module_url;`
+	sqlStatement := `SELECT * FROM module_url WHERE "moduleID" = $1;`
 
-	rows, err := db.Query(sqlStatement)
+	rows, err := db.Query(sqlStatement, moduleID)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	moduleUrls := make(map[int]string)
+	moduleUrl := ""
 
 	defer rows.Close()
 	for rows.Next() {
-		type ModuleUrl struct {
-			moduleID int
-			url string
-		}
-		moduleUrl := ModuleUrl{}
-
 		err = rows.Scan(
-			&moduleUrl.moduleID,
-			&moduleUrl.url,
+			&moduleUrl,
 		)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
-
-		moduleUrls[moduleUrl.moduleID] = moduleUrl.url
 	}
 
-	return moduleUrls, err
+	return moduleUrl, err
 }

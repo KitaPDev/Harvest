@@ -9,7 +9,7 @@ void initHardware() {
   pinMode(PIN_SV_2, OUTPUT);
 }
 
-void updateHardware(int led1, int led2, int fan1, int fan2, int svWater, int svReservoir, int sv1, int sv2) {
+void updateHardware(int led1, int led2, int fan1, int fan2, int sv1, int sv2, int svWater, int svReservoir) {
   digitalWrite(PIN_LED_1, led1);
   digitalWrite(PIN_LED_2, led2);
   digitalWrite(PIN_FAN_1, fan1);

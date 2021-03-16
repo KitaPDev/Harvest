@@ -36,6 +36,6 @@ func DeleteModule(moduleID int) error {
 	return repositories.DeleteModule(moduleID)
 }
 
-func GetModuleUrls() (map[int]string, error) {
-	return repositories.GetModuleUrls()
+func GetModuleUrlByID(moduleID int) (string, error) {
+	return repositories.GetModuleUrlByID(moduleID)
 }
