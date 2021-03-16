@@ -5,9 +5,10 @@ import { BehaviorSubject } from 'rxjs';
 import { Module } from '../../_models/module.model';
 import { Reservoir } from '../../_models/reservoir.model';
 import { Room } from '../../_models/room.model';
-import { LogSensorModuleLevel } from '../../_models/logsensormodule.model';
+import { LogSensorModuleLevel } from '../../_models/logsensormodulelevel.model';
 import { LogSensorReservoir } from '../../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../../_models/logsensorroom.model';
+import { ModuleSettings } from '../../_models/modulesettings.model';
 
 const DASHBOARD_GROWER_CURRENT_API =
   'http://localhost:9090/dashboard/grower/current';
@@ -15,10 +16,14 @@ const DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API =
   'http://localhost:9090/dashboard/grower/sensor/latest';
 const DASHBOARD_GROWER_HISTORY_API =
   'http://localhost:9090/dashboard/grower/history';
-const DASHBOARD_UPDATE_MODULE_HARDWARE_API =
-  'http://localhost:9090/dashboard/module/update/hardware';
-const DASHBOARD_UPDATE_RESERVOIR_HARDWARE_API =
-  'http://localhost:9090/dashboard/reservoir/update/hardware';
+const DASHBOARD_UPDATE_MODULE_SETTINGS_API =
+  'http://localhost:9090/dashboard/module/update';
+const DASHBOARD_GET_ALL_MODULE_SETTINGS_API =
+  'http://localhost:9090/dashboard/module';
+const DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API =
+  'http://localhost:9090/dashboard/reservoir/update';
+const DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API =
+  'http://localhost:9090/dashboard/reservoir';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGrowerService {
@@ -60,7 +65,7 @@ export class DashboardGrowerService {
       .toPromise();
   }
 
-  populateGrowerDashboardCurrent() {
+  updateGrowerDashboardCurrent() {
     this.fetchGrowerDashboardCurrentData().then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
@@ -163,7 +168,7 @@ export class DashboardGrowerService {
 
   fetchLatestGrowerSensorLogs(): Promise<any> {
     return this.httpClient
-      .post<any>(DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API, httpPostOptions)
+      .get<any>(DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API, httpPostOptions)
       .toPromise();
   }
 
@@ -236,7 +241,7 @@ export class DashboardGrowerService {
       .toPromise();
   }
 
-  populateGrowerDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
+  updateGrowerDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
     this.fetchGrowerDashboardHistoryData(timeStampBegin, timeStampEnd).then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
@@ -292,6 +297,14 @@ export class DashboardGrowerService {
         this.logSensorRoomsSource.next(logSensorRooms);
       }
     );
+  }
+
+  updateModuleSettings(moduleSettings: ModuleSettings) {
+    this.httpClient
+      .post<any>(DASHBOARD_GROWER_HISTORY_API, moduleSettings, httpPostOptions)
+      .subscribe((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+      });
   }
 
   getModules(): Module[] {

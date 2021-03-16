@@ -107,3 +107,34 @@ func GetModuleUrlByID(moduleID int) (string, error) {
 
 	return moduleUrl, err
 }
+
+func GetAllModuleUrls() (map[int]string, error) {
+	db := database.GetDB()
+
+	sqlStatement := `SELECT * FROM module_url;`
+
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		return nil, err
+	}
+
+	mapModuleIDModuleUrls := make(map[int]string, 0)
+
+	defer rows.Close()
+	for rows.Next() {
+		var moduleID int
+		moduleUrl := ""
+
+		err = rows.Scan(
+			&moduleID,
+			&moduleUrl,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		mapModuleIDModuleUrls[moduleID] = moduleUrl
+	}
+
+	return mapModuleIDModuleUrls, nil
+}

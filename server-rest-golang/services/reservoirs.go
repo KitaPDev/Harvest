@@ -30,3 +30,11 @@ func EditReservoir(reservoirID int, reservoirLabel string, nutrientIDs []int) er
 func DeleteReservoir(reservoirID int) error {
 	return repositories.DeleteReservoir(reservoirID)
 }
+
+func GetReservoirUrlByID(reservoirID int) (string, error) {
+	return repositories.GetReservoirUrlByID(reservoirID)
+}
+
+func GetAllReservoirUrls() (map[int]string, error) {
+	return repositories.GetAllReservoirUrls()
+}

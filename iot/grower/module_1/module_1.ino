@@ -55,27 +55,31 @@ int levels = 2;
 int previousStateLED1 = 0;
 int previousStateLED2 = 0;
 
-struct Settings {
+struct ModuleSettings {
   int isAuto;
-  int isWaterOnly;
   long lightOnTime;
   long lightOffTime;
   float humidityRootLow;
   float humidityRootHigh;
-};
-struct Settings settings;
-
-struct ManualSettings {
   int led1;
   int led2;
   int fan1;
   int fan2;
-  int svWater;
-  int svReservoir;
   int sv1;
   int sv2;
 };
-struct ManualSettings manualSettings;
+struct ModuleSettings moduleSettings;
+
+struct ReservoirSettings {
+  int isAuto;
+  float tdsLow;
+  float tdsHigh;
+  float phLow;
+  float phHigh;
+  int svWater;
+  int svReservoir;
+};
+struct ReservoirSettings reservoirSettings;
 
 void setup() {
   Serial.begin(115200);
@@ -96,12 +100,25 @@ void setup() {
   Serial.println(WiFi.localIP());
   printWiFiStatus();
 
-  settings.isAuto = 0;
-  settings.isWaterOnly = 0;
-  settings.lightOnTime = 0;
-  settings.lightOffTime = 0;
-  settings.humidityRootLow = 0;
-  settings.humidityRootHigh = 0;
+  moduleSettings.isAuto = 0;
+  moduleSettings.lightOnTime = 0;
+  moduleSettings.lightOffTime = 0;
+  moduleSettings.humidityRootLow = 0;
+  moduleSettings.humidityRootHigh = 0;
+  moduleSettings.led1 = 0;
+  moduleSettings.led2 = 0;
+  moduleSettings.fan1 = 0;
+  moduleSettings.fan2 = 0;
+  moduleSettings.sv1 = 0;
+  moduleSettings.sv2 = 0;
+
+  //lettuce
+  reservoirSettings.tdsLow = 560;
+  reservoirSettings.tdsHigh = 840;
+  reservoirSettings.phLow = 5.5;
+  reservoirSettings.phHigh = 6.5;
+  reservoirSettings.svWater = 0;
+  reservoirSettings.svReservoir = 0;
 
   initSensors();
   initHardware();
@@ -119,14 +136,15 @@ void loop() {
 
   checkForConnections();
 
-  int led1 = manualSettings.led1;
-  int led2 = manualSettings.led2;
-  int fan1 = manualSettings.fan1;
-  int fan2 = manualSettings.fan2;
-  int svWater = manualSettings.svWater;
-  int svReservoir = manualSettings.svReservoir;
-  int sv1 = manualSettings.sv1;
-  int sv2 = manualSettings.sv2;
+  int led1 = moduleSettings.led1;
+  int led2 = moduleSettings.led2;
+  int fan1 = moduleSettings.fan1;
+  int fan2 = moduleSettings.fan2;
+  int sv1 = moduleSettings.sv1;
+  int sv2 = moduleSettings.sv2;
+
+  int svWater = reservoirSettings.svWater;
+  int svReservoir = reservoirSettings.svReservoir;
 
   DynamicJsonDocument doc(1024);
   char received[1024], body[512];
@@ -157,59 +175,75 @@ void loop() {
         JsonObject root = doc.as<JsonObject>();
 
         if(root.containsKey("is_auto")) {
-          settings.isAuto = root["is_auto"];
+          moduleSettings.isAuto = root["is_auto"];
         }
 
-        if(settings.isAuto) {
-          settings.isWaterOnly = root["is_water_only"];
-          settings.lightOnTime = root["light_on_time"];
-          settings.lightOffTime = root["light_off_time"];
-          settings.humidityRootLow = root["humidity_root_low"];
-          settings.humidityRootHigh = root["humidity_root_high"];
-            
-          client.println("HTTP/1.0 200 OK");
-          client.println("Content-Type: application/json");
-          client.println(getIsAutoSettings_JSON());
-          client.println();
-          client.stop();
-          Serial.println("Client disconnected");
-          continue;
+        if(moduleSettings.isAuto) {
 
-        } else {
-          
-          if(root.containsKey("module")) {
-            manualSettings.led1 = root["led_1"];
-            manualSettings.led2 = root["led_2"];
-            manualSettings.fan1 = root["fan_1"];
-            manualSettings.fan2 = root["fan_2"];
-            manualSettings.sv1 = root["sv_1"];
-            manualSettings.sv2 = root["sv_2"];
-
-            led1 = manualSettings.led1;
-            led2 = manualSettings.led2;
-            fan1 = manualSettings.fan1;
-            fan2 = manualSettings.fan2;
-            sv1 = manualSettings.sv1;
-            sv2 = manualSettings.sv2;
+          if(root.containsKey("module_id")) {
+            moduleSettings.lightOnTime = root["light_on_time"];
+            moduleSettings.lightOffTime = root["light_off_time"];
+            moduleSettings.humidityRootLow = root["humidity_root_low"];
+            moduleSettings.humidityRootHigh = root["humidity_root_high"];
             
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
-            client.println(getModuleHardwareStatus_Json(settings.isAuto, led1, led2, fan1, fan2, sv1, sv2));
+            client.println(getModuleSettings_Json());
             client.println();
             client.stop();
             Serial.println("Client disconnected");
             continue;
             
-          } else if(root.containsKey("reservoir")) {
-            manualSettings.svWater = root["sv_water"];
-            manualSettings.svReservoir = root["sv_reservoir"];
-
-            svWater = manualSettings.svWater;
-            svReservoir = manualSettings.svReservoir;
+          } else if(root.containsKey("reservoir_id")) {
+            reservoirSettings.tdsLow = root["tds_low"];
+            reservoirSettings.tdsHigh = root["tds_high"];
+            reservoirSettings.phLow = root["ph_low"];
+            reservoirSettings.phHigh = root["ph_high"];
             
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
-            client.println(getReservoirHardwareStatus_Json(svWater, svReservoir));
+            client.println(getReservoirSettings_Json());
+            client.println();
+            client.stop();
+            Serial.println("Client disconnected");
+            continue;
+          }
+
+        } else {
+          
+          if(root.containsKey("module_id")) {
+            moduleSettings.led1 = root["led_1"];
+            moduleSettings.led2 = root["led_2"];
+            moduleSettings.fan1 = root["fan_1"];
+            moduleSettings.fan2 = root["fan_2"];
+            moduleSettings.sv1 = root["sv_1"];
+            moduleSettings.sv2 = root["sv_2"];
+
+            led1 = moduleSettings.led1;
+            led2 = moduleSettings.led2;
+            fan1 = moduleSettings.fan1;
+            fan2 = moduleSettings.fan2;
+            sv1 = moduleSettings.sv1;
+            sv2 = moduleSettings.sv2;
+            
+            client.println("HTTP/1.0 200 OK");
+            client.println("Content-Type: application/json");
+            client.println(getModuleSettings_Json());
+            client.println();
+            client.stop();
+            Serial.println("Client disconnected");
+            continue;
+            
+          } else if(root.containsKey("reservoir_id")) {
+            reservoirSettings.svWater = root["sv_water"];
+            reservoirSettings.svReservoir = root["sv_reservoir"];
+
+            svWater = reservoirSettings.svWater;
+            svReservoir = reservoirSettings.svReservoir;
+            
+            client.println("HTTP/1.0 200 OK");
+            client.println("Content-Type: application/json");
+            client.println(getReservoirSettings_Json());
             client.println();
             client.stop();
             Serial.println("Client disconnected");
@@ -236,15 +270,9 @@ void loop() {
 
   memset(received, 0, sizeof received);
 
-  if (settings.isAuto) {
-    if (settings.isWaterOnly) {
-      useWater();
-    } else {
-      useNutrientSolution();
-    }
-
+  if (moduleSettings.isAuto) {
     for (int i = 1; i <= levels; i++) {
-      if (getHumidityRoot(i) <= settings.humidityRootLow) {
+      if (getHumidityRoot(i) <= moduleSettings.humidityRootLow) {
         setLevelMist(i, 1);
       } else {
         setLevelMist(i, 0);
@@ -372,16 +400,21 @@ char * getLogSensorReservoir_Json() {
   return jsonPayload;
 }
 
-char * getIsAutoSettings_JSON() {
+char * getModuleSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["moduleID"] = moduleID;
-  doc["is_auto"] = settings.isAuto;
-  doc["is_water_only"] = settings.isWaterOnly;
-  doc["light_on_time"] = settings.lightOnTime;
-  doc["light_off_time"] = settings.lightOffTime;
-  doc["humidity_root_low"] = settings.humidityRootLow;
-  doc["humidity_root_high"] = settings.humidityRootHigh;
+  doc["is_auto"] = moduleSettings.isAuto;
+  doc["light_on_time"] = moduleSettings.lightOnTime;
+  doc["light_off_time"] = moduleSettings.lightOffTime;
+  doc["humidity_root_low"] = moduleSettings.humidityRootLow;
+  doc["humidity_root_high"] = moduleSettings.humidityRootHigh;
+  doc["led_1"] = moduleSettings.led1;
+  doc["led_2"] = moduleSettings.led2;
+  doc["fan_1"] = moduleSettings.fan2;
+  doc["fan_2"] = moduleSettings.fan2;
+  doc["sv_1"] = moduleSettings.sv1;
+  doc["sv_2"] = moduleSettings.sv2;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);
@@ -389,28 +422,16 @@ char * getIsAutoSettings_JSON() {
   return jsonPayload;
 }
 
-char * getModuleHardwareStatus_Json(int isAuto, int led1, int led2, int fan1, int fan2, int sv1, int sv2) {
+char * getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["is_auto"] = isAuto;
-  doc["led_1"] = led1;
-  doc["led_2"] = led2;
-  doc["fan_1"] = fan2;
-  doc["fan_2"] = fan2;
-  doc["sv_1"] = sv1;
-  doc["sv_2"] = sv2;
-
-  char jsonPayload[512];
-  serializeJson(doc, jsonPayload);
-
-  return jsonPayload;
-}
-
-char * getReservoirHardwareStatus_Json(int svWater, int svReservoir) {
-  DynamicJsonDocument doc(1024);
-  doc["api_key"] = API_KEY;
-  doc["sv_Water"] = svWater;
-  doc["sv_Reservoir"] = svReservoir;
+  doc["TDS"] = reservoirSettings.isAuto;
+  doc["TDS"] = reservoirSettings.tdsLow;
+  doc["TDS"] = reservoirSettings.tdsHigh;
+  doc["ph"] = reservoirSettings.phLow;
+  doc["ph"] = reservoirSettings.phHigh;
+  doc["sv_Water"] = reservoirSettings.svWater;
+  doc["sv_Reservoir"] = reservoirSettings.svReservoir;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

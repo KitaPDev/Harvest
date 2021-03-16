@@ -8,8 +8,10 @@ const DASHBOARD_GERMINATOR_CURRENT_API =
   'http://localhost:9090/dashboard/germinator/current';
 const DASHBOARD_GERMINATOR_HISTORY_API =
   'http://localhost:9090/dashboard/germinator/history';
-const IOT_GERMINATOR_UPDATE_HARDWARE_API =
-  'http://localhost:9090/iot/update/hardware/module';
+const DASHBOARD_GERMINATOR_UPDATE_SETTINGS_API =
+  'http://localhost:9090/dashboard/germinator/update';
+const DASHBOARD_GERMINATOR_GET_ALL_SETTINGS_API =
+  'http://localhost:9090/dashboard/germinator';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGerminatorService {
@@ -26,13 +28,13 @@ export class DashboardGerminatorService {
       .toPromise();
   }
 
-  populateGerminatorDashboard() {
+  updateGerminatorDashboard() {
     this.fetchGerminatorDashboardData().then((response: HttpResponse<any>) => {
       let fetchedData = JSON.parse(JSON.stringify(response.body));
 
       let logSensorGerminators: LogSensorGerminator[] = [];
 
-      for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinator) {
+      for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinators) {
         let logSensorGerminator = new LogSensorGerminator();
 
         logSensorGerminator.loggedAt = fetchedLogSensorGerminator['logged_at'];
@@ -60,14 +62,14 @@ export class DashboardGerminatorService {
       .toPromise();
   }
 
-  populateGerminatorDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
+  updateGerminatorDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
     this.fetchGerminatorDashboardHistoryData(timeStampBegin, timeStampEnd).then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
         let logSensorGerminators: LogSensorGerminator[] = [];
 
-        for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinator) {
+        for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinators) {
           let logSensorGerminator = new LogSensorGerminator();
 
           logSensorGerminator.loggedAt =
