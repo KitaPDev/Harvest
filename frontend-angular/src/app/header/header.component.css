@@ -27,6 +27,10 @@
   src: url("/assets/Quicksand/static/Quicksand-Bold.ttf");
 }
 
+.brand-title:hover {
+  text-decoration: none;
+}
+
 .navbar {
   box-sizing: border-box;
   margin: 0;
@@ -69,6 +73,7 @@
 .navbar-links li a:hover {
   transition: var(--transition);
   opacity: 100%;
+  cursor: pointer;
 }
 
 ul li a.active {

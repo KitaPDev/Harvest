@@ -6,55 +6,39 @@
         <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link dropdown">Dashboards</a>
-        <div class="sub-menu">
-          <ul>
-            <li>
-              <a class="nav-link" routerLink="/dashboard/grower">Grower</a>
-            </li>
-            <li>
-              <a class="nav-link" routerLink="/dashboard/germinator"
-                >Germinator</a
-              >
-            </li>
-          </ul>
-        </div>
+          <a class="nav-link dropdown" routerLink="/dashboard" routerLinkActive="active">Dashboards</a>
+          <div class="sub-menu">
+            <ul>
+            <li><a class="nav-link" routerLink="/dashboard/grower" routerLinkActive="active">Grower</a></li>
+            <li><a class="nav-link" routerLink="/dashboard/germinator" routerLinkActive="active">Germinator</a></li>
+            </ul>
+          </div>
+
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/batches" routerLinkActive="active"
-          >Batches</a
-        >
+        <a class="nav-link" routerLink="/batches" routerLinkActive="active">Batches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/plants" routerLinkActive="active"
-          >Plants</a
-        >
+        <a class="nav-link" routerLink="/plants" routerLinkActive="active">Plants</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/nutrients" routerLinkActive="active"
-          >Nutrients</a
-        >
+        <a class="nav-link" routerLink="/nutrients" routerLinkActive="active">Nutrients</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/reservoirs" routerLinkActive="active"
-          >Reservoirs</a
-        >
+        <a class="nav-link" routerLink="/reservoirs" routerLinkActive="active">Reservoirs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/rooms" routerLinkActive="active"
-          >Rooms</a
-        >
+        <a class="nav-link" routerLink="/rooms" routerLinkActive="active">Rooms</a>
       </li>
       <li class="nav-item">
         <a routerLink="/modules" routerLinkActive="active">Modules</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/users" routerLinkActive="active"
-          >Users</a
-        >
+        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="onLogout()">Logout</a>
+        <a class="nav-link nav-logout"
+           (click)="onLogout()">Logout</a>
       </li>
     </ul>
   </div>
