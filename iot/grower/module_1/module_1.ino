@@ -12,6 +12,7 @@
 #include <cstddef>
 
 #define moduleID 1;
+#define reservoirID 1;
 
 auto timer = timer_create_default();
 
@@ -425,13 +426,14 @@ char * getModuleSettings_Json() {
 char * getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["TDS"] = reservoirSettings.isAuto;
-  doc["TDS"] = reservoirSettings.tdsLow;
-  doc["TDS"] = reservoirSettings.tdsHigh;
-  doc["ph"] = reservoirSettings.phLow;
-  doc["ph"] = reservoirSettings.phHigh;
-  doc["sv_Water"] = reservoirSettings.svWater;
-  doc["sv_Reservoir"] = reservoirSettings.svReservoir;
+  doc["reservoir_id"] = reservoirID;
+  doc["is_auto"] = reservoirSettings.isAuto;
+  doc["tds_low"] = reservoirSettings.tdsLow;
+  doc["tds_high"] = reservoirSettings.tdsHigh;
+  doc["ph_low"] = reservoirSettings.phLow;
+  doc["ph_high"] = reservoirSettings.phHigh;
+  doc["sv_water"] = reservoirSettings.svWater;
+  doc["sv_reservoir"] = reservoirSettings.svReservoir;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

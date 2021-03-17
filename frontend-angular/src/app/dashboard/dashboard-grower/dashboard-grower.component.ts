@@ -7,6 +7,8 @@ import { Module } from '../../../_models/module.model';
 import { Room } from '../../../_models/room.model';
 import { Reservoir } from '../../../_models/reservoir.model';
 import { interval, Subscription } from 'rxjs';
+import { ModuleSettings } from '../../../_models/modulesettings.model';
+import { ReservoirSettings } from '../../../_models/reservoirsettings.model';
 
 @Component({
   selector: 'app-dashboard-grower',
@@ -14,6 +16,8 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./dashboard-grower.component.css'],
 })
 export class DashboardGrowerComponent implements OnInit {
+  isDisplayCurrent: boolean = true;
+
   subRefreshSensor: Subscription;
 
   modules: Module[];
@@ -22,6 +26,8 @@ export class DashboardGrowerComponent implements OnInit {
   logSensorModuleLevels: LogSensorModuleLevel[];
   logSensorReservoirs: LogSensorReservoir[];
   logSensorRooms: LogSensorRoom[];
+  lsModuleSettings: ModuleSettings[];
+  lsReservoirSettings: ReservoirSettings[];
 
   inHistoryMode: boolean = false;
 
@@ -57,9 +63,24 @@ export class DashboardGrowerComponent implements OnInit {
         this.dashboardGrowerService.getLatestGrowerSensorLogs();
       }
     });
+
+    this.dashboardGrowerService
+      .getAllModuleSettings()
+      .then((lsModuleSettings) => {
+        this.lsModuleSettings = lsModuleSettings;
+      });
+    this.dashboardGrowerService
+      .getAllReservoirSettings()
+      .then((lsReservoirSettings) => {
+        this.lsReservoirSettings = lsReservoirSettings;
+      });
   }
 
   ngOnDestroy(): void {
     this.subRefreshSensor.unsubscribe();
+  }
+
+  toggleDisplayMode(): void {
+    this.isDisplayCurrent = !this.isDisplayCurrent;
   }
 }

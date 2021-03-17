@@ -21,14 +21,14 @@ func MakeDashboardHandler() http.Handler {
 	router.HandleFunc("/dashboard/module/update", controllers.UpdateModuleSettings).
 		Methods("POST")
 
-	router.HandleFunc("/dashboard/module", controllers.GetModuleSettings).
-		Methods("POST")
+	router.HandleFunc("/dashboard/module/all", controllers.GetAllModuleSettings).
+		Methods("GET")
 
 	router.HandleFunc("/dashboard/reservoir/update", controllers.UpdateReservoirSettings).
 		Methods("POST")
 
-	router.HandleFunc("/dashboard/reservoir", controllers.GetReservoirSettings).
-		Methods("POST")
+	router.HandleFunc("/dashboard/reservoir/all", controllers.GetAllReservoirSettings).
+		Methods("GET")
 
 	router.HandleFunc("/dashboard/germinator/current", controllers.PopulateGerminatorDashboardCurrent).
 		Methods("GET")
@@ -40,7 +40,7 @@ func MakeDashboardHandler() http.Handler {
 		Methods("POST")
 
 	router.HandleFunc("/dashboard/germinator", controllers.GetGerminatorSettings).
-		Methods("POST")
+		Methods("GET")
 
 	return router
 }

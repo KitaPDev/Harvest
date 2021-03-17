@@ -110,6 +110,19 @@ CREATE TABLE public.batches_rooms (
 ALTER TABLE public.batches_rooms OWNER TO admin;
 
 --
+-- Name: log_sensor_germinator; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.log_sensor_germinator (
+    logged_at timestamp without time zone DEFAULT now(),
+    temperature double precision DEFAULT 0,
+    humidity double precision DEFAULT 0
+);
+
+
+ALTER TABLE public.log_sensor_germinator OWNER TO admin;
+
+--
 -- Name: log_sensor_module; Type: TABLE; Schema: public; Owner: admin
 --
 
@@ -164,7 +177,8 @@ CREATE TABLE public.module (
     reservoir_id integer DEFAULT 0 NOT NULL,
     room_id integer DEFAULT 0 NOT NULL,
     module_label character varying(256) NOT NULL,
-    level integer DEFAULT 0
+    level integer DEFAULT 0,
+    is_auto integer
 );
 
 
@@ -323,6 +337,18 @@ ALTER TABLE public.reservoir_reservoir_id_seq OWNER TO admin;
 
 ALTER SEQUENCE public.reservoir_reservoir_id_seq OWNED BY public.reservoir.reservoir_id;
 
+
+--
+-- Name: reservoir_url; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.reservoir_url (
+    reservoir_id integer,
+    url character varying(256)
+);
+
+
+ALTER TABLE public.reservoir_url OWNER TO admin;
 
 --
 -- Name: reservoirs_nutrients; Type: TABLE; Schema: public; Owner: admin
@@ -511,6 +537,14 @@ COPY public.batches_rooms (batch_id, room_id) FROM stdin;
 
 
 --
+-- Data for Name: log_sensor_germinator; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.log_sensor_germinator (logged_at, temperature, humidity) FROM stdin;
+\.
+
+
+--
 -- Data for Name: log_sensor_module; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -542,9 +576,9 @@ COPY public.log_sensor_room (logged_at, room_id, temperature, humidity) FROM std
 -- Data for Name: module; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.module (module_id, reservoir_id, room_id, module_label, level) FROM stdin;
-4	0	3	test_module2	2
-2	0	0	test_module	2
+COPY public.module (module_id, reservoir_id, room_id, module_label, level, is_auto) FROM stdin;
+4	0	3	test_module2	2	\N
+2	0	0	test_module	2	\N
 \.
 
 
@@ -583,6 +617,14 @@ COPY public.plant (plant_id, plant_label, tds_low, tds_high, ph_low, ph_high, te
 COPY public.reservoir (reservoir_id, reservoir_label) FROM stdin;
 0	
 10	testreservoir1
+\.
+
+
+--
+-- Data for Name: reservoir_url; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.reservoir_url (reservoir_id, url) FROM stdin;
 \.
 
 
@@ -698,14 +740,6 @@ ALTER TABLE ONLY public.module
 
 
 --
--- Name: module_url moduleid_url_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.module_url
-    ADD CONSTRAINT moduleid_url_pkey UNIQUE ("moduleID", url);
-
-
---
 -- Name: nutrient nutrient_nutrient_label_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -759,6 +793,14 @@ ALTER TABLE ONLY public.reservoir
 
 ALTER TABLE ONLY public.reservoir
     ADD CONSTRAINT reservoir_reservoir_label_key UNIQUE (reservoir_label);
+
+
+--
+-- Name: reservoir_url reservoir_url_reservoir_id_url_key; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.reservoir_url
+    ADD CONSTRAINT reservoir_url_reservoir_id_url_key UNIQUE (reservoir_id, url);
 
 
 --
@@ -927,14 +969,6 @@ ALTER TABLE ONLY public.module
 
 
 --
--- Name: module_url module_url_module__fk; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY public.module_url
-    ADD CONSTRAINT module_url_module__fk FOREIGN KEY ("moduleID") REFERENCES public.module(module_id) ON UPDATE CASCADE ON DELETE SET DEFAULT;
-
-
---
 -- Name: reservoirs_nutrients reservoir_nutrients_nutrient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -948,6 +982,14 @@ ALTER TABLE ONLY public.reservoirs_nutrients
 
 ALTER TABLE ONLY public.reservoirs_nutrients
     ADD CONSTRAINT reservoir_nutrients_reservoir_id_fkey FOREIGN KEY (reservoir_id) REFERENCES public.reservoir(reservoir_id) ON DELETE CASCADE;
+
+
+--
+-- Name: reservoir_url reservoir_url_reservoir_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.reservoir_url
+    ADD CONSTRAINT reservoir_url_reservoir_id_fk FOREIGN KEY (reservoir_id) REFERENCES public.reservoir(reservoir_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
