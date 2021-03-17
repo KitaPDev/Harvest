@@ -14,21 +14,21 @@
   font-family: Quicksand_Bold;
   background: var(--clr-white);
   font-size: 1rem;
-  letter-spacing: 0.1rem;
   border: none;
+  letter-spacing: 0.1rem;
   width: 50%;
 }
 
 .btn-1 {
   color: white;
   background: var(--clr-green);
-  border-radius: 2rem 0 0 2rem;
+  border-radius: 2rem;
 }
 
 .btn-2 {
   color: var(--clr-green);
   background: var(--clr-white);
-  border-radius: 0 2rem 2rem 0;
+  border-radius: 2rem;
 }
 
 hr {
@@ -302,7 +302,9 @@ input[type="number"] {
     width: 76px;
     margin-left: auto;
     margin-right: auto;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select: none;
 }
 .onoffswitch-checkbox {
     position: absolute;
@@ -310,22 +312,35 @@ input[type="number"] {
     pointer-events: none;
 }
 .onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 27px;
+    display: block; 
+    overflow: hidden; 
+    cursor: pointer;
+    border: 2px solid #999999; 
+    border-radius: 27px;
 }
 .onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
+    display: block; 
+    width: 200%; 
+    margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block; 
+    float: left; 
+    width: 50%; 
+    height: 30px; 
+    padding: 0; 
+    line-height: 30px;
+    font-size: 14px; 
+    color: white; 
+    font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
 }
 .onoffswitch-inner:before {
   content: "ON";
   padding-left: 10px;
-  background-color: #3782FF; color: #FFFFFF;
+  background-color: #3782FF; 
+  color: #FFFFFF;
 }
 .auto:before {
   background-color: var(--clr-green);
@@ -333,7 +348,8 @@ input[type="number"] {
 .onoffswitch-inner:after {
     content: "OFF";
     padding-right: 10px;
-    background-color: #EEEEEE; color: #999999;
+    background-color: #EEEEEE; 
+    color: #999999;
     text-align: right;
 }
 .auto:after {
@@ -341,11 +357,16 @@ input[type="number"] {
   color: white;
 }
 .onoffswitch-switch {
-    display: block; width: 18px; margin: 6px;
+    display: block; 
+    width: 18px; 
+    margin: 6px;
     background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
+    position: absolute; 
+    top: 0; 
+    bottom: 0;
     right: 42px;
-    border: 2px solid #999999; border-radius: 27px;
+    border: 2px solid #999999; 
+    border-radius: 27px;
     transition: all 0.3s ease-in 0s; 
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
@@ -353,9 +374,4 @@ input[type="number"] {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
-}
-
-.footer {
-  height: 20px;
-  display: block;
 }
