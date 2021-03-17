@@ -73,6 +73,21 @@ h3 {
 .center {
   text-align: center;
 }
+/* .input {
+  
+} */
+input[type="number"] {
+  font-family: Quicksand_Regular;
+  font-size: 1.05rem;
+  padding-left: 1rem;
+  letter-spacing: 0.3px;
+  box-sizing: border-box;
+  border: 1px solid var(--clr-border);
+  border-radius: 0.25rem;
+  height: 2rem;
+  width: 4rem;
+  margin: auto 1rem;
+}
 
 /* ********************** ROOM ********************** */
 
@@ -166,19 +181,15 @@ h3 {
   display: grid; 
   /* grid-template-columns: 1fr 1.5fr 1.5fr; */
   grid-template-columns: repeat(5, 1fr);
-  row-gap: 1rem;
   grid-template-areas: 
   "v w x y z";
   /* "v y z"; */
   align-items: center;
-  color: var(--clr-green);
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+
   padding: 1rem;
   background: #c7c7c7;
-  margin-bottom: 1rem;
 }
-
+/* 
 .cell-v {
   grid-area: v;
 }
@@ -194,6 +205,28 @@ h3 {
 }
 .cell-z {
   grid-area: z;
+} */
+
+
+.each-module-setting {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 0.25fr;
+  row-gap: 1rem;
+  column-gap: 1rem;
+  padding: 1rem;
+  align-items: center;
+  justify-items: end;
+  background: #a9a9a9;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+.inline {
+  display: inline-flex;
+  align-items: flex-end;
 }
 /* ********************** RESERVOIR ********************** */
 
