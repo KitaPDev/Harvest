@@ -34,11 +34,11 @@
         </div>
         <div class="center cell-2">
           <h2>Temperature</h2>
-          <h1>60 &#176;</h1>
+          <h1>{{ getRoomTemperature(room.roomID) }} &#176;C</h1>
         </div>
         <div class="center cell-3">
           <h2>Humidity</h2>
-          <h1>50%</h1>
+          <h1>{{ getRoomHumidity(room.roomID) }}%</h1>
         </div>
       </div>
     </div>
@@ -47,15 +47,15 @@
   <div class="module-container">
     <h1 class="title">Module</h1>
     <div class="module-list">
-      <div class="each-module">
+      <div *ngFor="let module of modules" class="each-module">
         <div class="each-module-data">
           <div class="cell-a">
-            <h1>test_module</h1>
+            <h1>{{ module.moduleLabel }}</h1>
           </div>
 
           <div class="center cell-b">
             <h2>Root Temperature</h2>
-            <h1>25&#176;</h1>
+            <h1>{{ getModuleTemperatureRoot(module.moduleID, 1) }}&#176;C</h1>
           </div>
 
           <div class="center cell-c">
@@ -185,53 +185,55 @@
   <div class="reservoir-container">
     <h1 class="title">Reservoir</h1>
     <div class="reservoir-list">
-      <div class="each-reservoir">
+      <div *ngFor="let reservoir of reservoirs" class="each-reservoir">
         <div class="cell-aa">
-          <h1>Reservoir1</h1>
+          <h1>{{ reservoir.reservoirLabel }}</h1>
         </div>
         <div class="center cell-bb">
           <h2>TDS</h2>
-          <h1>330 ppm</h1>
+          <h1>{{ getReservoirTds(reservoir.reservoirID) }} ppm</h1>
         </div>
         <div class="center cell-cc">
           <h2>PH</h2>
-          <h1>6.5</h1>
+          <h1>{{ getReservoirPh(reservoir.reservoirID) }}</h1>
         </div>
         <div class="center cell-dd">
           <h2>Solution Temperature</h2>
-          <h1>32&#176;</h1>
+          <h1>
+            {{ getReservoirTemperatureSolution(reservoir.reservoirID) }}&#176;C
+          </h1>
         </div>
         <div class="center cell-ee">
           <h2>Solution Level</h2>
-          <h1>95%</h1>
+          <h1>{{ getReservoirSolutionLevel(reservoir.reservoirID) }}%</h1>
         </div>
 
         <div class="cell-ff">
           <h2>SV Nutrient</h2>
-          <div class="onoffswitch">
+          <div class="tsSvNutrient">
             <input
               type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
+              name="tsSvNutrient"
+              class="tsSvNutrient-checkbox"
+              id="tsSvNutrient"
               tabindex="0"
               checked
             />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
+            <label class="tsSvNutrient-label" for="tsSvNutrient">
+              <span class="tsSvNutrient-inner"></span>
+              <span class="tsSvNutrient-switch"></span>
             </label>
           </div>
         </div>
 
         <div class="cell-gg">
           <h2>SV Water</h2>
-          <div class="onoffswitch">
+          <div class="tsSvWater">
             <input
               type="checkbox"
               name="onoffswitch"
               class="onoffswitch-checkbox"
-              id="myonoffswitch"
+              id="tsSvWater"
               tabindex="0"
               checked
             />
