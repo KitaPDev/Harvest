@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const germinatorUrl = ""
+
 func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
 		return
@@ -89,8 +91,8 @@ func GetLatestGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-func UpdateModuleIsAuto(w http.ResponseWriter, r *http.Request) {
-	input := models.IoTIsAutoSettingsBody{}
+func UpdateModuleSettings(w http.ResponseWriter, r *http.Request) {
+	input := models.ModuleSettings{}
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
@@ -118,8 +120,8 @@ func UpdateModuleIsAuto(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	iotInput := models.IoTModuleHardwareInput{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, iotInput)
+	inputIoT := models.ModuleSettings{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -127,7 +129,207 @@ func UpdateModuleIsAuto(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonData, err := json.Marshal(iotInput)
+	type Output struct {
+		ModuleSettings models.ModuleSettings `json:"module_settings"`
+	}
+	output := Output{
+		ModuleSettings: inputIoT,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func GetAllModuleSettings(w http.ResponseWriter, r *http.Request) {
+	if !services.AuthenticateToken(w, r, false) {
+		return
+	}
+
+	var lsModuleSettings []models.ModuleSettings
+
+	mapModuleIDModuleUrl, err := services.GetAllModuleUrls()
+	if err != nil {
+		msg := "Error: Failed to Get Module Urls"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Flag struct {
+		ModuleID int `json:"module_id"`
+	}
+	flg := Flag{ModuleID: 0}
+
+	requestBody, err := json.Marshal(flg)
+	if err != nil {
+		msg := "Error: Failed to Marshal Flag"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	for _, moduleUrl := range mapModuleIDModuleUrl {
+		resp, err := http.Post(moduleUrl, "application/json", bytes.NewReader(requestBody))
+		if err != nil {
+			msg := "Error: Failed to Send HTTP Post request to IoT device"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		inputIoT := models.ModuleSettings{}
+		err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+		if err != nil {
+			msg := "Error: Failed to Decode Json from Response"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		lsModuleSettings = append(lsModuleSettings, inputIoT)
+	}
+
+	type Output struct {
+		LsModuleSettings []models.ModuleSettings `json:"ls_module_settings"`
+	}
+	output := Output{
+		LsModuleSettings: lsModuleSettings,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
+	input := models.ReservoirSettings{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	reservoirUrl, err := services.GetReservoirUrlByID(input.ReservoirID)
+	if err != nil {
+		msg := "Error: Failed to Get Reservoir Urls"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	requestBody, err := json.Marshal(input)
+	if err != nil {
+		msg := "Error: Failed to Marshal IoT Body"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	resp, err := http.Post(reservoirUrl, "application/json", bytes.NewReader(requestBody))
+	if err != nil {
+		msg := "Error: Failed to Send HTTP Post request to IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	inputIoT := models.ReservoirSettings{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	if err != nil {
+		msg := "Error: Failed to Decode Json from Response"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Output struct {
+		ReservoirSettings models.ReservoirSettings `json:"reservoir_settings"`
+	}
+	output := Output{
+		ReservoirSettings: inputIoT,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func GetAllReservoirSettings(w http.ResponseWriter, r *http.Request) {
+	if !services.AuthenticateToken(w, r, false) {
+		return
+	}
+
+	var lsReservoirSettings []models.ReservoirSettings
+
+	mapReservoirIDReservoirUrl, err := services.GetAllReservoirUrls()
+	if err != nil {
+		msg := "Error: Failed to Get Module Urls"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Flag struct {
+		ReservoirID int `json:"reservoir_id"`
+	}
+	flg := Flag{ReservoirID: 1}
+
+	requestBody, err := json.Marshal(flg)
+	if err != nil {
+		msg := "Error: Failed to Marshal Flag"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	for _, reservoirUrl := range mapReservoirIDReservoirUrl {
+		resp, err := http.Post(reservoirUrl, "application/json", bytes.NewReader(requestBody))
+		if err != nil {
+			msg := "Error: Failed to Send HTTP Post request to IoT device"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		inputIoT := models.ReservoirSettings{}
+		err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+		if err != nil {
+			msg := "Error: Failed to Decode Json from Response"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		lsReservoirSettings = append(lsReservoirSettings, inputIoT)
+	}
+
+	type Output struct {
+		LsReservoirSettings []models.ReservoirSettings `json:"ls_reservoir_settings"`
+	}
+	output := Output{
+		LsReservoirSettings: lsReservoirSettings,
+	}
+
+	jsonData, err := json.Marshal(output)
 	if err != nil {
 		msg := "Error: Failed to marshal JSON"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -243,6 +445,96 @@ func PopulateGerminatorDashboardHistory(w http.ResponseWriter, r *http.Request) 
 	}
 	output := Output{
 		LogSensorGerminators: logSensorGerminator,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
+	input := models.ReservoirSettings{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	requestBody, err := json.Marshal(input)
+	if err != nil {
+		msg := "Error: Failed to Marshal IoT Body"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	resp, err := http.Post(germinatorUrl, "application/json", bytes.NewReader(requestBody))
+	if err != nil {
+		msg := "Error: Failed to Send HTTP Post request to IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	inputIoT := models.GerminatorSettings{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	if err != nil {
+		msg := "Error: Failed to Decode Json from Response"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Output struct {
+		GerminatorSettings models.GerminatorSettings `json:"germinator_settings"`
+	}
+	output := Output{
+		GerminatorSettings: inputIoT,
+	}
+
+	jsonData, err := json.Marshal(output)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
+func GetGerminatorSettings(w http.ResponseWriter, r *http.Request) {
+	if !services.AuthenticateToken(w, r, false) {
+		return
+	}
+
+	resp, err := http.Get(germinatorUrl)
+	if err != nil {
+		msg := "Error: Failed to Send HTTP Post request to IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	inputIoT := models.GerminatorSettings{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	if err != nil {
+		msg := "Error: Failed to Decode Json from Response"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type Output struct {
+		GerminatorSettings models.GerminatorSettings `json:"germinator_settings"`
+	}
+	output := Output{
+		GerminatorSettings: inputIoT,
 	}
 
 	jsonData, err := json.Marshal(output)

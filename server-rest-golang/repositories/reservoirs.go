@@ -162,3 +162,59 @@ func DeleteReservoir(reservoirID int) error {
 
 	return nil
 }
+
+func GetReservoirUrlByID(reservoirID int) (string, error) {
+	db := database.GetDB()
+
+	sqlStatement := `SELECT * FROM reservoir_url WHERE "reservoir_id" = $1;`
+
+	rows, err := db.Query(sqlStatement, reservoirID)
+	if err != nil {
+		return "", err
+	}
+
+	reservoirUrl := ""
+
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(
+			&reservoirUrl,
+		)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return reservoirUrl, err
+}
+
+func GetAllReservoirUrls() (map[int]string, error) {
+	db := database.GetDB()
+
+	sqlStatement := `SELECT * FROM reservoir_url;`
+
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		return nil, err
+	}
+
+	mapReservoirIDReservoirUrls := make(map[int]string, 0)
+
+	defer rows.Close()
+	for rows.Next() {
+		var reservoirID int
+		reservoirUrl := ""
+
+		err = rows.Scan(
+			&reservoirID,
+			&reservoirUrl,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		mapReservoirIDReservoirUrls[reservoirID] = reservoirUrl
+	}
+
+	return mapReservoirIDReservoirUrls, nil
+}

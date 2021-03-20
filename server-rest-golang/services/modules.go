@@ -39,3 +39,7 @@ func DeleteModule(moduleID int) error {
 func GetModuleUrlByID(moduleID int) (string, error) {
 	return repositories.GetModuleUrlByID(moduleID)
 }
+
+func GetAllModuleUrls() (map[int]string, error) {
+	return repositories.GetAllModuleUrls()
+}

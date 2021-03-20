@@ -1,234 +1,284 @@
 <div class="mode-selector">
-  <button type="text" class="btn-mode btn-1">Current</button>
-  <button type="text" class="btn-mode btn-2">History</button>
+  <button
+    [ngClass]="{
+      'btn-mode': true,
+      'btn-mode-active': isDisplayCurrent,
+      'btn-mode-inactive': !isDisplayCurrent
+    }"
+    (click)="toggleDisplayMode()"
+  >
+    Current
+  </button>
+  <button
+    [ngClass]="{
+      'btn-mode': true,
+      'btn-mode-active': !isDisplayCurrent,
+      'btn-mode-inactive': isDisplayCurrent
+    }"
+    (click)="toggleDisplayMode()"
+  >
+    History
+  </button>
 </div>
 
 <hr />
 
-<div class="room-container">
-  <h1 class="title">room</h1>
+<div *ngIf="isDisplayCurrent">
+  <div class="room-container">
+    <h1 class="title">room</h1>
 
-  <div class="room-list">
-    <div class="each-room">
-      <div class="cell-1">
-        <h1>room1</h1>
-      </div>
-      <div class="center cell-2">
-        <h2>Temperature</h2>
-        <h1>60 &#176;</h1>
-      </div>
-      <div class="center cell-3">
-        <h2>Humidity</h2>
-        <h1>50%</h1>
+    <div class="room-list">
+      <div *ngFor="let room of rooms" class="each-room">
+        <div class="cell-1">
+          <h1>{{ room.roomLabel }}</h1>
+        </div>
+        <div class="center cell-2">
+          <h2>Temperature</h2>
+          <h1>60 &#176;</h1>
+        </div>
+        <div class="center cell-3">
+          <h2>Humidity</h2>
+          <h1>50%</h1>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div class="module-container">
+    <h1 class="title">Module</h1>
 
     
-  </div>
-</div>
+      <div class="each-module">
+        <div class="each-module-data">
 
-<div class="module-container">
-  <h1 class="title">Module</h1>
-  <div class="module-list">
-    <div class="each-module">
-      <div class="each-module-data">
-        <div class="cell-a">
-          <h1>test_module</h1>
-        </div>
+          <div class="cell-a">
+            <h1 class="module-name">test_module</h1>
+            
+          </div>
 
-        <div class="center cell-b">
-          <h2>Root Temperature</h2>
-          <h1>25&#176;</h1>
-        </div>
+          <div class="cell-b">
 
-        <div class="center cell-c">
-          <h2>Root Humidity</h2>
-          <h1>100%</h1>
-        </div>
-      </div>
-      <div class="each-module-controller">
-        <div class="cell-v">
-          <h3>Auto</h3>
-          <div class="onoffswitch">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner auto"></span>
-              <span class="onoffswitch-switch mannual"></span>
-            </label>
+            <div class="cell-b-left">
+              <div class="module-level">
+                <h2 style="font-size: 1.5rem">Level 1</h2>
+
+                <div class="center">
+                  <h2>Root Temperature</h2>
+                  <h1>25&#176;</h1>
+                </div>
+
+                <div class="center">
+                  <h2>Root Humidity</h2>
+                  <h1>100%</h1>
+                </div>
+              </div>
+            </div>
+            
+            <div class=" cell-b-right">
+              <div class="module-switch">
+                <div>
+                  <h2>Fan</h2>
+                  <div class="onoffswitch">
+                  <input
+                    type="checkbox"
+                    name="onoffswitch"
+                    class="onoffswitch-checkbox"
+                    id="myonoffswitch"
+                    tabindex="0"
+                    checked
+                  />
+                  <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                  </div>
+                </div>
+              
+                <div>
+                  <h2>LED</h2>
+                  <div class="onoffswitch">
+                  <input
+                    type="checkbox"
+                    name="onoffswitch"
+                    class="onoffswitch-checkbox"
+                    id="myonoffswitch"
+                    tabindex="0"
+                    checked
+                  />
+                  <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            
           </div>
+
         </div>
-        <div class="cell-w">
-          <h3>Fan 1</h3>
-          <div class="onoffswitch">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-            </label>
-          </div>
-        </div>
-        <div class="cell-x">
-          <h3>LED 1</h3>
-          <div class="onoffswitch">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-            </label>
-          </div>
-        </div>
-        <div class="cell-y">
-          <h3>Fan 2</h3>
-          <div class="onoffswitch">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-            </label>
-          </div>
-        </div>
-        <div class="cell-z">
-          <h3>LED 2</h3>
-          <div class="onoffswitch">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="myonoffswitch"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="each-module-setting">
-        
+    
+        <div class="each-module-setting">
+          <div>
+              <h3>Auto</h3>
+              <div class="onoffswitch">
+                <input
+                  type="checkbox"
+                  name="onoffswitch"
+                  class="onoffswitch-checkbox"
+                  id="myonoffswitch"
+                  tabindex="0"
+                  checked
+                />
+                <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner auto"></span>
+                  <span class="onoffswitch-switch mannual"></span>
+                </label>
+              </div>
+            </div>
           <h3>Light:</h3>
           <div class="inline">
             <h3>On</h3>
-            <input type="number">
+            <input type="number" />
             <h3>hr</h3>
           </div>
           <div class="inline">
             <h3>Off</h3>
-            <input type="number">
+            <input type="number" />
             <h3>hr</h3>
           </div>
-          <div></div>
-        
+          
+
           <h3>Root Humidity:</h3>
           <div class="inline">
             <h3>Low</h3>
-            <input type="number">
+            <input type="number" />
             <h3>hr</h3>
           </div>
           <div class="inline">
             <h3>High</h3>
-            <input type="number">
+            <input type="number" />
             <h3>hr</h3>
+          </div>
         </div>
-        <div></div>
 
       </div>
-    </div>
+      
     
+
+  </div>
+
+  <div class="reservoir-container">
+    <h1 class="title">Reservoir</h1>
+    <div class="reservoir-list">
+      <div class="each-reservoir">
+        <div>
+          <h1>Reservoir1</h1>
+        </div>
+        <div class="center">
+          <h2>TDS</h2>
+          <h1>330 ppm</h1>
+        </div>
+        <div class="center">
+          <h2>PH</h2>
+          <h1>6.5</h1>
+        </div>
+        <div class="center">
+          <h2>Solution Temperature</h2>
+          <h1>32&#176;</h1>
+        </div>
+        <div class="center">
+          <h2>Solution Level</h2>
+          <h1>95%</h1>
+        </div>
+
+        <div>
+          <h2>SV Nutrient</h2>
+          <div class="onoffswitch">
+            <input
+              type="checkbox"
+              name="onoffswitch"
+              class="onoffswitch-checkbox"
+              id="myonoffswitch"
+              tabindex="0"
+              checked
+            />
+            <label class="onoffswitch-label" for="myonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <h2>SV Water</h2>
+          <div class="onoffswitch">
+            <input
+              type="checkbox"
+              name="onoffswitch"
+              class="onoffswitch-checkbox"
+              id="myonoffswitch"
+              tabindex="0"
+              checked
+            />
+            <label class="onoffswitch-label" for="myonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="reservoir-container">
-  <h1 class="title">Reservoir</h1>
-  <div class="reservoir-list">
-    <div class="each-reservoir">
-      <div class="cell-aa">
-        <h1>Reservoir1</h1>
-      </div>
-      <div class="center cell-bb">
-        <h2>TDS</h2>
-        <h1>330 ppm</h1>
-      </div>
-      <div class="center cell-cc">
-        <h2>PH</h2>
-        <h1>6.5</h1>
-      </div>
-      <div class="center cell-dd">
-        <h2>Solution Temperature</h2>
-        <h1>32&#176;</h1>
-      </div>
-      <div class="center cell-ee">
-        <h2>Solution Level</h2>
-        <h1>95%</h1>
-      </div>
+<div *ngIf="!isDisplayCurrent">
+  <div class="grower-history-container">
+    <h1 class="title">History</h1>
 
-      <div class="cell-ff">
-        <h2>SV Nutrient</h2>
-        <div class="onoffswitch">
-          <input
-            type="checkbox"
-            name="onoffswitch"
-            class="onoffswitch-checkbox"
-            id="myonoffswitch"
-            tabindex="0"
-            checked
-          />
-          <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-          </label>
-        </div>
-      </div>
+    <div class="select-datetime">
+      <h2 class="search-label">Begin:</h2>
+      <input type="datetime-local" />
 
-      <div class="cell-gg">
-        <h2>SV Water</h2>
-        <div class="onoffswitch">
-          <input
-            type="checkbox"
-            name="onoffswitch"
-            class="onoffswitch-checkbox"
-            id="myonoffswitch"
-            tabindex="0"
-            checked
-          />
-          <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-          </label>
-        </div>
+      <h2 class="search-label">End:</h2>
+      <input type="datetime-local" />
+
+      <button class="search-btn">Search</button>
+    </div>
+    <div class="data">
+      <h2 class="title-label">ROOM</h2>
+      <h2 class="data-label">Room(name)</h2>
+      <div class="show-data">
+        <h2>Humidity</h2>
+        <div class="temp-graph"></div>
+
+        <h2>Temperature</h2>
+        <div class="humidity-graph"></div>
       </div>
     </div>
 
-    
+    <div class="data">
+      <h2 class="title-label">MODULE</h2>
+      <h2 class="data-label">Module(name)</h2>
+      <div class="show-data">
+        <h2>Humidity</h2>
+        <div class="temp-graph"></div>
+
+        <h2>Temperature</h2>
+        <div class="humidity-graph"></div>
+      </div>
+    </div>
+
+    <div class="data">
+      <h2 class="title-label">RERSERVOIR</h2>
+      <h2 class="data-label">Reservoir(name)</h2>
+      <div class="show-data">
+        <h2>Humidity</h2>
+        <div class="temp-graph"></div>
+
+        <h2>Temperature</h2>
+        <div class="humidity-graph"></div>
+      </div>
+    </div>
   </div>
 </div>

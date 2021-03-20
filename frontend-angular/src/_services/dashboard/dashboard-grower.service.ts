@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { httpPostOptions } from '../../_shared/httpPostOptions';
-import { BehaviorSubject } from 'rxjs';
+import { httpGetOptions, httpPostOptions } from '../../_shared/httpPostOptions';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Module } from '../../_models/module.model';
 import { Reservoir } from '../../_models/reservoir.model';
 import { Room } from '../../_models/room.model';
-import { LogSensorModuleLevel } from '../../_models/logsensormodule.model';
+import { LogSensorModuleLevel } from '../../_models/logsensormodulelevel.model';
 import { LogSensorReservoir } from '../../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../../_models/logsensorroom.model';
+import { ModuleSettings } from '../../_models/modulesettings.model';
+import { ReservoirSettings } from '../../_models/reservoirsettings.model';
 
 const DASHBOARD_GROWER_CURRENT_API =
   'http://localhost:9090/dashboard/grower/current';
@@ -15,10 +17,14 @@ const DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API =
   'http://localhost:9090/dashboard/grower/sensor/latest';
 const DASHBOARD_GROWER_HISTORY_API =
   'http://localhost:9090/dashboard/grower/history';
-const DASHBOARD_UPDATE_MODULE_HARDWARE_API =
-  'http://localhost:9090/dashboard/module/update/hardware';
-const DASHBOARD_UPDATE_RESERVOIR_HARDWARE_API =
-  'http://localhost:9090/dashboard/reservoir/update/hardware';
+const DASHBOARD_UPDATE_MODULE_SETTINGS_API =
+  'http://localhost:9090/dashboard/module/update';
+const DASHBOARD_GET_ALL_MODULE_SETTINGS_API =
+  'http://localhost:9090/dashboard/module/all';
+const DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API =
+  'http://localhost:9090/dashboard/reservoir/update';
+const DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API =
+  'http://localhost:9090/dashboard/reservoir/all';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGrowerService {
@@ -60,7 +66,7 @@ export class DashboardGrowerService {
       .toPromise();
   }
 
-  populateGrowerDashboardCurrent() {
+  updateGrowerDashboardCurrent() {
     this.fetchGrowerDashboardCurrentData().then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
@@ -163,7 +169,7 @@ export class DashboardGrowerService {
 
   fetchLatestGrowerSensorLogs(): Promise<any> {
     return this.httpClient
-      .post<any>(DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API, httpPostOptions)
+      .get<any>(DASHBOARD_GROWER_UPDATE_SENSOR_LOGS_API, httpPostOptions)
       .toPromise();
   }
 
@@ -236,7 +242,7 @@ export class DashboardGrowerService {
       .toPromise();
   }
 
-  populateGrowerDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
+  updateGrowerDashboardHistory(timeStampBegin: Date, timeStampEnd: Date) {
     this.fetchGrowerDashboardHistoryData(timeStampBegin, timeStampEnd).then(
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
@@ -292,6 +298,117 @@ export class DashboardGrowerService {
         this.logSensorRoomsSource.next(logSensorRooms);
       }
     );
+  }
+
+  async updateModuleSettings(moduleSettings: ModuleSettings): Promise<boolean> {
+    let receivedModuleSettings: ModuleSettings = new ModuleSettings();
+
+    await this.httpClient
+      .post<any>(
+        DASHBOARD_UPDATE_MODULE_SETTINGS_API,
+        moduleSettings,
+        httpPostOptions
+      )
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+        let fetchedModuleSettings = fetchedData.module_settings;
+
+        receivedModuleSettings.moduleID = fetchedModuleSettings['module_id'];
+        receivedModuleSettings.isAuto = fetchedModuleSettings['is_auto'];
+        receivedModuleSettings.lightOnTime =
+          fetchedModuleSettings['light_on_time'];
+        receivedModuleSettings.lightOffTime =
+          fetchedModuleSettings['light_off_time'];
+        receivedModuleSettings.humidityRootLow =
+          fetchedModuleSettings['humidity_root_low'];
+        receivedModuleSettings.humidityRootHigh =
+          fetchedModuleSettings['humidity_root_high'];
+        receivedModuleSettings.led1 = fetchedModuleSettings['led_1'];
+        receivedModuleSettings.led2 = fetchedModuleSettings['led_2'];
+        receivedModuleSettings.fan1 = fetchedModuleSettings['fan_1'];
+        receivedModuleSettings.fan2 = fetchedModuleSettings['fan_2'];
+        receivedModuleSettings.sv1 = fetchedModuleSettings['sv_1'];
+        receivedModuleSettings.sv2 = fetchedModuleSettings['sv_2'];
+      });
+
+    return (
+      JSON.stringify(moduleSettings) == JSON.stringify(receivedModuleSettings)
+    );
+  }
+
+  async getAllModuleSettings(): Promise<ModuleSettings[]> {
+    let receivedLsModuleSettings: ModuleSettings[] = [];
+
+    await this.httpClient
+      .get(DASHBOARD_GET_ALL_MODULE_SETTINGS_API, httpGetOptions)
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+
+        for (let moduleSettings of fetchedData.ls_module_settings) {
+          if (moduleSettings != undefined) {
+            receivedLsModuleSettings.push(moduleSettings);
+          }
+        }
+      });
+
+    return receivedLsModuleSettings;
+  }
+
+  async updateReservoirSettings(
+    reservoirSettings: ReservoirSettings
+  ): Promise<boolean> {
+    let receivedReservoirSettings: ReservoirSettings = new ReservoirSettings();
+
+    await this.httpClient
+      .post<any>(
+        DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API,
+        reservoirSettings,
+        httpPostOptions
+      )
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+        let fetchedReservoirSettings = fetchedData.reservoir_settings;
+
+        receivedReservoirSettings.reservoirID =
+          fetchedReservoirSettings['reservoir_id'];
+        receivedReservoirSettings.isAuto = fetchedReservoirSettings['is_auto'];
+        receivedReservoirSettings.tdsLow = fetchedReservoirSettings['tds_low'];
+        receivedReservoirSettings.tdsHigh =
+          fetchedReservoirSettings['tds_high'];
+        receivedReservoirSettings.phLow = fetchedReservoirSettings['ph_low'];
+        receivedReservoirSettings.phHigh = fetchedReservoirSettings['ph_high'];
+        receivedReservoirSettings.svWater =
+          fetchedReservoirSettings['sv_water'];
+        receivedReservoirSettings.svReservoir =
+          fetchedReservoirSettings['sv_reservoir'];
+      });
+
+    return (
+      JSON.stringify(reservoirSettings) ==
+      JSON.stringify(receivedReservoirSettings)
+    );
+  }
+
+  async getAllReservoirSettings(): Promise<ReservoirSettings[]> {
+    let receivedLsReservoirSettings: ReservoirSettings[] = [];
+
+    await this.httpClient
+      .get(DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API, httpGetOptions)
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+
+        for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
+          if (reservoirSettings != undefined) {
+            receivedLsReservoirSettings.push(reservoirSettings);
+          }
+        }
+      });
+
+    return receivedLsReservoirSettings;
   }
 
   getModules(): Module[] {

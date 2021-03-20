@@ -18,14 +18,29 @@ func MakeDashboardHandler() http.Handler {
 	router.HandleFunc("/dashboard/grower/history", controllers.PopulateGrowerDashboardHistory).
 		Methods("POST")
 
-	router.HandleFunc("/dashboard/module/update/is_auto", controllers.UpdateModuleIsAuto).
+	router.HandleFunc("/dashboard/module/update", controllers.UpdateModuleSettings).
 		Methods("POST")
+
+	router.HandleFunc("/dashboard/module/all", controllers.GetAllModuleSettings).
+		Methods("GET")
+
+	router.HandleFunc("/dashboard/reservoir/update", controllers.UpdateReservoirSettings).
+		Methods("POST")
+
+	router.HandleFunc("/dashboard/reservoir/all", controllers.GetAllReservoirSettings).
+		Methods("GET")
 
 	router.HandleFunc("/dashboard/germinator/current", controllers.PopulateGerminatorDashboardCurrent).
 		Methods("GET")
 
 	router.HandleFunc("/dashboard/germinator/history", controllers.PopulateGerminatorDashboardHistory).
 		Methods("POST")
+
+	router.HandleFunc("/dashboard/germinator/update", controllers.UpdateGerminatorSettings).
+		Methods("POST")
+
+	router.HandleFunc("/dashboard/germinator", controllers.GetGerminatorSettings).
+		Methods("GET")
 
 	return router
 }
