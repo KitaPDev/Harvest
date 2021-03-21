@@ -4,8 +4,8 @@
 #include <DallasTemperature.h>
 #include <EEPROM.h>
 #include <GravityTDS.h>
-#include <WiFi.h>
 #include <DHT.h>
+#include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <arduino-timer.h>
@@ -41,13 +41,16 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL_module[] = "http://192.168.1.53:9090/iot/update/module/sensor";
-char serverURL_reservoir[] = "http://192.168.1.53:9090/iot/update/reservoir/sensor";
-char serverURL_room[] = "http://192.168.1.53:9090/iot/update/room/sensor";
+char serverURL[] = "http://192.168.1.107"
+int serverPort = 9090;
+char updateModuleSensorURL[] = "/iot/update/module/sensor";
+char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
+char updateRoomSensorURL[] = "/iot/update/room/sensor";
+
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "xincaima";
-const char* password = "020416651";
+const char* ssid = "159291_2.4G";
+const char* password = "MAY789354";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;
@@ -89,7 +92,7 @@ void setup() {
   WiFi.begin(ssid, password);
   Serial.println("Establishing WiFi connection...");
 
-  WiFi.config(local_ip, dns, gateway, subnet);
+  WiFi.config(local_ip, gateway, subnet, dns);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -314,37 +317,50 @@ void checkForConnections() {
 }
 
 bool updateModuleSensor(void *) {
-  HTTPClient http;
-  http.begin(serverURL_module);
-  http.addHeader("Content-Type", "application/json");
+  HTTPClient httpClient;
 
-  int httpResponseCode = http.POST(getLogSensorModule_Json());
-  Serial.print("HTTP Response Code = ");
-  Serial.println(httpResponseCode);
+  if (httpClient.begin(serverURL, serverPort, updateModuleSensorURL)) {
+    httpClient.addHeader("Content-Type", "application/json");
+  
+    int httpResponseCode = httpClient.POST(getLogSensorModule_Json());
+    String httpResponse = httpClient.getString();
+    
+    Serial.print("Status Code: ");
+    Serial.println(httpResponseCode);
+    Serial.print("Response: ");
+    Serial.println(httpResponse);
+  }
 
   return true;
 }
 
 bool updateRoomSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL_room);
-  http.addHeader("Content-Type", "application/json");
-
-  int httpResponseCode = http.POST(getLogSensorRoom_Json());
-  Serial.print("HTTP Response Code = ");
-  Serial.println(httpResponseCode);
+  if (http.begin(serverURL, serverPort, updateRoomSensorURL)) {
+    http.addHeader("Content-Type", "application/json");
+  
+    int httpResponseCode = http.POST(getLogSensorRoom_Json());
+    Serial.print("HTTP Response Code = ");
+    Serial.println(httpResponseCode);
+  }
 
   return true;
 }
 
 bool updateReservoirSensor(void *) {
   HTTPClient http;
-  http.begin(serverURL_reservoir);
-  http.addHeader("Content-Type", "application/json");
-
-  int httpResponseCode = http.POST(getLogSensorReservoir_Json());
-  Serial.print("HTTP Response Code = ");
-  Serial.println(httpResponseCode);
+  if (http.begin(serverURL, serverPort, updateReservoirSensorURL){
+    http.begin(serverURL_reservoir);
+    http.addHeader("Content-Type", "application/json");
+  
+    int httpResponseCode = http.POST(getLogSensorReservoir_Json());
+    String httpResponse = httpClient.getString();
+    
+    Serial.print("Status Code: ");
+    Serial.println(httpResponseCode);
+    Serial.print("Response: ");
+    Serial.println(httpResponse);
+  }
 
   return true;
 }

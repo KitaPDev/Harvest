@@ -18,5 +18,9 @@ func MakeIotHandler() http.Handler {
 	router.HandleFunc("/iot/update/reservoir/sensor", controllers.UpdateReservoirSensor).
 		Methods("POST")
 
+	// For testing only!
+	router.HandleFunc("/iot/test", controllers.IoTTest).Methods("POST")
+	router.HandleFunc("/iot/test/server", controllers.IoTServerTest).Methods("POST")
+
 	return router
 }

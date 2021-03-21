@@ -166,7 +166,7 @@ func DeleteReservoir(reservoirID int) error {
 func GetReservoirUrlByID(reservoirID int) (string, error) {
 	db := database.GetDB()
 
-	sqlStatement := `SELECT * FROM reservoir_url WHERE "reservoir_id" = $1;`
+	sqlStatement := `SELECT url FROM reservoir_url WHERE reservoir_id = $1;`
 
 	rows, err := db.Query(sqlStatement, reservoirID)
 	if err != nil {

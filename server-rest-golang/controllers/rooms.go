@@ -16,7 +16,7 @@ func PopulateRooms(w http.ResponseWriter, r *http.Request) {
 
 	rooms, _, err := services.GetPopulateRoomsData()
 	if err != nil {
-		msg := "Error: Failed to Get Populate Rooms Data"
+		msg := "Error: Failed to Get Populate LsRoom Data"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return

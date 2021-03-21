@@ -28,35 +28,35 @@ const DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API =
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGrowerService {
-  private modulesSource: BehaviorSubject<Module[]> = new BehaviorSubject<
+  private lsModuleSource: BehaviorSubject<Module[]> = new BehaviorSubject<
     Module[]
   >([]);
-  modules = this.modulesSource.asObservable();
+  lsModule = this.lsModuleSource.asObservable();
 
-  private reservoirsSource: BehaviorSubject<Reservoir[]> = new BehaviorSubject<
+  private lsReservoirSource: BehaviorSubject<Reservoir[]> = new BehaviorSubject<
     Reservoir[]
   >([]);
-  reservoirs = this.reservoirsSource.asObservable();
+  lsReservoir = this.lsReservoirSource.asObservable();
 
-  private roomsSource: BehaviorSubject<Room[]> = new BehaviorSubject<Room[]>(
+  private lsRoomSource: BehaviorSubject<Room[]> = new BehaviorSubject<Room[]>(
     []
   );
-  rooms = this.roomsSource.asObservable();
+  lsRoom = this.lsRoomSource.asObservable();
 
-  private logSensorModuleLevelsSource: BehaviorSubject<
+  private lsLogSensorModuleLevelSource: BehaviorSubject<
     LogSensorModuleLevel[]
   > = new BehaviorSubject<LogSensorModuleLevel[]>([]);
-  logSensorModuleLevels = this.logSensorModuleLevelsSource.asObservable();
+  lsLogSensorModuleLevel = this.lsLogSensorModuleLevelSource.asObservable();
 
-  private logSensorReservoirsSource: BehaviorSubject<
+  private lsLogSensorReservoirSource: BehaviorSubject<
     LogSensorReservoir[]
   > = new BehaviorSubject<LogSensorReservoir[]>([]);
-  logSensorReservoirs = this.logSensorReservoirsSource.asObservable();
+  lsLogSensorReservoir = this.lsLogSensorReservoirSource.asObservable();
 
-  private logSensorRoomsSource: BehaviorSubject<
+  private lsLogSensorRoomSource: BehaviorSubject<
     LogSensorRoom[]
   > = new BehaviorSubject<LogSensorRoom[]>([]);
-  logSensorRooms = this.logSensorRoomsSource.asObservable();
+  lsLogSensorRoom = this.lsLogSensorRoomSource.asObservable();
 
   constructor(private httpClient: HttpClient) {}
 
@@ -72,7 +72,7 @@ export class DashboardGrowerService {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
         let modules: Module[] = [];
-        for (let fetchedModule of fetchedData.modules) {
+        for (let fetchedModule of fetchedData.ls_module) {
           let module = new Module();
 
           module.moduleID = fetchedModule['module_id'];
@@ -85,10 +85,10 @@ export class DashboardGrowerService {
             modules.push(module);
           }
         }
-        this.modulesSource.next(modules);
+        this.lsModuleSource.next(modules);
 
         let reservoirs: Reservoir[] = [];
-        for (let fetchedReservoir of fetchedData.reservoirs) {
+        for (let fetchedReservoir of fetchedData.ls_reservoir) {
           let reservoir = new Reservoir();
 
           reservoir.reservoirID = fetchedReservoir['reservoir_id'];
@@ -99,10 +99,10 @@ export class DashboardGrowerService {
             reservoirs.push(reservoir);
           }
         }
-        this.reservoirsSource.next(reservoirs);
+        this.lsReservoirSource.next(reservoirs);
 
         let rooms: Room[] = [];
-        for (let fetchedRoom of fetchedData.rooms) {
+        for (let fetchedRoom of fetchedData.ls_room) {
           let room = new Room();
 
           room.roomID = fetchedRoom['room_id'];
@@ -112,13 +112,13 @@ export class DashboardGrowerService {
             rooms.push(room);
           }
         }
-        this.roomsSource.next(rooms);
+        this.lsRoomSource.next(rooms);
 
-        let logSensorModuleLevels: LogSensorModuleLevel[] = [];
-        let logSensorReservoirs: LogSensorReservoir[] = [];
-        let logSensorRooms: LogSensorRoom[] = [];
+        let lsLogSensorModuleLevel: LogSensorModuleLevel[] = [];
+        let lsLogSensorReservoir: LogSensorReservoir[] = [];
+        let lsLogSensorRoom: LogSensorRoom[] = [];
 
-        for (let fetchedLogSensorModuleLevel of fetchedData.log_sensor_module_levels) {
+        for (let fetchedLogSensorModuleLevel of fetchedData.ls_log_sensor_module_level) {
           let logSensorModuleLevel = new LogSensorModuleLevel();
 
           logSensorModuleLevel.loggedAt =
@@ -131,11 +131,11 @@ export class DashboardGrowerService {
           logSensorModuleLevel.humidityRoot =
             fetchedLogSensorModuleLevel['humidity_root'];
 
-          logSensorModuleLevels.push(logSensorModuleLevel);
+          lsLogSensorModuleLevel.push(logSensorModuleLevel);
         }
-        this.logSensorModuleLevelsSource.next(logSensorModuleLevels);
+        this.lsLogSensorModuleLevelSource.next(lsLogSensorModuleLevel);
 
-        for (let fetchedLogSensorReservoir of fetchedData.log_sensor_reservoirs) {
+        for (let fetchedLogSensorReservoir of fetchedData.ls_log_sensor_reservoir) {
           let logSensorReservoir = new LogSensorReservoir();
 
           logSensorReservoir.loggedAt = fetchedLogSensorReservoir['logged_at'];
@@ -148,11 +148,11 @@ export class DashboardGrowerService {
           logSensorReservoir.solnLevel =
             fetchedLogSensorReservoir['soln_level'];
 
-          logSensorReservoirs.push(logSensorReservoir);
+          lsLogSensorReservoir.push(logSensorReservoir);
         }
-        this.logSensorReservoirsSource.next(logSensorReservoirs);
+        this.lsLogSensorReservoirSource.next(lsLogSensorReservoir);
 
-        for (let fetchedLogSensorRoom of fetchedData.log_sensor_rooms) {
+        for (let fetchedLogSensorRoom of fetchedData.ls_log_sensor_room) {
           let logSensorRoom = new LogSensorRoom();
 
           logSensorRoom.loggedAt = fetchedLogSensorRoom['logged_at'];
@@ -160,9 +160,9 @@ export class DashboardGrowerService {
           logSensorRoom.temperature = fetchedLogSensorRoom['temperature'];
           logSensorRoom.humidity = fetchedLogSensorRoom['humidity'];
 
-          logSensorRooms.push(logSensorRoom);
+          lsLogSensorRoom.push(logSensorRoom);
         }
-        this.logSensorRoomsSource.next(logSensorRooms);
+        this.lsLogSensorRoomSource.next(lsLogSensorRoom);
       }
     );
   }
@@ -181,7 +181,7 @@ export class DashboardGrowerService {
       let logSensorReservoirs: LogSensorReservoir[] = [];
       let logSensorRooms: LogSensorRoom[] = [];
 
-      for (let fetchedLogSensorModuleLevel of fetchedData.log_sensor_module_levels) {
+      for (let fetchedLogSensorModuleLevel of fetchedData.ls_log_sensor_module_level) {
         let logSensorModuleLevel = new LogSensorModuleLevel();
 
         logSensorModuleLevel.loggedAt =
@@ -196,9 +196,9 @@ export class DashboardGrowerService {
 
         logSensorModuleLevels.push(logSensorModuleLevel);
       }
-      this.logSensorModuleLevelsSource.next(logSensorModuleLevels);
+      this.lsLogSensorModuleLevelSource.next(logSensorModuleLevels);
 
-      for (let fetchedLogSensorReservoir of fetchedData.log_sensor_reservoirs) {
+      for (let fetchedLogSensorReservoir of fetchedData.ls_log_sensor_reservoir) {
         let logSensorReservoir = new LogSensorReservoir();
 
         logSensorReservoir.loggedAt = fetchedLogSensorReservoir['logged_at'];
@@ -212,9 +212,9 @@ export class DashboardGrowerService {
 
         logSensorReservoirs.push(logSensorReservoir);
       }
-      this.logSensorReservoirsSource.next(logSensorReservoirs);
+      this.lsLogSensorReservoirSource.next(logSensorReservoirs);
 
-      for (let fetchedLogSensorRoom of fetchedData.log_sensor_rooms) {
+      for (let fetchedLogSensorRoom of fetchedData.ls_log_sensor_room) {
         let logSensorRoom = new LogSensorRoom();
 
         logSensorRoom.loggedAt = fetchedLogSensorRoom['logged_at'];
@@ -224,7 +224,7 @@ export class DashboardGrowerService {
 
         logSensorRooms.push(logSensorRoom);
       }
-      this.logSensorRoomsSource.next(logSensorRooms);
+      this.lsLogSensorRoomSource.next(logSensorRooms);
     });
   }
 
@@ -247,11 +247,11 @@ export class DashboardGrowerService {
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-        let logSensorModuleLevels: LogSensorModuleLevel[] = [];
-        let logSensorReservoirs: LogSensorReservoir[] = [];
-        let logSensorRooms: LogSensorRoom[] = [];
+        let lsLogSensorModuleLevel: LogSensorModuleLevel[] = [];
+        let lsLogSensorReservoir: LogSensorReservoir[] = [];
+        let lsLogSensorRoom: LogSensorRoom[] = [];
 
-        for (let fetchedLogSensorModuleLevel of fetchedData.log_sensor_module_levels) {
+        for (let fetchedLogSensorModuleLevel of fetchedData.ls_log_sensor_module_level) {
           let logSensorModuleLevel = new LogSensorModuleLevel();
 
           logSensorModuleLevel.loggedAt =
@@ -264,11 +264,11 @@ export class DashboardGrowerService {
           logSensorModuleLevel.humidityRoot =
             fetchedLogSensorModuleLevel['humidity_root'];
 
-          logSensorModuleLevels.push(logSensorModuleLevel);
+          lsLogSensorModuleLevel.push(logSensorModuleLevel);
         }
-        this.logSensorModuleLevelsSource.next(logSensorModuleLevels);
+        this.lsLogSensorModuleLevelSource.next(lsLogSensorModuleLevel);
 
-        for (let fetchedLogSensorReservoir of fetchedData.log_sensor_reservoirs) {
+        for (let fetchedLogSensorReservoir of fetchedData.ls_log_sensor_reservoir) {
           let logSensorReservoir = new LogSensorReservoir();
 
           logSensorReservoir.loggedAt = fetchedLogSensorReservoir['logged_at'];
@@ -281,11 +281,11 @@ export class DashboardGrowerService {
           logSensorReservoir.solnLevel =
             fetchedLogSensorReservoir['soln_level'];
 
-          logSensorReservoirs.push(logSensorReservoir);
+          lsLogSensorReservoir.push(logSensorReservoir);
         }
-        this.logSensorReservoirsSource.next(logSensorReservoirs);
+        this.lsLogSensorReservoirSource.next(lsLogSensorReservoir);
 
-        for (let fetchedLogSensorRoom of fetchedData.log_sensor_rooms) {
+        for (let fetchedLogSensorRoom of fetchedData.ls_log_sensor_room) {
           let logSensorRoom = new LogSensorRoom();
 
           logSensorRoom.loggedAt = fetchedLogSensorRoom['logged_at'];
@@ -293,9 +293,9 @@ export class DashboardGrowerService {
           logSensorRoom.temperature = fetchedLogSensorRoom['temperature'];
           logSensorRoom.humidity = fetchedLogSensorRoom['humidity'];
 
-          logSensorRooms.push(logSensorRoom);
+          lsLogSensorRoom.push(logSensorRoom);
         }
-        this.logSensorRoomsSource.next(logSensorRooms);
+        this.lsLogSensorRoomSource.next(lsLogSensorRoom);
       }
     );
   }
@@ -412,26 +412,26 @@ export class DashboardGrowerService {
   }
 
   getModules(): Module[] {
-    return this.modulesSource.getValue();
+    return this.lsModuleSource.getValue();
   }
 
   getReservoirs(): Reservoir[] {
-    return this.reservoirsSource.getValue();
+    return this.lsReservoirSource.getValue();
   }
 
   getRooms(): Room[] {
-    return this.roomsSource.getValue();
+    return this.lsRoomSource.getValue();
   }
 
   getLogSensorModuleLevels(): LogSensorModuleLevel[] {
-    return this.logSensorModuleLevelsSource.getValue();
+    return this.lsLogSensorModuleLevelSource.getValue();
   }
 
   getLogSensorReservoirs(): LogSensorReservoir[] {
-    return this.logSensorReservoirsSource.getValue();
+    return this.lsLogSensorReservoirSource.getValue();
   }
 
   getLogSensorRooms(): LogSensorRoom[] {
-    return this.logSensorRoomsSource.getValue();
+    return this.lsLogSensorRoomSource.getValue();
   }
 }

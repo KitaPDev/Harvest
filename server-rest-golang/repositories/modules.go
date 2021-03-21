@@ -86,7 +86,7 @@ func DeleteModule(moduleID int) error {
 func GetModuleUrlByID(moduleID int) (string, error) {
 	db := database.GetDB()
 
-	sqlStatement := `SELECT * FROM module_url WHERE "moduleID" = $1;`
+	sqlStatement := `SELECT url FROM module_url WHERE module_id = $1;`
 
 	rows, err := db.Query(sqlStatement, moduleID)
 	if err != nil {

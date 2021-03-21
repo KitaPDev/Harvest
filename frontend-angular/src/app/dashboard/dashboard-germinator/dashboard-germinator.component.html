@@ -7,11 +7,9 @@
         <h2>Humidity</h2>
         <h1>
           {{
-            logSensorGerminators.length == 0
+            lsLogSensorGerminator.length == 0
               ? "N/A"
-              : logSensorGerminators[
-                  logSensorGerminators.length - 1
-                ].humidity.toString()
+              : lsLogSensorGerminator[0].humidity.toString()
           }}%
         </h1>
       </div>
@@ -19,10 +17,9 @@
         <h2>Temperature</h2>
         <h1>
           {{
-            logSensorGerminators.length == 0
+            lsLogSensorGerminator.length == 0
               ? "N/A"
-              : logSensorGerminators[logSensorGerminators.length - 1]
-                  .temperature
+              : lsLogSensorGerminator[0].temperature
           }}&#176;C
         </h1>
       </div>
@@ -187,9 +184,29 @@
 
   <div class="show-data">
     <h2>Humidity</h2>
-    <div class="temp-graph"></div>
+    <div class="temp-graph">
+      <canvas
+        baseChart
+        [datasets]="tempChartDataSet"
+        [options]="tempChartOptions"
+        [colors]="tempChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
+      <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
+    </div>
 
     <h2>Temperature</h2>
-    <div class="humidity-graph"></div>
+    <div class="humidity-graph">
+      <canvas
+        baseChart
+        [datasets]="humidityChartDataSet"
+        [options]="humidityChartOptions"
+        [colors]="humidityChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
+      <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
+    </div>
   </div>
 </div>

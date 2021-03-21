@@ -18,7 +18,7 @@ func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	moduleLevelLogs, reservoirLogs, roomLogs, modules, reservoirs, rooms, err := services.GetPopulateGrowerDashboardData()
+	lsModuleLevelLog, lsReservoirLog, lsRoomLog, lsModule, lsReservoir, lsRoom, err := services.GetPopulateGrowerDashboardData()
 	if err != nil {
 		msg := "Error: Failed to Get Populate Grower Dashboard Data"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -27,20 +27,20 @@ func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Output struct {
-		LogSensorModuleLevels []models.LogSensorModuleLevel `json:"log_sensor_module_levels"`
-		LogSensorReservoirs   []models.LogSensorReservoir   `json:"log_sensor_reservoirs"`
-		LogRooms              []models.LogSensorRoom        `json:"log_sensor_rooms"`
-		Modules               []models.Module               `json:"modules"`
-		Reservoirs            []models.Reservoir            `json:"reservoirs"`
-		Rooms                 []models.Room                 `json:"rooms"`
+		LsLogSensorModuleLevel []models.LogSensorModuleLevel `json:"ls_log_sensor_module_level"`
+		LsLogSensorReservoir   []models.LogSensorReservoir   `json:"ls_log_sensor_reservoir"`
+		LsLogRoom              []models.LogSensorRoom        `json:"ls_log_sensor_room"`
+		LsModule               []models.Module               `json:"ls_module"`
+		LsReservoir            []models.Reservoir            `json:"ls_reservoir"`
+		LsRoom                 []models.Room                 `json:"ls_room"`
 	}
 	output := Output{
-		LogSensorModuleLevels: moduleLevelLogs,
-		LogSensorReservoirs:   reservoirLogs,
-		LogRooms:              roomLogs,
-		Modules:               modules,
-		Reservoirs:            reservoirs,
-		Rooms:                 rooms,
+		LsLogSensorModuleLevel: lsModuleLevelLog,
+		LsLogSensorReservoir:   lsReservoirLog,
+		LsLogRoom:              lsRoomLog,
+		LsModule:               lsModule,
+		LsReservoir:            lsReservoir,
+		LsRoom:                 lsRoom,
 	}
 
 	jsonData, err := json.Marshal(output)
@@ -60,7 +60,7 @@ func GetLatestGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	moduleLevelLogs, reservoirLogs, roomLogs, err := services.GetLatestGrowerSensorLogs()
+	lsModuleLevelLog, lsReservoirLog, lsRoomLog, err := services.GetLatestGrowerSensorLogs()
 	if err != nil {
 		msg := "Error: Failed to Get Latest Grower Sensor Logs"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -69,14 +69,14 @@ func GetLatestGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Output struct {
-		LogSensorModuleLevels []models.LogSensorModuleLevel `json:"log_sensor_module_levels"`
-		LogSensorReservoirs   []models.LogSensorReservoir   `json:"log_sensor_reservoirs"`
-		LogRooms              []models.LogSensorRoom        `json:"log_sensor_rooms"`
+		LsLogSensorModuleLevel []models.LogSensorModuleLevel `json:"ls_log_sensor_module_level"`
+		LsLogSensorReservoir   []models.LogSensorReservoir   `json:"ls_log_sensor_reservoir"`
+		LsLogRoom              []models.LogSensorRoom        `json:"ls_log_sensor_room"`
 	}
 	output := Output{
-		LogSensorModuleLevels: moduleLevelLogs,
-		LogSensorReservoirs:   reservoirLogs,
-		LogRooms:              roomLogs,
+		LsLogSensorModuleLevel: lsModuleLevelLog,
+		LsLogSensorReservoir:   lsReservoirLog,
+		LsLogRoom:              lsRoomLog,
 	}
 
 	jsonData, err := json.Marshal(output)
@@ -354,7 +354,7 @@ func PopulateGrowerDashboardHistory(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	logSensorModuleLevels, logSensorReservoirs, logSensorRooms, err := services.GetGrowerHistorySensorLogData(input.TimeStampBegin,
+	lsLogSensorModuleLevel, lsLogSensorReservoir, lsLogSensorRoom, err := services.GetGrowerHistorySensorLogData(input.TimeStampBegin,
 		input.TimeStampEnd)
 	if err != nil {
 		msg := "Error: Failed to Get Populate Grower Dashboard History Sensor Log Data"
@@ -364,14 +364,14 @@ func PopulateGrowerDashboardHistory(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Output struct {
-		LogSensorModuleLevels []models.LogSensorModuleLevel `json:"log_sensor_module_levels"`
-		LogSensorReservoirs   []models.LogSensorReservoir   `json:"log_sensor_reservoirs"`
-		LogSensorRooms        []models.LogSensorRoom        `json:"log_sensor_rooms"`
+		LsLogSensorModuleLevel []models.LogSensorModuleLevel `json:"ls_log_sensor_module_level"`
+		LsLogSensorReservoir   []models.LogSensorReservoir   `json:"ls_log_sensor_reservoir"`
+		LsLogSensorRoom        []models.LogSensorRoom        `json:"ls_log_sensor_room"`
 	}
 	output := Output{
-		LogSensorModuleLevels: logSensorModuleLevels,
-		LogSensorReservoirs:   logSensorReservoirs,
-		LogSensorRooms:        logSensorRooms,
+		LsLogSensorModuleLevel: lsLogSensorModuleLevel,
+		LsLogSensorReservoir:   lsLogSensorReservoir,
+		LsLogSensorRoom:        lsLogSensorRoom,
 	}
 
 	jsonData, err := json.Marshal(output)
@@ -391,7 +391,7 @@ func PopulateGerminatorDashboardCurrent(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	logSensorGerminator, err := services.GetLatestGerminatorSensorLogs()
+	logSensorGerminator, err := services.GetLatestGerminatorSensorLog()
 	if err != nil {
 		msg := "Error: Failed to Get Populate Germinator Dashboard Data"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -400,10 +400,10 @@ func PopulateGerminatorDashboardCurrent(w http.ResponseWriter, r *http.Request) 
 	}
 
 	type Output struct {
-		LogSensorGerminators []models.LogSensorGerminator `json:"log_sensor_germinators"`
+		LsLogSensorGerminator *models.LogSensorGerminator `json:"log_sensor_germinator"`
 	}
 	output := Output{
-		LogSensorGerminators: logSensorGerminator,
+		LsLogSensorGerminator: logSensorGerminator,
 	}
 
 	jsonData, err := json.Marshal(output)
@@ -431,7 +431,7 @@ func PopulateGerminatorDashboardHistory(w http.ResponseWriter, r *http.Request) 
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	logSensorGerminator, err := services.GetGerminatorHistorySensorLogData(input.TimeStampBegin,
+	lsLogSensorGerminator, err := services.GetGerminatorHistorySensorLogData(input.TimeStampBegin,
 		input.TimeStampEnd)
 	if err != nil {
 		msg := "Error: Failed to Get Populate Germinator Dashboard History Sensor Log Data"
@@ -441,10 +441,10 @@ func PopulateGerminatorDashboardHistory(w http.ResponseWriter, r *http.Request) 
 	}
 
 	type Output struct {
-		LogSensorGerminators []models.LogSensorGerminator `json:"log_sensor_germinators"`
+		LsLogSensorGerminator []models.LogSensorGerminator `json:"ls_log_sensor_germinator"`
 	}
 	output := Output{
-		LogSensorGerminators: logSensorGerminator,
+		LsLogSensorGerminator: lsLogSensorGerminator,
 	}
 
 	jsonData, err := json.Marshal(output)

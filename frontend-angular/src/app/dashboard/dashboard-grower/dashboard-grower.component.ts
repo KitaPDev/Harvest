@@ -20,12 +20,12 @@ export class DashboardGrowerComponent implements OnInit {
 
   subRefreshSensor: Subscription;
 
-  modules: Module[];
-  reservoirs: Reservoir[];
-  rooms: Room[];
-  logSensorModuleLevels: LogSensorModuleLevel[];
-  logSensorReservoirs: LogSensorReservoir[];
-  logSensorRooms: LogSensorRoom[];
+  lsModule: Module[];
+  lsReservoir: Reservoir[];
+  lsRoom: Room[];
+  lsLogSensorModuleLevel: LogSensorModuleLevel[];
+  lsLogSensorReservoir: LogSensorReservoir[];
+  lsLogSensorRoom: LogSensorRoom[];
   lsModuleSettings: ModuleSettings[];
   lsReservoirSettings: ReservoirSettings[];
 
@@ -33,27 +33,27 @@ export class DashboardGrowerComponent implements OnInit {
 
   constructor(public dashboardGrowerService: DashboardGrowerService) {
     dashboardGrowerService.updateGrowerDashboardCurrent();
-    dashboardGrowerService.modules.subscribe((modules) => {
-      this.modules = modules;
+    dashboardGrowerService.lsModule.subscribe((lsModule) => {
+      this.lsModule = lsModule;
     });
-    dashboardGrowerService.reservoirs.subscribe((reservoirs) => {
-      this.reservoirs = reservoirs;
+    dashboardGrowerService.lsReservoir.subscribe((lsReservoir) => {
+      this.lsReservoir = lsReservoir;
     });
-    dashboardGrowerService.rooms.subscribe((rooms) => {
-      this.rooms = rooms;
+    dashboardGrowerService.lsRoom.subscribe((lsRoom) => {
+      this.lsRoom = lsRoom;
     });
-    dashboardGrowerService.logSensorModuleLevels.subscribe(
-      (logSensorModuleLevels) => {
-        this.logSensorModuleLevels = logSensorModuleLevels;
+    dashboardGrowerService.lsLogSensorModuleLevel.subscribe(
+      (lsLogSensorModuleLevel) => {
+        this.lsLogSensorModuleLevel = lsLogSensorModuleLevel;
       }
     );
-    dashboardGrowerService.logSensorReservoirs.subscribe(
-      (logSensorReservoirs) => {
-        this.logSensorReservoirs = logSensorReservoirs;
+    dashboardGrowerService.lsLogSensorReservoir.subscribe(
+      (lsLogSensorReservoir) => {
+        this.lsLogSensorReservoir = lsLogSensorReservoir;
       }
     );
-    dashboardGrowerService.logSensorRooms.subscribe((logSensorRooms) => {
-      this.logSensorRooms = logSensorRooms;
+    dashboardGrowerService.lsLogSensorRoom.subscribe((lsLogSensorRoom) => {
+      this.lsLogSensorRoom = lsLogSensorRoom;
     });
   }
 
@@ -85,7 +85,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getRoomTemperature(roomID: number): string {
-    for (let logSensorRoom of this.logSensorRooms) {
+    for (let logSensorRoom of this.lsLogSensorRoom) {
       if (logSensorRoom.roomID == roomID) {
         return logSensorRoom.temperature.toString();
       }
@@ -95,7 +95,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getRoomHumidity(roomID: number): string {
-    for (let logSensorRoom of this.logSensorRooms) {
+    for (let logSensorRoom of this.lsLogSensorRoom) {
       if (logSensorRoom.roomID == roomID) {
         return logSensorRoom.humidity.toString();
       }
@@ -105,7 +105,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getModuleTemperatureRoot(moduleID: number, level: number): string {
-    for (let logSensorModuleLevel of this.logSensorModuleLevels) {
+    for (let logSensorModuleLevel of this.lsLogSensorModuleLevel) {
       if (
         moduleID == logSensorModuleLevel.moduleID &&
         level == logSensorModuleLevel.level
@@ -118,7 +118,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getModuleHumidityRoot(moduleID: number, level: number): string {
-    for (let logSensorModuleLevel of this.logSensorModuleLevels) {
+    for (let logSensorModuleLevel of this.lsLogSensorModuleLevel) {
       if (
         moduleID == logSensorModuleLevel.moduleID &&
         level == logSensorModuleLevel.level
@@ -131,7 +131,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getReservoirTds(reservoirID: number): string {
-    for (let logSensorReservoir of this.logSensorReservoirs) {
+    for (let logSensorReservoir of this.lsLogSensorReservoir) {
       if (reservoirID == logSensorReservoir.reservoirID) {
         return logSensorReservoir.tds.toString();
       }
@@ -141,7 +141,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getReservoirPh(reservoirID: number): string {
-    for (let logSensorReservoir of this.logSensorReservoirs) {
+    for (let logSensorReservoir of this.lsLogSensorReservoir) {
       if (reservoirID == logSensorReservoir.reservoirID) {
         return logSensorReservoir.ph.toString();
       }
@@ -151,7 +151,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getReservoirTemperatureSolution(reservoirID: number): string {
-    for (let logSensorReservoir of this.logSensorReservoirs) {
+    for (let logSensorReservoir of this.lsLogSensorReservoir) {
       if (reservoirID == logSensorReservoir.reservoirID) {
         return logSensorReservoir.temperatureSolution.toString();
       }
@@ -161,7 +161,7 @@ export class DashboardGrowerComponent implements OnInit {
   }
 
   getReservoirSolutionLevel(reservoirID: number): string {
-    for (let logSensorReservoir of this.logSensorReservoirs) {
+    for (let logSensorReservoir of this.lsLogSensorReservoir) {
       if (reservoirID == logSensorReservoir.reservoirID) {
         return logSensorReservoir.solnLevel.toString();
       }

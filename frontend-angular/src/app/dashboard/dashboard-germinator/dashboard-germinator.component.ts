@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DashboardGerminatorService } from '../../../_services/dashboard/dashboard-germinator.service';
 import { LogSensorGerminator } from '../../../_models/logsensorgerminator.model';
 import { GerminatorSettings } from '../../../_models/germinatorsettings.model';
 import { ConfirmationDialogService } from '../../../_services/dialogs/confirmation-dialog.service';
 import { HttpResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-dashboard-germinator',
@@ -12,9 +13,125 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./dashboard-germinator.component.css'],
 })
 export class DashboardGerminatorComponent implements OnInit {
+  @ViewChildren(BaseChartDirective) lsChart: QueryList<BaseChartDirective>;
+
+  tempChartDataSet = [{ data: [] }];
+  tempChartColors: Array<any> = [
+    {
+      borderColor: '#3D998A',
+      pointBackgroundColor: '#3D998A',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#3D998A',
+    },
+  ];
+
+  tempChartOptions = {
+    title: {
+      display: true,
+      text: 'Temperature',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'Celsius',
+          },
+        },
+      ],
+    },
+    scaleShowVerticalLines: false,
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  // humidity chart config
+  humidityChartDataSet = [{ data: [] }];
+  humidityChartColors: Array<any> = [
+    {
+      borderColor: '#3D998A',
+      pointBackgroundColor: '#3D998A',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#3D998A',
+    },
+  ];
+
+  // humidity chart config
+  humidityChartOptions = {
+    title: {
+      display: true,
+      text: 'Humidity',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '%',
+          },
+        },
+      ],
+    },
+    scaleShowVerticalLines: false,
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
   germinatorHistoryForm: FormGroup;
 
-  logSensorGerminators: LogSensorGerminator[];
+  lsLogSensorGerminator: LogSensorGerminator[];
   germinatorSettings: GerminatorSettings = new GerminatorSettings();
 
   prevLightOnTime: number;
@@ -32,9 +149,9 @@ export class DashboardGerminatorComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService
   ) {
     dashboardGerminatorService.updateGerminatorDashboard();
-    dashboardGerminatorService.logSensorGerminators.subscribe(
+    dashboardGerminatorService.lsLogSensorGerminator.subscribe(
       (logSensorGerminators) => {
-        this.logSensorGerminators = logSensorGerminators;
+        this.lsLogSensorGerminator = logSensorGerminators;
       }
     );
   }
@@ -55,6 +172,21 @@ export class DashboardGerminatorComponent implements OnInit {
         this.nextHumidityLow = this.prevHumidityLow;
         this.nextHumidityHigh = this.prevHumidityHigh;
       });
+
+    this.initForms();
+
+    this.dashboardGerminatorService.lsLogSensorGerminatorHistory.subscribe(
+      (lsLogSensorGerminatorHistory) => {
+        if (lsLogSensorGerminatorHistory != undefined) {
+          let minDateTime = new Date(lsLogSensorGerminatorHistory[0].loggedAt);
+          let maxDateTime = new Date(
+            lsLogSensorGerminatorHistory[
+              lsLogSensorGerminatorHistory.length - 1
+            ].loggedAt
+          );
+        }
+      }
+    );
   }
 
   initForms() {
@@ -140,8 +272,14 @@ export class DashboardGerminatorComponent implements OnInit {
 
     this.confirmationDialogService
       .confirm(
-        'Confirm Fetch History Data',
-        'Time Begin: ' + timeStampBegin + 'Time End: ' + timeStampEnd
+        'Confirm Update History Data',
+        'Time Begin: ' +
+          new Date(timeStampBegin).toTimeString() +
+          ' | Time End: ' +
+          new Date(timeStampEnd).toTimeString(),
+        'Confirm',
+        'Cancel',
+        'lg'
       )
       .then((confirmed) => {
         if (confirmed) {
@@ -152,5 +290,10 @@ export class DashboardGerminatorComponent implements OnInit {
           );
         }
       });
+  }
+
+  onClickReset(chartIndex: number) {
+    // @ts-ignore
+    this.lsChart._results[chartIndex].chart.resetZoom();
   }
 }
