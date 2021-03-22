@@ -32,13 +32,13 @@
         <div class="cell-1">
           <h1>{{ room.roomLabel }}</h1>
         </div>
-        <div class="center cell-2">
+        <div class="cell-2">
           <h2>Temperature</h2>
-          <h1>{{ getRoomTemperature(room.roomID) }} &#176;C</h1>
+          <h1 class="center">{{ getRoomTemperature(room.roomID) }} &#176;C</h1>
         </div>
-        <div class="center cell-3">
+        <div class="cell-3">
           <h2>Humidity</h2>
-          <h1>{{ getRoomHumidity(room.roomID) }}%</h1>
+          <h1 class="center">{{ getRoomHumidity(room.roomID) }}%</h1>
         </div>
       </div>
     </div>
@@ -47,202 +47,160 @@
   <div class="module-container">
     <h1 class="title">Module</h1>
     <div class="module-list">
+
       <div *ngFor="let module of lsModule" class="each-module">
-        <div class="each-module-data">
+
+        <div class="cell-top">
+
           <div class="cell-a">
-            <h1>{{ module.moduleLabel }}</h1>
+
+              <h1>{{ module.moduleLabel }}</h1>
+
           </div>
 
-          <div class="center cell-b">
-            <h2>Root Temperature</h2>
-            <h1>{{ getModuleTemperatureRoot(module.moduleID, 1) }}&#176;C</h1>
+          <div class="cell-b">
+
+              <h2>Auto</h2>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider slider-auto"></span>
+              </label>
+
           </div>
 
-          <div class="center cell-c">
-            <h2>Root Humidity</h2>
-            <h1>100%</h1>
+          <div class="cell-c">
+
+              <div class="cell-c-1">
+                <h2>Light:</h2>
+              </div>
+
+              <div class="cell-c-2">
+                <h2>On</h2>
+                <input type="number" />
+                <h2>hr</h2>
+              </div>
+
+              <div class="cell-c-3">
+                <h2>Off</h2>
+                <input type="number" />
+                <h2>hr</h2>
+              </div>
+            
+              <div class="cell-c-4">
+              <h2>Root Humidity:</h2>
+              </div>
+
+              <div class="cell-c-5">
+                <h2>Low</h2>
+                <input type="number" />
+                <h2>hr</h2>
+              </div>
+
+              <div class="cell-c-6">
+                <h2>High</h2>
+                <input type="number" />
+                <h2>hr</h2>
+              </div>
+
           </div>
+
         </div>
-        <div class="each-module-controller">
-          <div class="cell-v">
-            <h3>Auto</h3>
-            <div class="onoffswitch">
-              <input
-                type="checkbox"
-                name="onoffswitch"
-                class="onoffswitch-checkbox"
-                id="myonoffswitch"
-                tabindex="0"
-                checked
-              />
-              <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner auto"></span>
-                <span class="onoffswitch-switch mannual"></span>
+        
+        <div class="cell-bottom">
+          
+          <div class="cell-bottom-left">
+            <div class="y-center">
+              <h4>Level 1</h4>
+            </div>
+            <div class="center">
+              <h3>Root Temperature</h3>
+              <h1 class="white">{{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C</h1>
+            </div>
+            <div class="center">
+              <h3>Root Humidity</h3>
+              <h1 class="white">100%</h1>
+            </div>
+            
+          </div>
+        
+          <div class="cell-bottom-right">
+            <div class="center">
+              <h3>Fan</h3>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
               </label>
             </div>
-          </div>
-          <div class="cell-w">
-            <h3>Fan 1</h3>
-            <div class="onoffswitch">
-              <input
-                type="checkbox"
-                name="onoffswitch"
-                class="onoffswitch-checkbox"
-                id="myonoffswitch"
-                tabindex="0"
-                checked
-              />
-              <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner"></span>
-                <span class="onoffswitch-switch"></span>
+            <div class="center">
+              <h3>LED</h3>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
               </label>
             </div>
+
           </div>
-          <div class="cell-x">
-            <h3>LED 1</h3>
-            <div class="onoffswitch">
-              <input
-                type="checkbox"
-                name="onoffswitch"
-                class="onoffswitch-checkbox"
-                id="myonoffswitch"
-                tabindex="0"
-                checked
-              />
-              <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner"></span>
-                <span class="onoffswitch-switch"></span>
-              </label>
-            </div>
-          </div>
-          <div class="cell-y">
-            <h3>Fan 2</h3>
-            <div class="onoffswitch">
-              <input
-                type="checkbox"
-                name="onoffswitch"
-                class="onoffswitch-checkbox"
-                id="myonoffswitch"
-                tabindex="0"
-                checked
-              />
-              <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner"></span>
-                <span class="onoffswitch-switch"></span>
-              </label>
-            </div>
-          </div>
-          <div class="cell-z">
-            <h3>LED 2</h3>
-            <div class="onoffswitch">
-              <input
-                type="checkbox"
-                name="onoffswitch"
-                class="onoffswitch-checkbox"
-                id="myonoffswitch"
-                tabindex="0"
-                checked
-              />
-              <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner"></span>
-                <span class="onoffswitch-switch"></span>
-              </label>
-            </div>
-          </div>
+
+          
+
         </div>
 
-        <div class="each-module-setting">
-          <h3>Light:</h3>
-          <div class="inline">
-            <h3>On</h3>
-            <input type="number" />
-            <h3>hr</h3>
-          </div>
-          <div class="inline">
-            <h3>Off</h3>
-            <input type="number" />
-            <h3>hr</h3>
-          </div>
-          <div></div>
-
-          <h3>Root Humidity:</h3>
-          <div class="inline">
-            <h3>Low</h3>
-            <input type="number" />
-            <h3>hr</h3>
-          </div>
-          <div class="inline">
-            <h3>High</h3>
-            <input type="number" />
-            <h3>hr</h3>
-          </div>
-          <div></div>
-        </div>
+        
+        
       </div>
     </div>
+
   </div>
 
   <div class="reservoir-container">
     <h1 class="title">Reservoir</h1>
     <div class="reservoir-list">
       <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
-        <div class="cell-aa">
+
+        <div class="center">
           <h1>{{ reservoir.reservoirLabel }}</h1>
         </div>
-        <div class="center cell-bb">
+
+        <div class="center">
           <h2>TDS</h2>
           <h1>{{ getReservoirTds(reservoir.reservoirID) }} ppm</h1>
         </div>
-        <div class="center cell-cc">
+
+        <div class="center">
           <h2>PH</h2>
           <h1>{{ getReservoirPh(reservoir.reservoirID) }}</h1>
         </div>
-        <div class="center cell-dd">
+
+        <div class="center">
           <h2>Solution Temperature</h2>
           <h1>
             {{ getReservoirTemperatureSolution(reservoir.reservoirID) }}&#176;C
           </h1>
         </div>
-        <div class="center cell-ee">
+
+        <div class="center">
           <h2>Solution Level</h2>
           <h1>{{ getReservoirSolutionLevel(reservoir.reservoirID) }}%</h1>
         </div>
 
-        <div class="cell-ff">
+        <div class="center">
           <h2>SV Nutrient</h2>
-          <div class="tsSvNutrient">
-            <input
-              type="checkbox"
-              name="tsSvNutrient"
-              class="tsSvNutrient-checkbox"
-              id="tsSvNutrient"
-              tabindex="0"
-              checked
-            />
-            <label class="tsSvNutrient-label" for="tsSvNutrient">
-              <span class="tsSvNutrient-inner"></span>
-              <span class="tsSvNutrient-switch"></span>
+          <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
             </label>
-          </div>
         </div>
 
-        <div class="cell-gg">
+        <div class="center">
           <h2>SV Water</h2>
-          <div class="tsSvWater">
-            <input
-              type="checkbox"
-              name="onoffswitch"
-              class="onoffswitch-checkbox"
-              id="tsSvWater"
-              tabindex="0"
-              checked
-            />
-            <label class="onoffswitch-label" for="myonoffswitch">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
+          <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
             </label>
-          </div>
         </div>
+
+        
+
       </div>
     </div>
   </div>
