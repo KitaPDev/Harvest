@@ -29,21 +29,21 @@
       <div>
         <h3>Auto</h3>
         <label class="switch">
-          <input type="checkbox" checked>
+          <input type="checkbox" checked />
           <span class="slider"></span>
         </label>
       </div>
       <div>
         <h3>Fan</h3>
         <label class="switch">
-          <input type="checkbox" checked>
+          <input type="checkbox" checked />
           <span class="slider"></span>
         </label>
       </div>
       <div>
         <h3>Mister</h3>
         <label class="switch">
-          <input type="checkbox" checked>
+          <input type="checkbox" checked />
           <span class="slider"></span>
         </label>
       </div>
@@ -153,31 +153,28 @@
   </form>
 
   <div class="show-data">
-
     <div class="left">
       <h2>Humidity</h2>
       <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
     </div>
-    
-      <div class="temp-graph right">
-        <canvas
-          baseChart
-          [datasets]="tempChartDataSet"
-          [options]="tempChartOptions"
-          [colors]="tempChartColors"
-          [chartType]="'line'"
-        >
-        </canvas> 
-      </div>
-    
-    
+
+    <div class="graph">
+      <canvas
+        baseChart
+        [datasets]="tempChartDataSet"
+        [options]="tempChartOptions"
+        [colors]="tempChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
+    </div>
 
     <div class="left">
       <h2>Temperature</h2>
       <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
     </div>
 
-    <div class="humidity-graph right">
+    <div class="graph">
       <canvas
         baseChart
         [datasets]="humidityChartDataSet"
@@ -187,6 +184,5 @@
       >
       </canvas>
     </div>
-
   </div>
 </div>
