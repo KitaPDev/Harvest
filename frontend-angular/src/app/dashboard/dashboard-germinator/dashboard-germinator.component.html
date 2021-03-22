@@ -5,11 +5,26 @@
     <div class="cell-1">
       <div class="germinator-data">
         <h2>Humidity</h2>
-        <h1>50%</h1>
+        <h1>
+          {{
+            logSensorGerminators.length == 0
+              ? "N/A"
+              : logSensorGerminators[
+                  logSensorGerminators.length - 1
+                ].humidity.toString()
+          }}%
+        </h1>
       </div>
       <div class="germinator-data">
         <h2>Temperature</h2>
-        <h1>25&#176;</h1>
+        <h1>
+          {{
+            logSensorGerminators.length == 0
+              ? "N/A"
+              : logSensorGerminators[logSensorGerminators.length - 1]
+                  .temperature
+          }}&#176;C
+        </h1>
       </div>
     </div>
 
@@ -73,13 +88,33 @@
 
         <div class="inline">
           <h3>On</h3>
-          <input type="number" />
+          <input
+            [(ngModel)]="nextLightOnTime"
+            [ngStyle]="{
+              background:
+                nextLightOnTime == prevLightOnTime ? 'white' : '#CFF0CC'
+            }"
+            (keyup)="onInputEnterKey()"
+            type="number"
+            min="0"
+            id="lightOnTime"
+          />
           <h3>hr</h3>
         </div>
 
         <div class="inline">
           <h3>Off</h3>
-          <input type="number" />
+          <input
+            [(ngModel)]="nextLightOffTime"
+            [ngStyle]="{
+              background:
+                nextLightOffTime == prevLightOffTime ? 'white' : '#CFF0CC'
+            }"
+            (keyup)="onInputEnterKey()"
+            type="number"
+            min="0"
+            id="lightOffTime"
+          />
           <h3>hr</h3>
         </div>
       </div>
@@ -89,14 +124,34 @@
 
         <div class="inline">
           <h3>Low</h3>
-          <input type="number" />
-          <h3>hr</h3>
+          <input
+            [(ngModel)]="nextHumidityLow"
+            [ngStyle]="{
+              background:
+                nextHumidityLow == prevHumidityLow ? 'white' : '#CFF0CC'
+            }"
+            (keyup)="onInputEnterKey()"
+            type="number"
+            min="0"
+            id="humidityLow"
+          />
+          <h3>%</h3>
         </div>
 
         <div class="inline">
           <h3>High</h3>
-          <input type="number" />
-          <h3>hr</h3>
+          <input
+            [(ngModel)]="nextHumidityHigh"
+            [ngStyle]="{
+              background:
+                nextHumidityHigh == prevHumidityHigh ? 'white' : '#CFF0CC'
+            }"
+            (keyup)="onInputEnterKey()"
+            type="number"
+            min="0"
+            id="humidityHigh"
+          />
+          <h3>%</h3>
         </div>
       </div>
     </div>
@@ -104,25 +159,37 @@
 </div>
 
 <div class="germinator-history-container">
-    <h1 class="title">History</h1>
+  <h1 class="title">History</h1>
 
+  <form [formGroup]="germinatorHistoryForm">
     <div class="select-datetime">
-        <h2 class="search-label">Begin:</h2>
-        <input type="datetime-local">
+      <h2 class="search-label">Begin:</h2>
+      <input
+        id="timeStampBegin"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampBegin"
+      />
 
-        <h2 class="search-label">End:</h2>
-        <input type="datetime-local">
+      <h2 class="search-label">End:</h2>
+      <input
+        id="timeStampEnd"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampEnd"
+      />
 
-        <button class="search-btn">
-            Search
-        </button>
+      <button class="search-btn" (click)="onSubmitHistoryPeriod()">
+        Update
+      </button>
     </div>
+  </form>
 
-    <div class="show-data">
-            <h2>Humidity</h2>
-            <div class="temp-graph"></div>
-       
-            <h2>Temperature</h2>
-            <div class="humidity-graph"></div>
-    </div>
+  <div class="show-data">
+    <h2>Humidity</h2>
+    <div class="temp-graph"></div>
+
+    <h2>Temperature</h2>
+    <div class="humidity-graph"></div>
+  </div>
 </div>

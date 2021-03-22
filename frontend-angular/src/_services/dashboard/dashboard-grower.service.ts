@@ -346,8 +346,8 @@ export class DashboardGrowerService {
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-        for (let moduleSettings of fetchedData.ls_module_settings) {
-          if (moduleSettings != undefined) {
+        if (fetchedData.ls_module_settings != undefined) {
+          for (let moduleSettings of fetchedData.ls_module_settings) {
             receivedLsModuleSettings.push(moduleSettings);
           }
         }
@@ -401,8 +401,8 @@ export class DashboardGrowerService {
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-        for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
-          if (reservoirSettings != undefined) {
+        if (fetchedData.ls_reservoir_settings != undefined) {
+          for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
             receivedLsReservoirSettings.push(reservoirSettings);
           }
         }

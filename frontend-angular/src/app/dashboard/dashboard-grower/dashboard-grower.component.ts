@@ -83,4 +83,90 @@ export class DashboardGrowerComponent implements OnInit {
   toggleDisplayMode(): void {
     this.isDisplayCurrent = !this.isDisplayCurrent;
   }
+
+  getRoomTemperature(roomID: number): string {
+    for (let logSensorRoom of this.logSensorRooms) {
+      if (logSensorRoom.roomID == roomID) {
+        return logSensorRoom.temperature.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getRoomHumidity(roomID: number): string {
+    for (let logSensorRoom of this.logSensorRooms) {
+      if (logSensorRoom.roomID == roomID) {
+        return logSensorRoom.humidity.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getModuleTemperatureRoot(moduleID: number, level: number): string {
+    for (let logSensorModuleLevel of this.logSensorModuleLevels) {
+      if (
+        moduleID == logSensorModuleLevel.moduleID &&
+        level == logSensorModuleLevel.level
+      ) {
+        return logSensorModuleLevel.temperatureRoot.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getModuleHumidityRoot(moduleID: number, level: number): string {
+    for (let logSensorModuleLevel of this.logSensorModuleLevels) {
+      if (
+        moduleID == logSensorModuleLevel.moduleID &&
+        level == logSensorModuleLevel.level
+      ) {
+        return logSensorModuleLevel.humidityRoot.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getReservoirTds(reservoirID: number): string {
+    for (let logSensorReservoir of this.logSensorReservoirs) {
+      if (reservoirID == logSensorReservoir.reservoirID) {
+        return logSensorReservoir.tds.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getReservoirPh(reservoirID: number): string {
+    for (let logSensorReservoir of this.logSensorReservoirs) {
+      if (reservoirID == logSensorReservoir.reservoirID) {
+        return logSensorReservoir.ph.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getReservoirTemperatureSolution(reservoirID: number): string {
+    for (let logSensorReservoir of this.logSensorReservoirs) {
+      if (reservoirID == logSensorReservoir.reservoirID) {
+        return logSensorReservoir.temperatureSolution.toString();
+      }
+    }
+
+    return 'N/A';
+  }
+
+  getReservoirSolutionLevel(reservoirID: number): string {
+    for (let logSensorReservoir of this.logSensorReservoirs) {
+      if (reservoirID == logSensorReservoir.reservoirID) {
+        return logSensorReservoir.solnLevel.toString();
+      }
+    }
+
+    return 'N/A';
+  }
 }
