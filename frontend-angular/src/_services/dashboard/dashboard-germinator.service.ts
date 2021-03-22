@@ -16,10 +16,14 @@ const DASHBOARD_GERMINATOR_GET_ALL_SETTINGS_API =
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGerminatorService {
-  private logSensorGerminatorsSource: BehaviorSubject<
+  private lsLogSensorGerminatorSource: BehaviorSubject<
     LogSensorGerminator[]
   > = new BehaviorSubject<LogSensorGerminator[]>([]);
-  logSensorGerminators = this.logSensorGerminatorsSource.asObservable();
+  lsLogSensorGerminator = this.lsLogSensorGerminatorSource.asObservable();
+  private lsLogSensorGerminatorHistorySource: BehaviorSubject<
+    LogSensorGerminator[]
+  > = new BehaviorSubject<LogSensorGerminator[]>([]);
+  lsLogSensorGerminatorHistory = this.lsLogSensorGerminatorHistorySource.asObservable();
 
   constructor(private httpClient: HttpClient) {}
 
@@ -33,9 +37,9 @@ export class DashboardGerminatorService {
     this.fetchGerminatorDashboardData().then((response: HttpResponse<any>) => {
       let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-      let logSensorGerminators: LogSensorGerminator[] = [];
+      let lsLogSensorGerminator: LogSensorGerminator[] = [];
 
-      for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinators) {
+      for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinator) {
         let logSensorGerminator = new LogSensorGerminator();
 
         logSensorGerminator.loggedAt = fetchedLogSensorGerminator['logged_at'];
@@ -43,9 +47,9 @@ export class DashboardGerminatorService {
           fetchedLogSensorGerminator['temperature'];
         logSensorGerminator.humidity = fetchedLogSensorGerminator['humidity'];
 
-        logSensorGerminators.push(logSensorGerminator);
+        lsLogSensorGerminator[0] = logSensorGerminator;
       }
-      this.logSensorGerminatorsSource.next(logSensorGerminators);
+      this.lsLogSensorGerminatorSource.next(lsLogSensorGerminator);
     });
   }
 
@@ -54,8 +58,8 @@ export class DashboardGerminatorService {
     timeStampEnd: Date
   ): Promise<any> {
     const body = {
-      time_stamp_begin: timeStampBegin,
-      time_stamp_end: timeStampEnd,
+      time_stamp_begin: new Date(timeStampBegin).toJSON(),
+      time_stamp_end: new Date(timeStampEnd).toJSON(),
     };
 
     return this.httpClient
@@ -71,9 +75,9 @@ export class DashboardGerminatorService {
       (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-        let logSensorGerminators: LogSensorGerminator[] = [];
+        let lsLogSensorGerminator: LogSensorGerminator[] = [];
 
-        for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinators) {
+        for (let fetchedLogSensorGerminator of fetchedData.ls_log_sensor_germinator) {
           let logSensorGerminator = new LogSensorGerminator();
 
           logSensorGerminator.loggedAt =
@@ -82,9 +86,9 @@ export class DashboardGerminatorService {
             fetchedLogSensorGerminator['temperature'];
           logSensorGerminator.humidity = fetchedLogSensorGerminator['humidity'];
 
-          logSensorGerminators.push(logSensorGerminator);
+          lsLogSensorGerminator.push(logSensorGerminator);
         }
-        this.logSensorGerminatorsSource.next(logSensorGerminators);
+        this.lsLogSensorGerminatorHistorySource.next(lsLogSensorGerminator);
       }
     );
   }
@@ -115,6 +119,6 @@ export class DashboardGerminatorService {
   }
 
   getLogSensorGerminators(): LogSensorGerminator[] {
-    return this.logSensorGerminatorsSource.getValue();
+    return this.lsLogSensorGerminatorSource.getValue();
   }
 }

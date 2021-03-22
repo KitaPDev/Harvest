@@ -25,14 +25,5 @@ func DecodeJsonFromRequest(w http.ResponseWriter, r *http.Request, v interface{}
 
 func DecodeJsonFromResponse(w http.ResponseWriter, r *http.Response, target interface{}) error {
 	body := r.Body
-
-	err := r.Body.Close()
-	if err != nil {
-		msg := "Error: Failed to Close Body of Response from IoT device"
-		http.Error(w, msg, http.StatusInternalServerError)
-		log.Println(err)
-		return err
-	}
-
 	return json.NewDecoder(body).Decode(target)
 }

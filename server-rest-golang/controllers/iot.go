@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"bytes"
+	"encoding/json"
 	"github.com/Modern-Farms/server-rest-golang/lib/jsonhandler"
 	"github.com/Modern-Farms/server-rest-golang/models"
 	"github.com/Modern-Farms/server-rest-golang/services"
@@ -91,4 +93,86 @@ func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 	}
+}
+
+// For testing only!
+func IoTTest(w http.ResponseWriter, r *http.Request) {
+	type Input struct {
+		ApiKey  string `json:"api_key"`
+		ID      int    `json:"id"`
+		Message string `json:"message"`
+	}
+	input := Input{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	log.Print("IoT Test: ")
+	log.Println(input)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func IoTServerTest(w http.ResponseWriter, r *http.Request) {
+	type Input struct {
+		ModuleID int `json:"module_id"`
+	}
+	input := Input{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	moduleUrl, err := services.GetModuleUrlByID(input.ModuleID)
+	if err != nil {
+		msg := "Error: Failed to Get Module Urls"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	requestBody, err := json.Marshal(input)
+	if err != nil {
+		msg := "Error: Failed to Marshal IoT Body"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	resp, err := http.Post(moduleUrl, "application/json", bytes.NewReader(requestBody))
+	if err != nil {
+		msg := "Error: Failed to Send HTTP Post request to IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	type InputIoT struct {
+		Message string `json:"message"`
+	}
+
+	inputIoT := InputIoT{}
+	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	if err != nil {
+		msg := "Error: Failed to Decode Json from Response"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	err = r.Body.Close()
+	if err != nil {
+		msg := "Error: Failed to Close Body of Response from IoT device"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	jsonData, err := json.Marshal(inputIoT)
+	if err != nil {
+		msg := "Error: Failed to marshal JSON"
+		http.Error(w, msg, http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
 }

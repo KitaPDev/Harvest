@@ -16,7 +16,7 @@ func PopulateModules(w http.ResponseWriter, r *http.Request) {
 
 	modules, reservoirs, rooms, err := services.GetPopulateModulesData()
 	if err != nil {
-		msg := "Error: Failed to Get Populate Modules Data"
+		msg := "Error: Failed to Get Populate LsModule Data"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return

@@ -28,7 +28,7 @@
     <h1 class="title">room</h1>
 
     <div class="room-list">
-      <div *ngFor="let room of rooms" class="each-room">
+      <div *ngFor="let room of lsRoom" class="each-room">
         <div class="cell-1">
           <h1>{{ room.roomLabel }}</h1>
         </div>
@@ -47,7 +47,7 @@
   <div class="module-container">
     <h1 class="title">Module</h1>
     <div class="module-list">
-      <div *ngFor="let module of modules" class="each-module">
+      <div *ngFor="let module of lsModule" class="each-module">
         <div class="each-module-data">
           <div class="cell-a">
             <h1>{{ module.moduleLabel }}</h1>
@@ -185,7 +185,7 @@
   <div class="reservoir-container">
     <h1 class="title">Reservoir</h1>
     <div class="reservoir-list">
-      <div *ngFor="let reservoir of reservoirs" class="each-reservoir">
+      <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
         <div class="cell-aa">
           <h1>{{ reservoir.reservoirLabel }}</h1>
         </div>

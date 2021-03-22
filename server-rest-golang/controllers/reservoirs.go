@@ -16,7 +16,7 @@ func PopulateReservoirs(w http.ResponseWriter, r *http.Request) {
 
 	reservoirs, nutrients, err := services.GetPopulateReservoirsData()
 	if err != nil {
-		msg := "Error: Failed to Get Populate Reservoirs Data"
+		msg := "Error: Failed to Get Populate LsReservoir Data"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
