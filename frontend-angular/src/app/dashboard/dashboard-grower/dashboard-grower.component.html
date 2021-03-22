@@ -47,116 +47,90 @@
   <div class="module-container">
     <h1 class="title">Module</h1>
     <div class="module-list">
-
       <div *ngFor="let module of lsModule" class="each-module">
-
         <div class="cell-top">
-
           <div class="cell-a">
-
-              <h1>{{ module.moduleLabel }}</h1>
-
+            <h1>{{ module.moduleLabel }}</h1>
           </div>
-
           <div class="cell-b">
-
-              <h2>Auto</h2>
-              <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider slider-auto"></span>
-              </label>
-
+            <h2>Auto</h2>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider slider-auto"></span>
+            </label>
           </div>
-
           <div class="cell-c">
-
-              <div class="cell-c-1">
-                <h2>Light:</h2>
-              </div>
-
-              <div class="cell-c-2">
-                <h2>On</h2>
-                <input type="number" />
-                <h2>hr</h2>
-              </div>
-
-              <div class="cell-c-3">
-                <h2>Off</h2>
-                <input type="number" />
-                <h2>hr</h2>
-              </div>
-            
-              <div class="cell-c-4">
+            <div class="cell-c-1">
+              <h2>Light:</h2>
+            </div>
+            <div class="cell-c-2">
+              <h2>On</h2>
+              <input type="number" />
+              <h2>hr</h2>
+            </div>
+            <div class="cell-c-3">
+              <h2>Off</h2>
+              <input type="number" />
+              <h2>hr</h2>
+            </div>
+            <div class="cell-c-4">
               <h2>Root Humidity:</h2>
-              </div>
-
-              <div class="cell-c-5">
-                <h2>Low</h2>
-                <input type="number" />
-                <h2>hr</h2>
-              </div>
-
-              <div class="cell-c-6">
-                <h2>High</h2>
-                <input type="number" />
-                <h2>hr</h2>
-              </div>
-
+            </div>
+            <div class="cell-c-5">
+              <h2>Low</h2>
+              <input type="number" />
+              <h2>hr</h2>
+            </div>
+            <div class="cell-c-6">
+              <h2>High</h2>
+              <input type="number" />
+              <h2>hr</h2>
+            </div>
           </div>
-
         </div>
-        
-        <div class="cell-bottom">
-          
-          <div class="cell-bottom-left">
+
+        <div class="cell-level">
+          <div class="cell-level-left">
             <div class="y-center">
               <h4>Level 1</h4>
             </div>
             <div class="center">
               <h3>Root Temperature</h3>
-              <h1 class="white">{{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C</h1>
+              <h1 class="white">
+                {{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C
+              </h1>
             </div>
             <div class="center">
               <h3>Root Humidity</h3>
               <h1 class="white">100%</h1>
             </div>
-            
           </div>
-        
-          <div class="cell-bottom-right">
+
+          <div class="cell-level-right">
             <div class="center">
               <h3>Fan</h3>
               <label class="switch">
-                <input type="checkbox" checked>
+                <input type="checkbox" checked />
                 <span class="slider"></span>
               </label>
             </div>
             <div class="center">
               <h3>LED</h3>
               <label class="switch">
-                <input type="checkbox" checked>
+                <input type="checkbox" checked />
                 <span class="slider"></span>
               </label>
             </div>
-
           </div>
-
-          
-
         </div>
-
-        
-        
       </div>
     </div>
-
   </div>
 
   <div class="reservoir-container">
     <h1 class="title">Reservoir</h1>
     <div class="reservoir-list">
       <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
-
         <div class="center">
           <h1>{{ reservoir.reservoirLabel }}</h1>
         </div>
@@ -186,21 +160,18 @@
         <div class="center">
           <h2>SV Nutrient</h2>
           <label class="switch">
-              <input type="checkbox" checked>
-              <span class="slider"></span>
-            </label>
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
         </div>
 
         <div class="center">
           <h2>SV Water</h2>
           <label class="switch">
-              <input type="checkbox" checked>
-              <span class="slider"></span>
-            </label>
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
         </div>
-
-        
-
       </div>
     </div>
   </div>

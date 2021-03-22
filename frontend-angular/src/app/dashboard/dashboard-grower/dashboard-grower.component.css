@@ -193,7 +193,7 @@ input[type="number"] {
   display: inline-flex;
 }
 
-.cell-bottom {
+.cell-level {
   padding: 1rem;
   width: 100%;
   display: flex;
@@ -202,7 +202,7 @@ input[type="number"] {
   border-bottom-right-radius: 1rem;
 }
 
-.cell-bottom-left {
+.cell-level-left {
   width: 60%;
   float: left;
   left: 0;
@@ -218,7 +218,7 @@ input[type="number"] {
   align-self: center;
 }
 
-.cell-bottom-right {
+.cell-level-right {
   width: 40%;
   float: right;
   right: 0;
