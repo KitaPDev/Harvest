@@ -1,4 +1,3 @@
-
 .title {
   font-family: Quicksand_Bold;
   text-transform: uppercase;
@@ -13,7 +12,7 @@
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-transform: uppercase;
   font-family: Quicksand_Bold;
   color: var(--clr-green);
@@ -28,7 +27,7 @@ h2 {
 h3 {
   font-size: 1.25rem;
   font-family: Quicksand_Bold;
-  color:white;
+  color: white;
   text-align: center;
 }
 
@@ -64,19 +63,18 @@ input[type="datetime-local"] {
   width: 80%;
   border-radius: 1rem;
   padding-bottom: 1rem;
-  background: #E5E5E5;
+  background: #e5e5e5;
   /* border: 4px solid red; */
 }
 
 .each-germinator {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: 
-  "a b b"
-  "a b b"
-  "a c c"
-  "a c c"
-  ;
+  grid-template-areas:
+    "a b b"
+    "a b b"
+    "a c c"
+    "a c c";
   margin-top: 1rem;
   align-items: center;
   margin: 1rem auto;
@@ -111,7 +109,7 @@ input[type="datetime-local"] {
 
 .row {
   display: grid;
-  align-items: center;  
+  align-items: center;
   grid-template-columns: 1fr 1fr 1fr 0.5fr;
   margin: 2rem auto 2rem auto;
   justify-items: end;
@@ -133,7 +131,7 @@ input[type="datetime-local"] {
   /* border: 4px solid red; */
 }
 
-[type="datetime-local"]{
+[type="datetime-local"] {
   width: 20rem;
   font-family: Quicksand_Regular;
   font-size: 1.25rem;
@@ -151,8 +149,6 @@ input[type="datetime-local"] {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
-  
-
 }
 
 .search-label {
@@ -164,7 +160,7 @@ input[type="datetime-local"] {
 .search-btn {
   font-family: Quicksand_Bold;
   letter-spacing: 1px;
-  background: #3782FF;
+  background: #3782ff;
   color: white;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -184,7 +180,6 @@ input[type="datetime-local"] {
 .graph {
   display: inline-flex;
   justify-content: space-evenly;
-
 }
 .left {
   display: flex;
@@ -192,7 +187,8 @@ input[type="datetime-local"] {
   align-items: center;
   justify-content: center;
 }
-.temp-graph, .humidity-graph {
+.temp-graph,
+.humidity-graph {
   width: 100%;
   height: 20rem;
 }
@@ -203,7 +199,6 @@ input[type="datetime-local"] {
   font-size: 1rem;
 }
 
-
 /* ********************** Switch Button ********************** */
 .switch {
   position: relative;
@@ -212,7 +207,7 @@ input[type="datetime-local"] {
   height: 30px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -226,8 +221,8 @@ input[type="datetime-local"] {
   right: 0;
   bottom: 0;
   background-color: #999999;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 30px;
 }
 
@@ -239,17 +234,17 @@ input[type="datetime-local"] {
   left: 4px;
   bottom: 3px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;  
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #3782FF;
+  background-color: #3782ff;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #3782FF;
+  box-shadow: 0 0 1px #3782ff;
 }
 
 input:checked + .slider:before {
