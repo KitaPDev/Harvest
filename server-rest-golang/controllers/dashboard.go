@@ -121,7 +121,7 @@ func UpdateModuleSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.ModuleSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -186,7 +186,7 @@ func GetAllModuleSettings(w http.ResponseWriter, r *http.Request) {
 		}
 
 		inputIoT := models.ModuleSettings{}
-		err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+		err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 		if err != nil {
 			msg := "Error: Failed to Decode Json from Response"
 			http.Error(w, msg, http.StatusInternalServerError)
@@ -246,7 +246,7 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.ReservoirSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -311,7 +311,7 @@ func GetAllReservoirSettings(w http.ResponseWriter, r *http.Request) {
 		}
 
 		inputIoT := models.ReservoirSettings{}
-		err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+		err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 		if err != nil {
 			msg := "Error: Failed to Decode Json from Response"
 			http.Error(w, msg, http.StatusInternalServerError)
@@ -481,7 +481,7 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.GerminatorSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -522,7 +522,7 @@ func GetGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.GerminatorSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)

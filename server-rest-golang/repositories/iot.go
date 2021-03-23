@@ -7,22 +7,26 @@ import (
 	"strconv"
 )
 
-func UpdateModuleSensor(logs []models.LogSensorModuleLevel) error {
+func UpdateModuleSensor(moduleID int, mapLevelSensorLog map[int]models.LogSensorLevel) error {
 	db := database.GetDB()
 
 	sqlStatement := `INSERT INTO log_sensor_module (logged_at, module_id, level, temperature_root, humidity_root)
 					VALUES `
 
-	for i, log := range logs {
-		sqlStatement = sqlStatement + `(NOW(), ` + strconv.Itoa(log.ModuleID) + `,` + strconv.Itoa(log.Level) + `,` + util.FloatToString(log.TemperatureRoot) +
-			`,` + util.FloatToString(log.HumidityRoot) + `)`
+	count := 0
+	for lvl, logSensorLevel := range mapLevelSensorLog {
+		sqlStatement = sqlStatement + `(NOW(), ` + strconv.Itoa(moduleID) + `,` + strconv.Itoa(lvl) + `,` + util.FloatToString(logSensorLevel.TemperatureRoot) +
+			`,` + util.FloatToString(logSensorLevel.HumidityRoot) + `)`
 
-		if i < len(logs)-1 {
+		if count < len(mapLevelSensorLog)-1 {
 			sqlStatement = sqlStatement + `, `
 		}
+
+		count = count + 1
 	}
 
 	sqlStatement = sqlStatement + `;`
+
 
 	_, err := db.Query(sqlStatement)
 	if err != nil {

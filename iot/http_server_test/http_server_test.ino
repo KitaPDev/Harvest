@@ -1,6 +1,8 @@
 #include <WiFi.h>
 #include <ArduinoJson.h>
 
+const char* API_KEY = "MODKJ2021";
+
 const char* ssid = "159291_2.4G";
 const char* password = "MAY789354";
 
@@ -11,7 +13,14 @@ IPAddress local_ip(192, 168, 1, 111);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-void setup() {
+#if C
+#include <esp_wifi.h>
+void SetWifi (B4R::Object* o) {
+esp_wifi_set_ps(WIFI_PS_NONE);
+}
+#endif
+
+void setup() {  
   Serial.begin(115200);
   Serial.println("HTTP Test");
 
@@ -57,7 +66,7 @@ void loop() {
             Serial.print(F("deserializeJson() failed: "));
             Serial.println(error.f_str());
 
-            client.println("HTTP/1.0 500 Internal Server Error");
+            client.println("HTTP/1.1 500 Internal Server Error");
             client.println();
             client.stop();
             Serial.println("Client disconnected");
@@ -70,15 +79,31 @@ void loop() {
 
         Serial.print("Received: ");
         serializeJsonPretty(root, Serial);
+        Serial.println();
 
-        client.println("HTTP/1.0 200 OK");
+        DynamicJsonDocument doc(1024);
+        doc["api_key"] = API_KEY;
+        doc["message"] = "Hello from ESP32";
+
+        char jsonPayload[512];
+        serializeJson(doc, jsonPayload);
+
+        Serial.print("Response: ");
+        Serial.println(jsonPayload);
+
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-Type: application/json; charset=utf-8");
+        client.println("Vary: Origin");
+        client.println("X-Content-Type-Options: nosniff");
+        client.println("Connection: Closed");
         client.println();
-        Serial.println("Client disconnected");
+        client.println(jsonPayload);
+        client.println();
+        client.stop();
+        Serial.println("Client disconnected\n");
         continue;
       }
     }
-    
-    client.stop();
   }
 
   memset(received, 0, sizeof received);

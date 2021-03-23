@@ -76,7 +76,7 @@ void sendPostRequest(char* postData) {
     }
     
   } else {
-    Serial.println("HTTP Client failed to connect.\n");
+    Serial.println("HTTP Client failed to connect.\n");==
   }
 
   httpClient.end();

@@ -51,7 +51,6 @@ func GetGrowerHistorySensorLogData(timestampBegin time.Time, timestampEnd time.T
 	return lsModuleLevelLog, lsReservoirLogs, lsRoomLogs, err
 }
 
-
 func GetGerminatorHistorySensorLogData(timestampBegin time.Time, timestampEnd time.Time) ([]models.LogSensorGerminator, error) {
 
 	lsGerminatorLog, err := repositories.GetHistoryGerminatorSensorLogs(timestampBegin, timestampEnd)

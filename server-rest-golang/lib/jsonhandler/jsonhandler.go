@@ -23,7 +23,6 @@ func DecodeJsonFromRequest(w http.ResponseWriter, r *http.Request, v interface{}
 	}
 }
 
-func DecodeJsonFromResponse(w http.ResponseWriter, r *http.Response, target interface{}) error {
-	body := r.Body
-	return json.NewDecoder(body).Decode(target)
+func DecodeJsonFromResponse(r *http.Response, target interface{}) error {
+	return json.NewDecoder(r.Body).Decode(target)
 }

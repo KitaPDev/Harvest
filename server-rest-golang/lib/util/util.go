@@ -1,6 +1,9 @@
 package util
 
-import "strconv"
+import (
+	"github.com/Modern-Farms/server-rest-golang/models"
+	"strconv"
+)
 
 type IntSlice []int
 
@@ -15,4 +18,19 @@ func IntSliceContains(s IntSlice, x int) bool {
 		}
 	}
 	return false
+}
+
+func MaxKey_MapInt_LogSensorLevel(m map[int]models.LogSensorLevel) int {
+	var max int
+	for max = range m {
+		break
+	}
+
+	for n := range m {
+		if n > max {
+			max = n
+		}
+	}
+
+	return max
 }

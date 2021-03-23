@@ -14,6 +14,13 @@
 #define moduleID 1;
 #define reservoirID 1;
 
+#if C
+#include <esp_wifi.h>
+void SetWifi (B4R::Object* o) {
+  esp_wifi_set_ps(WIFI_PS_NONE);
+}
+#endif
+
 auto timer = timer_create_default();
 
 OneWire oneWire(PIN_SOLNTEMP);
@@ -41,8 +48,8 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.107"
-int serverPort = 9090;
+char serverURL[] = "http://192.168.1.100"
+                   int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
 char updateRoomSensorURL[] = "/iot/update/room/sensor";
@@ -178,34 +185,42 @@ void loop() {
 
         JsonObject root = doc.as<JsonObject>();
 
-        if(root.containsKey("is_auto")) {
+        if (root.containsKey("is_auto")) {
           moduleSettings.isAuto = root["is_auto"];
         }
 
-        if(moduleSettings.isAuto) {
+        if (moduleSettings.isAuto) {
 
-          if(root.containsKey("module_id")) {
+          if (root.containsKey("module_id")) {
             moduleSettings.lightOnTime = root["light_on_time"];
             moduleSettings.lightOffTime = root["light_off_time"];
             moduleSettings.humidityRootLow = root["humidity_root_low"];
             moduleSettings.humidityRootHigh = root["humidity_root_high"];
-            
+
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
+            client.println("Vary: Origin");
+            client.println("X-Content-Type-Options: nosniff");
+            client.println("Connection: Closed");
+            client.println();
             client.println(getModuleSettings_Json());
             client.println();
             client.stop();
             Serial.println("Client disconnected");
             continue;
-            
-          } else if(root.containsKey("reservoir_id")) {
+
+          } else if (root.containsKey("reservoir_id")) {
             reservoirSettings.tdsLow = root["tds_low"];
             reservoirSettings.tdsHigh = root["tds_high"];
             reservoirSettings.phLow = root["ph_low"];
             reservoirSettings.phHigh = root["ph_high"];
-            
+
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
+            client.println("Vary: Origin");
+            client.println("X-Content-Type-Options: nosniff");
+            client.println("Connection: Closed");
+            client.println();
             client.println(getReservoirSettings_Json());
             client.println();
             client.stop();
@@ -214,8 +229,8 @@ void loop() {
           }
 
         } else {
-          
-          if(root.containsKey("module_id")) {
+
+          if (root.containsKey("module_id")) {
             moduleSettings.led1 = root["led_1"];
             moduleSettings.led2 = root["led_2"];
             moduleSettings.fan1 = root["fan_1"];
@@ -229,30 +244,38 @@ void loop() {
             fan2 = moduleSettings.fan2;
             sv1 = moduleSettings.sv1;
             sv2 = moduleSettings.sv2;
-            
+
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
+            client.println("Vary: Origin");
+            client.println("X-Content-Type-Options: nosniff");
+            client.println("Connection: Closed");
+            client.println();
             client.println(getModuleSettings_Json());
             client.println();
             client.stop();
             Serial.println("Client disconnected");
             continue;
-            
-          } else if(root.containsKey("reservoir_id")) {
+
+          } else if (root.containsKey("reservoir_id")) {
             reservoirSettings.svWater = root["sv_water"];
             reservoirSettings.svReservoir = root["sv_reservoir"];
 
             svWater = reservoirSettings.svWater;
             svReservoir = reservoirSettings.svReservoir;
-            
+
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
+            client.println("Vary: Origin");
+            client.println("X-Content-Type-Options: nosniff");
+            client.println("Connection: Closed");
+            client.println();
             client.println(getReservoirSettings_Json());
             client.println();
             client.stop();
             Serial.println("Client disconnected");
             continue;
-            
+
           } else {
             client.println("HTTP/1.0 200 OK");
             client.println();
@@ -321,10 +344,10 @@ bool updateModuleSensor(void *) {
 
   if (httpClient.begin(serverURL, serverPort, updateModuleSensorURL)) {
     httpClient.addHeader("Content-Type", "application/json");
-  
+
     int httpResponseCode = httpClient.POST(getLogSensorModule_Json());
     String httpResponse = httpClient.getString();
-    
+
     Serial.print("Status Code: ");
     Serial.println(httpResponseCode);
     Serial.print("Response: ");
@@ -338,7 +361,7 @@ bool updateRoomSensor(void *) {
   HTTPClient http;
   if (http.begin(serverURL, serverPort, updateRoomSensorURL)) {
     http.addHeader("Content-Type", "application/json");
-  
+
     int httpResponseCode = http.POST(getLogSensorRoom_Json());
     Serial.print("HTTP Response Code = ");
     Serial.println(httpResponseCode);
@@ -349,13 +372,13 @@ bool updateRoomSensor(void *) {
 
 bool updateReservoirSensor(void *) {
   HTTPClient http;
-  if (http.begin(serverURL, serverPort, updateReservoirSensorURL){
-    http.begin(serverURL_reservoir);
+  if (http.begin(serverURL, serverPort, updateReservoirSensorURL) {
+  http.begin(serverURL_reservoir);
     http.addHeader("Content-Type", "application/json");
-  
+
     int httpResponseCode = http.POST(getLogSensorReservoir_Json());
     String httpResponse = httpClient.getString();
-    
+
     Serial.print("Status Code: ");
     Serial.println(httpResponseCode);
     Serial.print("Response: ");
@@ -406,9 +429,9 @@ char * getLogSensorReservoir_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["reservoir_id"] = 1;
-  doc["temperature_solution"] = getTemperatureSolution();
   doc["tds"] = getTDSNutrient();
   doc["ph"] = getPHNutrient();
+  doc["temperature_solution"] = getTemperatureSolution();
   doc["soln_level"] = getSolutionLevel();
 
   char jsonPayload[512];

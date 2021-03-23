@@ -13,9 +13,11 @@ import (
 var APIKEY = "MODKJ2021"
 
 func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
+
 	type Input struct {
-		ApiKey                string                        `json:"api_key"`
-		LogSensorModuleLevels []models.LogSensorModuleLevel `json:"log_sensor_module_level"`
+		ApiKey            string                        `json:"api_key"`
+		ModuleID          int                           `json:"module_id"`
+		MapLevelSensorLog map[int]models.LogSensorLevel `json:"level"`
 	}
 
 	input := Input{}
@@ -23,7 +25,7 @@ func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	if input.ApiKey == APIKEY {
-		err := services.UpdateModuleLevelSensor(input.LogSensorModuleLevels)
+		err := services.UpdateModuleLevelSensor(input.ModuleID, input.MapLevelSensorLog)
 		if err != nil {
 			msg := "Error: Failed to Update Module Sensor"
 			http.Error(w, msg, http.StatusInternalServerError)
@@ -43,8 +45,8 @@ func UpdateRoomSensor(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		ApiKey      string  `json:"api_key"`
 		RoomID      int     `json:"room_id"`
-		Temperature float64 `json:"temperature"`
-		Humidity    float64 `json:"humidity"`
+		Temperature float64 `json:"temperature_room"`
+		Humidity    float64 `json:"humidity_room"`
 	}
 	input := Input{}
 
@@ -145,11 +147,12 @@ func IoTServerTest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type InputIoT struct {
+		ApiKey  string `json:"api_key"`
 		Message string `json:"message"`
 	}
 
 	inputIoT := InputIoT{}
-	err = jsonhandler.DecodeJsonFromResponse(w, resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
