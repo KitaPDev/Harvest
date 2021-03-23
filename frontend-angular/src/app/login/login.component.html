@@ -1,28 +1,26 @@
 <div class="container-fluid section-signin">
   <form class="form-group" [formGroup]="loginForm">
-        <h1 id="title">MODERN FARMS</h1>
-        <div class="inline-block">
-              <label for="username" class="txt-signin">Username</label>
-              <input type="text"
-                id="username"
-                class="form-control"
-                formControlName="username"
-              >
-        </div>
-        <div class="inline-block">
-              <label for="password" class="txt-signin">Password</label>
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                formControlName="password"
-              >
-        </div>
-          <button
-            class="btn-signin"
-            type="button"
-            (click)="onLogin()"
-            >sign in
-          </button>
-      </form>
+    <h1 id="title">HARVEST</h1>
+    <div class="inline-block">
+      <label for="username" class="txt-signin">Username</label>
+      <input
+        type="text"
+        id="username"
+        class="form-control"
+        formControlName="username"
+      />
+    </div>
+    <div class="inline-block">
+      <label for="password" class="txt-signin">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        formControlName="password"
+      />
+    </div>
+    <button class="btn-signin" type="button" (click)="onLogin()">
+      sign in
+    </button>
+  </form>
 </div>

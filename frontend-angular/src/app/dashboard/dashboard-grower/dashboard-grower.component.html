@@ -44,6 +44,55 @@
     </div>
   </div>
 
+  <div class="reservoir-container">
+    <h1 class="title">Reservoir</h1>
+    <div class="reservoir-list">
+      <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
+        <div class="center">
+          <h1>{{ reservoir.reservoirLabel }}</h1>
+        </div>
+
+        <div class="center">
+          <h2>TDS</h2>
+          <h1>{{ getReservoirTds(reservoir.reservoirID) }} ppm</h1>
+        </div>
+
+        <div class="center">
+          <h2>PH</h2>
+          <h1>{{ getReservoirPh(reservoir.reservoirID) }}</h1>
+        </div>
+
+        <div class="center">
+          <h2>Solution Temperature</h2>
+          <h1>
+            {{ getReservoirTemperatureSolution(reservoir.reservoirID) }}&#176;C
+          </h1>
+        </div>
+
+        <div class="center">
+          <h2>Solution Level</h2>
+          <h1>{{ getReservoirSolutionLevel(reservoir.reservoirID) }}%</h1>
+        </div>
+
+        <div class="center">
+          <h2>SV Nutrient</h2>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="center">
+          <h2>SV Water</h2>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="module-container">
     <h1 class="title">Module</h1>
     <div class="module-list">
@@ -89,20 +138,28 @@
           </div>
         </div>
 
-        <div class="cell-level">
+        <div
+          *ngFor="let level of getLevelsArray(module.level)"
+          class="cell-level"
+        >
           <div class="cell-level-left">
             <div class="y-center">
-              <h4>Level 1</h4>
+              <h4>Level {{ level }}</h4>
             </div>
             <div class="center">
               <h3>Root Temperature</h3>
               <h1 class="white">
-                {{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C
+                {{
+                  getModuleTemperatureRoot(module.moduleID, module.level)
+                }}
+                &#176;C
               </h1>
             </div>
             <div class="center">
               <h3>Root Humidity</h3>
-              <h1 class="white">100%</h1>
+              <h1 class="white">
+                {{ getModuleHumidityRoot(module.moduleID, module.level) }}%
+              </h1>
             </div>
           </div>
 
@@ -122,55 +179,6 @@
               </label>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="reservoir-container">
-    <h1 class="title">Reservoir</h1>
-    <div class="reservoir-list">
-      <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
-        <div class="center">
-          <h1>{{ reservoir.reservoirLabel }}</h1>
-        </div>
-
-        <div class="center">
-          <h2>TDS</h2>
-          <h1>{{ getReservoirTds(reservoir.reservoirID) }} ppm</h1>
-        </div>
-
-        <div class="center">
-          <h2>PH</h2>
-          <h1>{{ getReservoirPh(reservoir.reservoirID) }}</h1>
-        </div>
-
-        <div class="center">
-          <h2>Solution Temperature</h2>
-          <h1>
-            {{ getReservoirTemperatureSolution(reservoir.reservoirID) }}&#176;C
-          </h1>
-        </div>
-
-        <div class="center">
-          <h2>Solution Level</h2>
-          <h1>{{ getReservoirSolutionLevel(reservoir.reservoirID) }}%</h1>
-        </div>
-
-        <div class="center">
-          <h2>SV Nutrient</h2>
-          <label class="switch">
-            <input type="checkbox" checked />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="center">
-          <h2>SV Water</h2>
-          <label class="switch">
-            <input type="checkbox" checked />
-            <span class="slider"></span>
-          </label>
         </div>
       </div>
     </div>

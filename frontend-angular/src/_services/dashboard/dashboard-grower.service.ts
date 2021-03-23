@@ -58,6 +58,16 @@ export class DashboardGrowerService {
   > = new BehaviorSubject<LogSensorRoom[]>([]);
   lsLogSensorRoom = this.lsLogSensorRoomSource.asObservable();
 
+  private lsReservoirSettingsSource: BehaviorSubject<
+    ReservoirSettings[]
+  > = new BehaviorSubject<ReservoirSettings[]>([]);
+  lsReservoirSettings = this.lsReservoirSettingsSource.asObservable();
+
+  private lsModuleSettingsSource: BehaviorSubject<
+    ModuleSettings[]
+  > = new BehaviorSubject<ModuleSettings[]>([]);
+  lsModuleSettings = this.lsModuleSettingsSource.asObservable();
+
   constructor(private httpClient: HttpClient) {}
 
   fetchGrowerDashboardCurrentData(): Promise<any> {
@@ -300,6 +310,61 @@ export class DashboardGrowerService {
     );
   }
 
+  async updateReservoirSettings(
+    reservoirSettings: ReservoirSettings
+  ): Promise<boolean> {
+    let receivedReservoirSettings: ReservoirSettings = new ReservoirSettings();
+
+    await this.httpClient
+      .post<any>(
+        DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API,
+        reservoirSettings,
+        httpPostOptions
+      )
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+        let fetchedReservoirSettings = fetchedData.reservoir_settings;
+
+        receivedReservoirSettings.reservoirID =
+          fetchedReservoirSettings['reservoir_id'];
+        receivedReservoirSettings.isAuto = fetchedReservoirSettings['is_auto'];
+        receivedReservoirSettings.tdsLow = fetchedReservoirSettings['tds_low'];
+        receivedReservoirSettings.tdsHigh =
+          fetchedReservoirSettings['tds_high'];
+        receivedReservoirSettings.phLow = fetchedReservoirSettings['ph_low'];
+        receivedReservoirSettings.phHigh = fetchedReservoirSettings['ph_high'];
+        receivedReservoirSettings.svWater =
+          fetchedReservoirSettings['sv_water'];
+        receivedReservoirSettings.svReservoir =
+          fetchedReservoirSettings['sv_reservoir'];
+      });
+
+    return (
+      JSON.stringify(reservoirSettings) ==
+      JSON.stringify(receivedReservoirSettings)
+    );
+  }
+
+  getAllReservoirSettings() {
+    let receivedLsReservoirSettings: ReservoirSettings[] = [];
+
+    this.httpClient
+      .get(DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API, httpGetOptions)
+      .toPromise()
+      .then((response: HttpResponse<any>) => {
+        let fetchedData = JSON.parse(JSON.stringify(response.body));
+
+        if (fetchedData.ls_reservoir_settings != undefined) {
+          for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
+            receivedLsReservoirSettings.push(reservoirSettings);
+          }
+        }
+
+        this.lsReservoirSettingsSource.next(receivedLsReservoirSettings);
+      });
+  }
+
   async updateModuleSettings(moduleSettings: ModuleSettings): Promise<boolean> {
     let receivedModuleSettings: ModuleSettings = new ModuleSettings();
 
@@ -337,10 +402,10 @@ export class DashboardGrowerService {
     );
   }
 
-  async getAllModuleSettings(): Promise<ModuleSettings[]> {
+  getAllModuleSettings() {
     let receivedLsModuleSettings: ModuleSettings[] = [];
 
-    await this.httpClient
+    this.httpClient
       .get(DASHBOARD_GET_ALL_MODULE_SETTINGS_API, httpGetOptions)
       .toPromise()
       .then((response: HttpResponse<any>) => {
@@ -351,64 +416,9 @@ export class DashboardGrowerService {
             receivedLsModuleSettings.push(moduleSettings);
           }
         }
+
+        this.lsModuleSettingsSource.next(receivedLsModuleSettings);
       });
-
-    return receivedLsModuleSettings;
-  }
-
-  async updateReservoirSettings(
-    reservoirSettings: ReservoirSettings
-  ): Promise<boolean> {
-    let receivedReservoirSettings: ReservoirSettings = new ReservoirSettings();
-
-    await this.httpClient
-      .post<any>(
-        DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API,
-        reservoirSettings,
-        httpPostOptions
-      )
-      .toPromise()
-      .then((response: HttpResponse<any>) => {
-        let fetchedData = JSON.parse(JSON.stringify(response.body));
-        let fetchedReservoirSettings = fetchedData.reservoir_settings;
-
-        receivedReservoirSettings.reservoirID =
-          fetchedReservoirSettings['reservoir_id'];
-        receivedReservoirSettings.isAuto = fetchedReservoirSettings['is_auto'];
-        receivedReservoirSettings.tdsLow = fetchedReservoirSettings['tds_low'];
-        receivedReservoirSettings.tdsHigh =
-          fetchedReservoirSettings['tds_high'];
-        receivedReservoirSettings.phLow = fetchedReservoirSettings['ph_low'];
-        receivedReservoirSettings.phHigh = fetchedReservoirSettings['ph_high'];
-        receivedReservoirSettings.svWater =
-          fetchedReservoirSettings['sv_water'];
-        receivedReservoirSettings.svReservoir =
-          fetchedReservoirSettings['sv_reservoir'];
-      });
-
-    return (
-      JSON.stringify(reservoirSettings) ==
-      JSON.stringify(receivedReservoirSettings)
-    );
-  }
-
-  async getAllReservoirSettings(): Promise<ReservoirSettings[]> {
-    let receivedLsReservoirSettings: ReservoirSettings[] = [];
-
-    await this.httpClient
-      .get(DASHBOARD_GET_ALL_RESERVOIR_SETTINGS_API, httpGetOptions)
-      .toPromise()
-      .then((response: HttpResponse<any>) => {
-        let fetchedData = JSON.parse(JSON.stringify(response.body));
-
-        if (fetchedData.ls_reservoir_settings != undefined) {
-          for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
-            receivedLsReservoirSettings.push(reservoirSettings);
-          }
-        }
-      });
-
-    return receivedLsReservoirSettings;
   }
 
   getModules(): Module[] {

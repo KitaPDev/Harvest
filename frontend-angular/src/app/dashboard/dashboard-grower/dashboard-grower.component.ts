@@ -26,8 +26,8 @@ export class DashboardGrowerComponent implements OnInit {
   lsLogSensorModuleLevel: LogSensorModuleLevel[];
   lsLogSensorReservoir: LogSensorReservoir[];
   lsLogSensorRoom: LogSensorRoom[];
-  lsModuleSettings: ModuleSettings[];
   lsReservoirSettings: ReservoirSettings[];
+  lsModuleSettings: ModuleSettings[];
 
   inHistoryMode: boolean = false;
 
@@ -55,6 +55,15 @@ export class DashboardGrowerComponent implements OnInit {
     dashboardGrowerService.lsLogSensorRoom.subscribe((lsLogSensorRoom) => {
       this.lsLogSensorRoom = lsLogSensorRoom;
     });
+
+    dashboardGrowerService.lsModuleSettings.subscribe((lsModuleSettings) => {
+      this.lsModuleSettings = lsModuleSettings;
+    });
+    dashboardGrowerService.lsReservoirSettings.subscribe(
+      (lsReservoirSettings) => {
+        this.lsReservoirSettings = lsReservoirSettings;
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -64,16 +73,8 @@ export class DashboardGrowerComponent implements OnInit {
       }
     });
 
-    this.dashboardGrowerService
-      .getAllModuleSettings()
-      .then((lsModuleSettings) => {
-        this.lsModuleSettings = lsModuleSettings;
-      });
-    this.dashboardGrowerService
-      .getAllReservoirSettings()
-      .then((lsReservoirSettings) => {
-        this.lsReservoirSettings = lsReservoirSettings;
-      });
+    this.dashboardGrowerService.getAllReservoirSettings();
+    this.dashboardGrowerService.getAllModuleSettings();
   }
 
   ngOnDestroy(): void {
@@ -169,4 +170,16 @@ export class DashboardGrowerComponent implements OnInit {
 
     return 'N/A';
   }
+
+  getLevelsArray(lvl: number) {
+    let levels = [];
+
+    for (let i = 0; i < lvl; i++) {
+      levels.push(i + 1);
+    }
+
+    return levels;
+  }
+
+  onCLickSVNutrient(reservoirID: number) {}
 }

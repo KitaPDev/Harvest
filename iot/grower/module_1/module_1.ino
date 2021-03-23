@@ -48,8 +48,8 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.100"
-                   int serverPort = 9090;
+char serverURL[] = "http://192.168.1.100";
+int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
 char updateRoomSensorURL[] = "/iot/update/room/sensor";
@@ -372,12 +372,11 @@ bool updateRoomSensor(void *) {
 
 bool updateReservoirSensor(void *) {
   HTTPClient http;
-  if (http.begin(serverURL, serverPort, updateReservoirSensorURL) {
-  http.begin(serverURL_reservoir);
+  if (http.begin(serverURL, serverPort, updateReservoirSensorURL)) {
     http.addHeader("Content-Type", "application/json");
 
     int httpResponseCode = http.POST(getLogSensorReservoir_Json());
-    String httpResponse = httpClient.getString();
+    String httpResponse = http.getString();
 
     Serial.print("Status Code: ");
     Serial.println(httpResponseCode);

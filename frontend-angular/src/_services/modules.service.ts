@@ -71,7 +71,7 @@ export class ModulesService {
   ) {
     const body = {
       module_id: this.modulesSource.getValue()[index].moduleID,
-      module_label: this.modulesSource.getValue()[index].moduleLabel,
+      module_label: moduleLabel,
       level: level,
       room_id: roomID,
       reservoir_id: reservoirID,

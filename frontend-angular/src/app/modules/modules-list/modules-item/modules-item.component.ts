@@ -38,14 +38,14 @@ export class ModulesItemComponent implements OnInit {
     for (let room of this.rooms) {
       if (room.roomID === this.module.roomID) {
         this.room = room;
-        return;
+        break;
       }
     }
 
     for (let reservoir of this.reservoirs) {
       if (reservoir.reservoirID === this.module.reservoirID) {
         this.reservoir = reservoir;
-        return;
+        break;
       }
     }
   }
