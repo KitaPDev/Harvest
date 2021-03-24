@@ -88,7 +88,7 @@ struct ReservoirSettings {
   float phLow;
   float phHigh;
   int svWater;
-  int svReservoir;
+  int svNutrient;
 };
 struct ReservoirSettings reservoirSettings;
 
@@ -129,7 +129,7 @@ void setup() {
   reservoirSettings.phLow = 5.5;
   reservoirSettings.phHigh = 6.5;
   reservoirSettings.svWater = 0;
-  reservoirSettings.svReservoir = 0;
+  reservoirSettings.svNutrient = 0;
 
   initSensors();
   initHardware();
@@ -155,7 +155,7 @@ void loop() {
   int sv2 = moduleSettings.sv2;
 
   int svWater = reservoirSettings.svWater;
-  int svReservoir = reservoirSettings.svReservoir;
+  int svNutrient = reservoirSettings.svNutrient;
 
   DynamicJsonDocument doc(1024);
   char received[1024], body[512];
@@ -259,10 +259,10 @@ void loop() {
 
           } else if (root.containsKey("reservoir_id")) {
             reservoirSettings.svWater = root["sv_water"];
-            reservoirSettings.svReservoir = root["sv_reservoir"];
+            reservoirSettings.svNutrient = root["sv_nutrient"];
 
             svWater = reservoirSettings.svWater;
-            svReservoir = reservoirSettings.svReservoir;
+            svNutrient = reservoirSettings.svNutrient;
 
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
@@ -307,7 +307,7 @@ void loop() {
     }
   }
 
-  updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svReservoir);
+  updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svNutrient);
 }
 
 void printWiFiStatus() {
@@ -471,7 +471,7 @@ char * getReservoirSettings_Json() {
   doc["ph_low"] = reservoirSettings.phLow;
   doc["ph_high"] = reservoirSettings.phHigh;
   doc["sv_water"] = reservoirSettings.svWater;
-  doc["sv_reservoir"] = reservoirSettings.svReservoir;
+  doc["sv_nutrient"] = reservoirSettings.svNutrient;
 
   char jsonPayload[512];
   serializeJson(doc, jsonPayload);

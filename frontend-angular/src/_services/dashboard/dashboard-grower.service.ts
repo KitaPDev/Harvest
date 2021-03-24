@@ -336,8 +336,16 @@ export class DashboardGrowerService {
         receivedReservoirSettings.phHigh = fetchedReservoirSettings['ph_high'];
         receivedReservoirSettings.svWater =
           fetchedReservoirSettings['sv_water'];
-        receivedReservoirSettings.svReservoir =
-          fetchedReservoirSettings['sv_reservoir'];
+        receivedReservoirSettings.svNutrient =
+          fetchedReservoirSettings['sv_nutrient'];
+
+        let tmpLsReservoirSettings = this.lsReservoirSettingsSource.getValue();
+        let index = tmpLsReservoirSettings.findIndex(
+          (rs) => rs.reservoirID == receivedReservoirSettings.reservoirID
+        );
+        tmpLsReservoirSettings[index] = receivedReservoirSettings;
+
+        this.lsReservoirSettingsSource.next(tmpLsReservoirSettings);
       });
 
     return (
@@ -395,6 +403,14 @@ export class DashboardGrowerService {
         receivedModuleSettings.fan2 = fetchedModuleSettings['fan_2'];
         receivedModuleSettings.sv1 = fetchedModuleSettings['sv_1'];
         receivedModuleSettings.sv2 = fetchedModuleSettings['sv_2'];
+
+        let tmpLsModuleSettings = this.lsModuleSettingsSource.getValue();
+        let index = tmpLsModuleSettings.findIndex(
+          (ms) => ms.moduleID == receivedModuleSettings.moduleID
+        );
+        tmpLsModuleSettings[index] = receivedModuleSettings;
+
+        this.lsModuleSettingsSource.next(tmpLsModuleSettings);
       });
 
     return (

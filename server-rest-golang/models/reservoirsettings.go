@@ -8,5 +8,5 @@ type ReservoirSettings struct {
 	PhLow       float64 `json:"ph_low"`
 	PhHigh      float64 `json:"ph_high"`
 	SvWater     float64 `json:"sv_water"`
-	SvReservoir float64 `json:"sv_reservoir"`
+	SvNutrient  float64 `json:"sv_nutrient"`
 }

@@ -30,6 +30,7 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-zoom": "^0.7.7",
     "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.21",
     "ng2-charts": "2.3.2",
     "ngx-bootstrap": "^5.6.1",
     "ngx-cookie-service": "^3.0.4",

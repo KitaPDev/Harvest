@@ -6,7 +6,7 @@ export class ReservoirSettings {
   phLow: number;
   phHigh: number;
   svWater: number;
-  svReservoir: number;
+  svNutrient: number;
 
   constructor() {
     this.reservoirID = 0;
@@ -16,6 +16,6 @@ export class ReservoirSettings {
     this.phLow = 0;
     this.phHigh = 0;
     this.svWater = 0;
-    this.svReservoir = 0;
+    this.svNutrient = 0;
   }
 }
