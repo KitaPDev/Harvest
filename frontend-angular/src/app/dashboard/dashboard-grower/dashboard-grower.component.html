@@ -89,37 +89,39 @@
           </div>
         </div>
 
-        <div class="cell-level">
-          <div class="cell-level-left">
-            <div class="y-center">
-              <h4>Level 1</h4>
+        <div class="cell-level-background">
+          <div class="cell-level">
+            <div class="cell-level-left">
+              <div class="y-center">
+                <h4>Level 1</h4>
+              </div>
+              <div class="center">
+                <h3>Root Temperature</h3>
+                <h1 class="white">
+                  {{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C
+                </h1>
+              </div>
+              <div class="center">
+                <h3>Root Humidity</h3>
+                <h1 class="white">100%</h1>
+              </div>
             </div>
-            <div class="center">
-              <h3>Root Temperature</h3>
-              <h1 class="white">
-                {{ getModuleTemperatureRoot(module.moduleID, 1) }} &#176;C
-              </h1>
-            </div>
-            <div class="center">
-              <h3>Root Humidity</h3>
-              <h1 class="white">100%</h1>
-            </div>
-          </div>
 
-          <div class="cell-level-right">
-            <div class="center">
-              <h3>Fan</h3>
-              <label class="switch">
-                <input type="checkbox" checked />
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="center">
-              <h3>LED</h3>
-              <label class="switch">
-                <input type="checkbox" checked />
-                <span class="slider"></span>
-              </label>
+            <div class="cell-level-right">
+              <div class="center">
+                <h3>Fan</h3>
+                <label class="switch">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="center">
+                <h3>LED</h3>
+                <label class="switch">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
