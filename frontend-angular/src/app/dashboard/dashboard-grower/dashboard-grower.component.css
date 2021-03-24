@@ -193,13 +193,19 @@ input[type="number"] {
   display: inline-flex;
 }
 
+.cell-level-background {
+  width: 100%;
+  display: block;
+  background: #a9a9a9;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
 .cell-level {
   padding: 1rem;
   width: 100%;
   display: flex;
   background: #a9a9a9a9;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
 }
 
 .cell-level-left {
