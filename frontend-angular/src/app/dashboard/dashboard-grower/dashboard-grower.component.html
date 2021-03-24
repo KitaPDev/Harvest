@@ -162,7 +162,11 @@
         <div class="center">
           <h2>SV Nutrient</h2>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input
+              type="checkbox"
+              (click)="onCLickSvNutrient(reservoir.reservoirID)"
+              [checked]="getSvNutrientStatus(reservoir.reservoirID)"
+            />
             <span class="slider"></span>
           </label>
         </div>
@@ -170,7 +174,11 @@
         <div class="center">
           <h2>SV Water</h2>
           <label class="switch">
-            <input type="checkbox" checked />
+            <input
+              type="checkbox"
+              (click)="onCLickSvWater(reservoir.reservoirID)"
+              [checked]="getSvWaterStatus(reservoir.reservoirID)"
+            />
             <span class="slider"></span>
           </label>
         </div>
