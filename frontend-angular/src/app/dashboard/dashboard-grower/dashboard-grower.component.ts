@@ -29,9 +29,18 @@ export class DashboardGrowerComponent implements OnInit {
     BaseChartDirective
   >;
 
-  lsRoomChartDataSet: ChartDataSets[];
-  lsReservoirChartDataSet: ChartDataSets[];
-  lsModuleLevelChartDataSet: ChartDataSets[];
+  recRoomID_recDataType_roomChartDataSet: Record<
+    number,
+    Record<number, { data: any[] }[]>
+  >;
+  recReservoirID_recDataType_reservoirChartDataSet: Record<
+    number,
+    Record<number, { data: any[] }[]>
+  >;
+  recModuleID_recLevel_recDataType_moduleLevelChartDataSet: Record<
+    number,
+    Record<number, Record<number, { data: any[] }[]>>
+  >;
 
   roomChartColors: Color[] = [
     {
@@ -389,42 +398,43 @@ export class DashboardGrowerComponent implements OnInit {
   constructor(
     public dashboardGrowerService: DashboardGrowerService,
     private confirmationDialogService: ConfirmationDialogService
-  ) {
-    dashboardGrowerService.updateGrowerDashboardCurrent();
-    dashboardGrowerService.lsModule.subscribe((lsModule) => {
+  ) {}
+
+  ngOnInit(): void {
+    this.dashboardGrowerService.updateGrowerDashboardCurrent();
+    this.dashboardGrowerService.lsModule.subscribe((lsModule) => {
       this.lsModule = lsModule;
     });
-    dashboardGrowerService.lsReservoir.subscribe((lsReservoir) => {
+    this.dashboardGrowerService.lsReservoir.subscribe((lsReservoir) => {
       this.lsReservoir = lsReservoir;
     });
-    dashboardGrowerService.lsRoom.subscribe((lsRoom) => {
+    this.dashboardGrowerService.lsRoom.subscribe((lsRoom) => {
       this.lsRoom = lsRoom;
     });
-    dashboardGrowerService.lsLogSensorModuleLevel.subscribe(
+    this.dashboardGrowerService.lsLogSensorModuleLevel.subscribe(
       (lsLogSensorModuleLevel) => {
         this.lsLogSensorModuleLevel = lsLogSensorModuleLevel;
       }
     );
-    dashboardGrowerService.lsLogSensorReservoir.subscribe(
+    this.dashboardGrowerService.lsLogSensorReservoir.subscribe(
       (lsLogSensorReservoir) => {
         this.lsLogSensorReservoir = lsLogSensorReservoir;
       }
     );
-    dashboardGrowerService.lsLogSensorRoom.subscribe((lsLogSensorRoom) => {
+    this.dashboardGrowerService.lsLogSensorRoom.subscribe((lsLogSensorRoom) => {
       this.lsLogSensorRoom = lsLogSensorRoom;
     });
 
-    dashboardGrowerService.lsModuleSettings.subscribe((lsModuleSettings) => {
-      this.lsModuleSettings = lsModuleSettings;
-    });
-    dashboardGrowerService.lsReservoirSettings.subscribe(
+    this.dashboardGrowerService.lsModuleSettings.subscribe(
+      (lsModuleSettings) => {
+        this.lsModuleSettings = lsModuleSettings;
+      }
+    );
+    this.dashboardGrowerService.lsReservoirSettings.subscribe(
       (lsReservoirSettings) => {
         this.lsReservoirSettings = lsReservoirSettings;
       }
     );
-  }
-
-  ngOnInit(): void {
     this.subRefreshSensor = interval(2000).subscribe(() => {
       if (!this.inHistoryMode) {
         this.dashboardGrowerService.getLatestGrowerSensorLogs();
@@ -433,6 +443,71 @@ export class DashboardGrowerComponent implements OnInit {
 
     this.dashboardGrowerService.getAllReservoirSettings();
     this.dashboardGrowerService.getAllModuleSettings();
+
+    if (this.dashboardGrowerService.lsLogSensorRoomHistory != undefined) {
+      this.dashboardGrowerService.lsLogSensorRoomHistory.subscribe(
+        (lsLogSensorRoomHistory) => {
+          for (let log of lsLogSensorRoomHistory) {
+            this.recRoomID_recDataType_roomChartDataSet[
+              log.roomID
+            ][0][0].data.push({
+              x: new Date(log.loggedAt).valueOf(),
+              y: log.humidity,
+            });
+            this.recRoomID_recDataType_roomChartDataSet[
+              log.roomID
+            ][1][0].data.push({
+              x: new Date(log.loggedAt).valueOf(),
+              y: log.temperature,
+            });
+          }
+        }
+      );
+    }
+
+    this.dashboardGrowerService.lsLogSensorReservoirHistory.subscribe(
+      (lsLogSensorReservoirHistory) => {
+        for (let log of lsLogSensorReservoirHistory) {
+          this.recReservoirID_recDataType_reservoirChartDataSet[
+            log.reservoirID
+          ][0][0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.tds,
+          });
+          this.recReservoirID_recDataType_reservoirChartDataSet[
+            log.reservoirID
+          ][0][1].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.ph,
+          });
+          this.recReservoirID_recDataType_reservoirChartDataSet[
+            log.reservoirID
+          ][0][2].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.temperatureSolution,
+          });
+        }
+      }
+    );
+
+    this.dashboardGrowerService.lsLogSensorModuleLevelHistory.subscribe(
+      (lsLogSensorReservoirHistory) => {
+        for (let log of lsLogSensorReservoirHistory) {
+          this.recRoomID_recDataType_roomChartDataSet[log.moduleID][
+            log.level
+          ][0][0].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.humidityRoot,
+          });
+          this.recRoomID_recDataType_roomChartDataSet[log.moduleID][
+            log.level
+          ][0][1].data.push({
+            x: new Date(log.loggedAt).valueOf(),
+            y: log.temperatureRoot,
+          });
+        }
+      }
+    );
 
     this.initForms();
   }

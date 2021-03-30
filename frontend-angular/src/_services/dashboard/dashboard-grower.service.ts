@@ -68,6 +68,21 @@ export class DashboardGrowerService {
   > = new BehaviorSubject<ModuleSettings[]>([]);
   lsModuleSettings = this.lsModuleSettingsSource.asObservable();
 
+  private lsLogSensorModuleLevelHistorySource: BehaviorSubject<
+    LogSensorModuleLevel[]
+  > = new BehaviorSubject<LogSensorModuleLevel[]>([]);
+  lsLogSensorModuleLevelHistory = this.lsLogSensorModuleLevelHistorySource.asObservable();
+
+  private lsLogSensorReservoirHistorySource: BehaviorSubject<
+    LogSensorReservoir[]
+  > = new BehaviorSubject<LogSensorReservoir[]>([]);
+  lsLogSensorReservoirHistory = this.lsLogSensorReservoirHistorySource.asObservable();
+
+  private lsLogSensorRoomHistorySource: BehaviorSubject<
+    LogSensorRoom[]
+  > = new BehaviorSubject<LogSensorRoom[]>([]);
+  lsLogSensorRoomHistory = this.lsLogSensorRoomHistorySource.asObservable();
+
   constructor(private httpClient: HttpClient) {}
 
   fetchGrowerDashboardCurrentData(): Promise<any> {
@@ -276,7 +291,7 @@ export class DashboardGrowerService {
 
           lsLogSensorModuleLevel.push(logSensorModuleLevel);
         }
-        this.lsLogSensorModuleLevelSource.next(lsLogSensorModuleLevel);
+        this.lsLogSensorModuleLevelHistorySource.next(lsLogSensorModuleLevel);
 
         for (let fetchedLogSensorReservoir of fetchedData.ls_log_sensor_reservoir) {
           let logSensorReservoir = new LogSensorReservoir();
@@ -293,7 +308,7 @@ export class DashboardGrowerService {
 
           lsLogSensorReservoir.push(logSensorReservoir);
         }
-        this.lsLogSensorReservoirSource.next(lsLogSensorReservoir);
+        this.lsLogSensorReservoirHistorySource.next(lsLogSensorReservoir);
 
         for (let fetchedLogSensorRoom of fetchedData.ls_log_sensor_room) {
           let logSensorRoom = new LogSensorRoom();
@@ -305,7 +320,7 @@ export class DashboardGrowerService {
 
           lsLogSensorRoom.push(logSensorRoom);
         }
-        this.lsLogSensorRoomSource.next(lsLogSensorRoom);
+        this.lsLogSensorRoomHistorySource.next(lsLogSensorRoom);
       }
     );
   }
