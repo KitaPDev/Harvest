@@ -6,6 +6,7 @@ import { ConfirmationDialogService } from '../../../_services/dialogs/confirmati
 import { HttpResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard-germinator',
@@ -26,7 +27,7 @@ export class DashboardGerminatorComponent implements OnInit {
     },
   ];
 
-  tempChartOptions = {
+  tempChartOptions: ChartOptions = {
     title: {
       display: true,
       text: 'Temperature',
@@ -51,7 +52,6 @@ export class DashboardGerminatorComponent implements OnInit {
         },
       ],
     },
-    scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: false,
     legend: {
@@ -84,7 +84,7 @@ export class DashboardGerminatorComponent implements OnInit {
   ];
 
   // humidity chart config
-  humidityChartOptions = {
+  humidityChartOptions: ChartOptions = {
     title: {
       display: true,
       text: 'Humidity',
@@ -109,7 +109,6 @@ export class DashboardGerminatorComponent implements OnInit {
         },
       ],
     },
-    scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: false,
     legend: {
@@ -187,6 +186,35 @@ export class DashboardGerminatorComponent implements OnInit {
         }
       }
     );
+
+    if (this.lsLogSensorGerminator.length > 0) {
+      let minDateTime = new Date(this.lsLogSensorGerminator[0].loggedAt);
+      let maxDateTime = new Date(
+        this.lsLogSensorGerminator[
+          this.lsLogSensorGerminator.length - 1
+        ].loggedAt
+      );
+
+      this.tempChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+      this.tempChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+      this.humidityChartOptions.scales.xAxes[0].ticks.min = minDateTime.valueOf();
+      this.humidityChartOptions.scales.xAxes[0].ticks.max = maxDateTime.valueOf();
+
+      this.tempChartDataSet[0].data.length = 0;
+      this.humidityChartDataSet[0].data.length = 0;
+
+      for (let log of this.lsLogSensorGerminator) {
+        this.tempChartDataSet[0].data.push({
+          x: new Date(log.loggedAt).valueOf(),
+          y: log.temperature,
+        });
+        this.humidityChartDataSet[0].data.push({
+          x: new Date(log.loggedAt).valueOf(),
+          y: log.humidity,
+        });
+      }
+    }
   }
 
   initForms() {

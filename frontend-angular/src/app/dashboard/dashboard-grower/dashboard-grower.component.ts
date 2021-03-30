@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DashboardGrowerService } from '../../../_services/dashboard/dashboard-grower.service';
 import { LogSensorModuleLevel } from '../../../_models/logsensormodulelevel.model';
 import { LogSensorRoom } from '../../../_models/logsensorroom.model';
@@ -10,8 +10,10 @@ import { interval, Subscription } from 'rxjs';
 import { ModuleSettings } from '../../../_models/modulesettings.model';
 import { ReservoirSettings } from '../../../_models/reservoirsettings.model';
 import { cloneDeep } from 'lodash';
-import { GerminatorSettings } from '../../../_models/germinatorsettings.model';
-import { HttpResponse } from '@angular/common/http';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseChartDirective, Color, Label } from 'ng2-charts';
+import { ConfirmationDialogService } from '../../../_services/dialogs/confirmation-dialog.service';
+import { ChartDataSets, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard-grower',
@@ -19,6 +21,356 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./dashboard-grower.component.css'],
 })
 export class DashboardGrowerComponent implements OnInit {
+  @ViewChildren(BaseChartDirective) lsRoomChart: QueryList<BaseChartDirective>;
+  @ViewChildren(BaseChartDirective) lsReservoirChart: QueryList<
+    BaseChartDirective
+  >;
+  @ViewChildren(BaseChartDirective) lsModuleLevelChart: QueryList<
+    BaseChartDirective
+  >;
+
+  lsRoomChartDataSet: ChartDataSets[];
+  lsReservoirChartDataSet: ChartDataSets[];
+  lsModuleLevelChartDataSet: ChartDataSets[];
+
+  roomChartColors: Color[] = [
+    {
+      borderColor: '#3D998A',
+      pointBackgroundColor: '#3D998A',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#3D998A',
+    },
+  ];
+  reservoirChartColors: Color[] = [
+    {
+      borderColor: '#3D998A',
+      pointBackgroundColor: '#3D998A',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#3D998A',
+    },
+  ];
+  moduleLevelChartColors: Color[] = [
+    {
+      borderColor: '#3D998A',
+      pointBackgroundColor: '#3D998A',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#3D998A',
+    },
+  ];
+
+  tempChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Temperature',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'Celsius',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  humidityChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Humidity',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '%',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  tdsChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'TDS',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'ppm',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  phChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Humidity',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  solnTempChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Solution Temperature',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'Celsius',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  tempRootChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Root Temperature',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'Celsius',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  humidityRootChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Root Humidity',
+    },
+    scales: {
+      xAxes: [
+        {
+          type: 'time',
+          ticks: {
+            source: 'data',
+            min: new Date().valueOf(),
+            max: new Date().valueOf(),
+          },
+        },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: '%',
+          },
+        },
+      ],
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  };
+
+  growerHistoryForm: FormGroup;
+
   isDisplayCurrent: boolean = true;
 
   subRefreshSensor: Subscription;
@@ -34,7 +386,10 @@ export class DashboardGrowerComponent implements OnInit {
 
   inHistoryMode: boolean = false;
 
-  constructor(public dashboardGrowerService: DashboardGrowerService) {
+  constructor(
+    public dashboardGrowerService: DashboardGrowerService,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {
     dashboardGrowerService.updateGrowerDashboardCurrent();
     dashboardGrowerService.lsModule.subscribe((lsModule) => {
       this.lsModule = lsModule;
@@ -78,10 +433,27 @@ export class DashboardGrowerComponent implements OnInit {
 
     this.dashboardGrowerService.getAllReservoirSettings();
     this.dashboardGrowerService.getAllModuleSettings();
+
+    this.initForms();
   }
 
   ngOnDestroy(): void {
     this.subRefreshSensor.unsubscribe();
+  }
+
+  initForms() {
+    let timezoneOffset = new Date().getTimezoneOffset() * 60000;
+
+    this.growerHistoryForm = new FormGroup({
+      timeStampBegin: new FormControl(
+        new Date(Date.now() - timezoneOffset).toISOString().slice(0, 16),
+        [Validators.required]
+      ),
+      timeStampEnd: new FormControl(
+        new Date(Date.now() - timezoneOffset).toISOString().slice(0, 16),
+        [Validators.required]
+      ),
+    });
   }
 
   toggleDisplayMode(): void {
@@ -184,18 +556,22 @@ export class DashboardGrowerComponent implements OnInit {
     return levels;
   }
 
-  getSvNutrientStatus(reservoirID: number) {
+  getSvNutrientStatus(reservoirID: number): number {
     let index = this.lsReservoirSettings.findIndex(
       (rs) => rs.reservoirID == reservoirID
     );
-    return this.lsReservoirSettings[index].svNutrient;
+    return this.lsReservoirSettings[index] == undefined
+      ? 0
+      : this.lsReservoirSettings[index].svNutrient;
   }
 
-  getSvWaterStatus(reservoirID: number) {
+  getSvWaterStatus(reservoirID: number): number {
     let index = this.lsReservoirSettings.findIndex(
       (rs) => rs.reservoirID == reservoirID
     );
-    return this.lsReservoirSettings[index].svWater;
+    return this.lsReservoirSettings[index] == undefined
+      ? 0
+      : this.lsReservoirSettings[index].svWater;
   }
 
   onCLickSvNutrient(reservoirID: number) {
@@ -228,6 +604,59 @@ export class DashboardGrowerComponent implements OnInit {
           .then((success) => {
             if (!success) {
               alert('Failed to toggle SV Water.');
+            }
+          });
+      }
+    }
+  }
+
+  getModuleIsAuto(moduleID: number): number {
+    for (let moduleSettings of this.lsModuleSettings) {
+      if (moduleSettings.moduleID == moduleID) {
+        return moduleSettings.isAuto;
+      }
+    }
+  }
+
+  getFanStatus(moduleID: number, level: number): number {
+    for (let moduleSettings of this.lsModuleSettings) {
+      if (moduleSettings.moduleID == moduleID) {
+        switch (level) {
+          case 1:
+            return moduleSettings.fan1;
+
+          case 2:
+            return moduleSettings.fan2;
+        }
+      }
+    }
+  }
+
+  getLedStatus(moduleID: number, level: number): number {
+    for (let moduleSettings of this.lsModuleSettings) {
+      if (moduleSettings.moduleID == moduleID) {
+        switch (level) {
+          case 1:
+            return moduleSettings.led1;
+
+          case 2:
+            return moduleSettings.led2;
+        }
+      }
+    }
+  }
+
+  onClickIsAuto(moduleID: number) {
+    for (let moduleSettings of this.lsModuleSettings) {
+      if (moduleSettings.moduleID == moduleID) {
+        let tmpModuleSettings = cloneDeep(moduleSettings);
+        tmpModuleSettings.isAuto = tmpModuleSettings.isAuto == 1 ? 0 : 1;
+
+        this.dashboardGrowerService
+          .updateModuleSettings(tmpModuleSettings)
+          .then((success) => {
+            if (!success) {
+              alert('Failed to toggle IsAuto');
             }
           });
       }
@@ -345,4 +774,30 @@ export class DashboardGrowerComponent implements OnInit {
   //       }
   //     });
   // }
+
+  onSubmitHistoryPeriod() {
+    let timeStampBegin = this.growerHistoryForm.value['timeStampBegin'];
+    let timeStampEnd = this.growerHistoryForm.value['timeStampEnd'];
+
+    this.confirmationDialogService
+      .confirm(
+        'Confirm Update History Data',
+        'Time Begin: ' +
+          new Date(timeStampBegin).toTimeString() +
+          ' | Time End: ' +
+          new Date(timeStampEnd).toTimeString(),
+        'Confirm',
+        'Cancel',
+        'lg'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.initForms();
+          this.dashboardGrowerService.updateGrowerDashboardHistory(
+            timeStampBegin,
+            timeStampEnd
+          );
+        }
+      });
+  }
 }

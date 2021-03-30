@@ -1,8 +1,12 @@
 <div class="navigator">
   <div class="menu-0" id="dashboard">
     <div class="hide">
-      <button class="btn btn-1" type="text">Grower</button>
-      <button class="btn btn-2" type="text">Germinator</button>
+      <button class="btn btn-1" type="text" routerLink="/dashboard/grower">
+        Grower
+      </button>
+      <button class="btn btn-2" type="text" routerLink="/dashboard/germinator">
+        Germinator
+      </button>
     </div>
     <div class="top">
       <img src="/assets/Icon/Dashboard.png" alt="Dashboard-Icon" />
@@ -12,61 +16,61 @@
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/batches">
     <div class="top">
       <img src="/assets/Icon/Batches.png" alt="Batches-Icon" />
     </div>
     <div class="bottom">
-      <h1>Home</h1>
+      <h1>Batches</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/plants">
     <div class="top">
       <img src="/assets/Icon/Plants.png" alt="Plants-Icon" />
     </div>
     <div class="bottom">
-      <h1>Plant</h1>
+      <h1>Plants</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/nutrients">
     <div class="top">
       <img src="/assets/Icon/Nutrient.png" alt="Nutrient-Icon" />
     </div>
     <div class="bottom">
-      <h1>Nutrient</h1>
+      <h1>Nutrients</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/reservoirs">
     <div class="top">
       <img src="/assets/Icon/Reservoir.png" alt="Reservoir-Icon" />
     </div>
     <div class="bottom">
-      <h1>Reservoir</h1>
+      <h1>Reservoirs</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/rooms">
     <div class="top">
       <img src="/assets/Icon/Rooms.png" alt="Rooms-Icon" />
     </div>
     <div class="bottom">
-      <h1>Room</h1>
+      <h1>Rooms</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" routerLink="/users">
     <div class="top">
       <img src="/assets/Icon/User.png" alt="Users-Icon" />
     </div>
     <div class="bottom">
-      <h1>User</h1>
+      <h1>Users</h1>
     </div>
   </div>
 
-  <div class="menu">
+  <div class="menu" (click)="onLogout()">
     <div class="top">
       <img src="/assets/Icon/Logout.png" alt="Logout-Icon" />
     </div>
