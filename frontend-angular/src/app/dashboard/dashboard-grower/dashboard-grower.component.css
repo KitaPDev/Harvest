@@ -205,7 +205,7 @@ input[type="number"] {
   padding: 1rem;
   width: 100%;
   display: flex;
-  background: #a9a9a9a9;
+  /* background: #a9a9a9a9; */
 }
 
 .cell-level-left {
@@ -385,10 +385,19 @@ input:focus + .slider-auto {
 .header {
   background: var(--clr-green);
   color: white;
-  padding: 0.5rem 2rem;
+  padding: 0.75rem 2rem;
   border-radius: 0.5rem;
+  margin-bottom: 2rem;
   text-align: center;
-  margin-bottom: 1rem;
+}
+.semi-header {
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  width: 95%;
+  margin: 0 auto;
+  background: #a9a9a9;
+  text-align: center;
 }
 .sub-header {
   color: var(--clr-green);
