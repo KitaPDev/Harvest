@@ -11,9 +11,9 @@ import { ModuleSettings } from '../../../_models/modulesettings.model';
 import { ReservoirSettings } from '../../../_models/reservoirsettings.model';
 import { cloneDeep } from 'lodash';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BaseChartDirective, Color, Label } from 'ng2-charts';
+import { BaseChartDirective, Color } from 'ng2-charts';
 import { ConfirmationDialogService } from '../../../_services/dialogs/confirmation-dialog.service';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard-grower',
