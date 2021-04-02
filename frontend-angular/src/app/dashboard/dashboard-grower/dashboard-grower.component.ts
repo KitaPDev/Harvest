@@ -381,6 +381,7 @@ export class DashboardGrowerComponent implements OnInit {
   growerHistoryForm: FormGroup;
 
   isDisplayCurrent: boolean = true;
+  isUpdateHistoryClicked: boolean = false;
 
   subRefreshSensor: Subscription;
 
@@ -392,8 +393,6 @@ export class DashboardGrowerComponent implements OnInit {
   lsLogSensorRoom: LogSensorRoom[];
   lsReservoirSettings: ReservoirSettings[];
   lsModuleSettings: ModuleSettings[];
-
-  inHistoryMode: boolean = false;
 
   constructor(
     public dashboardGrowerService: DashboardGrowerService,
@@ -436,7 +435,7 @@ export class DashboardGrowerComponent implements OnInit {
       }
     );
     this.subRefreshSensor = interval(2000).subscribe(() => {
-      if (!this.inHistoryMode) {
+      if (this.isDisplayCurrent) {
         this.dashboardGrowerService.getLatestGrowerSensorLogs();
       }
     });
@@ -531,8 +530,8 @@ export class DashboardGrowerComponent implements OnInit {
     });
   }
 
-  toggleDisplayMode(): void {
-    this.isDisplayCurrent = !this.isDisplayCurrent;
+  setDisplayMode(mode: number): void {
+    this.isDisplayCurrent = mode == 1;
   }
 
   getRoomTemperature(roomID: number): string {
@@ -873,6 +872,8 @@ export class DashboardGrowerComponent implements OnInit {
             timeStampEnd
           );
         }
+
+        this.isUpdateHistoryClicked = true;
       });
   }
 }
