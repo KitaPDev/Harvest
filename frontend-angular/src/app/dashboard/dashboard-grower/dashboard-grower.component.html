@@ -271,7 +271,12 @@
             </div>
           </div>
         </div>
-        <div *ngIf="recRoomID_recDataType_roomChartDataSet == undefined"></div>
+        <div
+          *ngIf="recRoomID_recDataType_roomChartDataSet == undefined"
+          class="data-not-found"
+        >
+          <h5>no data</h5>
+        </div>
       </div>
     </div>
 

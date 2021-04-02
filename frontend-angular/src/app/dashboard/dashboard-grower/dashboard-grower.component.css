@@ -80,6 +80,12 @@ h4 {
   text-transform: uppercase;
   color: white;
 }
+h5 {
+  font-size: 1.25rem;
+  font-family: Quicksand_Bold;
+  text-transform: uppercase;
+  color: red;
+}
 
 .white {
   color: white;
@@ -377,11 +383,16 @@ input:focus + .slider-auto {
 }
 .show-data-container {
   margin: 1rem auto;
+  padding-bottom: 0.75rem;
   width: 90%;
   border-radius: 1rem;
   background: white;
 }
-
+.data-not-found {
+  text-align: center;
+  width: 95%;
+  margin: 1rem auto;
+}
 .header {
   background: var(--clr-green);
   color: white;
