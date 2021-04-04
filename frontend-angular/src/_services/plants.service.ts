@@ -143,8 +143,9 @@ export class PlantsService {
           plant.plantID = data['plant_id'];
           plant.plantLabel = data['plant_label'];
           plant.tdsHigh = data['tds_high'];
-          plant.phHigh = data['ph_high'];
           plant.tdsLow = data['tds_low'];
+          plant.phLow = data['ph_low'];
+          plant.phHigh = data['ph_high'];
           plant.temperatureHigh = data['temperature_high'];
           plant.temperatureLow = data['temperature_low'];
           plant.lightsOffHour = data['lights_off_hour'];
