@@ -1,9 +1,15 @@
 <div class="container container-1">
   <h4 class="title">Room</h4>
-  <app-batches-details-room-item
-    *ngFor="let room of rooms; let i = index"
-    [room]="room"
-    [batchesService]="batchesService"
-  ></app-batches-details-room-item>
-  <hr>
+  <div *ngIf="rooms.length > 0">
+    <app-batches-details-room-item
+      *ngFor="let room of rooms; let i = index"
+      [room]="room"
+      [batchesService]="batchesService"
+    ></app-batches-details-room-item>
+  </div>
+
+  <div *ngIf="rooms.length == 0">
+    No Rooms Selected
+  </div>
+  <hr />
 </div>

@@ -9,6 +9,7 @@ import { BatchesService } from '../../../../../../../_services/batches.service';
 import { LogSensorModuleLevel } from '../../../../../../../_models/logsensormodulelevel.model';
 import { ActivatedRoute } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-batches-details-module-level-item',
@@ -38,7 +39,7 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     },
   ];
 
-  tempChartOptions = {
+  tempChartOptions: ChartOptions = {
     title: {
       display: true,
       text: 'Root Temperature',
@@ -63,7 +64,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         },
       ],
     },
-    scaleShowVerticalLines: false,
     responsive: true,
     aspectRatio: 5,
     legend: {
@@ -95,12 +95,12 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
     },
   ];
 
-  humidityChartOptions = {
+  humidityChartOptions: ChartOptions = {
+    title: {
+      display: true,
+      text: 'Root Humidity',
+    },
     scales: {
-      title: {
-        display: true,
-        text: 'Root Humidity',
-      },
       xAxes: [
         {
           type: 'time',
@@ -120,7 +120,6 @@ export class BatchesDetailsModuleLevelItemComponent implements OnInit {
         },
       ],
     },
-    scaleShowVerticalLines: false,
     responsive: true,
     aspectRatio: 5,
     legend: {

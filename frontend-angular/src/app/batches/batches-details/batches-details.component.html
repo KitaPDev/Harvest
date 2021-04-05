@@ -4,7 +4,7 @@
     <button
       type="button"
       class="btn btn-grey"
-      style="margin-top: 10px"
+      style="margin-top: 10px;"
       (click)="onBackClick()"
     >
       Back
@@ -13,280 +13,263 @@
 
   <hr />
 
-  
-    <form class="form-group container container-1" [formGroup]="editBatchForm">
-      <div class="cell cell-1">
-        <label class="control-label label" for="batchLabel">Label</label>
-        <input
-          type="text"
-          class="input input-text"
-          id="batchLabel"
-          formControlName="batchLabel"
-        />
-      </div>
+  <form class="form-group container container-1" [formGroup]="editBatchForm">
+    <div class="cell cell-1">
+      <label class="control-label label" for="batchLabel">Label</label>
+      <input
+        type="text"
+        class="input input-text"
+        id="batchLabel"
+        formControlName="batchLabel"
+      />
+    </div>
 
-      <div class="cell cell-2">
-        <label for="plantLabel" class="label">Plant</label>
-        <select
-          id="plantLabel"
-          class="input input-select"
-          formControlName="plantLabel"
-        >
-          <option disabled>Select Plant</option>
-          <option>-</option>
-          <option *ngFor="let plant of plants" [value]="plant.plantID">
-            {{ plant.plantLabel }}
-          </option>
-        </select>
-      </div>
+    <div class="cell cell-2">
+      <label for="plantLabel" class="label">Plant</label>
+      <select
+        id="plantLabel"
+        class="input input-select"
+        formControlName="plantLabel"
+      >
+        <option disabled>Select Plant</option>
+        <option>-</option>
+        <option *ngFor="let plant of plants" [value]="plant.plantID">
+          {{ plant.plantLabel }}
+        </option>
+      </select>
+    </div>
 
-      <div class="cell cell-3">
-        <label for="weight" class="label">Weight (kg)</label>
-        <input
-          type="number"
-          class="input input-num"
-          id="weight"
-          formControlName="weight"
-        />
-      </div>
+    <div class="cell cell-3">
+      <label for="weight" class="label">Weight (kg)</label>
+      <input
+        type="number"
+        class="input input-num"
+        id="weight"
+        formControlName="weight"
+      />
+    </div>
 
-      <div class="cell cell-4">
-        <label for="timeStampBegin" class="label">Begin</label>
-        <input
-          id="timeStampBegin"
-          type="datetime-local"
-          class="input input-timestamp"
-          formControlName="timeStampBegin"
-        />
-      </div>
+    <div class="cell cell-4">
+      <label for="timeStampBegin" class="label">Begin</label>
+      <input
+        id="timeStampBegin"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampBegin"
+      />
+    </div>
 
-      <div class="cell cell-5">
-        <label for="timeStampEnd" class="label">End</label>
-        <input
-          id="timeStampEnd"
-          type="datetime-local"
-          class="input input-timestamp"
-          formControlName="timeStampEnd"
-        />
-      </div>
+    <div class="cell cell-5">
+      <label for="timeStampEnd" class="label">End</label>
+      <input
+        id="timeStampEnd"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampEnd"
+      />
+    </div>
 
-      <div class="cell cell-6">
-        <label for="lightsOnHour" class="label">Lights On (hr)</label>
-        <input
-          type="number"
-          class="input input-num"
-          id="lightsOnHour"
-          formControlName="lightsOnHour"
-        />
-      </div>
+    <div class="cell cell-6">
+      <label for="lightsOnHour" class="label">Lights On (hr)</label>
+      <input
+        type="number"
+        class="input input-num"
+        id="lightsOnHour"
+        formControlName="lightsOnHour"
+      />
+    </div>
 
-      <div class="cell cell-7">
-        <label for="lightsOffHour" class="label">Lights Off (hr)</label>
-        <input
-          type="number"
-          class="input input-num"
-          id="lightsOffHour"
-          formControlName="lightsOffHour"
-        />
-      </div>
+    <div class="cell cell-7">
+      <label for="lightsOffHour" class="label">Lights Off (hr)</label>
+      <input
+        type="number"
+        class="input input-num"
+        id="lightsOffHour"
+        formControlName="lightsOffHour"
+      />
+    </div>
 
-      <div class="cell cell-8">
-        <label for="mistingOnSecond" class="label">Misting On (s)</label>
-        <input
-          type="number"
-          class="input input-num"
-          id="mistingOnSecond"
-          formControlName="mistingOnSecond"
-        />
-      </div>
+    <div class="cell cell-8">
+      <label for="mistingOnSecond" class="label">Misting On (s)</label>
+      <input
+        type="number"
+        class="input input-num"
+        id="mistingOnSecond"
+        formControlName="mistingOnSecond"
+      />
+    </div>
 
-      <div class="cell cell-9">
-        <label for="mistingOffSecond" class="label">Misting Off (s)</label>
-        <input
-          type="number"
-          class="input input-num"
-          id="mistingOffSecond"
-          formControlName="mistingOffSecond"
-        />
-      </div>
+    <div class="cell cell-9">
+      <label for="mistingOffSecond" class="label">Misting Off (s)</label>
+      <input
+        type="number"
+        class="input input-num"
+        id="mistingOffSecond"
+        formControlName="mistingOffSecond"
+      />
+    </div>
 
-      <div class="cell cell-10">
-        <label for="moduleLabel" class="label">Module</label>
-        <select
-          id="moduleLabel"
-          class="input input-select"
-          formControlName="moduleLabel"
-          (change)="updateModules($event)"
-        >
-          <option disabled>Select Module</option>
-          <option>-</option>
-          <option *ngFor="let module of modules">
-            {{ module.moduleLabel }}
-          </option>
-        </select>
-        <button type="button" class="btn btn-blue-1" (click)="onAddModule()">
-          Add
-        </button>
-        <div
-          *ngFor="let module of selectedModules; trackBy: trackSelectedModules"
-          class="addedItem"
-          (click)="removeModule($event)"
-        >
+    <div class="cell cell-10">
+      <label for="moduleLabel" class="label">Module</label>
+      <select
+        id="moduleLabel"
+        class="input input-select"
+        formControlName="moduleLabel"
+        (change)="updateModules($event)"
+      >
+        <option disabled>Select Module</option>
+        <option>-</option>
+        <option *ngFor="let module of modules">
           {{ module.moduleLabel }}
-        </div>
+        </option>
+      </select>
+      <button type="button" class="btn btn-blue-1" (click)="onAddModule()">
+        Add
+      </button>
+      <div
+        *ngFor="let module of selectedModules; trackBy: trackSelectedModules"
+        class="addedItem"
+        (click)="removeModule($event)"
+      >
+        {{ module.moduleLabel }}
       </div>
+    </div>
 
-      <div class="cell cell-11">
-        <label for="reservoirLabel" class="label">Reservoir</label>
-        <select
-          id="reservoirLabel"
-          class="input input-select"
-          formControlName="reservoirLabel"
-          (change)="updateReservoirs($event)"
-        >
-          <option disabled>Select Reservoir</option>
-          <option>-</option>
-          <option *ngFor="let reservoir of reservoirs">
-            {{ reservoir.reservoirLabel }}
-          </option>
-        </select>
-        <button type="button" class="btn btn-blue-1" (click)="onAddReservoir()">
-          Add
-        </button>
-        <div
-          *ngFor="
-            let reservoir of selectedReservoirs;
-            trackBy: trackSelectedReservoirs
-          "
-          class="addedItem"
-          (click)="removeReservoir($event)"
-        >
+    <div class="cell cell-11">
+      <label for="reservoirLabel" class="label">Reservoir</label>
+      <select
+        id="reservoirLabel"
+        class="input input-select"
+        formControlName="reservoirLabel"
+        (change)="updateReservoirs($event)"
+      >
+        <option disabled>Select Reservoir</option>
+        <option>-</option>
+        <option *ngFor="let reservoir of reservoirs">
           {{ reservoir.reservoirLabel }}
-        </div>
+        </option>
+      </select>
+      <button type="button" class="btn btn-blue-1" (click)="onAddReservoir()">
+        Add
+      </button>
+      <div
+        *ngFor="
+          let reservoir of selectedReservoirs;
+          trackBy: trackSelectedReservoirs
+        "
+        class="addedItem"
+        (click)="removeReservoir($event)"
+      >
+        {{ reservoir.reservoirLabel }}
       </div>
+    </div>
 
-      <div class="cell cell-12">
-        <label for="roomLabel" class="label">Room</label>
-        <select
-          id="roomLabel"
-          class="input input-select"
-          formControlName="roomLabel"
-          (change)="updateRooms($event)"
-        >
-          <option disabled>Select Room</option>
-          <option>-</option>
-          <option *ngFor="let room of rooms">{{ room.roomLabel }}</option>
-        </select>
-        <button type="button" class="btn btn-blue-1" (click)="onAddRoom()">
-          Add
-        </button>
-        <div
-          *ngFor="let room of selectedRooms; trackBy: trackSelectedRooms"
-          class="addedItem"
-          (click)="removeRoom($event)"
-        >
-          {{ room.roomLabel }}
-        </div>
+    <div class="cell cell-12">
+      <label for="roomLabel" class="label">Room</label>
+      <select
+        id="roomLabel"
+        class="input input-select"
+        formControlName="roomLabel"
+        (change)="updateRooms($event)"
+      >
+        <option disabled>Select Room</option>
+        <option>-</option>
+        <option *ngFor="let room of rooms">{{ room.roomLabel }}</option>
+      </select>
+      <button type="button" class="btn btn-blue-1" (click)="onAddRoom()">
+        Add
+      </button>
+      <div
+        *ngFor="let room of selectedRooms; trackBy: trackSelectedRooms"
+        class="addedItem"
+        (click)="removeRoom($event)"
+      >
+        {{ room.roomLabel }}
       </div>
+    </div>
 
-      <div class="cell cell-13">
-        <label for="nutrientLabel" class="label">Nutrient</label>
-        <select
-          id="nutrientLabel"
-          class="input input-select"
-          formControlName="nutrientLabel"
-          (change)="updateNutrients($event)"
-        >
-          <option disabled>Select Nutrient</option>
-          <option>-</option>
-          <option *ngFor="let nutrient of nutrients">
-            {{ nutrient.nutrientLabel }}
-          </option>
-        </select>
-        <button type="button" class="btn btn-blue-1" (click)="onAddNutrient()">
-          Add
-        </button>
-        <div
-          *ngFor="
-            let nutrient of selectedNutrients;
-            trackBy: trackSelectedNutrients
-          "
-          class="addedItem"
-          (click)="removeNutrient($event)"
-        >
+    <div class="cell cell-13">
+      <label for="nutrientLabel" class="label">Nutrient</label>
+      <select
+        id="nutrientLabel"
+        class="input input-select"
+        formControlName="nutrientLabel"
+        (change)="updateNutrients($event)"
+      >
+        <option disabled>Select Nutrient</option>
+        <option>-</option>
+        <option *ngFor="let nutrient of nutrients">
           {{ nutrient.nutrientLabel }}
-        </div>
+        </option>
+      </select>
+      <button type="button" class="btn btn-blue-1" (click)="onAddNutrient()">
+        Add
+      </button>
+      <div
+        *ngFor="
+          let nutrient of selectedNutrients;
+          trackBy: trackSelectedNutrients
+        "
+        class="addedItem"
+        (click)="removeNutrient($event)"
+      >
+        {{ nutrient.nutrientLabel }}
       </div>
+    </div>
 
-      <div class="cell cell-14">
-        <label for="remarks" class="label">Remarks</label>
-        <textarea
-          type="text"
-          class="form-control input input-remark"
-          id="remarks"
-          formControlName="remarks"
-        >
-        </textarea>
-      </div>
-    </form>
+    <div class="cell cell-14">
+      <label for="remarks" class="label">Remarks</label>
+      <textarea
+        type="text"
+        class="form-control input input-remark"
+        id="remarks"
+        formControlName="remarks"
+      >
+      </textarea>
+    </div>
+  </form>
 
-    <div class="container container-2">
+  <div class="container container-2">
     <ng-template #notEditBlock>
-        
-          <button
-          type="button"
-          class="btn btn-create"
-          (click)="toEditMode()"
-          >
-          Edit Batch
-        </button>
-      
-      </ng-template>
-      <div *ngIf="isEditMode === true; else notEditBlock">
-        
-        
-        <button
+      <button type="button" class="btn btn-create" (click)="toEditMode()">
+        Edit Batch
+      </button>
+    </ng-template>
+    <div *ngIf="isEditMode === true; else notEditBlock">
+      <button
         type="button"
         class="btn btn-blue-2"
         (click)="onSubmitEditBatch()"
-        >
+      >
         Confirm Edit Batch
       </button>
-      
-      
-      <button
-      type="button"
-      class="btn btn-red"
-      (click)="onCancelEditMode()"
-      >
-      Cancel
-    </button>
-    
-  </div>
-</div>
 
-<hr>
+      <button type="button" class="btn btn-red" (click)="onCancelEditMode()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <hr />
 
   <div class="container container-3">
-    
     <h1 class="title data">Data</h1>
-    
   </div>
 
-  <hr> 
-  
-  <app-batches-details-reservoir-list
-    [reservoirs]="reservoirs"
-    [batchesService]="batchesService"
-  ></app-batches-details-reservoir-list>
+  <hr />
 
   <app-batches-details-room-list
     [rooms]="selectedRooms"
     [batchesService]="batchesService"
   ></app-batches-details-room-list>
 
+  <app-batches-details-reservoir-list
+    [reservoirs]="selectedReservoirs"
+    [batchesService]="batchesService"
+  ></app-batches-details-reservoir-list>
+
   <app-batches-details-module-list
-    [modules]="modules"
+    [modules]="selectedModules"
     [batchesService]="batchesService"
   ></app-batches-details-module-list>
 </div>

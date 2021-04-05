@@ -1,8 +1,14 @@
 <div class="container container-1">
   <h4 class="title">Module</h4>
-  <app-batches-details-module-item
-    *ngFor="let module of modules; let i = index"
-    [module]="module"
-    [batchesService]="batchesService"
-  ></app-batches-details-module-item>
+  <div *ngIf="modules.length > 0">
+    <app-batches-details-module-item
+      *ngFor="let module of modules; let i = index"
+      [module]="module"
+      [batchesService]="batchesService"
+    ></app-batches-details-module-item>
+  </div>
+
+  <div *ngIf="modules.length == 0">
+    No Modules Selected
+  </div>
 </div>

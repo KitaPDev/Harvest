@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Batch } from '../../../_models/batch.model';
 import { BatchesService } from '../../../_services/batches.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +19,7 @@ export class BatchesDetailsComponent implements OnInit {
   editBatchForm: FormGroup;
 
   batchID: number = 0;
+
   batch: Batch;
   modules: Module[] = [];
   plants: Plant[] = [];
@@ -37,7 +38,8 @@ export class BatchesDetailsComponent implements OnInit {
     public batchesService: BatchesService,
     private route: ActivatedRoute,
     private confirmationDialogService: ConfirmationDialogService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.batchID = +this.route.snapshot.params['id'];
     this.batchesService.updateBatchesData();
@@ -50,49 +52,21 @@ export class BatchesDetailsComponent implements OnInit {
 
     this.batchesService.modules.subscribe((modules) => {
       this.modules = modules;
-
-      if (modules.length > 0 && this.batch != undefined) {
-        this.selectedModules = modules.filter((m) =>
-          this.batch.moduleIDs.includes(m.moduleID)
-        );
-      }
     });
 
     this.batchesService.reservoirs.subscribe((reservoirs) => {
       this.reservoirs = reservoirs;
-
-      if (reservoirs.length > 0 && this.batch != undefined) {
-        this.selectedReservoirs = reservoirs.filter((r) =>
-          this.batch.reservoirIDs.includes(r.reservoirID)
-        );
-      }
     });
 
     this.batchesService.nutrients.subscribe((nutrients) => {
       this.nutrients = nutrients;
-
-      if (nutrients.length > 0 && this.batch != undefined) {
-        this.selectedNutrients = nutrients.filter((n) =>
-          this.batch.nutrientIDs.includes(n.nutrientID)
-        );
-      }
     });
 
     this.batchesService.rooms.subscribe((rooms) => {
       this.rooms = rooms;
-
-      if (rooms.length > 0 && this.batch != undefined) {
-        this.selectedRooms = rooms.filter((r) =>
-          this.batch.roomIDs.includes(r.roomID)
-        );
-      }
     });
 
-    this.batchesService.batches.subscribe((batches) => {
-      if (batches.length > 0) {
-        this.setupPage();
-      }
-    });
+    this.setupPage();
   }
 
   setupPage() {
@@ -112,36 +86,42 @@ export class BatchesDetailsComponent implements OnInit {
     this.rooms = this.batchesService.getRooms();
 
     for (let module of this.modules) {
-      if (
-        this.batch.moduleIDs.includes(module.moduleID) &&
-        !this.selectedModules.some(
-          (selectedModule) => selectedModule.moduleID === module.moduleID
-        )
-      ) {
-        this.selectedModules.push(module);
+      if (this.batch.moduleIDs != undefined) {
+        if (
+          this.batch.moduleIDs.includes(module.moduleID) &&
+          !this.selectedModules.some(
+            (selectedModule) => selectedModule.moduleID === module.moduleID
+          )
+        ) {
+          this.selectedModules.push(module);
+        }
       }
     }
 
     for (let room of this.rooms) {
-      if (
-        this.batch.roomIDs.includes(room.roomID) &&
-        !this.selectedRooms.some(
-          (selectedRoom) => selectedRoom.roomID === room.roomID
-        )
-      ) {
-        this.selectedRooms.push(room);
+      if (this.batch.roomIDs != undefined) {
+        if (
+          this.batch.roomIDs.includes(room.roomID) &&
+          !this.selectedRooms.some(
+            (selectedRoom) => selectedRoom.roomID === room.roomID
+          )
+        ) {
+          this.selectedRooms.push(room);
+        }
       }
     }
 
     for (let reservoir of this.reservoirs) {
-      if (
-        this.batch.reservoirIDs.includes(reservoir.reservoirID) &&
-        !this.selectedReservoirs.some(
-          (selectedReservoir) =>
-            selectedReservoir.reservoirID === reservoir.reservoirID
-        )
-      ) {
-        this.selectedReservoirs.push(reservoir);
+      if (this.batch.reservoirIDs != undefined) {
+        if (
+          this.batch.reservoirIDs.includes(reservoir.reservoirID) &&
+          !this.selectedReservoirs.some(
+            (selectedReservoir) =>
+              selectedReservoir.reservoirID === reservoir.reservoirID
+          )
+        ) {
+          this.selectedReservoirs.push(reservoir);
+        }
       }
     }
 
@@ -161,57 +141,59 @@ export class BatchesDetailsComponent implements OnInit {
   }
 
   initForms() {
-    this.editBatchForm = new FormGroup({
-      batchLabel: new FormControl(this.batch.batchLabel, Validators.required),
-      plantLabel: new FormControl(this.batch.plantID, Validators.required),
-      reservoirLabel: new FormControl([], Validators.required),
-      nutrientLabel: new FormControl([], Validators.required),
-      moduleLabel: new FormControl([], Validators.required),
-      roomLabel: new FormControl([], Validators.required),
-      timeStampBegin: new FormControl(
-        new Date(
-          this.batch.timeStampBegin.getTime() -
-            this.batch.timeStampBegin.getTimezoneOffset() * 60000
-        )
-          .toISOString()
-          .slice(0, 16),
-        [Validators.required]
-      ),
-      timeStampEnd: new FormControl(
-        new Date(
-          this.batch.timeStampEnd.getTime() -
-            this.batch.timeStampEnd.getTimezoneOffset() * 60000
-        )
-          .toISOString()
-          .slice(0, 16),
-        [Validators.required]
-      ),
-      weight: new FormControl(this.batch.weight, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      lightsOnHour: new FormControl(this.batch.lightsOnHour, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      lightsOffHour: new FormControl(this.batch.lightsOffHour, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      mistingOnSecond: new FormControl(this.batch.mistingOnSecond, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      mistingOffSecond: new FormControl(this.batch.mistingOffSecond, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      remarks: new FormControl(this.batch.remarks, Validators.required),
-    });
+    if (this.batch != undefined) {
+      this.editBatchForm = new FormGroup({
+        batchLabel: new FormControl(this.batch.batchLabel, Validators.required),
+        plantLabel: new FormControl(this.batch.plantID, Validators.required),
+        reservoirLabel: new FormControl([], Validators.required),
+        nutrientLabel: new FormControl([], Validators.required),
+        moduleLabel: new FormControl([], Validators.required),
+        roomLabel: new FormControl([], Validators.required),
+        timeStampBegin: new FormControl(
+          new Date(
+            this.batch.timeStampBegin.getTime() -
+              this.batch.timeStampBegin.getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .slice(0, 16),
+          [Validators.required]
+        ),
+        timeStampEnd: new FormControl(
+          new Date(
+            this.batch.timeStampEnd.getTime() -
+              this.batch.timeStampEnd.getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .slice(0, 16),
+          [Validators.required]
+        ),
+        weight: new FormControl(this.batch.weight, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        lightsOnHour: new FormControl(this.batch.lightsOnHour, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        lightsOffHour: new FormControl(this.batch.lightsOffHour, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        mistingOnSecond: new FormControl(this.batch.mistingOnSecond, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        mistingOffSecond: new FormControl(this.batch.mistingOffSecond, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        remarks: new FormControl(this.batch.remarks, Validators.required),
+      });
 
-    this.editBatchForm.disable();
+      this.editBatchForm.disable();
 
-    this.isDataReady = true;
+      this.isDataReady = true;
+    }
   }
 
   onAddReservoir() {

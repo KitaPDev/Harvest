@@ -1,10 +1,15 @@
 <div class="container container-1">
   <h4 class="title">Reservoir</h4>
-  <app-batches-details-reservoir-item
-  *ngFor="let reservoir of reservoirs; let i = index"
-  [reservoir]="reservoir"
-  [batchesService]="batchesService"
-  ></app-batches-details-reservoir-item>
-  <hr>
-</div>
+  <div *ngIf="reservoirs.length > 0">
+    <app-batches-details-reservoir-item
+      *ngFor="let reservoir of reservoirs; let i = index"
+      [reservoir]="reservoir"
+      [batchesService]="batchesService"
+    ></app-batches-details-reservoir-item>
+  </div>
 
+  <div *ngIf="reservoirs.length == 0">
+    No Reservoirs Selected
+  </div>
+  <hr />
+</div>

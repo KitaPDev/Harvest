@@ -16,10 +16,10 @@ const DASHBOARD_GERMINATOR_GET_ALL_SETTINGS_API =
 
 @Injectable({ providedIn: 'root' })
 export class DashboardGerminatorService {
-  private lsLogSensorGerminatorSource: BehaviorSubject<
-    LogSensorGerminator[]
-  > = new BehaviorSubject<LogSensorGerminator[]>([]);
-  lsLogSensorGerminator = this.lsLogSensorGerminatorSource.asObservable();
+  private logSensorGerminatorSource: BehaviorSubject<
+    LogSensorGerminator
+  > = new BehaviorSubject<LogSensorGerminator>(new LogSensorGerminator());
+  logSensorGerminator = this.logSensorGerminatorSource.asObservable();
   private lsLogSensorGerminatorHistorySource: BehaviorSubject<
     LogSensorGerminator[]
   > = new BehaviorSubject<LogSensorGerminator[]>([]);
@@ -37,19 +37,13 @@ export class DashboardGerminatorService {
     this.fetchGerminatorDashboardData().then((response: HttpResponse<any>) => {
       let fetchedData = JSON.parse(JSON.stringify(response.body));
 
-      let lsLogSensorGerminator: LogSensorGerminator[] = [];
+      let logSensorGerminator = new LogSensorGerminator();
 
-      for (let fetchedLogSensorGerminator of fetchedData.log_sensor_germinator) {
-        let logSensorGerminator = new LogSensorGerminator();
+      logSensorGerminator.loggedAt = fetchedData['logged_at'];
+      logSensorGerminator.temperature = fetchedData['temperature'];
+      logSensorGerminator.humidity = fetchedData['humidity'];
 
-        logSensorGerminator.loggedAt = fetchedLogSensorGerminator['logged_at'];
-        logSensorGerminator.temperature =
-          fetchedLogSensorGerminator['temperature'];
-        logSensorGerminator.humidity = fetchedLogSensorGerminator['humidity'];
-
-        lsLogSensorGerminator[0] = logSensorGerminator;
-      }
-      this.lsLogSensorGerminatorSource.next(lsLogSensorGerminator);
+      this.logSensorGerminatorSource.next(logSensorGerminator);
     });
   }
 
@@ -118,7 +112,7 @@ export class DashboardGerminatorService {
     return receivedGerminatorSettings;
   }
 
-  getLogSensorGerminators(): LogSensorGerminator[] {
-    return this.lsLogSensorGerminatorSource.getValue();
+  getLogSensorGerminator(): LogSensorGerminator {
+    return this.logSensorGerminatorSource.getValue();
   }
 }

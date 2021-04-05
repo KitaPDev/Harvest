@@ -64,6 +64,8 @@ import { BatchesDetailsModuleLevelListComponent } from './batches/batches-detail
 import { BatchesDetailsModuleLevelItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-item/batches-details-module-level-item.component';
 import { DashboardGrowerComponent } from './dashboard/dashboard-grower/dashboard-grower.component';
 import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/dashboard-germinator.component';
+import { ControlPanelComponent } from './dashboard/dashboard-germinator/control-panel/control-panel.component';
+import { HistoryPanelComponent } from './dashboard/dashboard-germinator/history-panel/history-panel.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +113,8 @@ import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/d
     BatchesDetailsModuleLevelItemComponent,
     DashboardGrowerComponent,
     DashboardGerminatorComponent,
+    ControlPanelComponent,
+    HistoryPanelComponent,
   ],
   imports: [
     BrowserModule,

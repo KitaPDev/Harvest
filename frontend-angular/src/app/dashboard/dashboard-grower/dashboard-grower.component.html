@@ -274,7 +274,10 @@
           </div>
           <div
             *ngIf="recRoomID_recDataType_roomChartDataSet == undefined"
-          ></div>
+            class="data-not-found"
+          >
+            <h5>no data</h5>
+          </div>
         </div>
       </div>
 
@@ -349,7 +352,10 @@
             *ngIf="
               recReservoirID_recDataType_reservoirChartDataSet == undefined
             "
-          ></div>
+            class="data-not-found"
+          >
+            <h5>no data</h5>
+          </div>
         </div>
       </div>
 
@@ -410,7 +416,10 @@
                 recModuleID_recLevel_recDataType_moduleLevelChartDataSet ==
                 undefined
               "
-            ></div>
+              class="data-not-found"
+            >
+              <h5>no data</h5>
+            </div>
           </div>
         </div>
       </div>

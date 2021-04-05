@@ -6,11 +6,12 @@
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="tdsChartDataSet"
-        [labels]="tdsChartLabels"
-        [options]="tdsChartOptions"
-        [colors]="tdsChartColors"
-        [chartType]="'line'">
+        [datasets]="pHChartDataSet"
+        [labels]="pHChartLabels"
+        [options]="pHChartOptions"
+        [colors]="pHChartColors"
+        [chartType]="'line'"
+      >
       </canvas>
     </div>
     <div class="col-sm-1 my-auto">
@@ -21,11 +22,12 @@
     <div class="col-sm-11" style="padding: 10px;">
       <canvas
         baseChart
-        [datasets]="pHChartDataSet"
-        [labels]="pHChartLabels"
-        [options]="pHChartOptions"
-        [colors]="pHChartColors"
-        [chartType]="'line'">
+        [datasets]="tdsChartDataSet"
+        [labels]="tdsChartLabels"
+        [options]="tdsChartOptions"
+        [colors]="tdsChartColors"
+        [chartType]="'line'"
+      >
       </canvas>
     </div>
     <div class="col-sm-1 my-auto">
@@ -40,7 +42,8 @@
         [labels]="temperatureSolutionChartLabels"
         [options]="temperatureSolutionChartOptions"
         [colors]="temperatureSolutionChartColors"
-        [chartType]="'line'">
+        [chartType]="'line'"
+      >
       </canvas>
     </div>
     <div class="col-sm-1 my-auto">
@@ -48,4 +51,3 @@
     </div>
   </div>
 </div>
-
