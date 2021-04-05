@@ -258,8 +258,8 @@ export class DashboardGrowerService {
     timeStampEnd: Date
   ): Promise<any> {
     const body = {
-      time_stamp_begin: timeStampBegin,
-      time_stamp_end: timeStampEnd,
+      time_stamp_begin: new Date(timeStampBegin).toJSON(),
+      time_stamp_end: new Date(timeStampEnd).toJSON(),
     };
 
     return this.httpClient

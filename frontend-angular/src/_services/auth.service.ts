@@ -50,8 +50,10 @@ export class AuthService {
     this.httpClient
       .post(AUTH_API + '/logout', httpPostOptions)
       .subscribe((response: HttpResponse<any>) => {
-        if (response.status === 200) {
-          alert('Goodbye!');
+        if (response != undefined) {
+          if (response.status === 200) {
+            alert('Goodbye!');
+          }
         }
 
         this.router.navigate(['/login']);

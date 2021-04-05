@@ -211,7 +211,7 @@ ALTER SEQUENCE public.module_module_id_seq OWNED BY public.module.module_id;
 --
 
 CREATE TABLE public.module_url (
-    "moduleID" integer DEFAULT 0 NOT NULL,
+    module_id integer DEFAULT 0 NOT NULL,
     url character varying(256) DEFAULT NULL::character varying
 );
 
@@ -488,8 +488,8 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 --
 
 COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_end, weight, lights_on_hour, lights_off_hour, misting_on_second, misting_off_second, remarks) FROM stdin;
-10	test_batch1	2	2019-12-31 23:00:00	2020-05-31 23:00:00	200	18	6	15	300	This is test batch 1.
 11	test_batch2	2	2021-01-31 17:00:00	2021-03-16 17:00:00	250	16	2	15	300	
+10	test_batch1	0	2019-12-31 23:00:00	2020-05-31 23:00:00	200	18	6	15	300	This is test batch 1.
 \.
 
 
@@ -499,8 +499,6 @@ COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_e
 
 COPY public.batches_modules (batch_id, module_id) FROM stdin;
 10	2
-10	4
-11	4
 \.
 
 
@@ -509,10 +507,10 @@ COPY public.batches_modules (batch_id, module_id) FROM stdin;
 --
 
 COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
-10	2
-10	3
 11	2
 11	3
+10	2
+10	3
 \.
 
 
@@ -521,8 +519,8 @@ COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
 --
 
 COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
-10	10
 11	10
+10	10
 \.
 
 
@@ -531,8 +529,7 @@ COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
 --
 
 COPY public.batches_rooms (batch_id, room_id) FROM stdin;
-10	3
-11	3
+10	6
 \.
 
 
@@ -541,6 +538,11 @@ COPY public.batches_rooms (batch_id, room_id) FROM stdin;
 --
 
 COPY public.log_sensor_germinator (logged_at, temperature, humidity) FROM stdin;
+2021-04-02 05:10:31.701047	25	70
+2021-04-02 05:10:39.701	24.8999999999999986	80
+2021-04-02 05:10:33.701	25.1999999999999993	72
+2021-04-02 05:10:35.701	25.3000000000000007	75
+2021-04-02 05:10:37.701	25.1000000000000014	78
 \.
 
 
@@ -577,8 +579,7 @@ COPY public.log_sensor_room (logged_at, room_id, temperature, humidity) FROM std
 --
 
 COPY public.module (module_id, reservoir_id, room_id, module_label, level, is_auto) FROM stdin;
-4	0	3	test_module2	2	\N
-2	0	0	test_module	2	\N
+2	10	6	Module 1	2	\N
 \.
 
 
@@ -586,7 +587,8 @@ COPY public.module (module_id, reservoir_id, room_id, module_label, level, is_au
 -- Data for Name: module_url; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.module_url ("moduleID", url) FROM stdin;
+COPY public.module_url (module_id, url) FROM stdin;
+2	http://192.168.1.111:8090
 \.
 
 
@@ -606,7 +608,7 @@ COPY public.nutrient (nutrient_id, nutrient_label, part, nutrient_type, cc_per_l
 
 COPY public.plant (plant_id, plant_label, tds_low, tds_high, ph_low, ph_high, temperature_low, temperature_high, lights_off_hour, lights_on_hour, misting_on_second, misting_off_second) FROM stdin;
 0		0	0	0	0	0	0	0	0	0	0
-2	Frillice Iceberg	650	700	0	6.79999999999999982	10	24	2	16	3	34
+2	Frillice Iceberg	650	700	4.5	6.79999999999999982	10	24	2	16	3	34
 \.
 
 
@@ -616,7 +618,7 @@ COPY public.plant (plant_id, plant_label, tds_low, tds_high, ph_low, ph_high, te
 
 COPY public.reservoir (reservoir_id, reservoir_label) FROM stdin;
 0	
-10	testreservoir1
+10	Reservoir 1
 \.
 
 
@@ -625,6 +627,7 @@ COPY public.reservoir (reservoir_id, reservoir_label) FROM stdin;
 --
 
 COPY public.reservoir_url (reservoir_id, url) FROM stdin;
+10	http://192.168.1.111:8090
 \.
 
 
@@ -644,7 +647,7 @@ COPY public.reservoirs_nutrients (reservoir_id, nutrient_id) FROM stdin;
 
 COPY public.room (room_id, room_label) FROM stdin;
 0	
-3	room1
+6	Main Room
 \.
 
 
@@ -654,7 +657,8 @@ COPY public.room (room_id, room_label) FROM stdin;
 
 COPY public.users (user_id, username, hash, salt, is_admin, created_at) FROM stdin;
 1	admin	$2a$10$QYwgIoZEwEOl3237zxzET./4JUs5MavYRhg3LGNQmrtiXgKVmSe.G	nNxxuxBM8F5xH2x3BoSvwqwJxLozx6mc	t	2020-05-11 15:11:22.219651
-32	test_admin	$2a$10$fxzNDXyZBtxcQHmaxGsYd.cEa5AvOwOSvNL4MyyOQZF0ClWKBIXUC	7jRzJVU1LnvU5VYGFFi9FfmtQxXZCIgA	t	2021-02-22 05:02:38.881198
+33	kitap	$2a$10$9C3sQqnym3yJ3bOnr.xc6.WibRiAGCHlS8jSwCGw8SzjpcMxIhhiS	HvzjUcTCWllBrBa9RAyeHONVnyldsQUK	t	2021-03-23 03:55:09.541679
+34	jaruphatm	$2a$10$ivqN9BruKqYXe.3eUtMsUuE35ghAUV6/PgXolNxN2fGIeH/07YAeK	tlcBGQo9cziuvfBQPyQRvpLPX4HMsLNE	t	2021-03-23 03:55:30.116376
 \.
 
 
@@ -697,14 +701,14 @@ SELECT pg_catalog.setval('public.reservoir_reservoir_id_seq', 10, true);
 -- Name: room_room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.room_room_id_seq', 5, true);
+SELECT pg_catalog.setval('public.room_room_id_seq', 6, true);
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 32, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 34, true);
 
 
 --

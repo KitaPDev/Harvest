@@ -857,9 +857,9 @@ export class DashboardGrowerComponent implements OnInit {
       .confirm(
         'Confirm Update History Data',
         'Time Begin: ' +
-          new Date(timeStampBegin).toTimeString() +
+          new Date(timeStampBegin).toLocaleString('it-IT') +
           ' | Time End: ' +
-          new Date(timeStampEnd).toTimeString(),
+          new Date(timeStampEnd).toLocaleString('it-IT'),
         'Confirm',
         'Cancel',
         'lg'
