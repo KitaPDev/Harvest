@@ -37,26 +37,34 @@ export class EditBatchDialogComponent implements OnInit {
 
   ngOnInit() {
     for (let module of this.modules) {
-      if (this.batch.moduleIDs.includes(module.moduleID)) {
-        this.selectedModules.push(module);
+      if (this.batch.moduleIDs != undefined) {
+        if (this.batch.moduleIDs.includes(module.moduleID)) {
+          this.selectedModules.push(module);
+        }
       }
     }
 
     for (let reservoir of this.reservoirs) {
-      if (this.batch.reservoirIDs.includes(reservoir.reservoirID)) {
-        this.selectedReservoirs.push(reservoir);
+      if (this.batch.reservoirIDs != undefined) {
+        if (this.batch.reservoirIDs.includes(reservoir.reservoirID)) {
+          this.selectedReservoirs.push(reservoir);
+        }
       }
     }
 
     for (let nutrient of this.nutrients) {
-      if (this.batch.nutrientIDs.includes(nutrient.nutrientID)) {
-        this.selectedNutrients.push(nutrient);
+      if (this.batch.nutrientIDs != undefined) {
+        if (this.batch.nutrientIDs.includes(nutrient.nutrientID)) {
+          this.selectedNutrients.push(nutrient);
+        }
       }
     }
 
     for (let room of this.rooms) {
-      if (this.batch.roomIDs.includes(room.roomID)) {
-        this.selectedRooms.push(room);
+      if (this.batch.roomIDs != undefined) {
+        if (this.batch.roomIDs.includes(room.roomID)) {
+          this.selectedRooms.push(room);
+        }
       }
     }
 

@@ -488,8 +488,8 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 --
 
 COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_end, weight, lights_on_hour, lights_off_hour, misting_on_second, misting_off_second, remarks) FROM stdin;
-11	test_batch2	2	2021-01-31 17:00:00	2021-03-16 17:00:00	250	16	2	15	300	
 10	test_batch1	0	2019-12-31 23:00:00	2020-05-31 23:00:00	200	18	6	15	300	This is test batch 1.
+11	test_batch2	0	2021-01-31 17:00:00	2021-03-16 17:00:00	250	16	2	15	300	
 \.
 
 
@@ -499,6 +499,7 @@ COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_e
 
 COPY public.batches_modules (batch_id, module_id) FROM stdin;
 10	2
+11	2
 \.
 
 
@@ -507,10 +508,10 @@ COPY public.batches_modules (batch_id, module_id) FROM stdin;
 --
 
 COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
-11	2
-11	3
 10	2
 10	3
+11	2
+11	3
 \.
 
 
@@ -519,8 +520,8 @@ COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
 --
 
 COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
-11	10
 10	10
+11	10
 \.
 
 
@@ -530,6 +531,7 @@ COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
 
 COPY public.batches_rooms (batch_id, room_id) FROM stdin;
 10	6
+11	6
 \.
 
 
@@ -687,7 +689,7 @@ SELECT pg_catalog.setval('public.nutrient_nutrient_id_seq', 4, true);
 -- Name: plant_plant_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.plant_plant_id_seq', 3, true);
+SELECT pg_catalog.setval('public.plant_plant_id_seq', 4, true);
 
 
 --
@@ -861,11 +863,11 @@ CREATE INDEX idx_log_sensor_room_logged_at ON public.log_sensor_room USING btree
 
 
 --
--- Name: batch batch_plant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+-- Name: batch batch_plant_plant_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY public.batch
-    ADD CONSTRAINT batch_plant_id_fkey FOREIGN KEY (plant_id) REFERENCES public.plant(plant_id) ON DELETE SET NULL;
+    ADD CONSTRAINT batch_plant_plant_id_fk FOREIGN KEY (plant_id) REFERENCES public.plant(plant_id) ON UPDATE CASCADE ON DELETE SET DEFAULT;
 
 
 --
