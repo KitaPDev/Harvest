@@ -1,5 +1,8 @@
-<app-room-chart-item
-  *ngFor="let room of lsRoom"
-  [room]="room"
-  [lsLogSensorRoomHistory]="roomID_lsLogSensorRoomHistory[room.roomID]"
-></app-room-chart-item>
+<div class="show-data-container">
+  <h1 class="header">room</h1>
+  <app-room-chart-item
+    *ngFor="let room of lsRoom"
+    [room]="room"
+    [lsLogSensorRoomHistory]="roomID_lsLogSensorRoomHistory[room.roomID]"
+  ></app-room-chart-item>
+</div>

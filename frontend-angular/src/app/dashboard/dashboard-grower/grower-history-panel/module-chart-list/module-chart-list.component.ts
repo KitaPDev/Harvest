@@ -13,7 +13,7 @@ export class ModuleChartListComponent implements OnInit {
 
   moduleID_lsModuleLevelSensorLogHistory: {
     [key: number]: LogSensorModuleLevel[];
-  };
+  } = {};
 
   constructor() {}
 

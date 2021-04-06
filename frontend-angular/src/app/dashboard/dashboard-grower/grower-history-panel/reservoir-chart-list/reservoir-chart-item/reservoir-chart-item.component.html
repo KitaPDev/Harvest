@@ -1,57 +1,54 @@
-<div class="show-data-container">
-  <h1 class="header">Reservoir</h1>
-  <h1 class="semi-header">{{ reservoir.reservoirLabel }}</h1>
+<h1 class="semi-header">{{ reservoir.reservoirLabel }}</h1>
 
-  <div *ngIf="lsLogSensorReservoirHistory != undefined">
-    <div class="show-data">
-      <div class="left">
-        <h2>TDS</h2>
-        <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
-      </div>
-      <div class="graph">
-        <canvas
-          baseChart
-          [datasets]="tdsChartDataSet"
-          [labels]="tdsChartLabels"
-          [options]="tdsChartOptions"
-          [colors]="reservoirChartColors"
-          [chartType]="'line'"
-        >
-        </canvas>
-      </div>
-      <div class="left">
-        <h2>PH</h2>
-        <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
-      </div>
-      <div class="graph">
-        <canvas
-          baseChart
-          [datasets]="phChartDataSet"
-          [labels]="phChartLabels"
-          [options]="phChartOptions"
-          [colors]="reservoirChartColors"
-          [chartType]="'line'"
-        >
-        </canvas>
-      </div>
-      <div class="left">
-        <h2>Solution Temperature</h2>
-        <button class="btn btn-primary" (click)="(2)">Reset</button>
-      </div>
-      <div class="graph">
-        <canvas
-          baseChart
-          [datasets]="solnTempChartDataSet"
-          [labels]="solnTempChartLabels"
-          [options]="solnTempChartOptions"
-          [colors]="reservoirChartColors"
-          [chartType]="'line'"
-        >
-        </canvas>
-      </div>
+<div *ngIf="lsLogSensorReservoirHistory != undefined">
+  <div class="show-data">
+    <div class="left">
+      <h2>TDS</h2>
+      <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
+    </div>
+    <div class="graph">
+      <canvas
+        baseChart
+        [datasets]="tdsChartDataSet"
+        [labels]="tdsChartLabels"
+        [options]="tdsChartOptions"
+        [colors]="reservoirChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
+    </div>
+    <div class="left">
+      <h2>PH</h2>
+      <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
+    </div>
+    <div class="graph">
+      <canvas
+        baseChart
+        [datasets]="phChartDataSet"
+        [labels]="phChartLabels"
+        [options]="phChartOptions"
+        [colors]="reservoirChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
+    </div>
+    <div class="left">
+      <h2>Solution Temperature</h2>
+      <button class="btn btn-primary" (click)="(2)">Reset</button>
+    </div>
+    <div class="graph">
+      <canvas
+        baseChart
+        [datasets]="solnTempChartDataSet"
+        [labels]="solnTempChartLabels"
+        [options]="solnTempChartOptions"
+        [colors]="reservoirChartColors"
+        [chartType]="'line'"
+      >
+      </canvas>
     </div>
   </div>
-  <div *ngIf="lsLogSensorReservoirHistory == undefined" class="data-not-found">
-    <h5>no data</h5>
-  </div>
+</div>
+<div *ngIf="lsLogSensorReservoirHistory == undefined" class="data-not-found">
+  <h5>no data</h5>
 </div>
