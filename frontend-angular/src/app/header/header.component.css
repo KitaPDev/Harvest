@@ -94,7 +94,9 @@ ul li a.active {
   border-bottom-right-radius: 0.5rem;
   box-shadow: 0 10px 10px -10px var(--clr-black);
 }
-
+.sub-menu {
+  z-index: 3;
+}
 .navbar-links ul li:hover .sub-menu ul {
   display: block;
   margin: 10px;
