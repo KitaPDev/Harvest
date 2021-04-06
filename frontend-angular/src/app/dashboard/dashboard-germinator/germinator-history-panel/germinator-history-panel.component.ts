@@ -198,28 +198,31 @@ export class GerminatorHistoryPanelComponent implements OnInit {
     let timeStampBegin = this.germinatorHistoryForm.value['timeStampBegin'];
     let timeStampEnd = this.germinatorHistoryForm.value['timeStampEnd'];
 
-    this.confirmationDialogService
-      .confirm(
-        'Confirm Update History Data',
-        'Time Begin: ' +
-          new Date(timeStampBegin).toLocaleString('it-IT') +
-          ' | Time End: ' +
-          new Date(timeStampEnd).toLocaleString('it-IT'),
-        'Confirm',
-        'Cancel',
-        'lg'
-      )
-      .then((confirmed) => {
-        if (confirmed) {
-          this.initForms();
-          this.dashboardGerminatorService.updateGerminatorDashboardHistoryData(
-            timeStampBegin,
-            timeStampEnd
-          );
-        }
+    if (timeStampBegin > timeStampEnd) {
+      alert('Time Begin must be before Time End!');
+    } else {
+      this.confirmationDialogService
+        .confirm(
+          'Confirm Update History Data',
+          'Time Begin: ' +
+            new Date(timeStampBegin).toLocaleString('it-IT') +
+            ' | Time End: ' +
+            new Date(timeStampEnd).toLocaleString('it-IT'),
+          'Confirm',
+          'Cancel',
+          'lg'
+        )
+        .then((confirmed) => {
+          if (confirmed) {
+            this.dashboardGerminatorService.updateGerminatorDashboardHistoryData(
+              timeStampBegin,
+              timeStampEnd
+            );
+          }
 
-        this.isUpdateHistoryClicked = true;
-      });
+          this.isUpdateHistoryClicked = true;
+        });
+    }
   }
 
   onClickReset(chartIndex: number) {

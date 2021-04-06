@@ -29,7 +29,7 @@
       <div *ngFor="let room of lsRoom">
         <h1 class="semi-header">{{ room.roomLabel }}</h1>
 
-        <div *ngIf="recRoomID_recDataType_roomChartDataSet != undefined">
+        <div *ngIf="objRoomID_dataType_roomChartDataSet != undefined">
           <div class="show-data">
             <div class="left">
               <h2>Humidity</h2>
@@ -39,7 +39,7 @@
               <canvas
                 baseChart
                 [datasets]="
-                  recRoomID_recDataType_roomChartDataSet[room.roomID][0]
+                  objRoomID_dataType_roomChartDataSet[room.roomID][0].data
                 "
                 [options]="humidityChartOptions"
                 [colors]="roomChartColors"
@@ -55,7 +55,7 @@
               <canvas
                 baseChart
                 [datasets]="
-                  recRoomID_recDataType_roomChartDataSet[room.roomID][1]
+                  objRoomID_dataType_roomChartDataSet[room.roomID][1].data
                 "
                 [options]="tempChartOptions"
                 [colors]="roomChartColors"
@@ -66,7 +66,7 @@
           </div>
         </div>
         <div
-          *ngIf="recRoomID_recDataType_roomChartDataSet == undefined"
+          *ngIf="objRoomID_dataType_roomChartDataSet == undefined"
           class="data-not-found"
         >
           <h5>no data</h5>
@@ -79,9 +79,7 @@
       <div *ngFor="let reservoir of lsReservoir">
         <h1 class="semi-header">{{ reservoir.reservoirLabel }}</h1>
 
-        <div
-          *ngIf="recReservoirID_recDataType_reservoirChartDataSet != undefined"
-        >
+        <div *ngIf="objReservoirID_dataType_reservoirChartDataSet != undefined">
           <div class="show-data">
             <div class="left">
               <h2>TDS</h2>
@@ -91,9 +89,9 @@
               <canvas
                 baseChart
                 [datasets]="
-                  recReservoirID_recDataType_reservoirChartDataSet[
+                  objReservoirID_dataType_reservoirChartDataSet[
                     reservoir.reservoirID
-                  ][0]
+                  ][0].data
                 "
                 [options]="tdsChartOptions"
                 [colors]="reservoirChartColors"
@@ -109,9 +107,9 @@
               <canvas
                 baseChart
                 [datasets]="
-                  recReservoirID_recDataType_reservoirChartDataSet[
+                  objReservoirID_dataType_reservoirChartDataSet[
                     reservoir.reservoirID
-                  ][1]
+                  ][1].data
                 "
                 [options]="phChartOptions"
                 [colors]="reservoirChartColors"
@@ -127,9 +125,9 @@
               <canvas
                 baseChart
                 [datasets]="
-                  recReservoirID_recDataType_reservoirChartDataSet[
+                  objReservoirID_dataType_reservoirChartDataSet[
                     reservoir.reservoirID
-                  ][2]
+                  ][2].data
                 "
                 [options]="solnTempChartOptions"
                 [colors]="reservoirChartColors"
@@ -140,7 +138,7 @@
           </div>
         </div>
         <div
-          *ngIf="recReservoirID_recDataType_reservoirChartDataSet == undefined"
+          *ngIf="objReservoirID_dataType_reservoirChartDataSet == undefined"
           class="data-not-found"
         >
           <h5>no data</h5>
@@ -157,8 +155,7 @@
 
           <div
             *ngIf="
-              recModuleID_recLevel_recDataType_moduleLevelChartDataSet !=
-              undefined
+              objModuleID_level_dataType_moduleLevelChartDataSet != undefined
             "
           >
             <div class="show-data">
@@ -170,9 +167,9 @@
                 <canvas
                   baseChart
                   [datasets]="
-                    recModuleID_recLevel_recDataType_moduleLevelChartDataSet[
+                    objModuleID_level_dataType_moduleLevelChartDataSet[
                       module.moduleID
-                    ][level][0]
+                    ][level][0].data
                   "
                   [options]="humidityRootChartOptions"
                   [colors]="moduleLevelChartColors"
@@ -188,9 +185,9 @@
                 <canvas
                   baseChart
                   [datasets]="
-                    recModuleID_recLevel_recDataType_moduleLevelChartDataSet[
+                    objModuleID_level_dataType_moduleLevelChartDataSet[
                       module.moduleID
-                    ][level][1]
+                    ][level][1].data
                   "
                   [options]="tempRootChartOptions"
                   [colors]="moduleLevelChartColors"
@@ -202,8 +199,7 @@
           </div>
           <div
             *ngIf="
-              recModuleID_recLevel_recDataType_moduleLevelChartDataSet ==
-              undefined
+              objModuleID_level_dataType_moduleLevelChartDataSet == undefined
             "
             class="data-not-found"
           >
