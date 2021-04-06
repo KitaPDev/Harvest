@@ -1,0 +1,12 @@
+<div class="show-data-container">
+  <h1 class="header">Module</h1>
+  <div *ngFor="let module of lsModule">
+    <h1 class="semi-header">{{ module.moduleLabel }}</h1>
+    <app-module-level-chart-list
+      [levels]="getLevelsArray(module.level)"
+      [lsLogSensorModuleLevelHistory]="
+        moduleID_lsModuleLevelSensorLogHistory[module.moduleID]
+      "
+    ></app-module-level-chart-list>
+  </div>
+</div>

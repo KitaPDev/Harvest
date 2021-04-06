@@ -1,0 +1,7 @@
+<app-reservoir-chart-item
+  *ngFor="let reservoir of lsReservoir"
+  [reservoir]="reservoir"
+  [lsLogSensorReservoirHistory]="
+    reservoirID_lsLogSensorRoomHistory[reservoir.reservoirID]
+  "
+></app-reservoir-chart-item>

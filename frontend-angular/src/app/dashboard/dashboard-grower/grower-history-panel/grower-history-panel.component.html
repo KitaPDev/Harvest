@@ -1,0 +1,42 @@
+<div class="grower-history-container">
+  <h1 class="title">History</h1>
+
+  <form [formGroup]="growerHistoryForm">
+    <div class="select-datetime">
+      <h2 class="search-label">Begin:</h2>
+      <input
+        id="timeStampBegin"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampBegin"
+      />
+      <h2 class="search-label">End:</h2>
+      <input
+        id="timeStampEnd"
+        type="datetime-local"
+        class="input input-timestamp"
+        formControlName="timeStampEnd"
+      />
+      <button class="search-btn" (click)="onSubmitHistoryPeriod()">
+        Update
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="isUpdateHistoryClicked">
+    <app-room-chart-list
+      [lsRoom]="lsRoom"
+      [lsLogSensorRoomHistory]="lsLogSensorRoomHistory"
+    ></app-room-chart-list>
+
+    <app-reservoir-chart-list
+      [lsReservoir]="lsReservoir"
+      [lsLogSensorReservoirHistory]="lsLogSensorReservoirHistory"
+    ></app-reservoir-chart-list>
+
+    <app-module-chart-list
+      [lsModule]="lsModule"
+      [lsModuleLevelSensorLogHistory]="lsLogSensorModuleLevelHistory"
+    ></app-module-chart-list>
+  </div>
+</div>

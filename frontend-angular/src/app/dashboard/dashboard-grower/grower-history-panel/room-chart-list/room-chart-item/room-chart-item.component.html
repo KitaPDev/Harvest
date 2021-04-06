@@ -1,0 +1,42 @@
+<div class="show-data-container">
+  <h1 class="header">room</h1>
+  <h1 class="semi-header">{{ room.roomLabel }}</h1>
+
+  <div *ngIf="lsLogSensorRoomHistory != undefined">
+    <div class="show-data">
+      <div class="left">
+        <h2>Humidity</h2>
+        <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
+      </div>
+      <div class="graph">
+        <canvas
+          baseChart
+          [datasets]="humidityChartDataSet"
+          [labels]="humidityChartLabels"
+          [options]="humidityChartOptions"
+          [colors]="roomChartColors"
+          [chartType]="'line'"
+        >
+        </canvas>
+      </div>
+      <div class="left">
+        <h2>Temperature</h2>
+        <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
+      </div>
+      <div class="graph">
+        <canvas
+          baseChart
+          [datasets]="tempChartDataSet"
+          [labels]="tempChartLabels"
+          [options]="tempChartOptions"
+          [colors]="roomChartColors"
+          [chartType]="'line'"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="lsLogSensorRoomHistory.length == 0" class="data-not-found">
+    <h5>no data</h5>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<app-room-chart-item
+  *ngFor="let room of lsRoom"
+  [room]="room"
+  [lsLogSensorRoomHistory]="roomID_lsLogSensorRoomHistory[room.roomID]"
+></app-room-chart-item>

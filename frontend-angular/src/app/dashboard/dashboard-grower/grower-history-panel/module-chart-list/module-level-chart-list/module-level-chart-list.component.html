@@ -1,0 +1,7 @@
+<div *ngFor="let level of levels">
+  <h1 class="sub-header">level {{ level }}</h1>
+  <app-module-level-chart-item
+    *ngFor="let level of levels"
+    [lsLogSensorModuleLevelHistory]="level_lsModuleLevelSensorLogHistory[level]"
+  ></app-module-level-chart-item>
+</div>

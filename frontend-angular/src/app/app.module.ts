@@ -67,7 +67,14 @@ import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/d
 import { GerminatorControlPanelComponent } from './dashboard/dashboard-germinator/germinator-control-panel/germinator-control-panel.component';
 import { GerminatorHistoryPanelComponent } from './dashboard/dashboard-germinator/germinator-history-panel/germinator-history-panel.component';
 import { GrowerControlPanelComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-control-panel.component';
-import { GrowerHistoryPanelComponent } from './dashboard/dashboard-grower/growerhistory-panel/grower-history-panel.component';
+import { GrowerHistoryPanelComponent } from './dashboard/dashboard-grower/grower-history-panel/grower-history-panel.component';
+import { RoomChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/room-chart-list/room-chart-list.component';
+import { RoomChartItemComponent } from './dashboard/dashboard-grower/grower-history-panel/room-chart-list/room-chart-item/room-chart-item.component';
+import { ReservoirChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/reservoir-chart-list/reservoir-chart-list.component';
+import { ReservoirChartItemComponent } from './dashboard/dashboard-grower/grower-history-panel/reservoir-chart-list/reservoir-chart-item/reservoir-chart-item.component';
+import { ModuleLevelChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-level-chart-list/module-level-chart-list.component';
+import { ModuleLevelChartItemComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-level-chart-list/module-level-chart-item/module-level-chart-item.component';
+import { ModuleChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-chart-list.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +126,13 @@ import { GrowerHistoryPanelComponent } from './dashboard/dashboard-grower/grower
     GerminatorHistoryPanelComponent,
     GrowerControlPanelComponent,
     GrowerHistoryPanelComponent,
+    RoomChartListComponent,
+    RoomChartItemComponent,
+    ReservoirChartListComponent,
+    ReservoirChartItemComponent,
+    ModuleLevelChartListComponent,
+    ModuleLevelChartItemComponent,
+    ModuleChartListComponent,
   ],
   imports: [
     BrowserModule,
