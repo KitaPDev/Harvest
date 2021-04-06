@@ -7,11 +7,11 @@ import { DashboardGerminatorService } from '../../../../_services/dashboard/dash
 import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
 
 @Component({
-  selector: 'app-history-panel',
-  templateUrl: './history-panel.component.html',
-  styleUrls: ['./history-panel.component.css'],
+  selector: 'app-germinator-history-panel',
+  templateUrl: './germinator-history-panel.component.html',
+  styleUrls: ['./germinator-history-panel.component.css'],
 })
-export class HistoryPanelComponent implements OnInit {
+export class GerminatorHistoryPanelComponent implements OnInit {
   @ViewChildren(BaseChartDirective) lsChart: QueryList<BaseChartDirective>;
 
   tempChartDataSet = [{ data: [] }];

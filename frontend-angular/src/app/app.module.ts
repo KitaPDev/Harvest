@@ -64,8 +64,10 @@ import { BatchesDetailsModuleLevelListComponent } from './batches/batches-detail
 import { BatchesDetailsModuleLevelItemComponent } from './batches/batches-details/batches-details-module-list/batches-details-module-item/batches-details-module-level-list/batches-details-module-level-item/batches-details-module-level-item.component';
 import { DashboardGrowerComponent } from './dashboard/dashboard-grower/dashboard-grower.component';
 import { DashboardGerminatorComponent } from './dashboard/dashboard-germinator/dashboard-germinator.component';
-import { ControlPanelComponent } from './dashboard/dashboard-germinator/control-panel/control-panel.component';
-import { HistoryPanelComponent } from './dashboard/dashboard-germinator/history-panel/history-panel.component';
+import { GerminatorControlPanelComponent } from './dashboard/dashboard-germinator/germinator-control-panel/germinator-control-panel.component';
+import { GerminatorHistoryPanelComponent } from './dashboard/dashboard-germinator/germinator-history-panel/germinator-history-panel.component';
+import { GrowerControlPanelComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-control-panel.component';
+import { GrowerHistoryPanelComponent } from './dashboard/dashboard-grower/growerhistory-panel/grower-history-panel.component';
 
 @NgModule({
   declarations: [
@@ -113,8 +115,10 @@ import { HistoryPanelComponent } from './dashboard/dashboard-germinator/history-
     BatchesDetailsModuleLevelItemComponent,
     DashboardGrowerComponent,
     DashboardGerminatorComponent,
-    ControlPanelComponent,
-    HistoryPanelComponent,
+    GerminatorControlPanelComponent,
+    GerminatorHistoryPanelComponent,
+    GrowerControlPanelComponent,
+    GrowerHistoryPanelComponent,
   ],
   imports: [
     BrowserModule,

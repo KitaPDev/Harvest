@@ -6,11 +6,11 @@ import { HttpResponse } from '@angular/common/http';
 import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
 
 @Component({
-  selector: 'app-control-panel',
-  templateUrl: './control-panel.component.html',
-  styleUrls: ['./control-panel.component.css'],
+  selector: 'app-germinator-control-panel',
+  templateUrl: './germinator-control-panel.component.html',
+  styleUrls: ['./germinator-control-panel.component.css'],
 })
-export class ControlPanelComponent implements OnInit {
+export class GerminatorControlPanelComponent implements OnInit {
   logSensorGerminator: LogSensorGerminator;
   germinatorSettings: GerminatorSettings = new GerminatorSettings();
 
