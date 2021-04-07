@@ -75,6 +75,7 @@ import { ReservoirChartItemComponent } from './dashboard/dashboard-grower/grower
 import { ModuleLevelChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-level-chart-list/module-level-chart-list.component';
 import { ModuleLevelChartItemComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-level-chart-list/module-level-chart-item/module-level-chart-item.component';
 import { ModuleChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-chart-list.component';
+import { GerminatorHistoryChartsComponent } from './dashboard/dashboard-germinator/germinator-history-panel/germinator-history-charts/germinator-history-charts.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { ModuleChartListComponent } from './dashboard/dashboard-grower/grower-hi
     ModuleLevelChartListComponent,
     ModuleLevelChartItemComponent,
     ModuleChartListComponent,
+    GerminatorHistoryChartsComponent,
   ],
   imports: [
     BrowserModule,

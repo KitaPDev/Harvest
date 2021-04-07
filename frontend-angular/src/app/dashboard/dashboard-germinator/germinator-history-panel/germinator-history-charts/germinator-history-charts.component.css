@@ -246,16 +246,3 @@ input:checked + .slider:before {
   -ms-transform: translateX(38px);
   transform: translateX(38px);
 }
-
-.data-not-found {
-  text-align: center;
-  width: 95%;
-  margin: 1rem auto;
-}
-
-h5 {
-  font-size: 1.25rem;
-  font-family: Quicksand_Bold;
-  text-transform: uppercase;
-  color: red;
-}
