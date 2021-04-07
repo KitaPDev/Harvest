@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LogSensorModuleLevel } from '../../../../../../_models/logsensormodulelevel.model';
-import { Module } from '../../../../../../_models/module.model';
 
 @Component({
   selector: 'app-module-level-chart-list',
@@ -19,12 +18,14 @@ export class ModuleLevelChartListComponent implements OnInit {
 
   ngOnInit(): void {
     for (let lvl of this.levels) {
-      for (let log of this.lsLogSensorModuleLevelHistory) {
-        if (this.level_lsModuleLevelSensorLogHistory[lvl] == undefined) {
-          this.level_lsModuleLevelSensorLogHistory[lvl] = [];
-        }
+      if (this.lsLogSensorModuleLevelHistory != undefined) {
+        for (let log of this.lsLogSensorModuleLevelHistory) {
+          if (this.level_lsModuleLevelSensorLogHistory[lvl] == undefined) {
+            this.level_lsModuleLevelSensorLogHistory[lvl] = [];
+          }
 
-        this.level_lsModuleLevelSensorLogHistory[lvl].push(log);
+          this.level_lsModuleLevelSensorLogHistory[lvl].push(log);
+        }
       }
     }
   }
