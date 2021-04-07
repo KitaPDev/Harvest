@@ -5,6 +5,7 @@ export class GerminatorSettings {
   lightOnTime: number;
   lightOffTime: number;
   mister: number;
+  fan: number;
   led: number;
 
   constructor() {
@@ -14,6 +15,7 @@ export class GerminatorSettings {
     this.lightOnTime = 0;
     this.lightOffTime = 0;
     this.mister = 0;
+    this.fan = 0;
     this.led = 0;
   }
 }

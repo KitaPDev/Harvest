@@ -29,28 +29,28 @@
       <div>
         <h3>Auto</h3>
         <label class="switch">
-          <input type="checkbox" checked />
+          <input type="checkbox" [checked]="getIsAuto()" />
           <span class="slider slider-auto"></span>
         </label>
       </div>
       <div>
         <h3>Fan</h3>
         <label class="switch">
-          <input type="checkbox" checked />
+          <input type="checkbox" [checked]="getFanStatus()" />
           <span class="slider"></span>
         </label>
       </div>
       <div>
         <h3>Mister</h3>
         <label class="switch">
-          <input type="checkbox" checked />
+          <input type="checkbox" [checked]="getMisterStatus()" />
           <span class="slider"></span>
         </label>
       </div>
       <div>
         <h3>LED</h3>
         <label class="switch">
-          <input type="checkbox" checked />
+          <input type="checkbox" [checked]="getLedStatus()" />
           <span class="slider"></span>
         </label>
       </div>
@@ -72,6 +72,7 @@
             type="number"
             min="0"
             id="lightOnTime"
+            [value]="prevLightOnTime"
           />
           <h3>hr</h3>
         </div>
@@ -88,6 +89,7 @@
             type="number"
             min="0"
             id="lightOffTime"
+            [value]="prevLightOffTime"
           />
           <h3>hr</h3>
         </div>
@@ -108,6 +110,7 @@
             type="number"
             min="0"
             id="humidityLow"
+            [value]="prevHumidityLow"
           />
           <h3>%</h3>
         </div>
@@ -124,6 +127,7 @@
             type="number"
             min="0"
             id="humidityHigh"
+            [value]="prevHumidityHigh"
           />
           <h3>%</h3>
         </div>

@@ -115,4 +115,20 @@ export class GerminatorControlPanelComponent implements OnInit {
         }
       });
   }
+
+  getIsAuto(): boolean {
+    return this.germinatorSettings.isAuto == 1;
+  }
+
+  getFanStatus(): boolean {
+    return this.germinatorSettings.fan == 1;
+  }
+
+  getMisterStatus(): boolean {
+    return this.germinatorSettings.mister == 1;
+  }
+
+  getLedStatus(): boolean {
+    return this.germinatorSettings.led == 1;
+  }
 }
