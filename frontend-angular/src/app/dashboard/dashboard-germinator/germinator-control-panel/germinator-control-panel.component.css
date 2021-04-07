@@ -246,3 +246,11 @@ input:checked + .slider:before {
   -ms-transform: translateX(38px);
   transform: translateX(38px);
 }
+
+input:checked + .slider-auto {
+  background-color: var(--clr-green);
+}
+
+input:focus + .slider-auto {
+  box-shadow: 0 0 1px var(--clr-green);
+}
