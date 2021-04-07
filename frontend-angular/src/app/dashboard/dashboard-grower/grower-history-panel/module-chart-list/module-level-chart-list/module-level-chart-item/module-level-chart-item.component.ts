@@ -166,6 +166,6 @@ export class ModuleLevelChartItemComponent implements OnInit {
 
   onClickReset(chartIndex: number) {
     // @ts-ignore
-    this.charts._results[chartIndex].chart.resetZoom();
+    this.lsModuleLevelChart._results[chartIndex].chart.resetZoom();
   }
 }

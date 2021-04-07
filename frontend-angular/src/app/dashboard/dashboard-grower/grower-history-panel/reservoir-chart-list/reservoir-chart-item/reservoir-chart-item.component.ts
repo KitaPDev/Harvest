@@ -222,6 +222,6 @@ export class ReservoirChartItemComponent implements OnInit {
 
   onClickReset(chartIndex: number) {
     // @ts-ignore
-    this.charts._results[chartIndex].chart.resetZoom();
+    this.lsReservoirChart._results[chartIndex].chart.resetZoom();
   }
 }

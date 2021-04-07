@@ -21,7 +21,8 @@ export class GrowerHistoryPanelComponent implements OnInit {
 
   growerHistoryForm: FormGroup;
 
-  isUpdateHistoryClicked: boolean = false;
+  isUpdateClickedFirstTime: boolean = false;
+  isDisplayCharts: boolean = false;
 
   lsLogSensorRoomHistory: LogSensorRoom[];
   lsLogSensorReservoirHistory: LogSensorReservoir[];
@@ -70,6 +71,8 @@ export class GrowerHistoryPanelComponent implements OnInit {
   }
 
   onSubmitHistoryPeriod() {
+    this.isDisplayCharts = false;
+
     let timeStampBegin = this.growerHistoryForm.value['timeStampBegin'];
     let timeStampEnd = this.growerHistoryForm.value['timeStampEnd'];
 
@@ -95,7 +98,8 @@ export class GrowerHistoryPanelComponent implements OnInit {
             );
           }
 
-          this.isUpdateHistoryClicked = true;
+          this.isUpdateClickedFirstTime = true;
+          this.isDisplayCharts = true;
         });
     }
   }

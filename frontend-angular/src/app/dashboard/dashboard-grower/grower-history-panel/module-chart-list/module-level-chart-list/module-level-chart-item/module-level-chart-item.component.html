@@ -2,7 +2,7 @@
   <div class="show-data">
     <div class="left">
       <h2>Root Humidity</h2>
-      <button class="btn btn-primary">Reset</button>
+      <button class="btn btn-primary" (click)="onClickReset(0)">Reset</button>
     </div>
     <div class="graph">
       <canvas
@@ -17,7 +17,7 @@
     </div>
     <div class="left">
       <h2>Root Temperature</h2>
-      <button class="btn btn-primary">Reset</button>
+      <button class="btn btn-primary" (click)="onClickReset(1)">Reset</button>
     </div>
     <div class="graph">
       <canvas
@@ -31,4 +31,7 @@
       </canvas>
     </div>
   </div>
+</div>
+<div *ngIf="lsLogSensorModuleLevelHistory == undefined" class="data-not-found">
+  <h5>no data</h5>
 </div>

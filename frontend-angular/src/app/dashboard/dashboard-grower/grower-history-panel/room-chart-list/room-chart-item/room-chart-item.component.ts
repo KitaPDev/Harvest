@@ -165,6 +165,6 @@ export class RoomChartItemComponent implements OnInit {
 
   onClickReset(chartIndex: number) {
     // @ts-ignore
-    this.charts._results[chartIndex].chart.resetZoom();
+    this.lsRoomChart._results[chartIndex].chart.resetZoom();
   }
 }

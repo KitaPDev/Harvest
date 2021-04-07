@@ -23,7 +23,14 @@
     </div>
   </form>
 
-  <div *ngIf="isUpdateHistoryClicked">
+  <div
+    *ngIf="
+      isDisplayCharts &&
+      (lsLogSensorRoomHistory.length > 0 ||
+        lsLogSensorReservoirHistory.length > 0 ||
+        lsLogSensorModuleLevelHistory.length > 0)
+    "
+  >
     <app-room-chart-list
       [lsRoom]="lsRoom"
       [lsLogSensorRoomHistory]="lsLogSensorRoomHistory"
@@ -38,5 +45,17 @@
       [lsModule]="lsModule"
       [lsModuleLevelSensorLogHistory]="lsLogSensorModuleLevelHistory"
     ></app-module-chart-list>
+  </div>
+  <div
+    *ngIf="
+      isUpdateClickedFirstTime &&
+      (lsLogSensorRoomHistory.length == 0 ||
+        lsLogSensorReservoirHistory.length == 0 ||
+        lsLogSensorModuleLevelHistory.length == 0)
+    "
+  >
+    <div class="data-not-found">
+      <h5>no data</h5>
+    </div>
   </div>
 </div>

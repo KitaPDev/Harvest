@@ -109,7 +109,8 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 	sqlStatement := `SELECT logged_at, module_id, level, temperature_root, humidity_root
 			FROM log_sensor_module 
 			WHERE logged_at >= $1 
-			  AND logged_at <= $2;`
+			  AND logged_at <= $2
+		  	ORDER BY logged_at;`
 
 	rows, err := db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
@@ -139,7 +140,8 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 	sqlStatement = `SELECT logged_at, reservoir_id, tds, temperature_solution, soln_level, ph
 			FROM log_sensor_reservoir
 			WHERE logged_at >= $1 
-			  AND logged_at <= $2;`
+			  AND logged_at <= $2
+		  	ORDER BY logged_at;`
 
 	rows, err = db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
@@ -170,7 +172,8 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 	sqlStatement = `SELECT logged_at, room_id, temperature, humidity
 			FROM log_sensor_room
 			WHERE logged_at >= $1 
-			  AND logged_at <= $2;`
+			  AND logged_at <= $2
+		  	ORDER BY logged_at;`
 
 	rows, err = db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
