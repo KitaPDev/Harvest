@@ -61,7 +61,7 @@
               background:
                 nextLightOnTime == prevLightOnTime ? 'white' : '#CFF0CC'
             }"
-            (keyup)="onInputEnterKey()"
+            (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
             id="lightOnTime"
@@ -77,7 +77,7 @@
               background:
                 nextLightOffTime == prevLightOffTime ? 'white' : '#CFF0CC'
             }"
-            (keyup)="onInputEnterKey()"
+            (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
             id="lightOffTime"
@@ -97,7 +97,7 @@
               background:
                 nextHumidityLow == prevHumidityLow ? 'white' : '#CFF0CC'
             }"
-            (keyup)="onInputEnterKey()"
+            (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
             id="humidityLow"
@@ -113,7 +113,7 @@
               background:
                 nextHumidityHigh == prevHumidityHigh ? 'white' : '#CFF0CC'
             }"
-            (keyup)="onInputEnterKey()"
+            (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
             id="humidityHigh"
