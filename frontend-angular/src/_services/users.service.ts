@@ -31,6 +31,9 @@ export class UsersService {
 
   isCurrentUserAdmin(): boolean {
     const currentUser = this.getCurrentUser();
+    if (currentUser == undefined) {
+      this.router.navigate(['/login']);
+    }
     return currentUser.isAdmin;
   }
 
