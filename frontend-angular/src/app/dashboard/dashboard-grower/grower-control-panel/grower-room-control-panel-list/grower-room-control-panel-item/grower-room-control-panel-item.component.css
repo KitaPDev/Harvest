@@ -123,24 +123,12 @@ input[type="number"] {
   margin: auto;
   border-radius: 1rem;
 }
-
-.each-room {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: "a b c";
-  margin-top: 1rem;
+.cell {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
   align-items: center;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 2rem;
-  padding-right: 0;
-  color: var(--clr-green);
-  width: 48%;
-  border-radius: 1rem;
-  background: white;
-  /* border: 3px solid green; */
 }
-
 .cell-1 {
   grid-area: a;
 }
