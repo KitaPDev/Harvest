@@ -1,0 +1,38 @@
+<div class="cell-level-left">
+  <div class="y-center">
+    <h4>Level {{ level }}</h4>
+  </div>
+  <div class="center">
+    <h3>Root Temperature</h3>
+    <h1 class="white">{{ getModuleTemperatureRoot() }} &#176;C</h1>
+  </div>
+  <div class="center">
+    <h3>Root Humidity</h3>
+    <h1 class="white">{{ getModuleHumidityRoot() }}%</h1>
+  </div>
+</div>
+
+<div class="cell-level-right">
+  <div class="center">
+    <h3>Fan</h3>
+    <label class="switch">
+      <input
+        type="checkbox"
+        (click)="onClickFan()"
+        [checked]="getFanStatus()"
+      />
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="center">
+    <h3>LED</h3>
+    <label class="switch">
+      <input
+        type="checkbox"
+        (click)="onClickLed()"
+        [checked]="getLedStatus()"
+      />
+      <span class="slider"></span>
+    </label>
+  </div>
+</div>

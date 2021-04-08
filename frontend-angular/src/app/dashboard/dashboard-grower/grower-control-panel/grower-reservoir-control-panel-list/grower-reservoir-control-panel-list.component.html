@@ -1,0 +1,8 @@
+<div class="reservoir-list">
+  <div *ngFor="let reservoir of lsReservoir" class="each-reservoir">
+    <app-grower-reservoir-control-panel-item
+      [reservoir]="reservoir"
+      [dashboardGrowerService]="dashboardGrowerService"
+    ></app-grower-reservoir-control-panel-item>
+  </div>
+</div>

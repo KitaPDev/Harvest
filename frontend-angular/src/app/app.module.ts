@@ -76,6 +76,14 @@ import { ModuleLevelChartListComponent } from './dashboard/dashboard-grower/grow
 import { ModuleLevelChartItemComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-level-chart-list/module-level-chart-item/module-level-chart-item.component';
 import { ModuleChartListComponent } from './dashboard/dashboard-grower/grower-history-panel/module-chart-list/module-chart-list.component';
 import { GerminatorHistoryChartsComponent } from './dashboard/dashboard-germinator/germinator-history-panel/germinator-history-charts/germinator-history-charts.component';
+import { GrowerRoomControlPanelListComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-room-control-panel-list/grower-room-control-panel-list.component';
+import { GrowerReservoirControlPanelListComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-reservoir-control-panel-list/grower-reservoir-control-panel-list.component';
+import { GrowerModuleLevelControlPanelListComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-module-control-panel-list/grower-module-control-panel-item/grower-module-level-control-panel-list/grower-module-level-control-panel-list.component';
+import { GrowerModuleControlPanelListComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-module-control-panel-list/grower-module-control-panel-list.component';
+import { GrowerModuleLevelControlPanelItemComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-module-control-panel-list/grower-module-control-panel-item/grower-module-level-control-panel-list/grower-module-level-control-panel-item/grower-module-level-control-panel-item.component';
+import { GrowerModuleControlPanelItemComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-module-control-panel-list/grower-module-control-panel-item/grower-module-control-panel-item.component';
+import { GrowerRoomControlPanelItemComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-room-control-panel-list/grower-room-control-panel-item/grower-room-control-panel-item.component';
+import { GrowerReservoirControlPanelItemComponent } from './dashboard/dashboard-grower/grower-control-panel/grower-reservoir-control-panel-list/grower-reservoir-control-panel-item/grower-reservoir-control-panel-item.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +143,14 @@ import { GerminatorHistoryChartsComponent } from './dashboard/dashboard-germinat
     ModuleLevelChartItemComponent,
     ModuleChartListComponent,
     GerminatorHistoryChartsComponent,
+    GrowerRoomControlPanelListComponent,
+    GrowerReservoirControlPanelListComponent,
+    GrowerModuleLevelControlPanelListComponent,
+    GrowerModuleControlPanelListComponent,
+    GrowerModuleLevelControlPanelItemComponent,
+    GrowerModuleControlPanelItemComponent,
+    GrowerRoomControlPanelItemComponent,
+    GrowerReservoirControlPanelItemComponent,
   ],
   imports: [
     BrowserModule,

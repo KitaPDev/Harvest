@@ -1,0 +1,8 @@
+<div class="room-list">
+  <div *ngFor="let room of lsRoom" class="each-room">
+    <app-grower-room-control-panel-item
+      [room]="room"
+      [dashboardGrowerService]="dashboardGrowerService"
+    ></app-grower-room-control-panel-item>
+  </div>
+</div>

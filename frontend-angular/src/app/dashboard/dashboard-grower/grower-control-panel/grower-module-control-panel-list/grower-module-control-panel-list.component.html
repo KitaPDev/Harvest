@@ -1,0 +1,8 @@
+<div class="module-list">
+  <div *ngFor="let module of lsModule" class="each-module">
+    <app-grower-module-control-panel-item
+      [module]="module"
+      [dashboardGrowerService]="dashboardGrowerService"
+    ></app-grower-module-control-panel-item>
+  </div>
+</div>
