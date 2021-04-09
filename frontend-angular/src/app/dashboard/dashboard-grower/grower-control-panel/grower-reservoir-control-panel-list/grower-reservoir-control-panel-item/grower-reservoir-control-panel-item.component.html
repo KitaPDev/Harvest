@@ -1,47 +1,49 @@
-<div class="center">
-  <h1>{{ reservoir.reservoirLabel }}</h1>
-</div>
+<div class="cell">
+  <div class="center">
+    <h1>{{ reservoir.reservoirLabel }}</h1>
+  </div>
 
-<div class="center">
-  <h2>TDS</h2>
-  <h1>{{ getTds() }} ppm</h1>
-</div>
+  <div class="center">
+    <h2>TDS</h2>
+    <h1>{{ getTds() }} ppm</h1>
+  </div>
 
-<div class="center">
-  <h2>PH</h2>
-  <h1>{{ getPh() }}</h1>
-</div>
+  <div class="center">
+    <h2>PH</h2>
+    <h1>{{ getPh() }}</h1>
+  </div>
 
-<div class="center">
-  <h2>Solution Temperature</h2>
-  <h1>{{ getTemperatureSolution() }}&#176;C</h1>
-</div>
+  <div class="center">
+    <h2>Solution Temperature</h2>
+    <h1>{{ getTemperatureSolution() }}&#176;C</h1>
+  </div>
 
-<div class="center">
-  <h2>Solution Level</h2>
-  <h1>{{ getSolutionLevel() }}%</h1>
-</div>
+  <div class="center">
+    <h2>Solution Level</h2>
+    <h1>{{ getSolutionLevel() }}%</h1>
+  </div>
 
-<div class="center">
-  <h2>SV Nutrient</h2>
-  <label class="switch">
-    <input
-      type="checkbox"
-      (click)="onCLickSvNutrient()"
-      [checked]="getSvNutrientStatus()"
-    />
-    <span class="slider"></span>
-  </label>
-</div>
+  <div class="center">
+    <h2>SV Nutrient</h2>
+    <label class="switch">
+      <input
+        type="checkbox"
+        (click)="onCLickSvNutrient()"
+        [checked]="getSvNutrientStatus()"
+      />
+      <span class="slider"></span>
+    </label>
+  </div>
 
-<div class="center">
-  <h2>SV Water</h2>
-  <label class="switch">
-    <input
-      type="checkbox"
-      (click)="onCLickSvWater()"
-      [checked]="getSvWaterStatus()"
-    />
-    <span class="slider"></span>
-  </label>
+  <div class="center">
+    <h2>SV Water</h2>
+    <label class="switch">
+      <input
+        type="checkbox"
+        (click)="onCLickSvWater()"
+        [checked]="getSvWaterStatus()"
+      />
+      <span class="slider"></span>
+    </label>
+  </div>
 </div>
