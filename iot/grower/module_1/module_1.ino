@@ -48,7 +48,7 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.100";
+char serverURL[] = "http://192.168.1.172";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";

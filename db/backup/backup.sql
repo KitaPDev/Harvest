@@ -488,8 +488,8 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 --
 
 COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_end, weight, lights_on_hour, lights_off_hour, misting_on_second, misting_off_second, remarks) FROM stdin;
-10	test_batch1	0	2019-12-31 23:00:00	2020-05-31 23:00:00	200	18	6	15	300	This is test batch 1.
 11	test_batch2	0	2021-01-31 17:00:00	2021-03-16 17:00:00	250	16	2	15	300	
+10	test_batch1	0	2019-12-31 23:00:00	2021-05-05 23:00:00	200	18	6	15	300	This is test batch 1.
 \.
 
 
@@ -498,8 +498,8 @@ COPY public.batch (batch_id, batch_label, plant_id, timestamp_begin, timestamp_e
 --
 
 COPY public.batches_modules (batch_id, module_id) FROM stdin;
-10	2
 11	2
+10	2
 \.
 
 
@@ -508,10 +508,10 @@ COPY public.batches_modules (batch_id, module_id) FROM stdin;
 --
 
 COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
-10	2
-10	3
 11	2
 11	3
+10	2
+10	3
 \.
 
 
@@ -520,8 +520,8 @@ COPY public.batches_nutrients (batch_id, nutrient_id) FROM stdin;
 --
 
 COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
-10	10
 11	10
+10	10
 \.
 
 
@@ -530,8 +530,8 @@ COPY public.batches_reservoirs (batch_id, reservoir_id) FROM stdin;
 --
 
 COPY public.batches_rooms (batch_id, room_id) FROM stdin;
-10	6
 11	6
+10	6
 \.
 
 
@@ -553,10 +553,14 @@ COPY public.log_sensor_germinator (logged_at, temperature, humidity) FROM stdin;
 --
 
 COPY public.log_sensor_module (logged_at, module_id, level, temperature_root, humidity_root) FROM stdin;
-2020-05-18 05:56:55.906106	2	1	22.5	80
-2020-05-18 05:56:55.906106	2	2	22.5	80
-2020-05-23 13:27:59.071689	2	1	22.5	80
-2020-05-23 13:27:59.071689	2	2	22.5	80
+2021-04-03 19:51:16	5	1	24	85
+2021-04-03 19:51:37	5	1	23.6000000000000014	88
+2021-04-03 19:51:53	5	1	23.3000000000000007	90
+2021-04-03 19:52:10	5	1	23.1999999999999993	89
+2021-04-03 05:56:55.906	2	1	22.5	80
+2021-04-03 13:27:59.071	2	2	22.5	80
+2021-04-03 05:56:55.906	2	2	22.5	80
+2021-04-03 13:27:59.071	2	1	22.5	80
 \.
 
 
@@ -565,6 +569,12 @@ COPY public.log_sensor_module (logged_at, module_id, level, temperature_root, hu
 --
 
 COPY public.log_sensor_reservoir (logged_at, reservoir_id, tds, temperature_solution, soln_level, ph) FROM stdin;
+2021-04-03 00:00:00.003	10	500	24	80	5
+2021-04-03 00:00:02	10	500	25	88	5.20000000000000018
+2021-04-03 00:00:04	10	450	23	85	5.5
+2021-04-03 19:47:52	11	400	22	75	5.5
+2021-04-03 19:48:36	11	425	23	80	5.20000000000000018
+2021-04-03 19:49:05	11	250	24	70	4.5
 \.
 
 
@@ -573,6 +583,12 @@ COPY public.log_sensor_reservoir (logged_at, reservoir_id, tds, temperature_solu
 --
 
 COPY public.log_sensor_room (logged_at, room_id, temperature, humidity) FROM stdin;
+2021-04-03 19:49:46	6	25	50
+2021-04-03 19:50:30	7	25	57
+2021-04-03 19:50:18	6	26	60
+2021-04-03 19:50:55	7	25	60
+2021-04-03 19:50:44	7	24	58
+2021-04-03 19:50:09	6	27	55
 \.
 
 
@@ -582,6 +598,7 @@ COPY public.log_sensor_room (logged_at, room_id, temperature, humidity) FROM std
 
 COPY public.module (module_id, reservoir_id, room_id, module_label, level, is_auto) FROM stdin;
 2	10	6	Module 1	2	\N
+5	11	7	Module 2	1	\N
 \.
 
 
@@ -621,6 +638,7 @@ COPY public.plant (plant_id, plant_label, tds_low, tds_high, ph_low, ph_high, te
 COPY public.reservoir (reservoir_id, reservoir_label) FROM stdin;
 0	
 10	Reservoir 1
+11	Reservoir 2
 \.
 
 
@@ -640,6 +658,7 @@ COPY public.reservoir_url (reservoir_id, url) FROM stdin;
 COPY public.reservoirs_nutrients (reservoir_id, nutrient_id) FROM stdin;
 10	2
 10	3
+11	2
 \.
 
 
@@ -650,6 +669,7 @@ COPY public.reservoirs_nutrients (reservoir_id, nutrient_id) FROM stdin;
 COPY public.room (room_id, room_label) FROM stdin;
 0	
 6	Main Room
+7	Test Room 1
 \.
 
 
@@ -675,7 +695,7 @@ SELECT pg_catalog.setval('public.batch_batch_id_seq', 11, true);
 -- Name: module_module_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.module_module_id_seq', 4, true);
+SELECT pg_catalog.setval('public.module_module_id_seq', 5, true);
 
 
 --
@@ -696,21 +716,21 @@ SELECT pg_catalog.setval('public.plant_plant_id_seq', 4, true);
 -- Name: reservoir_reservoir_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.reservoir_reservoir_id_seq', 10, true);
+SELECT pg_catalog.setval('public.reservoir_reservoir_id_seq', 11, true);
 
 
 --
 -- Name: room_room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.room_room_id_seq', 6, true);
+SELECT pg_catalog.setval('public.room_room_id_seq', 7, true);
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 34, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 35, true);
 
 
 --
