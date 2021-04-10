@@ -48,7 +48,7 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.172";
+char serverURL[] = "http://192.168.1.53";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
@@ -56,8 +56,8 @@ char updateRoomSensorURL[] = "/iot/update/room/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "159291_2.4G";
-const char* password = "MAY789354";
+const char* ssid = "xincaima";
+const char* password = "020416651";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;
