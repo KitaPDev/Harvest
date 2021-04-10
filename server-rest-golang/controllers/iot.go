@@ -13,7 +13,6 @@ import (
 var APIKEY = "MODKJ2021"
 
 func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
-
 	type Input struct {
 		ApiKey            string                        `json:"api_key"`
 		ModuleID          int                           `json:"module_id"`
@@ -97,7 +96,7 @@ func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// For testing only!
+// IoTTest For testing only!
 func IoTTest(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		ApiKey  string `json:"api_key"`
@@ -114,6 +113,7 @@ func IoTTest(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// IoTServerTest for testing only!
 func IoTServerTest(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		ModuleID int `json:"module_id"`

@@ -5,17 +5,17 @@
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "159291_2.4G";
-const char* password = "MAY789354";
+const char* ssid = "xincaima";
+const char* password = "020416651";
 
-char serverAddress[] = "192.168.1.118";
+char serverAddress[] = "http://192.168.1.53";
 int port = 9090;
 
 WiFiClient wifiClient;
 
 IPAddress dns(8, 8, 8, 8);
 IPAddress local_ip(192, 168, 1, 111);
-IPAddress gateway(192, 168, 1, 1);
+IPAddress gateway(192, 168, 1, 255);
 IPAddress subnet(255, 255, 255, 0);
 
 HTTPClient httpClient;
@@ -56,7 +56,7 @@ void loop() {
 }
 
 void sendPostRequest(char* postData) {
-  if (httpClient.begin("192.168.1.107", 9090, "/iot/test")) {
+  if (httpClient.begin("192.168.1.53", 9090, "/iot/test")) {
     Serial.println("HTTP Client connected...Sending POST Request");
     httpClient.addHeader("Content-Type", "application/json");
 
@@ -76,7 +76,7 @@ void sendPostRequest(char* postData) {
     }
     
   } else {
-    Serial.println("HTTP Client failed to connect.\n");==
+    Serial.println("HTTP Client failed to connect.\n");
   }
 
   httpClient.end();
