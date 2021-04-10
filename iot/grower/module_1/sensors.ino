@@ -85,7 +85,7 @@ float getPHNutrient() {
     avgValue += buf[i];
   }
   
-  float pHVolt = (float) avgValue * 3.3 / 1024 / 6;
+  float pHVolt = (float) avgValue * 3.3 / 4096 / 6;
   float phValue = -5.70 * pHVolt + calibration;
 
   Serial.print("Nutrient pH: ");
