@@ -6,7 +6,9 @@
 }
 
 .each-module {
+  background: #a9a9a9;
   width: 100%;
   display: block;
   margin-bottom: 2rem;
+  border-radius: 1rem;
 }

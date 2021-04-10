@@ -1,7 +1,8 @@
 .cell-top {
   width: 100%;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 1.5rem;
+  padding-left: 2rem;
+  padding-bottom: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -23,9 +24,30 @@ h2 {
   text-align: center;
 }
 .cell-c {
+  width: 50%;
+}
+.inline {
   display: flex;
+  align-items: baseline;
   justify-content: space-evenly;
-  align-items: center;
+}
+.text {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-evenly;
+  width: 30%;
+}
+.space {
+  margin-bottom: 1rem;
+}
+input[type="number"] {
+  font-family: Quicksand_Regular;
+  color: grey;
+  font-size: 1rem;
+  width: 5rem;
+  padding-left: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid grey;
 }
 .switch {
   position: relative;
@@ -87,4 +109,3 @@ input:checked + .slider-auto {
 input:focus + .slider-auto {
   box-shadow: 0 0 1px var(--clr-green);
 }
-
