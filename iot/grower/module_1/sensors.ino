@@ -19,16 +19,36 @@ void initSensors() {
 }
 
 float getSolutionLevel() {
+  long duration;
+  int distance;
+  
+  long containerHeight = 1;
 
+  digitalWrite(PIN_US_TRIG, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(PIN_US_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_US_TRIG, LOW);
+
+  duration = pulseIn(PIN_US_ECHO, HIGH);
+  distance = duration * 0.034 / 2;
+  long solutionLevel = (distance / containerHeight) * 100;
+
+//  Serial.print("Solution Level: ");
+//  Serial.print(solutionLevel);
+//  Serial.println(" %");
+
+  return solutionLevel;
 }
 
 float getTemperatureSolution() {
   dallasTemp.requestTemperatures();
   float solnTemp = dallasTemp.getTempCByIndex(0);
 
-  Serial.print("Solution Temperature = ");
-  Serial.print(solnTemp);
-  Serial.println(" Celsius");
+//  Serial.print("Solution Temperature = ");
+//  Serial.print(solnTemp);
+//  Serial.println(" Celsius");
 
   return solnTemp;
 }
@@ -48,9 +68,9 @@ float getTDSNutrient() {
   //Serial.print(averageVoltage,2);
   //Serial.print("V   ");
 
-  Serial.print("Nutrient TDS: ");
-  Serial.print(tdsValue, 0);
-  Serial.println(" ppm");
+//  Serial.print("Nutrient TDS: ");
+//  Serial.print(tdsValue, 0);
+//  Serial.println(" ppm");
 
   return tdsValue;
 }
@@ -88,9 +108,9 @@ float getPHNutrient() {
   float pHVolt = (float) avgValue * 3.3 / 4096 / 6;
   float phValue = -5.70 * pHVolt + calibration;
 
-  Serial.print("Nutrient pH: ");
-  Serial.print(phValue);
-  Serial.println();
+//  Serial.print("Nutrient pH: ");
+//  Serial.print(phValue);
+//  Serial.println();
 
   return phValue;
 }
@@ -102,17 +122,17 @@ float getTemperatureRoot(int level) {
     case 1:
       temperature = dht22_level1.readTemperature();
       break;
-      
+
     case 2:
       temperature = dht22_level2.readTemperature();
       break;
   }
 
-  Serial.print("Root Temperature Level ");
-  Serial.print(level);
-  Serial.print(" = ");
-  Serial.print(temperature);
-  Serial.println(" Celsius");
+//  Serial.print("Root Temperature Level ");
+//  Serial.print(level);
+//  Serial.print(" = ");
+//  Serial.print(temperature);
+//  Serial.println(" Celsius");
 
   return temperature;
 }
@@ -133,11 +153,11 @@ float getHumidityRoot(int level) {
       break;
   }
 
-  Serial.print("Root Humidity Level ");
-  Serial.print(level);
-  Serial.print(" = ");
-  Serial.print(humidity);
-  Serial.println(" %");
+//  Serial.print("Root Humidity Level ");
+//  Serial.print(level);
+//  Serial.print(" = ");
+//  Serial.print(humidity);
+//  Serial.println(" %");
 
   return humidity;
 }
@@ -145,9 +165,9 @@ float getHumidityRoot(int level) {
 float getTemperatureRoom() {
   float temperature = dht11_room.readTemperature();
 
-  Serial.print("Room Temperature = ");
-  Serial.print(temperature);
-  Serial.println(" Celsius");
+//  Serial.print("Room Temperature = ");
+//  Serial.print(temperature);
+//  Serial.println(" Celsius");
 
   return temperature;
 }
@@ -155,9 +175,9 @@ float getTemperatureRoom() {
 float getHumidityRoom() {
   float humidity = dht11_room.readHumidity();
 
-  Serial.print("Room Humidity = ");
-  Serial.print(humidity);
-  Serial.println(" %");
+//  Serial.print("Room Humidity = ");
+//  Serial.print(humidity);
+//  Serial.println(" %");
 
   return humidity;
 }

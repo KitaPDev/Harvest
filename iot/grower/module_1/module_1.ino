@@ -11,8 +11,9 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define moduleID 1;
-#define reservoirID 1;
+#define moduleID 2;
+#define reservoirID 10;
+#define roomID 6;
 
 #if C
 #include <esp_wifi.h>
@@ -421,13 +422,19 @@ bool updateTDSBuffer(void *) {
 String getLogSensorModule_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["module_id"] = 1;
+  doc["module_id"] = moduleID;
 
   JsonObject level = doc.createNestedObject("level");
 
+  char clevel[2];
+
   for (int i = 1; i <= levels; i++) {
-    level[i]["temperature_root"] = getTemperatureRoot(i);
-    level[i]["humidity_root"] = getHumidityRoot(i);
+    memset(clevel, 0, sizeof clevel);
+    itoa (i, clevel, 10);
+
+    JsonObject obj = level.createNestedObject(clevel);
+    obj["temperature_root"] = getTemperatureRoot(i);
+    obj["humidity_root"] = getHumidityRoot(i);
   }
 
   String jsonPayload;
@@ -440,12 +447,13 @@ String getLogSensorModule_Json() {
 String getLogSensorRoom_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["room_id"] = 1;
+  doc["room_id"] = roomID;
   doc["temperature_room"] = getTemperatureRoom();
   doc["humidity_room"] = getHumidityRoom();
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -453,7 +461,7 @@ String getLogSensorRoom_Json() {
 String getLogSensorReservoir_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["reservoir_id"] = 1;
+  doc["reservoir_id"] = reservoirID;
   doc["tds"] = getTDSNutrient();
   doc["ph"] = getPHNutrient();
   doc["temperature_solution"] = getTemperatureSolution();
@@ -461,6 +469,7 @@ String getLogSensorReservoir_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -483,6 +492,7 @@ String getModuleSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }

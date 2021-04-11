@@ -18,7 +18,7 @@ func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSen
 	sqlStatement :=
 		`SELECT DISTINCT ON (module_id, level) logged_at, module_id, level, temperature_root, humidity_root
 		FROM log_sensor_module
-		ORDER BY module_id, level, logged_at;`
+		ORDER BY module_id, level, logged_at DESC;`
 
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
@@ -46,7 +46,7 @@ func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSen
 	sqlStatement =
 		`SELECT DISTINCT ON (reservoir_id) logged_at, reservoir_id, tds, temperature_solution, soln_level
 		FROM log_sensor_reservoir
-		ORDER BY reservoir_id, logged_at;`
+		ORDER BY reservoir_id, logged_at DESC;`
 
 	rows, err = db.Query(sqlStatement)
 	if err != nil {
@@ -74,7 +74,7 @@ func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSen
 	sqlStatement =
 		`SELECT DISTINCT ON (room_id) logged_at, room_id, temperature, humidity
 		FROM log_sensor_room
-		ORDER BY room_id, logged_at;`
+		ORDER BY room_id, logged_at DESC;`
 
 	rows, err = db.Query(sqlStatement)
 	if err != nil {
@@ -110,7 +110,7 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 			FROM log_sensor_module 
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2
-		  	ORDER BY logged_at;`
+		  	ORDER BY logged_at DESC;`
 
 	rows, err := db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
@@ -141,7 +141,7 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 			FROM log_sensor_reservoir
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2
-		  	ORDER BY logged_at;`
+		  	ORDER BY logged_at DESC;`
 
 	rows, err = db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
@@ -173,7 +173,7 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 			FROM log_sensor_room
 			WHERE logged_at >= $1 
 			  AND logged_at <= $2
-		  	ORDER BY logged_at;`
+		  	ORDER BY logged_at DESC;`
 
 	rows, err = db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {
@@ -211,7 +211,7 @@ func GetLatestGerminatorSensorLog() (*models.LogSensorGerminator, error) {
 	sqlStatement :=
 		`SELECT logged_at, temperature, humidity
 		FROM log_sensor_germinator
-		ORDER BY logged_at LIMIT 1;`
+		ORDER BY logged_at DESC LIMIT 1;`
 
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
@@ -244,7 +244,7 @@ func GetHistoryGerminatorSensorLogs(timestampBegin time.Time, timestampEnd time.
 		FROM log_sensor_germinator
 		WHERE logged_at >= $1 
 	  	AND logged_at <= $2
-		ORDER BY logged_at;`
+		ORDER BY logged_at DESC;`
 
 	rows, err := db.Query(sqlStatement, timestampBegin, timestampEnd)
 	if err != nil {

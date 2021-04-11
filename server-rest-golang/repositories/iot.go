@@ -27,11 +27,12 @@ func UpdateModuleSensor(moduleID int, mapLevelSensorLog map[int]models.LogSensor
 
 	sqlStatement = sqlStatement + `;`
 
-
-	_, err := db.Query(sqlStatement)
+	rows, err := db.Query(sqlStatement)
 	if err != nil {
 		return err
 	}
+
+	defer rows.Close()
 
 	return nil
 }
@@ -41,10 +42,12 @@ func UpdateRoomSensor(roomID int, temperature float64, humidity float64) error {
 
 	sqlStatement := `INSERT INTO log_sensor_room (logged_at, room_id, temperature, humidity) VALUES (NOW(), $1, $2, $3);`
 
-	_, err := db.Query(sqlStatement, roomID, temperature, humidity)
+	rows, err := db.Query(sqlStatement, roomID, temperature, humidity)
 	if err != nil {
 		return err
 	}
+
+	defer rows.Close()
 
 	return nil
 }
@@ -55,10 +58,12 @@ func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, temperature
 	sqlStatement := `INSERT INTO log_sensor_reservoir (logged_at, reservoir_id, tds, ph, temperature_solution, soln_level) 
 					VALUES (NOW(), $1, $2, $3, $4, $5);`
 
-	_, err := db.Query(sqlStatement, reservoirID, tds, ph, temperatureSolution, solnLevel)
+	rows, err := db.Query(sqlStatement, reservoirID, tds, ph, temperatureSolution, solnLevel)
 	if err != nil {
 		return err
 	}
+
+	defer rows.Close()
 
 	return nil
 }
