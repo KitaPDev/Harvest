@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/batches">
+  <div class="menu" routerLink="/batches" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/Batches.png" alt="Batches-Icon" />
     </div>
@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/plants">
+  <div class="menu" routerLink="/plants" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/Plants.png" alt="Plants-Icon" />
     </div>
@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/nutrients">
+  <div class="menu" routerLink="/nutrients" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/Nutrient.png" alt="Nutrient-Icon" />
     </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/reservoirs">
+  <div class="menu" routerLink="/reservoirs" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/Reservoir.png" alt="Reservoir-Icon" />
     </div>
@@ -52,7 +52,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/rooms">
+  <div class="menu" routerLink="/rooms" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/Rooms.png" alt="Rooms-Icon" />
     </div>
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div class="menu" routerLink="/users">
+  <div class="menu" routerLink="/users" *ngIf="isCurrentUserAdmin()">
     <div class="top">
       <img src="/assets/Icon/User.png" alt="Users-Icon" />
     </div>

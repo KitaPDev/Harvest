@@ -39,35 +39,35 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/batches" routerLinkActive="active"
           >Batches</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/plants" routerLinkActive="active"
           >Plants</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/nutrients" routerLinkActive="active"
           >Nutrients</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/reservoirs" routerLinkActive="active"
           >Reservoirs</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/rooms" routerLinkActive="active"
           >Rooms</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a routerLink="/modules" routerLinkActive="active">Modules</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isCurrentUserAdmin()">
         <a class="nav-link" routerLink="/users" routerLinkActive="active"
           >Users</a
         >
