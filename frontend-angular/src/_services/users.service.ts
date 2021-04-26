@@ -29,6 +29,10 @@ export class UsersService {
     return JSON.parse(localStorage.getItem('current_user'));
   }
 
+  getUserIsAdmin(index: number) {
+    return this.usersSource.getValue()[index].isAdmin;
+  }
+
   isCurrentUserAdmin(): boolean {
     const currentUser = this.getCurrentUser();
     if (currentUser == undefined) {

@@ -25,6 +25,10 @@ export class UsersItemComponent implements OnInit {
     this.usersService.toggleAdmin(this.index);
   }
 
+  getUserIsAdmin() {
+    return this.usersService.getUserIsAdmin(this.index);
+  }
+
   onChangePassword() {
     this.changePasswordDialogService.init(this.index, this.user.username);
   }
