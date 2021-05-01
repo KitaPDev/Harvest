@@ -84,7 +84,7 @@ export class ReservoirChartItemComponent implements OnInit {
   phChartOptions: ChartOptions = {
     title: {
       display: true,
-      text: 'Humidity',
+      text: 'pH',
     },
     scales: {
       xAxes: [
