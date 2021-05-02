@@ -42,7 +42,9 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
 
   getTds(): string {
     if (this.logSensorReservoir != undefined) {
-      return this.logSensorReservoir.tds.toString();
+      if (this.logSensorReservoir.tds != undefined) {
+        return this.logSensorReservoir.tds.toString();
+      }
     }
 
     return 'N/A';
@@ -50,7 +52,9 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
 
   getPh(): string {
     if (this.logSensorReservoir != undefined) {
-      return this.logSensorReservoir.ph.toString();
+      if (this.logSensorReservoir.ph != undefined) {
+        return this.logSensorReservoir.ph.toString();
+      }
     }
 
     return 'N/A';
@@ -58,7 +62,9 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
 
   getTemperatureSolution(): string {
     if (this.logSensorReservoir != undefined) {
-      return this.logSensorReservoir.temperatureSolution.toString();
+      if (this.logSensorReservoir.temperatureSolution != undefined) {
+        return this.logSensorReservoir.temperatureSolution.toString();
+      }
     }
 
     return 'N/A';
