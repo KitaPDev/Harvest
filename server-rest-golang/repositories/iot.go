@@ -67,3 +67,19 @@ func UpdateReservoirSensor(reservoirID int, tds float64, ph float64, temperature
 
 	return nil
 }
+
+func UpdateGerminatorSensor(temperature float64, humidity float64) error {
+	db := database.GetDB()
+
+	sqlStatement := `INSERT INTO log_sensor_germinator (logged_at, temperature, humidity) 
+					VALUES (NOW(), $1, $2);`
+
+	rows, err := db.Query(sqlStatement, temperature, humidity)
+	if err != nil {
+		return err
+	}
+
+	defer rows.Close()
+
+	return nil
+}

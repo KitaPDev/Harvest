@@ -96,6 +96,32 @@ func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func UpdateGerminatorSensor(w http.ResponseWriter, r *http.Request) {
+	type Input struct {
+		ApiKey      string  `json:"api_key"`
+		Temperature float64 `json:"temperature"`
+		Humidity    float64 `json:"humidity"`
+	}
+	input := Input{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	if input.ApiKey == APIKEY {
+		err := services.UpdateGerminatorSensor(input.Temperature, input.Humidity)
+		if err != nil {
+			msg := "Error: Failed to Update Germinator Sensor"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+}
+
 // IoTTest For testing only!
 func IoTTest(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
