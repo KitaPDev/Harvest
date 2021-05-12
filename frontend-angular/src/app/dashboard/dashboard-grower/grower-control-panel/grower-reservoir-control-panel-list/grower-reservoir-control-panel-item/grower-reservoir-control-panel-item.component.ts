@@ -3,6 +3,7 @@ import { DashboardGrowerService } from '../../../../../../_services/dashboard/da
 import { ReservoirSettings } from '../../../../../../_models/reservoirsettings.model';
 import { LogSensorReservoir } from '../../../../../../_models/logsensorreservoir.model';
 import { Reservoir } from '../../../../../../_models/reservoir.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grower-reservoir-control-panel-item',
@@ -15,6 +16,8 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
 
   reservoirSettings: ReservoirSettings = new ReservoirSettings();
   logSensorReservoir: LogSensorReservoir = new LogSensorReservoir();
+
+  subRefreshSensor: Subscription;
 
   constructor() {}
 
@@ -70,60 +73,25 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
     return 'N/A';
   }
 
-  getSolutionLevel(): string {
-    if (this.logSensorReservoir != undefined) {
-      return this.logSensorReservoir.solnLevel.toString();
+  onChangeSettings(settingNumber: number): void {
+    switch (settingNumber) {
+      case 0:
+        this.reservoirSettings.svNutrient =
+          (this.reservoirSettings.svNutrient + 1) % 2;
+        break;
+
+      case 1:
+        this.reservoirSettings.svWater =
+          (this.reservoirSettings.svWater + 1) % 2;
+        break;
     }
 
-    return 'N/A';
-  }
-
-  getSvNutrientStatus(): number {
-    if (this.reservoirSettings != undefined) {
-      return this.reservoirSettings.svNutrient;
-    }
-
-    return 0;
-  }
-
-  getSvWaterStatus(): number {
-    if (this.reservoirSettings != undefined) {
-      return this.reservoirSettings.svWater;
-    }
-
-    return 0;
-  }
-
-  onCLickSvNutrient() {
-    if (this.reservoirSettings != undefined) {
-      let tmpReservoirSettings = { ...this.reservoirSettings };
-
-      tmpReservoirSettings.svNutrient =
-        tmpReservoirSettings.svNutrient == 1 ? 0 : 1;
-
-      this.dashboardGrowerService
-        .updateReservoirSettings(tmpReservoirSettings)
-        .then((success) => {
-          if (!success) {
-            alert('Failed to toggle SV Nutrient.');
-          }
-        });
-    }
-  }
-
-  onCLickSvWater() {
-    if (this.reservoirSettings != undefined) {
-      let tmpReservoirSettings = { ...this.reservoirSettings };
-
-      tmpReservoirSettings.svWater = tmpReservoirSettings.svWater == 1 ? 0 : 1;
-
-      this.dashboardGrowerService
-        .updateReservoirSettings(tmpReservoirSettings)
-        .then((success) => {
-          if (!success) {
-            alert('Failed to toggle SV Water.');
-          }
-        });
-    }
+    this.dashboardGrowerService
+      .updateReservoirSettings(this.reservoirSettings)
+      .then((success) => {
+        if (!success) {
+          alert('Unsuccessful');
+        }
+      });
   }
 }

@@ -48,6 +48,7 @@
               germinatorSettings == undefined ? 0 : germinatorSettings.pump
             "
             (change)="onChangeSettings(1)"
+            [disabled]="germinatorSettings.isAuto == 1"
           />
           <span class="slider"></span>
         </label>
@@ -61,6 +62,7 @@
               germinatorSettings == undefined ? 0 : germinatorSettings.led
             "
             (change)="onChangeSettings(2)"
+            [disabled]="germinatorSettings.isAuto == 1"
           />
           <span class="slider"></span>
         </label>

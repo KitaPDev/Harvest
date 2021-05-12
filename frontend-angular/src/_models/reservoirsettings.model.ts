@@ -1,6 +1,5 @@
 export class ReservoirSettings {
   reservoirID: number;
-  isAuto: number;
   tdsLow: number;
   tdsHigh: number;
   phLow: number;
@@ -10,7 +9,6 @@ export class ReservoirSettings {
 
   constructor() {
     this.reservoirID = 0;
-    this.isAuto = 0;
     this.tdsLow = 0;
     this.tdsHigh = 0;
     this.phLow = 0;

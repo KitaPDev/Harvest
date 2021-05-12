@@ -10,6 +10,7 @@ import { LogSensorReservoir } from '../../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../../_models/logsensorroom.model';
 import { ModuleSettings } from '../../_models/modulesettings.model';
 import { ReservoirSettings } from '../../_models/reservoirsettings.model';
+import { mod } from 'ngx-bootstrap/chronos/utils';
 
 const DASHBOARD_GROWER_CURRENT_API =
   'http://localhost:9090/dashboard/grower/current';
@@ -330,12 +331,18 @@ export class DashboardGrowerService {
   ): Promise<boolean> {
     let receivedReservoirSettings: ReservoirSettings = new ReservoirSettings();
 
+    const body = {
+      reservoir_id: reservoirSettings.reservoirID,
+      tds_low: reservoirSettings.tdsLow,
+      tds_high: reservoirSettings.tdsHigh,
+      ph_low: reservoirSettings.phLow,
+      ph_high: reservoirSettings.phHigh,
+      sv_water: reservoirSettings.svWater,
+      sv_nutrient: reservoirSettings.svNutrient,
+    };
+
     await this.httpClient
-      .post<any>(
-        DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API,
-        reservoirSettings,
-        httpPostOptions
-      )
+      .post<any>(DASHBOARD_UPDATE_RESERVOIR_SETTINGS_API, body, httpPostOptions)
       .toPromise()
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
@@ -343,7 +350,6 @@ export class DashboardGrowerService {
 
         receivedReservoirSettings.reservoirID =
           fetchedReservoirSettings['reservoir_id'];
-        receivedReservoirSettings.isAuto = fetchedReservoirSettings['is_auto'];
         receivedReservoirSettings.tdsLow = fetchedReservoirSettings['tds_low'];
         receivedReservoirSettings.tdsHigh =
           fetchedReservoirSettings['tds_high'];
@@ -391,12 +397,23 @@ export class DashboardGrowerService {
   async updateModuleSettings(moduleSettings: ModuleSettings): Promise<boolean> {
     let receivedModuleSettings: ModuleSettings = new ModuleSettings();
 
+    const body = {
+      module_id: moduleSettings.moduleID,
+      is_auto: moduleSettings.isAuto,
+      light_on_time: moduleSettings.lightOnTime,
+      light_off_time: moduleSettings.lightOffTime,
+      humidity_root_low: moduleSettings.humidityRootLow,
+      humidity_root_high: moduleSettings.humidityRootHigh,
+      led_1: moduleSettings.led1,
+      led_2: moduleSettings.led2,
+      fan_1: moduleSettings.fan1,
+      fan_2: moduleSettings.fan2,
+      sv_1: moduleSettings.sv1,
+      sv_2: moduleSettings.sv2,
+    };
+
     await this.httpClient
-      .post<any>(
-        DASHBOARD_UPDATE_MODULE_SETTINGS_API,
-        moduleSettings,
-        httpPostOptions
-      )
+      .post<any>(DASHBOARD_UPDATE_MODULE_SETTINGS_API, body, httpPostOptions)
       .toPromise()
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));

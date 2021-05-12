@@ -40,48 +40,6 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
     );
   }
 
-  onClickFan() {
-    let tmpModuleSettings = { ...this.moduleSettings };
-
-    switch (this.level) {
-      case 1:
-        tmpModuleSettings.fan1 = tmpModuleSettings.fan1 == 1 ? 0 : 1;
-        break;
-
-      case 2:
-        tmpModuleSettings.fan2 = tmpModuleSettings.fan2 == 1 ? 0 : 1;
-    }
-
-    this.dashboardGrowerService
-      .updateModuleSettings(tmpModuleSettings)
-      .then((success) => {
-        if (!success) {
-          alert('Failed to toggle Fan for Level ' + this.level + '.');
-        }
-      });
-  }
-
-  onClickLed() {
-    let tmpModuleSettings = { ...this.moduleSettings };
-
-    switch (this.level) {
-      case 1:
-        tmpModuleSettings.led1 = tmpModuleSettings.led1 == 1 ? 0 : 1;
-        break;
-
-      case 2:
-        tmpModuleSettings.led2 = tmpModuleSettings.led2 == 1 ? 0 : 1;
-    }
-
-    this.dashboardGrowerService
-      .updateModuleSettings(tmpModuleSettings)
-      .then((success) => {
-        if (!success) {
-          alert('Failed to toggle LED for Level ' + this.level + '.');
-        }
-      });
-  }
-
   getModuleTemperatureRoot(): string {
     if (this.lsLogSensorModuleLevel != undefined) {
       for (let log of this.lsLogSensorModuleLevel) {
@@ -128,5 +86,47 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
           return this.moduleSettings.led2;
       }
     }
+  }
+
+  onClickFan() {
+    let tmpModuleSettings = { ...this.moduleSettings };
+
+    switch (this.level) {
+      case 1:
+        tmpModuleSettings.fan1 = tmpModuleSettings.fan1 == 1 ? 0 : 1;
+        break;
+
+      case 2:
+        tmpModuleSettings.fan2 = tmpModuleSettings.fan2 == 1 ? 0 : 1;
+    }
+
+    this.dashboardGrowerService
+      .updateModuleSettings(tmpModuleSettings)
+      .then((success) => {
+        if (!success) {
+          alert('Failed to toggle Fan for Level ' + this.level + '.');
+        }
+      });
+  }
+
+  onClickLed() {
+    let tmpModuleSettings = { ...this.moduleSettings };
+
+    switch (this.level) {
+      case 1:
+        tmpModuleSettings.led1 = tmpModuleSettings.led1 == 1 ? 0 : 1;
+        break;
+
+      case 2:
+        tmpModuleSettings.led2 = tmpModuleSettings.led2 == 1 ? 0 : 1;
+    }
+
+    this.dashboardGrowerService
+      .updateModuleSettings(tmpModuleSettings)
+      .then((success) => {
+        if (!success) {
+          alert('Failed to toggle LED for Level ' + this.level + '.');
+        }
+      });
   }
 }

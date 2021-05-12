@@ -23,8 +23,10 @@
     <label class="switch">
       <input
         type="checkbox"
-        (click)="onCLickSvNutrient()"
-        [checked]="getSvNutrientStatus()"
+        [checked]="
+          reservoirSettings == undefined ? 0 : reservoirSettings.svNutrient
+        "
+        (change)="onChangeSettings(0)"
       />
       <span class="slider"></span>
     </label>
@@ -35,8 +37,10 @@
     <label class="switch">
       <input
         type="checkbox"
-        (click)="onCLickSvWater()"
-        [checked]="getSvWaterStatus()"
+        [checked]="
+          reservoirSettings == undefined ? 0 : reservoirSettings.svWater
+        "
+        (change)="onChangeSettings(1)"
       />
       <span class="slider"></span>
     </label>

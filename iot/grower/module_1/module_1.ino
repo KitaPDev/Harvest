@@ -45,11 +45,11 @@ int phBufferIndex = 0;
 WiFiServer server(8090);
 WiFiClient client;
 IPAddress dns(8, 8, 8, 8);
-IPAddress local_ip(172, 20, 10, 5);
+IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "172.20.10.3";
+char serverURL[] = "192.168.1.53";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
@@ -57,15 +57,13 @@ char updateRoomSensorURL[] = "/iot/update/room/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "First iPhone";
-const char* password = "ma282828";
+const char* ssid = "xincaima";
+const char* password = "020416651";
 
 unsigned long currentTime = millis();
-unsigned long previousLEDToggleTime = 0;
+unsigned long prevToggleTime = 0;
 
 int levels = 2;
-int previousStateLED1 = 0;
-int previousStateLED2 = 0;
 
 struct ModuleSettings {
   int isAuto;
@@ -190,48 +188,12 @@ void loop() {
           moduleSettings.isAuto = root["is_auto"];
         }
 
-        if (moduleSettings.isAuto) {
 
           if (root.containsKey("module_id")) {
             moduleSettings.lightOnTime = root["light_on_time"];
             moduleSettings.lightOffTime = root["light_off_time"];
             moduleSettings.humidityRootLow = root["humidity_root_low"];
             moduleSettings.humidityRootHigh = root["humidity_root_high"];
-
-            client.println("HTTP/1.0 200 OK");
-            client.println("Content-Type: application/json");
-            client.println("Vary: Origin");
-            client.println("X-Content-Type-Options: nosniff");
-            client.println("Connection: Closed");
-            client.println();
-            client.println(getModuleSettings_Json());
-            client.println();
-            client.stop();
-            Serial.println("Client disconnected");
-            continue;
-
-          } else if (root.containsKey("reservoir_id")) {
-            reservoirSettings.tdsLow = root["tds_low"];
-            reservoirSettings.tdsHigh = root["tds_high"];
-            reservoirSettings.phLow = root["ph_low"];
-            reservoirSettings.phHigh = root["ph_high"];
-
-            client.println("HTTP/1.0 200 OK");
-            client.println("Content-Type: application/json");
-            client.println("Vary: Origin");
-            client.println("X-Content-Type-Options: nosniff");
-            client.println("Connection: Closed");
-            client.println();
-            client.println(getReservoirSettings_Json());
-            client.println();
-            client.stop();
-            Serial.println("Client disconnected");
-            continue;
-          }
-
-        } else {
-
-          if (root.containsKey("module_id")) {
             moduleSettings.led1 = root["led_1"];
             moduleSettings.led2 = root["led_2"];
             moduleSettings.fan1 = root["fan_1"];
@@ -259,12 +221,13 @@ void loop() {
             continue;
 
           } else if (root.containsKey("reservoir_id")) {
+            reservoirSettings.tdsLow = root["tds_low"];
+            reservoirSettings.tdsHigh = root["tds_high"];
+            reservoirSettings.phLow = root["ph_low"];
+            reservoirSettings.phHigh = root["ph_high"];
             reservoirSettings.svWater = root["sv_water"];
             reservoirSettings.svNutrient = root["sv_nutrient"];
-
-            svWater = reservoirSettings.svWater;
-            svNutrient = reservoirSettings.svNutrient;
-
+            
             client.println("HTTP/1.0 200 OK");
             client.println("Content-Type: application/json");
             client.println("Vary: Origin");
@@ -276,15 +239,8 @@ void loop() {
             client.stop();
             Serial.println("Client disconnected");
             continue;
-
-          } else {
-            client.println("HTTP/1.0 200 OK");
-            client.println();
-            client.stop();
-            Serial.println("Client disconnected");
-            continue;
           }
-        }
+
 
       } else {
         client.println("HTTP/1.0 200 OK");

@@ -36,9 +36,7 @@ const char* API_KEY = "MODKJ2021";
 const char* ssid = "First iPhone";
 const char* password = "ma282828";
 
-unsigned long currentTime = millis();
-unsigned long previousLEDToggleTime = 0;
-int previousStateLED = 0
+unsigned long prevToggleTime = 0;
 
 struct GerminatorSettings {
   int isAuto;
@@ -94,6 +92,7 @@ void loop() {
 
   checkForConnections();
 
+  int isAuto = germinatorSettings.isAuto;
   int led = germinatorSettings.led;
   int pump = germinatorSettings.pump;
 
@@ -151,14 +150,28 @@ void loop() {
 
     memset(received, 0, sizeof received);
 
+    if (isAuto == 0 && germinatorSettings.isAuto == 1) {
+      prevToggleTime = millis();
+    }
+
     if (germinatorSettings.isAuto) {
       if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
-        pump = 1
+        pump = 1;
       } else {
         pump = 0;
       }
 
-      if ()
+      if (germinatorSettings.led) {
+        if (millis() - prevToggleTime >= germinatorSettings.lightOnTime * 3600000) {
+          germinatorSettings.led = 0;
+          prevToggleTime = millis();
+        }
+      } else {
+        if (millis() - prevToggleTime >= germinatorSettings.lightOffTime * 3600000) {
+          germinatorSettings.led = 1;
+          prevToggleTime = millis();
+        }
+      }
     }
 
     updateHardware(led, pump);

@@ -18,8 +18,8 @@
     <label class="switch">
       <input
         type="checkbox"
-        (click)="onClickFan()"
         [checked]="getFanStatus()"
+        (change)="onClickFan()"
       />
       <span class="slider"></span>
     </label>
@@ -29,8 +29,8 @@
     <label class="switch">
       <input
         type="checkbox"
-        (click)="onClickLed()"
         [checked]="getLedStatus()"
+        (change)="onClickLed()"
       />
       <span class="slider"></span>
     </label>
