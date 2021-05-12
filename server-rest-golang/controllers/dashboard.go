@@ -466,7 +466,7 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	log.Println(input.LED)
-	log.Println(input.Mister)
+	log.Println(input.Pump)
 
 	requestBody, err := json.Marshal(input)
 	if err != nil {

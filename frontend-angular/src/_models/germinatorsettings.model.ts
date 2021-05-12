@@ -4,7 +4,7 @@ export class GerminatorSettings {
   humidityHigh: number;
   lightOnTime: number;
   lightOffTime: number;
-  mister: number;
+  pump: number;
   led: number;
 
   constructor() {
@@ -13,7 +13,7 @@ export class GerminatorSettings {
     this.humidityHigh = 90;
     this.lightOnTime = 0;
     this.lightOffTime = 0;
-    this.mister = 0;
+    this.pump = 0;
     this.led = 0;
   }
 }

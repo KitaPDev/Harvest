@@ -108,8 +108,7 @@ export class GerminatorControlPanelComponent implements OnInit {
         break;
 
       case 1:
-        this.germinatorSettings.mister =
-          (this.germinatorSettings.mister + 1) % 2;
+        this.germinatorSettings.pump = (this.germinatorSettings.pump + 1) % 2;
         break;
 
       case 2:
