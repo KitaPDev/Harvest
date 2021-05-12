@@ -102,12 +102,20 @@ export class DashboardGerminatorService {
       .toPromise()
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
+        let fetchedGerminatorSettings = fetchedData.germinator_settings;
 
-        if (fetchedData != undefined) {
-          receivedGerminatorSettings.isAuto = fetchedData.germinator_settings;
-        }
-
-        this.germinatorSettingsSource.next(receivedGerminatorSettings);
+        receivedGerminatorSettings.isAuto =
+          fetchedGerminatorSettings['is_auto'];
+        receivedGerminatorSettings.humidityLow =
+          fetchedGerminatorSettings['humidity_low'];
+        receivedGerminatorSettings.humidityHigh =
+          fetchedGerminatorSettings['humidity_high'];
+        receivedGerminatorSettings.lightOnTime =
+          fetchedGerminatorSettings['light_on_time'];
+        receivedGerminatorSettings.lightOffTime =
+          fetchedGerminatorSettings['light_off_time'];
+        receivedGerminatorSettings.pump = fetchedGerminatorSettings['pump'];
+        receivedGerminatorSettings.led = fetchedGerminatorSettings['led'];
       });
   }
 
