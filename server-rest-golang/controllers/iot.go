@@ -13,7 +13,6 @@ import (
 var APIKEY = "MODKJ2021"
 
 func UpdateModuleSensor(w http.ResponseWriter, r *http.Request) {
-
 	type Input struct {
 		ApiKey            string                        `json:"api_key"`
 		ModuleID          int                           `json:"module_id"`
@@ -97,7 +96,33 @@ func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// For testing only!
+func UpdateGerminatorSensor(w http.ResponseWriter, r *http.Request) {
+	type Input struct {
+		ApiKey      string  `json:"api_key"`
+		Temperature float64 `json:"temperature"`
+		Humidity    float64 `json:"humidity"`
+	}
+	input := Input{}
+
+	jsonhandler.DecodeJsonFromRequest(w, r, &input)
+
+	if input.ApiKey == APIKEY {
+		err := services.UpdateGerminatorSensor(input.Temperature, input.Humidity)
+		if err != nil {
+			msg := "Error: Failed to Update Germinator Sensor"
+			http.Error(w, msg, http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+}
+
+// IoTTest For testing only!
 func IoTTest(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		ApiKey  string `json:"api_key"`
@@ -114,6 +139,7 @@ func IoTTest(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// IoTServerTest for testing only!
 func IoTServerTest(w http.ResponseWriter, r *http.Request) {
 	type Input struct {
 		ModuleID int `json:"module_id"`

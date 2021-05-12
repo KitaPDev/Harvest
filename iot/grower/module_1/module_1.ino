@@ -11,8 +11,9 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define moduleID 1;
-#define reservoirID 1;
+#define moduleID 2;
+#define reservoirID 10;
+#define roomID 6;
 
 #if C
 #include <esp_wifi.h>
@@ -48,7 +49,7 @@ IPAddress local_ip(192, 168, 1, 169);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "http://192.168.1.172";
+char serverURL[] = "192.168.1.53";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
@@ -56,8 +57,8 @@ char updateRoomSensorURL[] = "/iot/update/room/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "159291_2.4G";
-const char* password = "MAY789354";
+const char* ssid = "xincaima";
+const char* password = "020416651";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;
@@ -340,6 +341,8 @@ void checkForConnections() {
 }
 
 bool updateModuleSensor(void *) {
+  Serial.println("Updating Module Sensor");
+
   HTTPClient httpClient;
 
   if (httpClient.begin(serverURL, serverPort, updateModuleSensorURL)) {
@@ -352,36 +355,56 @@ bool updateModuleSensor(void *) {
     Serial.println(httpResponseCode);
     Serial.print("Response: ");
     Serial.println(httpResponse);
+
+    if (httpResponseCode < 0) {
+      Serial.printf("Error occurred while sending HTTP POST: %s\n\n", httpClient.errorToString(httpResponseCode).c_str());
+    }
   }
 
   return true;
 }
 
 bool updateRoomSensor(void *) {
-  HTTPClient http;
-  if (http.begin(serverURL, serverPort, updateRoomSensorURL)) {
-    http.addHeader("Content-Type", "application/json");
+  Serial.println("Updating Room Sensor");
 
-    int httpResponseCode = http.POST(getLogSensorRoom_Json());
-    Serial.print("HTTP Response Code = ");
+  HTTPClient httpClient;
+  if (httpClient.begin(serverURL, serverPort, updateRoomSensorURL)) {
+    httpClient.addHeader("Content-Type", "application/json");
+
+    int httpResponseCode = httpClient.POST(getLogSensorRoom_Json());
+    String httpResponse = httpClient.getString();
+
+    Serial.print("Status Code: ");
     Serial.println(httpResponseCode);
+    Serial.print("Response: ");
+    Serial.println(httpResponse);
+
+    if (httpResponseCode < 0) {
+      Serial.printf("Error occurred while sending HTTP POST: %s\n\n", httpClient.errorToString(httpResponseCode).c_str());
+    }
   }
 
   return true;
 }
 
 bool updateReservoirSensor(void *) {
-  HTTPClient http;
-  if (http.begin(serverURL, serverPort, updateReservoirSensorURL)) {
-    http.addHeader("Content-Type", "application/json");
+  Serial.println("Update Reservoir Sensor");
 
-    int httpResponseCode = http.POST(getLogSensorReservoir_Json());
-    String httpResponse = http.getString();
+  HTTPClient httpClient;
+  if (httpClient.begin(serverURL, serverPort, updateReservoirSensorURL)) {
+    httpClient.addHeader("Content-Type", "application/json");
+
+    int httpResponseCode = httpClient.POST(getLogSensorReservoir_Json());
+    String httpResponse = httpClient.getString();
 
     Serial.print("Status Code: ");
     Serial.println(httpResponseCode);
     Serial.print("Response: ");
     Serial.println(httpResponse);
+
+    if (httpResponseCode < 0) {
+      Serial.printf("Error occurred while sending HTTP POST: %s\n\n", httpClient.errorToString(httpResponseCode).c_str());
+    }
   }
 
   return true;
@@ -396,50 +419,62 @@ bool updateTDSBuffer(void *) {
   return true;
 }
 
-char * getLogSensorModule_Json() {
+String getLogSensorModule_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["module_id"] = 1;
+  doc["module_id"] = moduleID;
+
+  JsonObject level = doc.createNestedObject("level");
+
+  char clevel[2];
+
   for (int i = 1; i <= levels; i++) {
-    doc[i]["temperature_root"] = getTemperatureRoot(1);
-    doc[i]["humidity_root"] = getHumidityRoot(1);
+    memset(clevel, 0, sizeof clevel);
+    itoa (i, clevel, 10);
+
+    JsonObject obj = level.createNestedObject(clevel);
+    obj["temperature_root"] = getTemperatureRoot(i);
+    obj["humidity_root"] = getHumidityRoot(i);
   }
 
-  char jsonPayload[512];
+  String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
 
-char * getLogSensorRoom_Json() {
+String getLogSensorRoom_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["room_id"] = 1;
+  doc["room_id"] = roomID;
   doc["temperature_room"] = getTemperatureRoom();
   doc["humidity_room"] = getHumidityRoom();
 
-  char jsonPayload[512];
+  String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
 
-char * getLogSensorReservoir_Json() {
+String getLogSensorReservoir_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["reservoir_id"] = 1;
+  doc["reservoir_id"] = reservoirID;
   doc["tds"] = getTDSNutrient();
   doc["ph"] = getPHNutrient();
   doc["temperature_solution"] = getTemperatureSolution();
   doc["soln_level"] = getSolutionLevel();
 
-  char jsonPayload[512];
+  String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
 
-char * getModuleSettings_Json() {
+String getModuleSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["moduleID"] = moduleID;
@@ -455,13 +490,14 @@ char * getModuleSettings_Json() {
   doc["sv_1"] = moduleSettings.sv1;
   doc["sv_2"] = moduleSettings.sv2;
 
-  char jsonPayload[512];
+  String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
 
-char * getReservoirSettings_Json() {
+String getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["reservoir_id"] = reservoirID;
@@ -473,7 +509,7 @@ char * getReservoirSettings_Json() {
   doc["sv_water"] = reservoirSettings.svWater;
   doc["sv_nutrient"] = reservoirSettings.svNutrient;
 
-  char jsonPayload[512];
+  String jsonPayload;
   serializeJson(doc, jsonPayload);
 
   return jsonPayload;

@@ -9,21 +9,15 @@
       id="isAdmin"
       [checked]="user.isAdmin"
       (click)="toggleAdmin()"
-    >
+    />
   </div>
   <div class="cell">
-    {{ user.createdAt | date: "dd-MM-yyyy HH:mm:SSS" }}
+    {{ user.createdAt | date: "dd-MM-yyyy HH:mm:SS" }}
   </div>
   <div class="cell cell-4">
-    <button
-      class="btn btn-blue"
-      (click)="onChangePassword()"
-    >Change Password
-    </button>{{" "}}
-    <button
-      class="btn btn-red"
-      (click)="onDeleteUser()"
-    >Delete
-    </button>
+    <button class="btn btn-blue" (click)="onChangePassword()">
+      Change Password</button
+    >{{ " " }}
+    <button class="btn btn-red" (click)="onDeleteUser()">Delete</button>
   </div>
 </div>

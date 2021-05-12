@@ -1,11 +1,10 @@
 <div class="cell-level-background">
-  <div *ngFor="let level of getLevelsArray()" class="cell-level">
+  <div *ngFor="let lvl of getLevelsArray()" class="cell-level">
     <app-grower-module-level-control-panel-item
       [moduleID]="moduleID"
-      [level]="level"
+      [level]="lvl"
       [dashboardGrowerService]="dashboardGrowerService"
     ></app-grower-module-level-control-panel-item>
   </div>
   
 </div>
-f

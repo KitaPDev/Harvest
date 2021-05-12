@@ -48,14 +48,12 @@ const routes: Routes = [
   {
     path: 'dashboard/grower',
     component: DashboardGrowerComponent,
-    canActivate: [RoleGuardService],
   },
   {
     path: 'dashboard/germinator',
     component: DashboardGerminatorComponent,
-    canActivate: [RoleGuardService],
   },
-  { path: '', component: HomeComponent, canActivate: [RoleGuardService] },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({
