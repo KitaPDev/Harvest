@@ -60,7 +60,6 @@ const char* API_KEY = "MODKJ2021";
 const char* ssid = "xincaima";
 const char* password = "020416651";
 
-unsigned long currentTime = millis();
 unsigned long prevToggleTime = 0;
 
 int levels = 2;
@@ -189,57 +188,57 @@ void loop() {
         }
 
 
-          if (root.containsKey("module_id")) {
-            moduleSettings.lightOnTime = root["light_on_time"];
-            moduleSettings.lightOffTime = root["light_off_time"];
-            moduleSettings.humidityRootLow = root["humidity_root_low"];
-            moduleSettings.humidityRootHigh = root["humidity_root_high"];
-            moduleSettings.led1 = root["led_1"];
-            moduleSettings.led2 = root["led_2"];
-            moduleSettings.fan1 = root["fan_1"];
-            moduleSettings.fan2 = root["fan_2"];
-            moduleSettings.sv1 = root["sv_1"];
-            moduleSettings.sv2 = root["sv_2"];
+        if (root.containsKey("module_id")) {
+          moduleSettings.lightOnTime = root["light_on_time"];
+          moduleSettings.lightOffTime = root["light_off_time"];
+          moduleSettings.humidityRootLow = root["humidity_root_low"];
+          moduleSettings.humidityRootHigh = root["humidity_root_high"];
+          moduleSettings.led1 = root["led_1"];
+          moduleSettings.led2 = root["led_2"];
+          moduleSettings.fan1 = root["fan_1"];
+          moduleSettings.fan2 = root["fan_2"];
+          moduleSettings.sv1 = root["sv_1"];
+          moduleSettings.sv2 = root["sv_2"];
 
-            led1 = moduleSettings.led1;
-            led2 = moduleSettings.led2;
-            fan1 = moduleSettings.fan1;
-            fan2 = moduleSettings.fan2;
-            sv1 = moduleSettings.sv1;
-            sv2 = moduleSettings.sv2;
+          led1 = moduleSettings.led1;
+          led2 = moduleSettings.led2;
+          fan1 = moduleSettings.fan1;
+          fan2 = moduleSettings.fan2;
+          sv1 = moduleSettings.sv1;
+          sv2 = moduleSettings.sv2;
 
-            client.println("HTTP/1.0 200 OK");
-            client.println("Content-Type: application/json");
-            client.println("Vary: Origin");
-            client.println("X-Content-Type-Options: nosniff");
-            client.println("Connection: Closed");
-            client.println();
-            client.println(getModuleSettings_Json());
-            client.println();
-            client.stop();
-            Serial.println("Client disconnected");
-            continue;
+          client.println("HTTP/1.0 200 OK");
+          client.println("Content-Type: application/json");
+          client.println("Vary: Origin");
+          client.println("X-Content-Type-Options: nosniff");
+          client.println("Connection: Closed");
+          client.println();
+          client.println(getModuleSettings_Json());
+          client.println();
+          client.stop();
+          Serial.println("Client disconnected");
+          continue;
 
-          } else if (root.containsKey("reservoir_id")) {
-            reservoirSettings.tdsLow = root["tds_low"];
-            reservoirSettings.tdsHigh = root["tds_high"];
-            reservoirSettings.phLow = root["ph_low"];
-            reservoirSettings.phHigh = root["ph_high"];
-            reservoirSettings.svWater = root["sv_water"];
-            reservoirSettings.svNutrient = root["sv_nutrient"];
-            
-            client.println("HTTP/1.0 200 OK");
-            client.println("Content-Type: application/json");
-            client.println("Vary: Origin");
-            client.println("X-Content-Type-Options: nosniff");
-            client.println("Connection: Closed");
-            client.println();
-            client.println(getReservoirSettings_Json());
-            client.println();
-            client.stop();
-            Serial.println("Client disconnected");
-            continue;
-          }
+        } else if (root.containsKey("reservoir_id")) {
+          reservoirSettings.tdsLow = root["tds_low"];
+          reservoirSettings.tdsHigh = root["tds_high"];
+          reservoirSettings.phLow = root["ph_low"];
+          reservoirSettings.phHigh = root["ph_high"];
+          reservoirSettings.svWater = root["sv_water"];
+          reservoirSettings.svNutrient = root["sv_nutrient"];
+
+          client.println("HTTP/1.0 200 OK");
+          client.println("Content-Type: application/json");
+          client.println("Vary: Origin");
+          client.println("X-Content-Type-Options: nosniff");
+          client.println("Connection: Closed");
+          client.println();
+          client.println(getReservoirSettings_Json());
+          client.println();
+          client.stop();
+          Serial.println("Client disconnected");
+          continue;
+        }
 
 
       } else {
@@ -262,6 +261,30 @@ void loop() {
         setLevelMist(i, 0);
       }
     }
+
+    if (moduleSettings.led1) {
+        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+          moduleSettings.led1 = 0;
+          prevToggleTime = millis();
+        }
+      } else {
+        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+          moduleSettings.led1 = 1;
+          prevToggleTime = millis();
+        }
+      }
+
+    if (moduleSettings.led2) {
+        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+          moduleSettings.led2 = 0;
+          prevToggleTime = millis();
+        }
+      } else {
+        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+          moduleSettings.led2 = 1;
+          prevToggleTime = millis();
+        }
+      }
   }
 
   updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svNutrient);
