@@ -45,11 +45,11 @@ int phBufferIndex = 0;
 WiFiServer server(8090);
 WiFiClient client;
 IPAddress dns(8, 8, 8, 8);
-IPAddress local_ip(192, 168, 1, 169);
+IPAddress local_ip(172, 20, 10, 5);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "192.168.1.53";
+char serverURL[] = "172.20.10.3";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
@@ -57,8 +57,8 @@ char updateRoomSensorURL[] = "/iot/update/room/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "xincaima";
-const char* password = "020416651";
+const char* ssid = "First iPhone";
+const char* password = "ma282828";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;

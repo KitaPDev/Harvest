@@ -3,15 +3,16 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/Modern-Farms/server-rest-golang/lib/jsonhandler"
-	"github.com/Modern-Farms/server-rest-golang/models"
-	"github.com/Modern-Farms/server-rest-golang/services"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/Modern-Farms/server-rest-golang/lib/jsonhandler"
+	"github.com/Modern-Farms/server-rest-golang/models"
+	"github.com/Modern-Farms/server-rest-golang/services"
 )
 
-const germinatorUrl = ""
+const germinatorUrl = "http://172.20.10.4:8090"
 
 func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
@@ -521,14 +522,18 @@ func GetGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println(resp)
+
 	inputIoT := models.GerminatorSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
+
+	log.Println(inputIoT)
 
 	type Output struct {
 		GerminatorSettings models.GerminatorSettings `json:"germinator_settings"`

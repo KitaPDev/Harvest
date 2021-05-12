@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/Modern-Farms/server-rest-golang/routers"
-	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/Modern-Farms/server-rest-golang/routers"
+	"github.com/rs/cors"
 )
 
 func main() {
