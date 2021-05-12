@@ -100,39 +100,19 @@ export class GerminatorControlPanelComponent implements OnInit {
     this.subRefreshSensor.unsubscribe();
   }
 
-  getIsAuto(): boolean {
-    return this.germinatorSettings.isAuto == 1;
-  }
-
-  getFanStatus(): boolean {
-    return this.germinatorSettings.fan == 1;
-  }
-
-  getMisterStatus(): boolean {
-    return this.germinatorSettings.mister == 1;
-  }
-
-  getLedStatus(): boolean {
-    return this.germinatorSettings.led == 1;
-  }
-
   onChangeSettings(settingNumber: number): void {
     switch (settingNumber) {
-      case 1:
+      case 0:
         this.germinatorSettings.isAuto =
           (this.germinatorSettings.isAuto + 1) % 2;
         break;
 
-      case 2:
-        this.germinatorSettings.fan = (this.germinatorSettings.fan + 1) % 2;
-        break;
-
-      case 3:
+      case 1:
         this.germinatorSettings.mister =
           (this.germinatorSettings.mister + 1) % 2;
         break;
 
-      case 4:
+      case 2:
         this.germinatorSettings.led = (this.germinatorSettings.led + 1) % 2;
         break;
     }

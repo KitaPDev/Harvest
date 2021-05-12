@@ -7,6 +7,5 @@ type GerminatorSettings struct {
 	LightOnTime  float64 `json:"light_on_time"`
 	LightOffTime float64 `json:"light_off_time"`
 	Mister       int     `json:"mister"`
-	Fan          int     `json:"fan"`
 	LED          int     `json:"led"`
 }

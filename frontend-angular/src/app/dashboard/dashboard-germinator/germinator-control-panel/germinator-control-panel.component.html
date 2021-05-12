@@ -39,19 +39,6 @@
           <span class="slider slider-auto"></span>
         </label>
       </div>
-      <div>
-        <h3>Fan</h3>
-        <label class="switch">
-          <input
-            type="checkbox"
-            [checked]="
-              germinatorSettings == undefined ? 0 : germinatorSettings.fan
-            "
-            (change)="onChangeSettings(1)"
-            disabled
-          />
-          <span class="slider"></span>
-        </label>
       </div>
       <div>
         <h3>Mister</h3>
@@ -61,7 +48,7 @@
             [checked]="
               germinatorSettings == undefined ? 0 : germinatorSettings.mister
             "
-            (change)="onChangeSettings(2)"
+            (change)="onChangeSettings(1)"
           />
           <span class="slider"></span>
         </label>
@@ -74,7 +61,7 @@
             [checked]="
               germinatorSettings == undefined ? 0 : germinatorSettings.led
             "
-            (change)="onChangeSettings(3)"
+            (change)="onChangeSettings(2)"
           />
           <span class="slider"></span>
         </label>

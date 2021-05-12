@@ -123,7 +123,6 @@ export class DashboardGerminatorService {
       light_on_time: germinatorSettings.lightOnTime,
       light_off_time: germinatorSettings.lightOffTime,
       mister: germinatorSettings.mister,
-      fan: germinatorSettings.fan,
       led: germinatorSettings.led,
     };
 
@@ -149,7 +148,6 @@ export class DashboardGerminatorService {
         receivedGerminatorSettings.lightOffTime =
           fetchedGerminatorSettings['light_off_time'];
         receivedGerminatorSettings.mister = fetchedGerminatorSettings['mister'];
-        receivedGerminatorSettings.fan = fetchedGerminatorSettings['fan'];
         receivedGerminatorSettings.led = fetchedGerminatorSettings['led'];
 
         this.germinatorSettingsSource.next(receivedGerminatorSettings);
