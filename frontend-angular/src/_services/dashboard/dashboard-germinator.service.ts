@@ -126,7 +126,7 @@ export class DashboardGerminatorService {
 
     const body = {
       is_auto: germinatorSettings.isAuto,
-      humidity_low: germinatorSettings.isAuto,
+      humidity_low: germinatorSettings.humidityLow,
       humidity_high: germinatorSettings.humidityHigh,
       light_on_time: germinatorSettings.lightOnTime,
       light_off_time: germinatorSettings.lightOffTime,
