@@ -147,7 +147,7 @@ export class DashboardGerminatorService {
           fetchedGerminatorSettings['light_on_time'];
         receivedGerminatorSettings.lightOffTime =
           fetchedGerminatorSettings['light_off_time'];
-        receivedGerminatorSettings.pump = fetchedGerminatorSettings['mister'];
+        receivedGerminatorSettings.pump = fetchedGerminatorSettings['pump'];
         receivedGerminatorSettings.led = fetchedGerminatorSettings['led'];
 
         this.germinatorSettingsSource.next(receivedGerminatorSettings);
