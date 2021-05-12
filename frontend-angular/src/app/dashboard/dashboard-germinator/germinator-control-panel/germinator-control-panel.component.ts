@@ -33,6 +33,7 @@ export class GerminatorControlPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardGerminatorService.updateGerminatorDashboard();
+    this.dashboardGerminatorService.getGerminatorSettings();
     this.subRefreshSensor = interval(2000).subscribe(() => {
       this.dashboardGerminatorService.updateGerminatorDashboard();
     });
