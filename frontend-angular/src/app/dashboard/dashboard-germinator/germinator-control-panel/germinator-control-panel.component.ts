@@ -75,7 +75,7 @@ export class GerminatorControlPanelComponent implements OnInit {
       )
       .then((confirmed) => {
         if (confirmed) {
-          let germinatorSettings = new GerminatorSettings();
+          let germinatorSettings = this.germinatorSettings;
           germinatorSettings.lightOnTime = this.nextLightOnTime;
           germinatorSettings.lightOffTime = this.nextLightOffTime;
           germinatorSettings.humidityLow = this.nextHumidityLow;
@@ -86,7 +86,7 @@ export class GerminatorControlPanelComponent implements OnInit {
             .then(
               (success) => {
                 if (!success) {
-                  alert('Successful!');
+                  alert('Unsuccessful!');
                 }
               },
               (error) => {
