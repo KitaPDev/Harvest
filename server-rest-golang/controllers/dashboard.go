@@ -465,9 +465,6 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	log.Println(input.LED)
-	log.Println(input.Pump)
-
 	requestBody, err := json.Marshal(input)
 	if err != nil {
 		msg := "Error: Failed to Marshal IoT Body"
@@ -483,8 +480,6 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	log.Println(resp)
 
 	inputIoT := models.GerminatorSettings{}
 	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
