@@ -94,7 +94,7 @@ func AuthenticateToken(w http.ResponseWriter, r *http.Request, adminOnly bool) b
 			return false
 
 		} else {
-			log.Println("Username: ", claims.Username)
+			//log.Println("Username: ", claims.Username)
 			err = GenerateToken(claims.Username, w)
 			if err != nil {
 				return false
