@@ -178,7 +178,7 @@ void setup() {
     memset(received, 0, sizeof received);
 
     if (germinatorSettings.isAuto) {
-      if (getHumi() <= germinatorSettings.humidityLow) {
+      if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
         digitalWrite(PIN_PUMP, 1);
       } else {
         digitalWrite(PIN_PUMP, 0);
@@ -201,7 +201,7 @@ bool updateGerminatorSensor(void *) {
   if (httpClient.begin(serverURL, serverPort, updateGerminatorSensorURL)) {
     httpClient.addHeader("Content-Type", "application/json");
 
-    int httpResponseCode = httpClient.POST(getGerminatorSettings_Json());
+    int httpResponseCode = httpClient.POST(getLogSensorGerminator_Json());
     String httpResponse = httpClient.getString();
 
     Serial.print("Status Code: ");
@@ -220,8 +220,8 @@ bool updateGerminatorSensor(void *) {
 String getLogSensorGerminator_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["temperature"] = getTemp();
-  doc["humidity"] = getHumi();
+  doc["temperature"] = dht11.readTemperature();
+  doc["humidity"] = dht11.readHumidity();
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
@@ -272,14 +272,4 @@ void checkForConnections() {
       client = server.available();
     }
   }
-}
-
-float getTemp() {
-  float temperature = dht11.readTemperature();
-  return temperature;
-}
-
-float getHumi() {
-  float humidity = dht11.readHumidity();
-  return humidity;
 }

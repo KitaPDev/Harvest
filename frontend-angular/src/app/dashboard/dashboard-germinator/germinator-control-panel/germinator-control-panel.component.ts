@@ -4,6 +4,7 @@ import { DashboardGerminatorService } from '../../../../_services/dashboard/dash
 import { LogSensorGerminator } from '../../../../_models/logsensorgerminator.model';
 import { HttpResponse } from '@angular/common/http';
 import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-germinator-control-panel',
@@ -24,6 +25,8 @@ export class GerminatorControlPanelComponent implements OnInit {
   nextHumidityLow: number;
   nextHumidityHigh: number;
 
+  subRefreshSensor: Subscription;
+
   constructor(
     private dashboardGerminatorService: DashboardGerminatorService,
     private confirmationDialogService: ConfirmationDialogService
@@ -31,6 +34,9 @@ export class GerminatorControlPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardGerminatorService.updateGerminatorDashboard();
+    this.subRefreshSensor = interval(2000).subscribe(() => {
+      this.dashboardGerminatorService.updateGerminatorDashboard();
+    });
     this.dashboardGerminatorService.logSensorGerminator.subscribe(
       (logSensorGerminator) => {
         this.logSensorGerminator = logSensorGerminator;
@@ -114,6 +120,10 @@ export class GerminatorControlPanelComponent implements OnInit {
             );
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subRefreshSensor.unsubscribe();
   }
 
   getIsAuto(): boolean {
