@@ -116,8 +116,23 @@ export class DashboardGerminatorService {
   ): Promise<boolean> {
     let receivedGerminatorSettings: GerminatorSettings = new GerminatorSettings();
 
+    const body = {
+      is_auto: germinatorSettings.isAuto,
+      humidity_low: germinatorSettings.isAuto,
+      humidity_high: germinatorSettings.humidityHigh,
+      light_on_time: germinatorSettings.lightOnTime,
+      light_off_time: germinatorSettings.lightOffTime,
+      mister: germinatorSettings.mister,
+      fan: germinatorSettings.fan,
+      led: germinatorSettings.led,
+    };
+
     await this.httpClient
-      .get(DASHBOARD_GERMINATOR_UPDATE_SETTINGS_API, httpGetOptions)
+      .post<any>(
+        DASHBOARD_GERMINATOR_UPDATE_SETTINGS_API,
+        body,
+        httpPostOptions
+      )
       .toPromise()
       .then((response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
