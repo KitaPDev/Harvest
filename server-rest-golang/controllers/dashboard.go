@@ -401,11 +401,13 @@ func PopulateGerminatorDashboardCurrent(w http.ResponseWriter, r *http.Request) 
 	}
 
 	type Output struct {
-		LsLogSensorGerminator *models.LogSensorGerminator `json:"log_sensor_germinator"`
+		LogSensorGerminator *models.LogSensorGerminator `json:"log_sensor_germinator"`
 	}
 	output := Output{
-		LsLogSensorGerminator: logSensorGerminator,
+		LogSensorGerminator: logSensorGerminator,
 	}
+
+	log.Println(output.LogSensorGerminator)
 
 	jsonData, err := json.Marshal(output)
 	if err != nil {

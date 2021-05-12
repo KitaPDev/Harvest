@@ -126,6 +126,8 @@ void setup() {
 
         JsonObject root = doc.as<JsonObject>();
 
+        Serial.println(root);
+
         if (root.containsKey("is_auto")) {
           germinatorSettings.isAuto = root["is_auto"];
         }

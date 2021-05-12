@@ -39,9 +39,9 @@ export class DashboardGerminatorService {
 
       let logSensorGerminator = new LogSensorGerminator();
 
-      logSensorGerminator.loggedAt = fetchedData['logged_at'];
-      logSensorGerminator.temperature = fetchedData['temperature'];
-      logSensorGerminator.humidity = fetchedData['humidity'];
+      logSensorGerminator.loggedAt = fetchedData.log_sensor_germinator['logged_at'];
+      logSensorGerminator.temperature = fetchedData.log_sensor_germinator['temperature'];
+      logSensorGerminator.humidity = fetchedData.log_sensor_germinator['humidity'];
 
       this.logSensorGerminatorSource.next(logSensorGerminator);
     });
