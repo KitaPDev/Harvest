@@ -243,7 +243,7 @@ String getGerminatorSettings_Json() {
   doc["humidity_low"] = germinatorSettings.humidityLow;
   doc["humidity_high"] = germinatorSettings.humidityHigh;
   doc["led"] = germinatorSettings.led;
-  doc["mister"] = germinatorSettings.pump;
+  doc["pump"] = germinatorSettings.pump;
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
