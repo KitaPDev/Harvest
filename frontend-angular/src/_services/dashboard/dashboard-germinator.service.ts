@@ -122,7 +122,7 @@ export class DashboardGerminatorService {
       humidity_high: germinatorSettings.humidityHigh,
       light_on_time: germinatorSettings.lightOnTime,
       light_off_time: germinatorSettings.lightOffTime,
-      mister: germinatorSettings.pump,
+      pump: germinatorSettings.pump,
       led: germinatorSettings.led,
     };
 

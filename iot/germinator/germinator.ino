@@ -5,8 +5,8 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define PIN_LED 16
-#define PIN_PUMP 17
+#define PIN_LED 23
+#define PIN_PUMP 16
 #define PIN_DHT11 27
 
 #if C
@@ -181,7 +181,7 @@ void setup() {
 
     memset(received, 0, sizeof received);
 
-    if (germinatorSettings.isAuto) {
+    if (germinatorSettings.isAuto == 1) {
       if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
         digitalWrite(PIN_PUMP, 1);
       } else {

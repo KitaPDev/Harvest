@@ -9,8 +9,8 @@ export class GerminatorSettings {
 
   constructor() {
     this.isAuto = 0;
-    this.humidityLow = 70;
-    this.humidityHigh = 90;
+    this.humidityLow = 0;
+    this.humidityHigh = 0;
     this.lightOnTime = 0;
     this.lightOffTime = 0;
     this.pump = 0;
