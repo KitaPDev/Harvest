@@ -3,11 +3,12 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
+	"log"
+	"net/http"
+
 	"github.com/Modern-Farms/server-rest-golang/lib/jsonhandler"
 	"github.com/Modern-Farms/server-rest-golang/models"
 	"github.com/Modern-Farms/server-rest-golang/services"
-	"log"
-	"net/http"
 )
 
 var APIKEY = "MODKJ2021"

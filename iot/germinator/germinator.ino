@@ -7,7 +7,7 @@
 
 #define PIN_LED 16
 #define PIN_PUMP 17
-#define PIN_DHT11 26
+#define PIN_DHT11 27
 
 #if C
 #include <esp_wifi.h>
@@ -23,18 +23,18 @@ DHT dht11(PIN_DHT11, DHT11);
 WiFiServer server(8090);
 WiFiClient client;
 IPAddress dns(8, 8, 8, 8);
-IPAddress local_ip(192, 168, 1, 169);
+IPAddress local_ip(172, 20, 10, 4);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "192.168.1.53";
+char serverURL[] = "172.20.10.3";
 int serverPort = 9090;
 char updateGerminatorSensorURL[] = "/iot/update/germinator/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "xincaima";
-const char* password = "020416651";
+const char* ssid = "First iPhone";
+const char* password = "ma282828";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;
@@ -82,6 +82,8 @@ void setup() {
   pinMode(PIN_DHT11, INPUT);
 
   dht11.begin();
+
+  server.begin();
 
   timer.every(2000, updateGerminatorSensor);
 
@@ -241,6 +243,8 @@ String getGerminatorSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("Germinator Settings");
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
