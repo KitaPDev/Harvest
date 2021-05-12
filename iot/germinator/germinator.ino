@@ -23,7 +23,7 @@ DHT dht11(PIN_DHT11, DHT11);
 WiFiServer server(8090);
 WiFiClient client;
 IPAddress dns(8, 8, 8, 8);
-IPAddress local_ip(172, 20, 10, 4);
+IPAddress local_ip(172, 20, 10, 5);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -54,7 +54,7 @@ struct GerminatorSettings germinatorSettings;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Module 1");
+  Serial.println("Germinator");
 
   WiFi.begin(ssid, password);
   Serial.println("Establishing WiFi connection...");
@@ -242,6 +242,8 @@ String getGerminatorSettings_Json() {
   doc["light_off_time"] = germinatorSettings.lightOffTime;
   doc["humidity_low"] = germinatorSettings.humidityLow;
   doc["humidity_high"] = germinatorSettings.humidityHigh;
+  doc["led"] = germinatorSettings.led;
+  doc["mister"] = germinatorSettings.pump;
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);

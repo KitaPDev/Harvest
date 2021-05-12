@@ -12,7 +12,7 @@ import (
 	"github.com/Modern-Farms/server-rest-golang/services"
 )
 
-const germinatorUrl = "http://172.20.10.4:8090"
+const germinatorUrl = "http://172.20.10.5:8090"
 
 func PopulateGrowerDashboardCurrent(w http.ResponseWriter, r *http.Request) {
 	if !services.AuthenticateToken(w, r, false) {
@@ -407,8 +407,6 @@ func PopulateGerminatorDashboardCurrent(w http.ResponseWriter, r *http.Request) 
 		LogSensorGerminator: logSensorGerminator,
 	}
 
-	log.Println(output.LogSensorGerminator)
-
 	jsonData, err := json.Marshal(output)
 	if err != nil {
 		msg := "Error: Failed to marshal JSON"
@@ -467,6 +465,9 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
+	log.Println(input.LED)
+	log.Println(input.Mister)
+
 	requestBody, err := json.Marshal(input)
 	if err != nil {
 		msg := "Error: Failed to Marshal IoT Body"
@@ -483,8 +484,10 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println(resp)
+
 	inputIoT := models.GerminatorSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -524,8 +527,6 @@ func GetGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println(resp)
-
 	inputIoT := models.GerminatorSettings{}
 	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
@@ -534,8 +535,6 @@ func GetGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	log.Println(inputIoT)
 
 	type Output struct {
 		GerminatorSettings models.GerminatorSettings `json:"germinator_settings"`
