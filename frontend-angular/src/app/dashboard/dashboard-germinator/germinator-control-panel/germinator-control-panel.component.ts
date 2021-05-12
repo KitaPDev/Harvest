@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { GerminatorSettings } from '../../../../_models/germinatorsettings.model';
 import { DashboardGerminatorService } from '../../../../_services/dashboard/dashboard-germinator.service';
 import { LogSensorGerminator } from '../../../../_models/logsensorgerminator.model';
-import { HttpResponse } from '@angular/common/http';
 import { ConfirmationDialogService } from '../../../../_services/dialogs/confirmation-dialog.service';
 import { interval, Subscription } from 'rxjs';
 
@@ -43,9 +42,8 @@ export class GerminatorControlPanelComponent implements OnInit {
       }
     );
 
-    this.dashboardGerminatorService
-      .getAllGerminatorSettings()
-      .then((germinatorSettings: GerminatorSettings) => {
+    this.dashboardGerminatorService.germinatorSettings.subscribe(
+      (germinatorSettings: GerminatorSettings) => {
         this.germinatorSettings = germinatorSettings;
 
         this.prevLightOnTime = germinatorSettings.lightOnTime;
@@ -57,7 +55,8 @@ export class GerminatorControlPanelComponent implements OnInit {
         this.nextLightOffTime = this.prevLightOffTime;
         this.nextHumidityLow = this.prevHumidityLow;
         this.nextHumidityHigh = this.prevHumidityHigh;
-      });
+      }
+    );
   }
 
   onInputEnterKey() {
@@ -75,43 +74,18 @@ export class GerminatorControlPanelComponent implements OnInit {
       )
       .then((confirmed) => {
         if (confirmed) {
-          let gs = new GerminatorSettings();
-          gs.lightOnTime = this.nextLightOnTime;
-          gs.lightOffTime = this.nextLightOffTime;
-          gs.humidityLow = this.nextHumidityLow;
-          gs.humidityHigh = this.nextHumidityHigh;
+          let germinatorSettings = new GerminatorSettings();
+          germinatorSettings.lightOnTime = this.nextLightOnTime;
+          germinatorSettings.lightOffTime = this.nextLightOffTime;
+          germinatorSettings.humidityLow = this.nextHumidityLow;
+          germinatorSettings.humidityHigh = this.nextHumidityHigh;
 
-          let receivedGerminatorSettings: GerminatorSettings = new GerminatorSettings();
           this.dashboardGerminatorService
-            .updateGerminatorSettings(gs)
-            .subscribe(
-              (response: HttpResponse<any>) => {
-                let fetchedData = JSON.parse(JSON.stringify(response.body));
-
-                receivedGerminatorSettings.isAuto = fetchedData['is_auto'];
-                receivedGerminatorSettings.humidityLow =
-                  fetchedData['humidity_low'];
-                receivedGerminatorSettings.humidityHigh =
-                  fetchedData['humidity_high'];
-                receivedGerminatorSettings.lightOnTime =
-                  fetchedData['light_on_time'];
-                receivedGerminatorSettings.lightOffTime =
-                  fetchedData['light_off_time'];
-                receivedGerminatorSettings.mister = fetchedData['mister'];
-                receivedGerminatorSettings.led = fetchedData['led'];
-
-                if (
-                  JSON.stringify(gs) ==
-                  JSON.stringify(receivedGerminatorSettings)
-                ) {
-                  this.prevLightOnTime = this.nextLightOnTime;
-                  this.prevLightOffTime = this.nextLightOffTime;
-                  this.prevHumidityLow = this.nextHumidityLow;
-                  this.prevHumidityHigh = this.nextHumidityHigh;
-
+            .updateGerminatorSettings(germinatorSettings)
+            .then(
+              (success) => {
+                if (!success) {
                   alert('Successful!');
-                } else {
-                  alert('Unsuccessful!');
                 }
               },
               (error) => {
@@ -140,5 +114,35 @@ export class GerminatorControlPanelComponent implements OnInit {
 
   getLedStatus(): boolean {
     return this.germinatorSettings.led == 1;
+  }
+
+  onChangeSettings(settingNumber: number): void {
+    switch (settingNumber) {
+      case 1:
+        this.germinatorSettings.isAuto =
+          (this.germinatorSettings.isAuto + 1) % 2;
+        break;
+
+      case 2:
+        this.germinatorSettings.fan = (this.germinatorSettings.fan + 1) % 2;
+        break;
+
+      case 3:
+        this.germinatorSettings.mister =
+          (this.germinatorSettings.mister + 1) % 2;
+        break;
+
+      case 4:
+        this.germinatorSettings.led = (this.germinatorSettings.led + 1) % 2;
+        break;
+    }
+
+    this.dashboardGerminatorService
+      .updateGerminatorSettings(this.germinatorSettings)
+      .then((success) => {
+        if (!success) {
+          alert('Unsuccessful');
+        }
+      });
   }
 }

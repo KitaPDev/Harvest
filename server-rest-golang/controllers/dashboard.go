@@ -463,7 +463,7 @@ func PopulateGerminatorDashboardHistory(w http.ResponseWriter, r *http.Request) 
 }
 
 func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
-	input := models.ReservoirSettings{}
+	input := models.GerminatorSettings{}
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
