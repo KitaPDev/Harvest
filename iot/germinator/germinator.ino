@@ -5,8 +5,8 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define PIN_LED 23
-#define PIN_PUMP 16
+#define PIN_LED 16
+#define PIN_PUMP 23
 #define PIN_DHT11 27
 
 #if C
@@ -38,8 +38,7 @@ const char* password = "ma282828";
 
 unsigned long currentTime = millis();
 unsigned long previousLEDToggleTime = 0;
-
-int previousStateLED = 0;
+int previousStateLED = 0
 
 struct GerminatorSettings {
   int isAuto;
@@ -88,9 +87,9 @@ void setup() {
   timer.every(2000, updateGerminatorSensor);
 
   delay(1000);
-  }
+}
 
-  void loop() {
+void loop() {
   timer.tick();
 
   checkForConnections();
@@ -128,65 +127,38 @@ void setup() {
 
         Serial.println(root);
 
-        if (root.containsKey("is_auto")) {
-          germinatorSettings.isAuto = root["is_auto"];
-        }
+        germinatorSettings.isAuto = root["is_auto"];
+        germinatorSettings.lightOnTime = root["light_on_time"];
+        germinatorSettings.lightOffTime = root["light_off_time"];
+        germinatorSettings.humidityLow = root["humidity_low"];
+        germinatorSettings.humidityHigh = root["humidity_high"];
+        germinatorSettings.led = root["led"];
+        germinatorSettings.pump = root["pump"];
 
-        if (germinatorSettings.isAuto) {
-          germinatorSettings.lightOnTime = root["light_on_time"];
-          germinatorSettings.lightOffTime = root["light_off_time"];
-          germinatorSettings.humidityLow = root["humidity_low"];
-          germinatorSettings.humidityHigh = root["humidity_high"];
-
-          client.println("HTTP/1.0 200 OK");
-          client.println("Content-Type: application/json");
-          client.println("Vary: Origin");
-          client.println("X-Content-Type-Options: nosniff");
-          client.println("Connection: Closed");
-          client.println();
-          client.println(getGerminatorSettings_Json());
-          client.println();
-          client.stop();
-          Serial.println("Client disconnected");
-          continue;
-
-        } else if (!germinatorSettings.isAuto) {
-          germinatorSettings.led = root["led"];
-          germinatorSettings.pump = root["pump"];
-
-          led = germinatorSettings.led;
-          pump = germinatorSettings.pump;
-
-          client.println("HTTP/1.0 200 OK");
-          client.println("Content-Type: application/json");
-          client.println("Vary: Origin");
-          client.println("X-Content-Type-Options: nosniff");
-          client.println("Connection: Closed");
-          client.println();
-          client.println(getGerminatorSettings_Json());
-          client.println();
-          client.stop();
-          Serial.println("Client disconnected");
-          continue;
-
-        } else {
-          client.println("HTTP/1.0 200 OK");
-          client.println();
-          client.stop();
-          Serial.println("Client disconnected");
-          continue;
-        }
+        client.println("HTTP/1.0 200 OK");
+        client.println("Content-Type: application/json");
+        client.println("Vary: Origin");
+        client.println("X-Content-Type-Options: nosniff");
+        client.println("Connection: Closed");
+        client.println();
+        client.println(getGerminatorSettings_Json());
+        client.println();
+        client.stop();
+        Serial.println("Client disconnected");
+        continue;
       }
     }
 
     memset(received, 0, sizeof received);
 
-    if (germinatorSettings.isAuto == 1) {
+    if (germinatorSettings.isAuto) {
       if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
-        digitalWrite(PIN_PUMP, 1);
+        pump = 1
       } else {
-        digitalWrite(PIN_PUMP, 0);
+        pump = 0;
       }
+
+      if ()
     }
 
     updateHardware(led, pump);
