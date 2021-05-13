@@ -40,8 +40,8 @@ unsigned long prevToggleTime = 0;
 
 struct GerminatorSettings {
   int isAuto;
-  long lightsOnHour;
-  long lightsOffHour;
+  float lightsOnHour;
+  float lightsOffHour;
   float humidityLow;
   float humidityHigh;
   int led;
