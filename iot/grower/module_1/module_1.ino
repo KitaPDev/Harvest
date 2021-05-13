@@ -470,7 +470,7 @@ String getModuleSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  Serial.print("Module Settings");
+  Serial.println("Module Settings");
   Serial.println(jsonPayload);
 
   return jsonPayload;
@@ -490,7 +490,7 @@ String getReservoirSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  Serial.print("Reservoir Settings");
+  Serial.println("Reservoir Settings");
   Serial.println(jsonPayload);
 
   return jsonPayload;
