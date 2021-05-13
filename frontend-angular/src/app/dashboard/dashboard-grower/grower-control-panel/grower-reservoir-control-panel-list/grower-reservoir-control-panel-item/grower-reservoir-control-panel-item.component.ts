@@ -17,8 +17,6 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
   reservoirSettings: ReservoirSettings = new ReservoirSettings();
   logSensorReservoir: LogSensorReservoir = new LogSensorReservoir();
 
-  subRefreshSensor: Subscription;
-
   constructor() {}
 
   ngOnInit(): void {
@@ -45,14 +43,10 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
     );
   }
 
-  ngOnDestroy(): void {
-    this.subRefreshSensor.unsubscribe();
-  }
-
   getTds(): string {
     if (this.logSensorReservoir != undefined) {
       if (this.logSensorReservoir.tds != undefined) {
-        return this.logSensorReservoir.tds.toString();
+        return this.logSensorReservoir.tds.toFixed(2).toString();
       }
     }
 
@@ -62,7 +56,7 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
   getPh(): string {
     if (this.logSensorReservoir != undefined) {
       if (this.logSensorReservoir.ph != undefined) {
-        return this.logSensorReservoir.ph.toString();
+        return this.logSensorReservoir.ph.toFixed(2).toString();
       }
     }
 
@@ -72,7 +66,7 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
   getTemperatureSolution(): string {
     if (this.logSensorReservoir != undefined) {
       if (this.logSensorReservoir.temperatureSolution != undefined) {
-        return this.logSensorReservoir.temperatureSolution.toString();
+        return this.logSensorReservoir.temperatureSolution.toFixed(2).toString();
       }
     }
 
