@@ -30,7 +30,6 @@ IPAddress subnet(255, 255, 255, 0);
 char serverURL[] = "172.20.10.3";
 int serverPort = 9090;
 char updateGerminatorSensorURL[] = "/iot/update/germinator/sensor";
-char updateGerminatorSettingsIoTURL[] = "/iot/update/germinator/settings";
 
 const char* API_KEY = "MODKJ2021";
 
@@ -127,13 +126,27 @@ void loop() {
 
         Serial.println(root);
 
-        germinatorSettings.isAuto = root["is_auto"];
-        germinatorSettings.lightsOnHour = root["lights_on_hour"];
-        germinatorSettings.lightsOffHour = root["lights_off_hour"];
-        germinatorSettings.humidityLow = root["humidity_low"];
-        germinatorSettings.humidityHigh = root["humidity_high"];
-        germinatorSettings.led = root["led"];
-        germinatorSettings.pump = root["pump"];
+        if (root.containsKey("is_auto")) {
+          germinatorSettings.isAuto = root["is_auto"];
+        }
+
+        if (germinatorSettings.isAuto != 1) {
+          germinatorSettings.isAuto = root["is_auto"];
+          germinatorSettings.lightsOnHour = root["lights_on_hour"];
+          germinatorSettings.lightsOffHour = root["lights_off_hour"];
+          germinatorSettings.humidityLow = root["humidity_low"];
+          germinatorSettings.humidityHigh = root["humidity_high"];
+          germinatorSettings.led = root["led"];
+          germinatorSettings.pump = root["pump"];
+
+        } else {
+          if (root.containsKey("lights_on_hour")) {
+            germinatorSettings.lightsOnHour = root["lights_on_hour"];
+            germinatorSettings.lightsOffHour = root["lights_off_hour"];
+            germinatorSettings.humidityLow = root["humidity_low"];
+            germinatorSettings.humidityHigh = root["humidity_high"];
+          }
+        }
 
         client.println("HTTP/1.0 200 OK");
         client.println("Content-Type: application/json");
@@ -156,10 +169,12 @@ void loop() {
     }
 
     if (germinatorSettings.isAuto) {
-      if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
-        pump = 1;
+      float humidity = dht11.readHumidity();
+      
+      if (humidity <= germinatorSettings.humidityLow || humidity >= germinatorSettings.humidityHigh) {
+        germinatorSettings.pump = 1;
       } else {
-        pump = 0;
+        germinatorSettings.pump = 0;
       }
 
       if (germinatorSettings.led) {
@@ -174,9 +189,9 @@ void loop() {
         }
       }
     }
-
-    updateHardware(led, pump);
   }
+
+  updateHardware(led, pump);
 }
 
 void updateHardware(int led, int pump) {
@@ -210,8 +225,14 @@ bool updateGerminatorSensor(void *) {
 String getLogSensorGerminator_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["temperature"] = dht11.readTemperature();
-  doc["humidity"] = dht11.readHumidity();
+
+  float temperature = dht11.readTemperature();
+  float humidity = dht11.readHumidity();
+  
+  if(temperature && humidity) {
+    doc["temperature"] = temperature;
+    doc["humidity"] = humidity;
+  }
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
