@@ -150,11 +150,16 @@ void loop() {
 
     memset(received, 0, sizeof received);
 
+    Serial.print("IsAuto:");
+    Serial.print(isAuto);
+    Serial.println(germinatorSettings.isAuto);
+
     if (isAuto == 0 && germinatorSettings.isAuto == 1) {
       prevToggleTime = millis();
     }
 
     if (germinatorSettings.isAuto) {
+      Serial.println("IN AUTO LOOP");
       if (dht11.readHumidity() <= germinatorSettings.humidityLow) {
         pump = 1;
       } else {
@@ -173,9 +178,9 @@ void loop() {
         }
       }
     }
+  }
 
     updateHardware(led, pump);
-  }
 }
 
 void updateHardware(int led, int pump) {
