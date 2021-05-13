@@ -3,7 +3,6 @@ import { DashboardGrowerService } from '../../../../../../_services/dashboard/da
 import { ReservoirSettings } from '../../../../../../_models/reservoirsettings.model';
 import { LogSensorReservoir } from '../../../../../../_models/logsensorreservoir.model';
 import { Reservoir } from '../../../../../../_models/reservoir.model';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grower-reservoir-control-panel-item',
@@ -66,7 +65,9 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
   getTemperatureSolution(): string {
     if (this.logSensorReservoir != undefined) {
       if (this.logSensorReservoir.temperatureSolution != undefined) {
-        return this.logSensorReservoir.temperatureSolution.toFixed(2).toString();
+        return this.logSensorReservoir.temperatureSolution
+          .toFixed(2)
+          .toString();
       }
     }
 

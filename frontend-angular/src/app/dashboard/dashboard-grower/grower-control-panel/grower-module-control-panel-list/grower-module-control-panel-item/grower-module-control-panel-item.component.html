@@ -18,12 +18,34 @@
       <h2>Light:</h2>
       <div class="text">
         <h2>On</h2>
-        <input type="number" />
+        <input
+          [(ngModel)]="nextLightsOnHour"
+          [ngStyle]="{
+            background:
+              nextLightsOnHour == prevLightsOnHour ? 'white' : '#CFF0CC'
+          }"
+          (keyup.enter)="onInputEnterKey()"
+          type="number"
+          min="0"
+          id="lightsOnHour"
+          [value]="prevLightsOnHour"
+        />
         <h2>hr</h2>
       </div>
       <div class="text">
         <h2>Off</h2>
-        <input type="number" />
+        <input
+          [(ngModel)]="nextLightsOffHour"
+          [ngStyle]="{
+            background:
+              nextLightsOffHour == prevLightsOffHour ? 'white' : '#CFF0CC'
+          }"
+          (keyup.enter)="onInputEnterKey()"
+          type="number"
+          min="0"
+          id="lightsOffHour"
+          [value]="prevLightsOffHour"
+        />
         <h2>hr</h2>
       </div>
     </div>
@@ -31,12 +53,34 @@
       <h2>Root Humidity:</h2>
       <div class="text">
         <h2>Low</h2>
-        <input type="number" />
+        <input
+          [(ngModel)]="nextHumidityRootLow"
+          [ngStyle]="{
+            background:
+              nextHumidityRootLow == prevHumidityRootLow ? 'white' : '#CFF0CC'
+          }"
+          (keyup.enter)="onInputEnterKey()"
+          type="number"
+          min="0"
+          id="humidityLow"
+          [value]="prevHumidityRootLow"
+        />
         <h2>hr</h2>
       </div>
       <div class="text">
         <h2>High</h2>
-        <input type="number" />
+        <input
+          [(ngModel)]="nextHumidityRootHigh"
+          [ngStyle]="{
+            background:
+              nextHumidityRootHigh == prevHumidityRootHigh ? 'white' : '#CFF0CC'
+          }"
+          (keyup.enter)="onInputEnterKey()"
+          type="number"
+          min="0"
+          id="humidityHigh"
+          [value]="prevHumidityRootHigh"
+        />
         <h2>hr</h2>
       </div>
     </div>

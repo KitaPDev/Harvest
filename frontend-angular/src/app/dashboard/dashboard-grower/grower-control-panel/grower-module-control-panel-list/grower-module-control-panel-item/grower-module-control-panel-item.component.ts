@@ -3,6 +3,7 @@ import { DashboardGrowerService } from '../../../../../../_services/dashboard/da
 import { Module } from '../../../../../../_models/module.model';
 import { ModuleSettings } from '../../../../../../_models/modulesettings.model';
 import { LogSensorModuleLevel } from '../../../../../../_models/logsensormodulelevel.model';
+import { ConfirmationDialogService } from '../../../../../../_services/dialogs/confirmation-dialog.service';
 
 @Component({
   selector: 'app-grower-module-control-panel-item',
@@ -16,7 +17,17 @@ export class GrowerModuleControlPanelItemComponent implements OnInit {
   moduleSettings: ModuleSettings = new ModuleSettings();
   lsLogSensorModuleLevel: LogSensorModuleLevel[] = [];
 
-  constructor() {}
+  prevLightsOnHour: number;
+  prevLightsOffHour: number;
+  prevHumidityRootLow: number;
+  prevHumidityRootHigh: number;
+
+  nextLightsOnHour: number;
+  nextLightsOffHour: number;
+  nextHumidityRootLow: number;
+  nextHumidityRootHigh: number;
+
+  constructor(private confirmationDialogService: ConfirmationDialogService) {}
 
   ngOnInit(): void {
     this.dashboardGrowerService.lsModuleSettings.subscribe(
@@ -38,6 +49,41 @@ export class GrowerModuleControlPanelItemComponent implements OnInit {
         }
       }
     );
+  }
+
+  onInputEnterKey() {
+    this.confirmationDialogService
+      .confirm(
+        'Confirm Edit Parameters',
+        'Lights On hour: ' +
+          this.nextLightsOnHour +
+          '\nLights off hour:' +
+          this.nextLightsOffHour +
+          '\nRoot Humidity Low:' +
+          this.nextHumidityRootLow +
+          '\nRoot Humidity High:' +
+          this.nextHumidityRootHigh
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          let moduleSettings = this.moduleSettings;
+          moduleSettings.lightsOnHour = this.nextLightsOnHour;
+          moduleSettings.lightsOffHour = this.nextLightsOffHour;
+          moduleSettings.humidityRootLow = this.nextHumidityRootLow;
+          moduleSettings.humidityRootHigh = this.nextHumidityRootHigh;
+
+          this.dashboardGrowerService.updateModuleSettings(moduleSettings).then(
+            (success) => {
+              if (!success) {
+                alert('Unsuccessful!');
+              }
+            },
+            (error) => {
+              alert('Unsuccessful!');
+            }
+          );
+        }
+      });
   }
 
   onClickIsAuto() {
