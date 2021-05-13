@@ -66,8 +66,8 @@ int levels = 2;
 
 struct ModuleSettings {
   int isAuto;
-  long lightOnTime;
-  long lightOffTime;
+  long lightsOnHour;
+  long lightsOffHour;
   float humidityRootLow;
   float humidityRootHigh;
   int led1;
@@ -80,11 +80,6 @@ struct ModuleSettings {
 struct ModuleSettings moduleSettings;
 
 struct ReservoirSettings {
-  int isAuto;
-  float tdsLow;
-  float tdsHigh;
-  float phLow;
-  float phHigh;
   int svWater;
   int svNutrient;
 };
@@ -110,8 +105,8 @@ void setup() {
   printWiFiStatus();
 
   moduleSettings.isAuto = 0;
-  moduleSettings.lightOnTime = 0;
-  moduleSettings.lightOffTime = 0;
+  moduleSettings.lightsOnHour = 0;
+  moduleSettings.lightsOffHour = 0;
   moduleSettings.humidityRootLow = 0;
   moduleSettings.humidityRootHigh = 0;
   moduleSettings.led1 = 0;
@@ -121,11 +116,6 @@ void setup() {
   moduleSettings.sv1 = 0;
   moduleSettings.sv2 = 0;
 
-  //lettuce
-  reservoirSettings.tdsLow = 560;
-  reservoirSettings.tdsHigh = 840;
-  reservoirSettings.phLow = 5.5;
-  reservoirSettings.phHigh = 6.5;
   reservoirSettings.svWater = 0;
   reservoirSettings.svNutrient = 0;
 
@@ -187,26 +177,24 @@ void loop() {
           moduleSettings.isAuto = root["is_auto"];
         }
 
-
         if (root.containsKey("module_id")) {
-          moduleSettings.lightOnTime = root["light_on_time"];
-          moduleSettings.lightOffTime = root["light_off_time"];
-          moduleSettings.humidityRootLow = root["humidity_root_low"];
-          moduleSettings.humidityRootHigh = root["humidity_root_high"];
-          moduleSettings.led1 = root["led_1"];
-          moduleSettings.led2 = root["led_2"];
-          moduleSettings.fan1 = root["fan_1"];
-          moduleSettings.fan2 = root["fan_2"];
-          moduleSettings.sv1 = root["sv_1"];
-          moduleSettings.sv2 = root["sv_2"];
 
-          led1 = moduleSettings.led1;
-          led2 = moduleSettings.led2;
-          fan1 = moduleSettings.fan1;
-          fan2 = moduleSettings.fan2;
-          sv1 = moduleSettings.sv1;
-          sv2 = moduleSettings.sv2;
-
+          if (moduleSettings.isAuto != 1) {
+            moduleSettings.lightsOnHour = root["lights_on_hour"];
+            moduleSettings.lightsOffHour = root["lights_off_hour"];
+            moduleSettings.humidityRootLow = root["humidity_root_low"];
+            moduleSettings.humidityRootHigh = root["humidity_root_high"];
+            moduleSettings.led1 = root["led_1"];
+            moduleSettings.led2 = root["led_2"];
+            moduleSettings.fan1 = root["fan_1"];
+            moduleSettings.fan2 = root["fan_2"];
+            moduleSettings.sv1 = root["sv_1"];
+            moduleSettings.sv2 = root["sv_2"];
+            
+          } else {
+            if (root.containsKey("light
+          }
+          
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
           client.println("Vary: Origin");
@@ -240,7 +228,6 @@ void loop() {
           continue;
         }
 
-
       } else {
         client.println("HTTP/1.0 200 OK");
         client.println();
@@ -263,24 +250,24 @@ void loop() {
     }
 
     if (moduleSettings.led1) {
-        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
           moduleSettings.led1 = 0;
           prevToggleTime = millis();
         }
       } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
           moduleSettings.led1 = 1;
           prevToggleTime = millis();
         }
       }
 
     if (moduleSettings.led2) {
-        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
           moduleSettings.led2 = 0;
           prevToggleTime = millis();
         }
       } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
           moduleSettings.led2 = 1;
           prevToggleTime = millis();
         }
@@ -418,6 +405,7 @@ String getLogSensorModule_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("Module Sensor Log");
   Serial.println(jsonPayload);
 
   return jsonPayload;
@@ -432,6 +420,7 @@ String getLogSensorRoom_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("Room Sensor Log");
   Serial.println(jsonPayload);
 
   return jsonPayload;
@@ -447,6 +436,7 @@ String getLogSensorReservoir_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("Reservoir Sensor Log");
   Serial.println(jsonPayload);
 
   return jsonPayload;
@@ -457,8 +447,8 @@ String getModuleSettings_Json() {
   doc["api_key"] = API_KEY;
   doc["moduleID"] = moduleID;
   doc["is_auto"] = moduleSettings.isAuto;
-  doc["light_on_time"] = moduleSettings.lightOnTime;
-  doc["light_off_time"] = moduleSettings.lightOffTime;
+  doc["lights_on_hour"] = moduleSettings.lightsOnHour;
+  doc["lights_off_hour"] = moduleSettings.lightsOffHour;
   doc["humidity_root_low"] = moduleSettings.humidityRootLow;
   doc["humidity_root_high"] = moduleSettings.humidityRootHigh;
   doc["led_1"] = moduleSettings.led1;
@@ -479,12 +469,7 @@ String getModuleSettings_Json() {
 String getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["reservoir_id"] = reservoirID;
-  doc["is_auto"] = reservoirSettings.isAuto;
-  doc["tds_low"] = reservoirSettings.tdsLow;
-  doc["tds_high"] = reservoirSettings.tdsHigh;
-  doc["ph_low"] = reservoirSettings.phLow;
-  doc["ph_high"] = reservoirSettings.phHigh;
+  doc["reservoir_id"] = reservoirID;]\
   doc["sv_water"] = reservoirSettings.svWater;
   doc["sv_nutrient"] = reservoirSettings.svNutrient;
 
