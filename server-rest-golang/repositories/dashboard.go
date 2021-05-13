@@ -1,9 +1,10 @@
 package repositories
 
 import (
+	"time"
+
 	"github.com/Modern-Farms/server-rest-golang/lib/database"
 	"github.com/Modern-Farms/server-rest-golang/models"
-	"time"
 )
 
 func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSensorReservoir, []models.LogSensorRoom,
@@ -44,7 +45,7 @@ func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSen
 	}
 
 	sqlStatement =
-		`SELECT DISTINCT ON (reservoir_id) logged_at, reservoir_id, tds, temperature_solution, soln_level
+		`SELECT DISTINCT ON (reservoir_id) logged_at, reservoir_id, tds, ph, temperature_solution
 		FROM log_sensor_reservoir
 		ORDER BY reservoir_id, logged_at DESC;`
 
@@ -61,8 +62,8 @@ func GetLatestGrowerSensorLogs() ([]models.LogSensorModuleLevel, []models.LogSen
 			&reservoirLog.LoggedAt,
 			&reservoirLog.ReservoirID,
 			&reservoirLog.TDS,
+			&reservoirLog.PH,
 			&reservoirLog.TemperatureSolution,
-			&reservoirLog.SolnLevel,
 		)
 		if err != nil {
 			return nil, nil, nil, err
@@ -159,7 +160,6 @@ func GetHistoryGrowerSensorLogs(timestampBegin time.Time, timestampEnd time.Time
 			&logSensorReservoir.ReservoirID,
 			&logSensorReservoir.TDS,
 			&logSensorReservoir.TemperatureSolution,
-			&logSensorReservoir.SolnLevel,
 			&logSensorReservoir.PH,
 		)
 		if err != nil {

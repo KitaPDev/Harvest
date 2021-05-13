@@ -11,9 +11,9 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define moduleID 2
-#define reservoirID 10
-#define roomID 6
+#define moduleID 2;
+#define reservoirID 10;
+#define roomID 6;
 
 #if C
 #include <esp_wifi.h>
@@ -45,11 +45,11 @@ int phBufferIndex = 0;
 WiFiServer server(8090);
 WiFiClient client;
 IPAddress dns(8, 8, 8, 8);
-IPAddress local_ip(192, 168, 1, 169);
+IPAddress local_ip(172, 20, 10, 5);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-char serverURL[] = "192.168.1.53";
+char serverURL[] = "172.20.10.3";
 int serverPort = 9090;
 char updateModuleSensorURL[] = "/iot/update/module/sensor";
 char updateReservoirSensorURL[] = "/iot/update/reservoir/sensor";
@@ -57,8 +57,8 @@ char updateRoomSensorURL[] = "/iot/update/room/sensor";
 
 const char* API_KEY = "MODKJ2021";
 
-const char* ssid = "xincaima";
-const char* password = "020416651";
+const char* ssid = "First iPhone";
+const char* password = "ma282828";
 
 unsigned long prevToggleTime = 0;
 
@@ -66,8 +66,8 @@ int levels = 2;
 
 struct ModuleSettings {
   int isAuto;
-  float lightsOnHour;
-  float lightsOffHour;
+  long lightOnTime;
+  long lightOffTime;
   float humidityRootLow;
   float humidityRootHigh;
   int led1;
@@ -80,6 +80,11 @@ struct ModuleSettings {
 struct ModuleSettings moduleSettings;
 
 struct ReservoirSettings {
+  int isAuto;
+  float tdsLow;
+  float tdsHigh;
+  float phLow;
+  float phHigh;
   int svWater;
   int svNutrient;
 };
@@ -105,8 +110,8 @@ void setup() {
   printWiFiStatus();
 
   moduleSettings.isAuto = 0;
-  moduleSettings.lightsOnHour = 0;
-  moduleSettings.lightsOffHour = 0;
+  moduleSettings.lightOnTime = 0;
+  moduleSettings.lightOffTime = 0;
   moduleSettings.humidityRootLow = 0;
   moduleSettings.humidityRootHigh = 0;
   moduleSettings.led1 = 0;
@@ -116,6 +121,11 @@ void setup() {
   moduleSettings.sv1 = 0;
   moduleSettings.sv2 = 0;
 
+  //lettuce
+  reservoirSettings.tdsLow = 560;
+  reservoirSettings.tdsHigh = 840;
+  reservoirSettings.phLow = 5.5;
+  reservoirSettings.phHigh = 6.5;
   reservoirSettings.svWater = 0;
   reservoirSettings.svNutrient = 0;
 
@@ -135,7 +145,6 @@ void loop() {
 
   checkForConnections();
 
-  int isAuto = moduleSettings.isAuto;
   int led1 = moduleSettings.led1;
   int led2 = moduleSettings.led2;
   int fan1 = moduleSettings.fan1;
@@ -174,37 +183,29 @@ void loop() {
 
         JsonObject root = doc.as<JsonObject>();
 
+        if (root.containsKey("is_auto")) {
+          moduleSettings.isAuto = root["is_auto"];
+        }
+
+
         if (root.containsKey("module_id")) {
-          int recvModuleID = root["module_id"];
+          moduleSettings.lightOnTime = root["light_on_time"];
+          moduleSettings.lightOffTime = root["light_off_time"];
+          moduleSettings.humidityRootLow = root["humidity_root_low"];
+          moduleSettings.humidityRootHigh = root["humidity_root_high"];
+          moduleSettings.led1 = root["led_1"];
+          moduleSettings.led2 = root["led_2"];
+          moduleSettings.fan1 = root["fan_1"];
+          moduleSettings.fan2 = root["fan_2"];
+          moduleSettings.sv1 = root["sv_1"];
+          moduleSettings.sv2 = root["sv_2"];
 
-          if (recvModuleID == moduleID) {
-
-            if (root.containsKey("is_auto")) {
-              moduleSettings.isAuto = root["is_auto"];
-            }
-
-            if (moduleSettings.isAuto != 1) {
-              moduleSettings.lightsOnHour = root["lights_on_hour"];
-              moduleSettings.lightsOffHour = root["lights_off_hour"];
-              moduleSettings.humidityRootLow = root["humidity_root_low"];
-              moduleSettings.humidityRootHigh = root["humidity_root_high"];
-              moduleSettings.led1 = root["led_1"];
-              moduleSettings.led2 = root["led_2"];
-              moduleSettings.fan1 = root["fan_1"];
-              moduleSettings.fan2 = root["fan_2"];
-              moduleSettings.sv1 = root["sv_1"];
-              moduleSettings.sv2 = root["sv_2"];
-
-            } else {
-
-              if (root.containsKey("lights_on_hour")) {
-                moduleSettings.lightsOnHour = root["lights_on_hour"];
-                moduleSettings.lightsOffHour = root["lights_off_hour"];
-                moduleSettings.humidityRootLow = root["humidity_root_low"];
-                moduleSettings.humidityRootHigh = root["humidity_root_high"];
-              }
-            }
-          }
+          led1 = moduleSettings.led1;
+          led2 = moduleSettings.led2;
+          fan1 = moduleSettings.fan1;
+          fan2 = moduleSettings.fan2;
+          sv1 = moduleSettings.sv1;
+          sv2 = moduleSettings.sv2;
 
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
@@ -219,12 +220,12 @@ void loop() {
           continue;
 
         } else if (root.containsKey("reservoir_id")) {
-          int recvReservoirID = root["reservoir_id"];
-
-          if (recvReservoirID == reservoirID) {
-            reservoirSettings.svWater = root["sv_water"];
-            reservoirSettings.svNutrient = root["sv_nutrient"];
-          }
+          reservoirSettings.tdsLow = root["tds_low"];
+          reservoirSettings.tdsHigh = root["tds_high"];
+          reservoirSettings.phLow = root["ph_low"];
+          reservoirSettings.phHigh = root["ph_high"];
+          reservoirSettings.svWater = root["sv_water"];
+          reservoirSettings.svNutrient = root["sv_nutrient"];
 
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
@@ -252,15 +253,9 @@ void loop() {
 
   memset(received, 0, sizeof received);
 
-  if(isAuto == 0 && moduleSettings.isAuto == 1) {
-    prevToggleTime = millis();
-  }
-
   if (moduleSettings.isAuto) {
     for (int i = 1; i <= levels; i++) {
-      float rootHumidity = getHumidityRoot(i);
-      
-      if (rootHumidity <= moduleSettings.humidityRootLow || rootHumidity >= moduleSettings.humidityRootHigh) {
+      if (getHumidityRoot(i) <= moduleSettings.humidityRootLow) {
         setLevelMist(i, 1);
       } else {
         setLevelMist(i, 0);
@@ -268,28 +263,28 @@ void loop() {
     }
 
     if (moduleSettings.led1) {
-      if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
-        moduleSettings.led1 = 0;
-        prevToggleTime = millis();
+        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+          moduleSettings.led1 = 0;
+          prevToggleTime = millis();
+        }
+      } else {
+        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+          moduleSettings.led1 = 1;
+          prevToggleTime = millis();
+        }
       }
-    } else {
-      if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
-        moduleSettings.led1 = 1;
-        prevToggleTime = millis();
-      }
-    }
 
     if (moduleSettings.led2) {
-      if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
-        moduleSettings.led2 = 0;
-        prevToggleTime = millis();
+        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+          moduleSettings.led2 = 0;
+          prevToggleTime = millis();
+        }
+      } else {
+        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+          moduleSettings.led2 = 1;
+          prevToggleTime = millis();
+        }
       }
-    } else {
-      if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
-        moduleSettings.led2 = 1;
-        prevToggleTime = millis();
-      }
-    }
   }
 
   updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svNutrient);
@@ -349,7 +344,7 @@ bool updateModuleSensor(void *) {
 }
 
 bool updateRoomSensor(void *) {
-  Serial.println("Updating Room Sensor");
+  Serial.println("Update Room Sensor");
 
   HTTPClient httpClient;
   if (httpClient.begin(serverURL, serverPort, updateRoomSensorURL)) {
@@ -449,7 +444,6 @@ String getLogSensorReservoir_Json() {
   doc["tds"] = getTDSNutrient();
   doc["ph"] = getPHNutrient();
   doc["temperature_solution"] = getTemperatureSolution();
-  doc["soln_level"] = getSolutionLevel();
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
@@ -463,8 +457,8 @@ String getModuleSettings_Json() {
   doc["api_key"] = API_KEY;
   doc["moduleID"] = moduleID;
   doc["is_auto"] = moduleSettings.isAuto;
-  doc["lights_on_hour"] = moduleSettings.lightsOnHour;
-  doc["lights_off_hour"] = moduleSettings.lightsOffHour;
+  doc["light_on_time"] = moduleSettings.lightOnTime;
+  doc["light_off_time"] = moduleSettings.lightOffTime;
   doc["humidity_root_low"] = moduleSettings.humidityRootLow;
   doc["humidity_root_high"] = moduleSettings.humidityRootHigh;
   doc["led_1"] = moduleSettings.led1;
@@ -476,6 +470,7 @@ String getModuleSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.print("Module Settings");
   Serial.println(jsonPayload);
 
   return jsonPayload;
@@ -485,11 +480,18 @@ String getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["reservoir_id"] = reservoirID;
+  doc["is_auto"] = reservoirSettings.isAuto;
+  doc["tds_low"] = reservoirSettings.tdsLow;
+  doc["tds_high"] = reservoirSettings.tdsHigh;
+  doc["ph_low"] = reservoirSettings.phLow;
+  doc["ph_high"] = reservoirSettings.phHigh;
   doc["sv_water"] = reservoirSettings.svWater;
   doc["sv_nutrient"] = reservoirSettings.svNutrient;
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.print("Reservoir Settings");
+  Serial.println(jsonPayload);
 
   return jsonPayload;
 }

@@ -1,12 +1,13 @@
 package repositories
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/Modern-Farms/server-rest-golang/lib/database"
 	"github.com/Modern-Farms/server-rest-golang/lib/util"
 	"github.com/Modern-Farms/server-rest-golang/models"
 	"github.com/lib/pq"
-	"strconv"
-	"time"
 )
 
 func GetAllBatches() ([]models.Batch, error) {
@@ -512,7 +513,6 @@ func GetBatchSensorData(batchID int) ([]models.LogSensorModuleLevel, []models.Lo
 				&logSensorReservoir.ReservoirID,
 				&logSensorReservoir.TDS,
 				&logSensorReservoir.TemperatureSolution,
-				&logSensorReservoir.SolnLevel,
 				&logSensorReservoir.PH,
 			)
 			if err != nil {

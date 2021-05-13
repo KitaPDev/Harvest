@@ -72,12 +72,12 @@ func GetLatestGrowerSensorLogs(w http.ResponseWriter, r *http.Request) {
 	type Output struct {
 		LsLogSensorModuleLevel []models.LogSensorModuleLevel `json:"ls_log_sensor_module_level"`
 		LsLogSensorReservoir   []models.LogSensorReservoir   `json:"ls_log_sensor_reservoir"`
-		LsLogRoom              []models.LogSensorRoom        `json:"ls_log_sensor_room"`
+		LsLogSensorRoom        []models.LogSensorRoom        `json:"ls_log_sensor_room"`
 	}
 	output := Output{
 		LsLogSensorModuleLevel: lsModuleLevelLog,
 		LsLogSensorReservoir:   lsReservoirLog,
-		LsLogRoom:              lsRoomLog,
+		LsLogSensorRoom:        lsRoomLog,
 	}
 
 	jsonData, err := json.Marshal(output)
@@ -122,7 +122,7 @@ func UpdateModuleSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.ModuleSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -187,7 +187,7 @@ func GetAllModuleSettings(w http.ResponseWriter, r *http.Request) {
 		}
 
 		inputIoT := models.ModuleSettings{}
-		err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+		err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 		if err != nil {
 			msg := "Error: Failed to Decode Json from Response"
 			http.Error(w, msg, http.StatusInternalServerError)
@@ -222,6 +222,8 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
+	log.Println(input.ReservoirID)
+
 	reservoirUrl, err := services.GetReservoirUrlByID(input.ReservoirID)
 	if err != nil {
 		msg := "Error: Failed to Get Reservoir Urls"
@@ -238,6 +240,8 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println(reservoirUrl)
+
 	resp, err := http.Post(reservoirUrl, "application/json", bytes.NewReader(requestBody))
 	if err != nil {
 		msg := "Error: Failed to Send HTTP Post request to IoT device"
@@ -247,7 +251,7 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputIoT := models.ReservoirSettings{}
-	err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+	err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 	if err != nil {
 		msg := "Error: Failed to Decode Json from Response"
 		http.Error(w, msg, http.StatusInternalServerError)
@@ -312,7 +316,7 @@ func GetAllReservoirSettings(w http.ResponseWriter, r *http.Request) {
 		}
 
 		inputIoT := models.ReservoirSettings{}
-		err = jsonhandler.DecodeJsonFromResponse(resp, inputIoT)
+		err = jsonhandler.DecodeJsonFromResponse(resp, &inputIoT)
 		if err != nil {
 			msg := "Error: Failed to Decode Json from Response"
 			http.Error(w, msg, http.StatusInternalServerError)

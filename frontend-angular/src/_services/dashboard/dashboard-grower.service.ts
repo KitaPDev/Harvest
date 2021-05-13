@@ -10,7 +10,6 @@ import { LogSensorReservoir } from '../../_models/logsensorreservoir.model';
 import { LogSensorRoom } from '../../_models/logsensorroom.model';
 import { ModuleSettings } from '../../_models/modulesettings.model';
 import { ReservoirSettings } from '../../_models/reservoirsettings.model';
-import { mod } from 'ngx-bootstrap/chronos/utils';
 
 const DASHBOARD_GROWER_CURRENT_API =
   'http://localhost:9090/dashboard/grower/current';
@@ -376,7 +375,12 @@ export class DashboardGrowerService {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
         if (fetchedData.ls_reservoir_settings != undefined) {
-          for (let reservoirSettings of fetchedData.ls_reservoir_settings) {
+          for (let fetchedReservoirSettings of fetchedData.ls_reservoir_settings) {
+            let reservoirSettings = new ReservoirSettings();
+            reservoirSettings.reservoirID = fetchedReservoirSettings["reservoir_id"];
+            reservoirSettings.svNutrient = fetchedReservoirSettings["sv_nutrient"];
+            reservoirSettings.svWater = fetchedReservoirSettings["sv_water"];
+
             receivedLsReservoirSettings.push(reservoirSettings);
           }
         }
@@ -451,7 +455,22 @@ export class DashboardGrowerService {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
 
         if (fetchedData.ls_module_settings != undefined) {
-          for (let moduleSettings of fetchedData.ls_module_settings) {
+          for (let fetchedModuleSettings of fetchedData.ls_module_settings) {
+            let moduleSettings = new ModuleSettings();
+            
+            moduleSettings.moduleID = fetchedModuleSettings['module_id'];
+            moduleSettings.isAuto = fetchedModuleSettings['is_auto'];
+            moduleSettings.lightsOnHour = fetchedModuleSettings['lights_on_hour'];
+            moduleSettings.lightsOffHour = fetchedModuleSettings['lights_off_hour'];
+            moduleSettings.humidityRootLow = fetchedModuleSettings['humidity_root_low'];
+            moduleSettings.humidityRootHigh = fetchedModuleSettings['humidity_root_high'];
+            moduleSettings.led1 = fetchedModuleSettings['led_1'];
+            moduleSettings.led2 = fetchedModuleSettings['led_2'];
+            moduleSettings.fan1 = fetchedModuleSettings['fan_1'];
+            moduleSettings.fan2 = fetchedModuleSettings['fan_2'];
+            moduleSettings.sv1 = fetchedModuleSettings['sv_1'];
+            moduleSettings.sv2 = fetchedModuleSettings['sv_2'];
+
             receivedLsModuleSettings.push(moduleSettings);
           }
         }

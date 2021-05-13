@@ -75,14 +75,13 @@ func UpdateReservoirSensor(w http.ResponseWriter, r *http.Request) {
 		TDS                 float64 `json:"tds"`
 		PH                  float64 `json:"ph"`
 		TemperatureSolution float64 `json:"temperature_solution"`
-		SolnLevel           float64 `json:"soln_level"`
 	}
 	input := Input{}
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
 	if input.ApiKey == APIKEY {
-		err := services.UpdateReservoirSensor(input.ReservoirID, input.TDS, input.PH, input.TemperatureSolution, input.SolnLevel)
+		err := services.UpdateReservoirSensor(input.ReservoirID, input.TDS, input.PH, input.TemperatureSolution)
 		if err != nil {
 			msg := "Error: Failed to Update Reservoir Sensor"
 			http.Error(w, msg, http.StatusInternalServerError)

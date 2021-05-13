@@ -23,7 +23,7 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardGrowerService.lsReservoirSettings.subscribe(
-      (lsReservoirSettings) => {
+      (lsReservoirSettings) => {        
         for (let rs of lsReservoirSettings) {
           if (rs.reservoirID == this.reservoir.reservoirID) {
             this.reservoirSettings = rs;
