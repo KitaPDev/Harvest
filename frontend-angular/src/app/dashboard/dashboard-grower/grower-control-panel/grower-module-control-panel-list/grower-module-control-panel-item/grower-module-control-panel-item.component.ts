@@ -41,11 +41,10 @@ export class GrowerModuleControlPanelItemComponent implements OnInit {
   }
 
   onClickIsAuto() {
-    let tmpModuleSettings = { ...this.moduleSettings };
-    tmpModuleSettings.isAuto = tmpModuleSettings.isAuto == 1 ? 0 : 1;
+    this.moduleSettings.isAuto = (this.moduleSettings.isAuto + 1) % 2;
 
     this.dashboardGrowerService
-      .updateModuleSettings(tmpModuleSettings)
+      .updateModuleSettings(this.moduleSettings)
       .then((success) => {
         if (!success) {
           alert('Failed to toggle IsAuto');

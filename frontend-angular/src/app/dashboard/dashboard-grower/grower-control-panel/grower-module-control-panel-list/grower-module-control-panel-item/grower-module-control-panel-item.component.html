@@ -7,8 +7,8 @@
     <label class="switch">
       <input
         type="checkbox"
-        (click)="onClickIsAuto()"
         [checked]="moduleSettings == undefined ? 0 : moduleSettings.isAuto"
+        (change)="onClickIsAuto()"
       />
       <span class="slider slider-auto"></span>
     </label>
