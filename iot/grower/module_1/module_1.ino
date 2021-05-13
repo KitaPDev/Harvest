@@ -448,8 +448,8 @@ String getLogSensorModule_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  //  Serial.println("Module Sensor Log");
-  //  Serial.println(jsonPayload);
+    Serial.println("Module Sensor Log");
+    Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -463,8 +463,8 @@ String getLogSensorRoom_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  //  Serial.println("Room Sensor Log");
-  //  Serial.println(jsonPayload);
+    Serial.println("Room Sensor Log");
+    Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -479,8 +479,8 @@ String getLogSensorReservoir_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  //  Serial.println("Reservoir Sensor Log");
-  //  Serial.println(jsonPayload);
+    Serial.println("Reservoir Sensor Log");
+    Serial.println(jsonPayload);
 
   return jsonPayload;
 }
