@@ -1,8 +1,8 @@
 export class ModuleSettings {
   moduleID: number;
   isAuto: number;
-  lightOnHour: number;
-  lightOffHour: number;
+  lightsOnHour: number;
+  lightsOffHour: number;
   humidityRootLow: number;
   humidityRootHigh: number;
   led1: number;
@@ -15,8 +15,8 @@ export class ModuleSettings {
   constructor() {
     this.moduleID = 0;
     this.isAuto = 0;
-    this.lightOnHour = 0;
-    this.lightOffHour = 0;
+    this.lightsOnHour = 0;
+    this.lightsOffHour = 0;
     this.humidityRootLow = 0;
     this.humidityRootHigh = 0;
     this.led1 = 0;

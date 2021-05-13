@@ -131,7 +131,6 @@ void loop() {
         }
 
         if (germinatorSettings.isAuto != 1) {
-          germinatorSettings.isAuto = root["is_auto"];
           germinatorSettings.lightsOnHour = root["lights_on_hour"];
           germinatorSettings.lightsOffHour = root["lights_off_hour"];
           germinatorSettings.humidityLow = root["humidity_low"];

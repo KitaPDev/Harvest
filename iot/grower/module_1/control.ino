@@ -23,10 +23,10 @@ void updateHardware(int led1, int led2, int fan1, int fan2, int sv1, int sv2, in
 void setLevelMist(int level, int state) {
   switch(level) {
     case 1:
-      digitalWrite(PIN_SV_1, state);
+      moduleSettings.sv1 = state;
       break;
     case 2:
-      digitalWrite(PIN_SV_2, state);
+      moduleSettings.sv2 = state;
       break;
   }
 }
