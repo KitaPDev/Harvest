@@ -47,7 +47,7 @@
           <input
             type="checkbox"
             [checked]="
-              germinatorSettings == undefined ? false : germinatorSettings.pump
+              germinatorSettings == undefined ? 0 : germinatorSettings.pump
             "
             (change)="onChangeSettings(1)"
             [disabled]="germinatorSettings.isAuto == 1"
