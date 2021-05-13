@@ -219,7 +219,7 @@ bool updateGerminatorSensor(void *) {
   }
 
   return true;
-}
+} 
 
 String getLogSensorGerminator_Json() {
   DynamicJsonDocument doc(1024);
