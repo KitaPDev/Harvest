@@ -333,10 +333,6 @@ export class DashboardGrowerService {
 
     const body = {
       reservoir_id: reservoirSettings.reservoirID,
-      tds_low: reservoirSettings.tdsLow,
-      tds_high: reservoirSettings.tdsHigh,
-      ph_low: reservoirSettings.phLow,
-      ph_high: reservoirSettings.phHigh,
       sv_water: reservoirSettings.svWater,
       sv_nutrient: reservoirSettings.svNutrient,
     };
@@ -350,11 +346,6 @@ export class DashboardGrowerService {
 
         receivedReservoirSettings.reservoirID =
           fetchedReservoirSettings['reservoir_id'];
-        receivedReservoirSettings.tdsLow = fetchedReservoirSettings['tds_low'];
-        receivedReservoirSettings.tdsHigh =
-          fetchedReservoirSettings['tds_high'];
-        receivedReservoirSettings.phLow = fetchedReservoirSettings['ph_low'];
-        receivedReservoirSettings.phHigh = fetchedReservoirSettings['ph_high'];
         receivedReservoirSettings.svWater =
           fetchedReservoirSettings['sv_water'];
         receivedReservoirSettings.svNutrient =

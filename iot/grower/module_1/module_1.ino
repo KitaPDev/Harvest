@@ -80,7 +80,6 @@ struct ModuleSettings {
 struct ModuleSettings moduleSettings;
 
 struct ReservoirSettings {
-  int isAuto;
   float tdsLow;
   float tdsHigh;
   float phLow;
@@ -145,6 +144,7 @@ void loop() {
 
   checkForConnections();
 
+  int isAuto = moduleSettings.isAuto;
   int led1 = moduleSettings.led1;
   int led2 = moduleSettings.led2;
   int fan1 = moduleSettings.fan1;
@@ -187,7 +187,6 @@ void loop() {
           moduleSettings.isAuto = root["is_auto"];
         }
 
-
         if (root.containsKey("module_id")) {
           moduleSettings.lightsOnHour = root["lights_on_hour"];
           moduleSettings.lightsOffHour = root["lights_off_hour"];
@@ -220,10 +219,6 @@ void loop() {
           continue;
 
         } else if (root.containsKey("reservoir_id")) {
-          reservoirSettings.tdsLow = root["tds_low"];
-          reservoirSettings.tdsHigh = root["tds_high"];
-          reservoirSettings.phLow = root["ph_low"];
-          reservoirSettings.phHigh = root["ph_high"];
           reservoirSettings.svWater = root["sv_water"];
           reservoirSettings.svNutrient = root["sv_nutrient"];
 
@@ -480,7 +475,6 @@ String getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["reservoir_id"] = reservoirID;
-  doc["is_auto"] = reservoirSettings.isAuto;
   doc["tds_low"] = reservoirSettings.tdsLow;
   doc["tds_high"] = reservoirSettings.tdsHigh;
   doc["ph_low"] = reservoirSettings.phLow;
