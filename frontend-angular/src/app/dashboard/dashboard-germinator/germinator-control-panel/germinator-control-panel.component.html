@@ -76,16 +76,16 @@
         <div class="inline">
           <h3>On</h3>
           <input
-            [(ngModel)]="nextLightOnTime"
+            [(ngModel)]="nextLightsOnHour"
             [ngStyle]="{
               background:
-                nextLightOnTime == prevLightOnTime ? 'white' : '#CFF0CC'
+                nextLightsOnHour == prevLightsOnHour ? 'white' : '#CFF0CC'
             }"
             (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
-            id="lightOnTime"
-            [value]="prevLightOnTime"
+            id="lightsOnHour"
+            [value]="prevLightsOnHour"
           />
           <h3>hr</h3>
         </div>
@@ -93,16 +93,16 @@
         <div class="inline">
           <h3>Off</h3>
           <input
-            [(ngModel)]="nextLightOffTime"
+            [(ngModel)]="nextLightsOffHour"
             [ngStyle]="{
               background:
-                nextLightOffTime == prevLightOffTime ? 'white' : '#CFF0CC'
+                nextLightsOffHour == prevLightsOffHour ? 'white' : '#CFF0CC'
             }"
             (keyup.enter)="onInputEnterKey()"
             type="number"
             min="0"
-            id="lightOffTime"
-            [value]="prevLightOffTime"
+            id="lightsOffHour"
+            [value]="prevLightsOffHour"
           />
           <h3>hr</h3>
         </div>

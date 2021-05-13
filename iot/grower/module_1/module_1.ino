@@ -66,8 +66,8 @@ int levels = 2;
 
 struct ModuleSettings {
   int isAuto;
-  long lightOnTime;
-  long lightOffTime;
+  long lightsOnHour;
+  long lightsOffHour;
   float humidityRootLow;
   float humidityRootHigh;
   int led1;
@@ -110,8 +110,8 @@ void setup() {
   printWiFiStatus();
 
   moduleSettings.isAuto = 0;
-  moduleSettings.lightOnTime = 0;
-  moduleSettings.lightOffTime = 0;
+  moduleSettings.lightsOnHour = 0;
+  moduleSettings.lightsOffHour = 0;
   moduleSettings.humidityRootLow = 0;
   moduleSettings.humidityRootHigh = 0;
   moduleSettings.led1 = 0;
@@ -189,8 +189,8 @@ void loop() {
 
 
         if (root.containsKey("module_id")) {
-          moduleSettings.lightOnTime = root["light_on_time"];
-          moduleSettings.lightOffTime = root["light_off_time"];
+          moduleSettings.lightsOnHour = root["lights_on_hour"];
+          moduleSettings.lightsOffHour = root["lights_off_hour"];
           moduleSettings.humidityRootLow = root["humidity_root_low"];
           moduleSettings.humidityRootHigh = root["humidity_root_high"];
           moduleSettings.led1 = root["led_1"];
@@ -263,24 +263,24 @@ void loop() {
     }
 
     if (moduleSettings.led1) {
-        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
           moduleSettings.led1 = 0;
           prevToggleTime = millis();
         }
       } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
           moduleSettings.led1 = 1;
           prevToggleTime = millis();
         }
       }
 
     if (moduleSettings.led2) {
-        if (millis() - prevToggleTime >= moduleSettings.lightOnTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
           moduleSettings.led2 = 0;
           prevToggleTime = millis();
         }
       } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightOffTime * 3600000) {
+        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
           moduleSettings.led2 = 1;
           prevToggleTime = millis();
         }
@@ -458,8 +458,8 @@ String getModuleSettings_Json() {
   doc["api_key"] = API_KEY;
   doc["moduleID"] = moduleID;
   doc["is_auto"] = moduleSettings.isAuto;
-  doc["light_on_time"] = moduleSettings.lightOnTime;
-  doc["light_off_time"] = moduleSettings.lightOffTime;
+  doc["lights_on_hour"] = moduleSettings.lightsOnHour;
+  doc["lights_off_hour"] = moduleSettings.lightsOffHour;
   doc["humidity_root_low"] = moduleSettings.humidityRootLow;
   doc["humidity_root_high"] = moduleSettings.humidityRootHigh;
   doc["led_1"] = moduleSettings.led1;

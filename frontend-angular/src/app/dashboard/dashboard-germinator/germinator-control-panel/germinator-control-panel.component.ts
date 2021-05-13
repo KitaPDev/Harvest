@@ -14,13 +14,13 @@ export class GerminatorControlPanelComponent implements OnInit {
   logSensorGerminator: LogSensorGerminator;
   germinatorSettings: GerminatorSettings = new GerminatorSettings();
 
-  prevLightOnTime: number;
-  prevLightOffTime: number;
+  prevLightsOnHour: number;
+  prevLightsOffHour: number;
   prevHumidityLow: number;
   prevHumidityHigh: number;
 
-  nextLightOnTime: number;
-  nextLightOffTime: number;
+  nextLightsOnHour: number;
+  nextLightsOffHour: number;
   nextHumidityLow: number;
   nextHumidityHigh: number;
 
@@ -47,13 +47,13 @@ export class GerminatorControlPanelComponent implements OnInit {
       (germinatorSettings: GerminatorSettings) => {
         this.germinatorSettings = germinatorSettings;
 
-        this.prevLightOnTime = germinatorSettings.lightOnTime;
-        this.prevLightOffTime = germinatorSettings.lightOffTime;
+        this.prevLightsOnHour = germinatorSettings.lightsOnHour;
+        this.prevLightsOffHour = germinatorSettings.lightsOffHour;
         this.prevHumidityLow = germinatorSettings.humidityLow;
         this.prevHumidityHigh = germinatorSettings.humidityHigh;
 
-        this.nextLightOnTime = this.prevLightOnTime;
-        this.nextLightOffTime = this.prevLightOffTime;
+        this.nextLightsOnHour = this.prevLightsOnHour;
+        this.nextLightsOffHour = this.prevLightsOffHour;
         this.nextHumidityLow = this.prevHumidityLow;
         this.nextHumidityHigh = this.prevHumidityHigh;
       }
@@ -64,10 +64,10 @@ export class GerminatorControlPanelComponent implements OnInit {
     this.confirmationDialogService
       .confirm(
         'Confirm Edit Parameters',
-        'Light On hour: ' +
-          this.nextLightOnTime +
-          '\nLight off hour:' +
-          this.nextLightOffTime +
+        'Lights On hour: ' +
+          this.nextLightsOnHour +
+          '\nLights off hour:' +
+          this.nextLightsOffHour +
           '\nHumidity Low:' +
           this.nextHumidityLow +
           '\nHumidity High:' +
@@ -76,8 +76,8 @@ export class GerminatorControlPanelComponent implements OnInit {
       .then((confirmed) => {
         if (confirmed) {
           let germinatorSettings = this.germinatorSettings;
-          germinatorSettings.lightOnTime = this.nextLightOnTime;
-          germinatorSettings.lightOffTime = this.nextLightOffTime;
+          germinatorSettings.lightsOnHour = this.nextLightsOnHour;
+          germinatorSettings.lightsOffHour = this.nextLightsOffHour;
           germinatorSettings.humidityLow = this.nextHumidityLow;
           germinatorSettings.humidityHigh = this.nextHumidityHigh;
 

@@ -3,8 +3,8 @@ package models
 type ModuleSettings struct {
 	ModuleID         int     `json:"module_id"`
 	IsAuto           int     `json:"is_auto"`
-	LightOnTime      float64 `json:"light_on_time"`
-	LightOffTime     float64 `json:"light_off_time"`
+	LightsOnHour     float64 `json:"lights_on_hour"`
+	LightsOffHour    float64 `json:"lights_off_hour"`
 	HumidityRootLow  float64 `json:"humidity_root_low"`
 	HumidityRootHigh float64 `json:"humidity_root_high"`
 	Led1             int     `json:"led_1"`

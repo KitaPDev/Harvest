@@ -37,10 +37,10 @@ export class GrowerControlPanelComponent implements OnInit {
   //   this.confirmationDialogService
   //     .confirm(
   //       'Confirm Edit Parameters',
-  //       'Light On hour: ' +
-  //       this.nextLightOnTime +
-  //       '\nLight off hour:' +
-  //       this.nextLightOffTime +
+  //       'Lights On hour: ' +
+  //       this.nextLightsOnHour +
+  //       '\nLights off hour:' +
+  //       this.nextLightsOffHour +
   //       '\nRoot Humidity Low:' +
   //       this.nextHumidityLow +
   //       '\nRoot Humidity High:' +
@@ -66,10 +66,10 @@ export class GrowerControlPanelComponent implements OnInit {
   //                 fetchedData['humidity_low'];
   //               receivedGerminatorSettings.humidityHigh =
   //                 fetchedData['humidity_high'];
-  //               receivedGerminatorSettings.lightOnTime =
-  //                 fetchedData['light_on_time'];
-  //               receivedGerminatorSettings.lightOffTime =
-  //                 fetchedData['light_off_time'];
+  //               receivedGerminatorSettings.lightsOnHour =
+  //                 fetchedData['lights_on_hour'];
+  //               receivedGerminatorSettings.lightsOffHour =
+  //                 fetchedData['lights_off_hour'];
   //               receivedGerminatorSettings.mister = fetchedData['mister'];
   //               receivedGerminatorSettings.led = fetchedData['led'];
   //
@@ -77,8 +77,8 @@ export class GrowerControlPanelComponent implements OnInit {
   //                 JSON.stringify(gs) ==
   //                 JSON.stringify(receivedGerminatorSettings)
   //               ) {
-  //                 this.prevLightOnTime = this.nextLightOnTime;
-  //                 this.prevLightOffTime = this.nextLightOffTime;
+  //                 this.prevLightsOnHour = this.nextLightsOnHour;
+  //                 this.prevLightsOffHour = this.nextLightsOffHour;
   //                 this.prevHumidityLow = this.nextHumidityLow;
   //                 this.prevHumidityHigh = this.nextHumidityHigh;
   //

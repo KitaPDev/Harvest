@@ -400,8 +400,8 @@ export class DashboardGrowerService {
     const body = {
       module_id: moduleSettings.moduleID,
       is_auto: moduleSettings.isAuto,
-      light_on_time: moduleSettings.lightOnTime,
-      light_off_time: moduleSettings.lightOffTime,
+      lights_on_hour: moduleSettings.lightOnHour,
+      lights_off_hour: moduleSettings.lightOffHour,
       humidity_root_low: moduleSettings.humidityRootLow,
       humidity_root_high: moduleSettings.humidityRootHigh,
       led_1: moduleSettings.led1,
@@ -421,10 +421,10 @@ export class DashboardGrowerService {
 
         receivedModuleSettings.moduleID = fetchedModuleSettings['module_id'];
         receivedModuleSettings.isAuto = fetchedModuleSettings['is_auto'];
-        receivedModuleSettings.lightOnTime =
-          fetchedModuleSettings['light_on_time'];
-        receivedModuleSettings.lightOffTime =
-          fetchedModuleSettings['light_off_time'];
+        receivedModuleSettings.lightOnHour =
+          fetchedModuleSettings['light_on_hour'];
+        receivedModuleSettings.lightOffHour =
+          fetchedModuleSettings['light_off_hour'];
         receivedModuleSettings.humidityRootLow =
           fetchedModuleSettings['humidity_root_low'];
         receivedModuleSettings.humidityRootHigh =

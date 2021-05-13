@@ -110,10 +110,10 @@ export class DashboardGerminatorService {
           fetchedGerminatorSettings['humidity_low'];
         receivedGerminatorSettings.humidityHigh =
           fetchedGerminatorSettings['humidity_high'];
-        receivedGerminatorSettings.lightOnTime =
-          fetchedGerminatorSettings['light_on_time'];
-        receivedGerminatorSettings.lightOffTime =
-          fetchedGerminatorSettings['light_off_time'];
+        receivedGerminatorSettings.lightsOnHour =
+          fetchedGerminatorSettings['lights_on_hour'];
+        receivedGerminatorSettings.lightsOffHour =
+          fetchedGerminatorSettings['lights_off_hour'];
         receivedGerminatorSettings.pump = fetchedGerminatorSettings['pump'];
         receivedGerminatorSettings.led = fetchedGerminatorSettings['led'];
       });
@@ -128,8 +128,8 @@ export class DashboardGerminatorService {
       is_auto: germinatorSettings.isAuto,
       humidity_low: germinatorSettings.humidityLow,
       humidity_high: germinatorSettings.humidityHigh,
-      light_on_time: germinatorSettings.lightOnTime,
-      light_off_time: germinatorSettings.lightOffTime,
+      lights_on_hour: germinatorSettings.lightsOnHour,
+      lights_off_hour: germinatorSettings.lightsOffHour,
       pump: germinatorSettings.pump,
       led: germinatorSettings.led,
     };
@@ -151,10 +151,10 @@ export class DashboardGerminatorService {
           fetchedGerminatorSettings['humidity_low'];
         receivedGerminatorSettings.humidityHigh =
           fetchedGerminatorSettings['humidity_high'];
-        receivedGerminatorSettings.lightOnTime =
-          fetchedGerminatorSettings['light_on_time'];
-        receivedGerminatorSettings.lightOffTime =
-          fetchedGerminatorSettings['light_off_time'];
+        receivedGerminatorSettings.lightsOnHour =
+          fetchedGerminatorSettings['lights_on_hour'];
+        receivedGerminatorSettings.lightsOffHour =
+          fetchedGerminatorSettings['lights_off_hour'];
         receivedGerminatorSettings.pump = fetchedGerminatorSettings['pump'];
         receivedGerminatorSettings.led = fetchedGerminatorSettings['led'];
 
