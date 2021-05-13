@@ -97,7 +97,7 @@ export class DashboardGerminatorService {
   getGerminatorSettings() {
     let receivedGerminatorSettings: GerminatorSettings = new GerminatorSettings();
 
-    return this.httpClient
+    this.httpClient
       .get(DASHBOARD_GERMINATOR_GET_SETTINGS_API, httpGetOptions)
       .toPromise()
       .then((response: HttpResponse<any>) => {

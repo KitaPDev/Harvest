@@ -30,6 +30,7 @@ IPAddress subnet(255, 255, 255, 0);
 char serverURL[] = "172.20.10.3";
 int serverPort = 9090;
 char updateGerminatorSensorURL[] = "/iot/update/germinator/sensor";
+char updateGerminatorSettingsIoTURL[] = "/iot/update/germinator/settings";
 
 const char* API_KEY = "MODKJ2021";
 
@@ -40,8 +41,8 @@ unsigned long prevToggleTime = 0;
 
 struct GerminatorSettings {
   int isAuto;
-  long lightsOnHour;
-  long lightsOffHour;
+  float lightsOnHour;
+  float lightsOffHour;
   float humidityLow;
   float humidityHigh;
   int led;
@@ -170,6 +171,25 @@ void loop() {
         if (millis() - prevToggleTime >= germinatorSettings.lightsOffHour * 3600000) {
           germinatorSettings.led = 1;
           prevToggleTime = millis();
+        }
+      }
+
+      Serial.println("Update Germinator Hardware");
+
+      HTTPClient httpClient;
+      if (httpClient.begin(serverURL, serverPort, updateGerminatorSensorURL)) {
+        httpClient.addHeader("Content-Type", "application/json");
+
+        int httpResponseCode = httpClient.POST(getLogSensorGerminator_Json());
+        String httpResponse = httpClient.getString();
+
+        Serial.print("Status Code: ");
+        Serial.println(httpResponseCode);
+        Serial.print("Response: ");
+        Serial.println(httpResponse);
+
+        if (httpResponseCode < 0) {
+          Serial.printf("Error occurred while sending HTTP POST: %s\n\n", httpClient.errorToString(httpResponseCode).c_str());
         }
       }
     }
