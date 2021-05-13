@@ -377,9 +377,11 @@ export class DashboardGrowerService {
         if (fetchedData.ls_reservoir_settings != undefined) {
           for (let fetchedReservoirSettings of fetchedData.ls_reservoir_settings) {
             let reservoirSettings = new ReservoirSettings();
-            reservoirSettings.reservoirID = fetchedReservoirSettings["reservoir_id"];
-            reservoirSettings.svNutrient = fetchedReservoirSettings["sv_nutrient"];
-            reservoirSettings.svWater = fetchedReservoirSettings["sv_water"];
+            reservoirSettings.reservoirID =
+              fetchedReservoirSettings['reservoir_id'];
+            reservoirSettings.svNutrient =
+              fetchedReservoirSettings['sv_nutrient'];
+            reservoirSettings.svWater = fetchedReservoirSettings['sv_water'];
 
             receivedLsReservoirSettings.push(reservoirSettings);
           }
@@ -410,7 +412,7 @@ export class DashboardGrowerService {
     await this.httpClient
       .post<any>(DASHBOARD_UPDATE_MODULE_SETTINGS_API, body, httpPostOptions)
       .toPromise()
-      .then((response: HttpResponse<any>) => {
+      .then(async (response: HttpResponse<any>) => {
         let fetchedData = JSON.parse(JSON.stringify(response.body));
         let fetchedModuleSettings = fetchedData.module_settings;
 
@@ -432,7 +434,7 @@ export class DashboardGrowerService {
         receivedModuleSettings.sv2 = fetchedModuleSettings['sv_2'];
 
         let tmpLsModuleSettings = this.lsModuleSettingsSource.getValue();
-        let index = tmpLsModuleSettings.findIndex(
+        let index = await tmpLsModuleSettings.findIndex(
           (ms) => ms.moduleID == receivedModuleSettings.moduleID
         );
         tmpLsModuleSettings[index] = receivedModuleSettings;
@@ -457,13 +459,17 @@ export class DashboardGrowerService {
         if (fetchedData.ls_module_settings != undefined) {
           for (let fetchedModuleSettings of fetchedData.ls_module_settings) {
             let moduleSettings = new ModuleSettings();
-            
+
             moduleSettings.moduleID = fetchedModuleSettings['module_id'];
             moduleSettings.isAuto = fetchedModuleSettings['is_auto'];
-            moduleSettings.lightsOnHour = fetchedModuleSettings['lights_on_hour'];
-            moduleSettings.lightsOffHour = fetchedModuleSettings['lights_off_hour'];
-            moduleSettings.humidityRootLow = fetchedModuleSettings['humidity_root_low'];
-            moduleSettings.humidityRootHigh = fetchedModuleSettings['humidity_root_high'];
+            moduleSettings.lightsOnHour =
+              fetchedModuleSettings['lights_on_hour'];
+            moduleSettings.lightsOffHour =
+              fetchedModuleSettings['lights_off_hour'];
+            moduleSettings.humidityRootLow =
+              fetchedModuleSettings['humidity_root_low'];
+            moduleSettings.humidityRootHigh =
+              fetchedModuleSettings['humidity_root_high'];
             moduleSettings.led1 = fetchedModuleSettings['led_1'];
             moduleSettings.led2 = fetchedModuleSettings['led_2'];
             moduleSettings.fan1 = fetchedModuleSettings['fan_1'];

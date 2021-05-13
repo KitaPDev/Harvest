@@ -34,7 +34,23 @@ export class GrowerModuleControlPanelItemComponent implements OnInit {
       (lsModuleSettings) => {
         for (let ms of lsModuleSettings) {
           if (ms.moduleID == this.module.moduleID) {
+            this.prevLightsOnHour = ms.lightsOnHour;
+            this.prevLightsOffHour = ms.lightsOffHour;
+            this.prevHumidityRootLow = ms.humidityRootLow;
+            this.prevHumidityRootHigh = ms.humidityRootHigh;
+
+            if (
+              JSON.stringify(this.moduleSettings) ==
+              JSON.stringify(new ModuleSettings())
+            ) {
+              this.nextLightsOnHour = this.prevLightsOnHour;
+              this.nextLightsOffHour = this.prevLightsOffHour;
+              this.nextHumidityRootLow = this.prevHumidityRootLow;
+              this.nextHumidityRootHigh = this.prevHumidityRootHigh;
+            }
+
             this.moduleSettings = ms;
+            break;
           }
         }
       }
