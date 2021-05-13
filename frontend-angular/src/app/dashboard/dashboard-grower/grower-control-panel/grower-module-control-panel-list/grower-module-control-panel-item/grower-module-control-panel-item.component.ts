@@ -4,6 +4,7 @@ import { Module } from '../../../../../../_models/module.model';
 import { ModuleSettings } from '../../../../../../_models/modulesettings.model';
 import { LogSensorModuleLevel } from '../../../../../../_models/logsensormodulelevel.model';
 import { ConfirmationDialogService } from '../../../../../../_services/dialogs/confirmation-dialog.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grower-module-control-panel-item',
@@ -27,9 +28,15 @@ export class GrowerModuleControlPanelItemComponent implements OnInit {
   nextHumidityRootLow: number;
   nextHumidityRootHigh: number;
 
+  subRefreshSettings: Subscription;
+
   constructor(private confirmationDialogService: ConfirmationDialogService) {}
 
   ngOnInit(): void {
+    this.subRefreshSettings = interval(2000).subscribe(() => {
+      this.dashboardGrowerService.getAllModuleSettings();
+    });
+
     this.dashboardGrowerService.lsModuleSettings.subscribe(
       (lsModuleSettings) => {
         for (let ms of lsModuleSettings) {
