@@ -26,7 +26,7 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
 
     this.subRefreshSettings = interval(2000).subscribe(() => {
       if (this.moduleSettings.isAuto) {
-        this.dashboardGrowerService.getAllReservoirSettings();
+        this.dashboardGrowerService.getAllModuleSettings();
       }
     });
 

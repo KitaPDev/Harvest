@@ -182,16 +182,20 @@ void loop() {
         if (root.containsKey("module_id")) {
 
           if (moduleSettings.isAuto != 1) {
-            moduleSettings.lightsOnHour = root["lights_on_hour"];
-            moduleSettings.lightsOffHour = root["lights_off_hour"];
-            moduleSettings.humidityRootLow = root["humidity_root_low"];
-            moduleSettings.humidityRootHigh = root["humidity_root_high"];
-            moduleSettings.led1 = root["led_1"];
-            moduleSettings.led2 = root["led_2"];
-            moduleSettings.fan1 = root["fan_1"];
-            moduleSettings.fan2 = root["fan_2"];
-            moduleSettings.sv1 = root["sv_1"];
-            moduleSettings.sv2 = root["sv_2"];
+
+            if (root.containsKey("lights_on_hour")) {
+              moduleSettings.lightsOnHour = root["lights_on_hour"];
+              moduleSettings.lightsOffHour = root["lights_off_hour"];
+              moduleSettings.humidityRootLow = root["humidity_root_low"];
+              moduleSettings.humidityRootHigh = root["humidity_root_high"];
+              moduleSettings.led1 = root["led_1"];
+              moduleSettings.led2 = root["led_2"];
+              moduleSettings.fan1 = root["fan_1"];
+              moduleSettings.fan2 = root["fan_2"];
+              moduleSettings.sv1 = root["sv_1"];
+              moduleSettings.sv2 = root["sv_2"];
+            }
+
 
           } else {
             if (root.containsKey("lights_on_hour")) {
@@ -213,6 +217,8 @@ void loop() {
           client.stop();
           Serial.println("Client disconnected");
           continue;
+
+
 
         } else if (root.containsKey("reservoir_id")) {
 
@@ -240,43 +246,73 @@ void loop() {
         client.stop();
         Serial.println("Client disconnected");
         continue;
-      }
-    }
-  }
 
-  memset(received, 0, sizeof received);
-
-  if (moduleSettings.isAuto) {
-    for (int i = 1; i <= levels; i++) {
-      float humidityRoot = getHumidityRoot(i);
-      if (humidityRoot <= moduleSettings.humidityRootLow || humidityRoot >= moduleSettings.humidityRootHigh) {
-        setLevelMist(i, 1);
-      } else {
-        setLevelMist(i, 0);
       }
     }
 
-    if (moduleSettings.led1) {
-      if (millis() - prevToggleTime1 >= moduleSettings.lightsOnHour * 3600000) {
-        moduleSettings.led1 = 0;
-        prevToggleTime1 = millis();
-      }
-    } else {
-      if (millis() - prevToggleTime1 >= moduleSettings.lightsOffHour * 3600000) {
-        moduleSettings.led1 = 1;
-        prevToggleTime1 = millis();
-      }
+    memset(received, 0, sizeof received);
+
+    if (isAuto == 0 && moduleSettings.isAuto == 1) {
+      prevToggleTime1 = millis();
+      prevToggleTime2 = millis();
     }
 
-    if (moduleSettings.led2) {
-      if (millis() - prevToggleTime2 >= moduleSettings.lightsOnHour * 3600000) {
-        moduleSettings.led2 = 0;
-        prevToggleTime2 = millis();
-      }
-    } else {
-      if (millis() - prevToggleTime2 >= moduleSettings.lightsOffHour * 3600000) {
-        moduleSettings.led2 = 1;
-        prevToggleTime2 = millis();
+    if (moduleSettings.isAuto) {
+      for (int i = 1; i <= levels; i++) {
+        float humidityRoot = getHumidityRoot(i);
+        if (humidityRoot <= moduleSettings.humidityRootLow
+            || humidityRoot >= moduleSettings.humidityRootHigh) {
+          setLevelMist(i, 1);
+        } else {
+          setLevelMist(i, 0);
+        }
+
+        float temperatureRoot = getTemperatureRoot(i);
+        if (temperatureRoot >= 30) {
+          switch (i) {
+            case 1:
+              moduleSettings.fan1 = 1;
+              break;
+
+            case 2:
+              moduleSettings.fan2 = 1;
+              break;
+          }
+        } else {
+          switch (i) {
+            case 1:
+              moduleSettings.fan1 = 0;
+              break;
+
+            case 2:
+              moduleSettings.fan2 = 0;
+              break;
+          }
+        }
+
+        if (moduleSettings.led1) {
+          if (millis() - prevToggleTime1 >= moduleSettings.lightsOnHour * 3600000) {
+            moduleSettings.led1 = 0;
+            prevToggleTime1 = millis();
+          }
+        } else {
+          if (millis() - prevToggleTime1 >= moduleSettings.lightsOffHour * 3600000) {
+            moduleSettings.led1 = 1;
+            prevToggleTime1 = millis();
+          }
+        }
+
+        if (moduleSettings.led2) {
+          if (millis() - prevToggleTime2 >= moduleSettings.lightsOnHour * 3600000) {
+            moduleSettings.led2 = 0;
+            prevToggleTime2 = millis();
+          }
+        } else {
+          if (millis() - prevToggleTime2 >= moduleSettings.lightsOffHour * 3600000) {
+            moduleSettings.led2 = 1;
+            prevToggleTime2 = millis();
+          }
+        }
       }
     }
   }
