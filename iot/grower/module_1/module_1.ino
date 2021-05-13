@@ -60,7 +60,8 @@ const char* API_KEY = "MODKJ2021";
 const char* ssid = "First iPhone";
 const char* password = "ma282828";
 
-unsigned long prevToggleTime = 0;
+unsigned long prevToggleTime1 = 0;
+unsigned long prevToggleTime2 = 0;
 
 int levels = 2;
 
@@ -135,6 +136,7 @@ void loop() {
 
   checkForConnections();
 
+  int isAuto = moduleSettings.isAuto;
   int led1 = moduleSettings.led1;
   int led2 = moduleSettings.led2;
   int fan1 = moduleSettings.fan1;
@@ -190,11 +192,16 @@ void loop() {
             moduleSettings.fan2 = root["fan_2"];
             moduleSettings.sv1 = root["sv_1"];
             moduleSettings.sv2 = root["sv_2"];
-            
+
           } else {
-            if (root.containsKey("light
+            if (root.containsKey("lights_on_hour")) {
+              moduleSettings.lightsOnHour = root["lights_on_hour"];
+              moduleSettings.lightsOffHour = root["lights_off_hour"];
+              moduleSettings.humidityRootLow = root["humidity_root_low"];
+              moduleSettings.humidityRootHigh = root["humidity_root_high"];
+            }
           }
-          
+
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
           client.println("Vary: Origin");
@@ -208,10 +215,6 @@ void loop() {
           continue;
 
         } else if (root.containsKey("reservoir_id")) {
-          reservoirSettings.tdsLow = root["tds_low"];
-          reservoirSettings.tdsHigh = root["tds_high"];
-          reservoirSettings.phLow = root["ph_low"];
-          reservoirSettings.phHigh = root["ph_high"];
           reservoirSettings.svWater = root["sv_water"];
           reservoirSettings.svNutrient = root["sv_nutrient"];
 
@@ -242,7 +245,8 @@ void loop() {
 
   if (moduleSettings.isAuto) {
     for (int i = 1; i <= levels; i++) {
-      if (getHumidityRoot(i) <= moduleSettings.humidityRootLow) {
+      float humidityRoot = getHumidityRoot(i);
+      if (humidityRoot <= moduleSettings.humidityRootLow || humidityRoot >= moduleSettings.humidityRootHigh) {
         setLevelMist(i, 1);
       } else {
         setLevelMist(i, 0);
@@ -250,28 +254,28 @@ void loop() {
     }
 
     if (moduleSettings.led1) {
-        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
-          moduleSettings.led1 = 0;
-          prevToggleTime = millis();
-        }
-      } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
-          moduleSettings.led1 = 1;
-          prevToggleTime = millis();
-        }
+      if (millis() - prevToggleTime1 >= moduleSettings.lightsOnHour * 3600000) {
+        moduleSettings.led1 = 0;
+        prevToggleTime1 = millis();
       }
+    } else {
+      if (millis() - prevToggleTime1 >= moduleSettings.lightsOffHour * 3600000) {
+        moduleSettings.led1 = 1;
+        prevToggleTime1 = millis();
+      }
+    }
 
     if (moduleSettings.led2) {
-        if (millis() - prevToggleTime >= moduleSettings.lightsOnHour * 3600000) {
-          moduleSettings.led2 = 0;
-          prevToggleTime = millis();
-        }
-      } else {
-        if (millis() - prevToggleTime >= moduleSettings.lightsOffHour * 3600000) {
-          moduleSettings.led2 = 1;
-          prevToggleTime = millis();
-        }
+      if (millis() - prevToggleTime2 >= moduleSettings.lightsOnHour * 3600000) {
+        moduleSettings.led2 = 0;
+        prevToggleTime2 = millis();
       }
+    } else {
+      if (millis() - prevToggleTime2 >= moduleSettings.lightsOffHour * 3600000) {
+        moduleSettings.led2 = 1;
+        prevToggleTime2 = millis();
+      }
+    }
   }
 
   updateHardware(led1, led2, fan1, fan2, sv1, sv2, svWater, svNutrient);
@@ -469,7 +473,7 @@ String getModuleSettings_Json() {
 String getReservoirSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["reservoir_id"] = reservoirID;]\
+  doc["reservoir_id"] = reservoirID;
   doc["sv_water"] = reservoirSettings.svWater;
   doc["sv_nutrient"] = reservoirSettings.svNutrient;
 
