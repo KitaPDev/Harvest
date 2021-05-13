@@ -17,7 +17,6 @@ export class GrowerControlPanelComponent implements OnInit {
 
   subRefreshSensor: Subscription;
   subRefreshLsReservoirSettings: Subscription;
-  subRefreshModuleSettings: Subscription;
 
   constructor(public dashboardGrowerService: DashboardGrowerService) {}
 
@@ -26,18 +25,14 @@ export class GrowerControlPanelComponent implements OnInit {
     this.subRefreshSensor = interval(2000).subscribe(() => {
       this.dashboardGrowerService.getLatestGrowerSensorLogs();
     });
-    this.subRefreshLsReservoirSettings = interval(2000).subscribe(() => {
-      this.dashboardGrowerService.getAllReservoirSettings();
-    });
-    this.subRefreshModuleSettings = interval(2000).subscribe(() => {
-      this.dashboardGrowerService.getAllModuleSettings();
-    });
+    // this.subRefreshLsReservoirSettings = interval(4000).subscribe(() => {
+    //   this.dashboardGrowerService.getAllReservoirSettings();
+    // });
   }
 
   ngOnDestroy(): void {
     this.subRefreshSensor.unsubscribe();
     this.subRefreshLsReservoirSettings.unsubscribe();
-    this.subRefreshModuleSettings.unsubscribe();
   }
 
   // onInputEnterKeyModule(moduleID: number, level: number) {

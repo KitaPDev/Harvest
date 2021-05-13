@@ -11,9 +11,9 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define moduleID 2;
-#define reservoirID 10;
-#define roomID 6;
+#define moduleID 2
+#define reservoirID 10
+#define roomID 6
 
 #if C
 #include <esp_wifi.h>
@@ -215,8 +215,11 @@ void loop() {
           continue;
 
         } else if (root.containsKey("reservoir_id")) {
-          reservoirSettings.svWater = root["sv_water"];
-          reservoirSettings.svNutrient = root["sv_nutrient"];
+
+          if (root.containsKey("sv_water")) {
+            reservoirSettings.svWater = root["sv_water"];
+            reservoirSettings.svNutrient = root["sv_nutrient"];
+          }
 
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
@@ -409,8 +412,8 @@ String getLogSensorModule_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  Serial.println("Module Sensor Log");
-  Serial.println(jsonPayload);
+  //  Serial.println("Module Sensor Log");
+  //  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -424,8 +427,8 @@ String getLogSensorRoom_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  Serial.println("Room Sensor Log");
-  Serial.println(jsonPayload);
+  //  Serial.println("Room Sensor Log");
+  //  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -440,8 +443,8 @@ String getLogSensorReservoir_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
-  Serial.println("Reservoir Sensor Log");
-  Serial.println(jsonPayload);
+  //  Serial.println("Reservoir Sensor Log");
+  //  Serial.println(jsonPayload);
 
   return jsonPayload;
 }
@@ -449,7 +452,7 @@ String getLogSensorReservoir_Json() {
 String getModuleSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
-  doc["moduleID"] = moduleID;
+  doc["module_id"] = moduleID;
   doc["is_auto"] = moduleSettings.isAuto;
   doc["lights_on_hour"] = moduleSettings.lightsOnHour;
   doc["lights_off_hour"] = moduleSettings.lightsOffHour;
@@ -457,15 +460,17 @@ String getModuleSettings_Json() {
   doc["humidity_root_high"] = moduleSettings.humidityRootHigh;
   doc["led_1"] = moduleSettings.led1;
   doc["led_2"] = moduleSettings.led2;
-  doc["fan_1"] = moduleSettings.fan2;
+  doc["fan_1"] = moduleSettings.fan1;
   doc["fan_2"] = moduleSettings.fan2;
   doc["sv_1"] = moduleSettings.sv1;
   doc["sv_2"] = moduleSettings.sv2;
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("********************");
   Serial.println("Module Settings");
   Serial.println(jsonPayload);
+  Serial.println("********************");
 
   return jsonPayload;
 }
@@ -479,8 +484,10 @@ String getReservoirSettings_Json() {
 
   String jsonPayload;
   serializeJson(doc, jsonPayload);
+  Serial.println("********************");
   Serial.println("Reservoir Settings");
   Serial.println(jsonPayload);
+  Serial.println("********************");
 
   return jsonPayload;
 }

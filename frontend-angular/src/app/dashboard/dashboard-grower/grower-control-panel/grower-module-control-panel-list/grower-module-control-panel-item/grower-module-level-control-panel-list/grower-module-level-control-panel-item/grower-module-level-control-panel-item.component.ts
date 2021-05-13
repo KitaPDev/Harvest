@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DashboardGrowerService } from '../../../../../../../../_services/dashboard/dashboard-grower.service';
 import { ModuleSettings } from '../../../../../../../../_models/modulesettings.model';
 import { LogSensorModuleLevel } from '../../../../../../../../_models/logsensormodulelevel.model';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grower-module-level-control-panel-item',
@@ -13,12 +14,22 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
   @Input() level: number;
   @Input() dashboardGrowerService: DashboardGrowerService;
 
-  moduleSettings: ModuleSettings;
+  moduleSettings: ModuleSettings = new ModuleSettings();
   lsLogSensorModuleLevel: LogSensorModuleLevel[] = [];
+
+  subRefreshSettings: Subscription;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.dashboardGrowerService.getAllModuleSettings();
+
+    this.subRefreshSettings = interval(2000).subscribe(() => {
+      if (this.moduleSettings.isAuto) {
+        this.dashboardGrowerService.getAllReservoirSettings();
+      }
+    });
+
     this.dashboardGrowerService.lsModuleSettings.subscribe(
       (lsModuleSettings) => {
         for (let ms of lsModuleSettings) {
@@ -38,6 +49,10 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.subRefreshSettings.unsubscribe();
   }
 
   getModuleTemperatureRoot(): string {
@@ -89,7 +104,7 @@ export class GrowerModuleLevelControlPanelItemComponent implements OnInit {
   }
 
   onClickFan() {
-    let tmpModuleSettings = { ...this.moduleSettings };
+    let tmpModuleSettings = JSON.parse(JSON.stringify(this.moduleSettings));
 
     switch (this.level) {
       case 1:

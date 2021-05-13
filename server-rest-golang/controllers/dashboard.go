@@ -222,8 +222,6 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 
 	jsonhandler.DecodeJsonFromRequest(w, r, &input)
 
-	log.Println(input.ReservoirID)
-
 	reservoirUrl, err := services.GetReservoirUrlByID(input.ReservoirID)
 	if err != nil {
 		msg := "Error: Failed to Get Reservoir Urls"
@@ -239,8 +237,6 @@ func UpdateReservoirSettings(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-	log.Println(reservoirUrl)
 
 	resp, err := http.Post(reservoirUrl, "application/json", bytes.NewReader(requestBody))
 	if err != nil {
@@ -287,7 +283,7 @@ func GetAllReservoirSettings(w http.ResponseWriter, r *http.Request) {
 
 	mapReservoirIDReservoirUrl, err := services.GetAllReservoirUrls()
 	if err != nil {
-		msg := "Error: Failed to Get Module Urls"
+		msg := "Error: Failed to Get Reservoir Urls"
 		http.Error(w, msg, http.StatusInternalServerError)
 		log.Println(err)
 		return
@@ -296,7 +292,7 @@ func GetAllReservoirSettings(w http.ResponseWriter, r *http.Request) {
 	type Flag struct {
 		ReservoirID int `json:"reservoir_id"`
 	}
-	flg := Flag{ReservoirID: 1}
+	flg := Flag{ReservoirID: 0}
 
 	requestBody, err := json.Marshal(flg)
 	if err != nil {
