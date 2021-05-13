@@ -32,7 +32,9 @@
           <input
             type="checkbox"
             [checked]="
-              germinatorSettings == undefined ? 0 : germinatorSettings.isAuto
+              germinatorSettings == undefined
+                ? false
+                : germinatorSettings.isAuto
             "
             (change)="onChangeSettings(0)"
           />
@@ -45,7 +47,7 @@
           <input
             type="checkbox"
             [checked]="
-              germinatorSettings == undefined ? 0 : germinatorSettings.pump
+              germinatorSettings == undefined ? false : germinatorSettings.pump
             "
             (change)="onChangeSettings(1)"
             [disabled]="germinatorSettings.isAuto == 1"

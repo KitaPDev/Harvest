@@ -51,17 +51,20 @@ export class GerminatorControlPanelComponent implements OnInit {
 
     this.dashboardGerminatorService.germinatorSettings.subscribe(
       (germinatorSettings: GerminatorSettings) => {
-        this.germinatorSettings = germinatorSettings;
 
         this.prevLightsOnHour = germinatorSettings.lightsOnHour;
         this.prevLightsOffHour = germinatorSettings.lightsOffHour;
         this.prevHumidityLow = germinatorSettings.humidityLow;
         this.prevHumidityHigh = germinatorSettings.humidityHigh;
 
-        this.nextLightsOnHour = this.prevLightsOnHour;
-        this.nextLightsOffHour = this.prevLightsOffHour;
-        this.nextHumidityLow = this.prevHumidityLow;
-        this.nextHumidityHigh = this.prevHumidityHigh;
+        if (JSON.stringify(this.germinatorSettings) == JSON.stringify(new GerminatorSettings())) {
+          this.nextLightsOnHour = this.prevLightsOnHour;
+          this.nextLightsOffHour = this.prevLightsOffHour;
+          this.nextHumidityLow = this.prevHumidityLow;
+          this.nextHumidityHigh = this.prevHumidityHigh;
+        }
+
+        this.germinatorSettings = germinatorSettings;
       }
     );
   }

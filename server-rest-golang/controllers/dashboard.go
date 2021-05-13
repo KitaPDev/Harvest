@@ -473,8 +473,6 @@ func UpdateGerminatorSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println(input.LightOnHour, input.LightOffHour)
-
 	resp, err := http.Post(germinatorUrl, "application/json", bytes.NewReader(requestBody))
 	if err != nil {
 		msg := "Error: Failed to Send HTTP Post request to IoT device"
