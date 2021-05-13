@@ -25,6 +25,7 @@ export class GerminatorControlPanelComponent implements OnInit {
   nextHumidityHigh: number;
 
   subRefreshSensor: Subscription;
+  subRefreshSettings: Subscription;
 
   constructor(
     private dashboardGerminatorService: DashboardGerminatorService,
@@ -36,6 +37,11 @@ export class GerminatorControlPanelComponent implements OnInit {
     this.dashboardGerminatorService.getGerminatorSettings();
     this.subRefreshSensor = interval(2000).subscribe(() => {
       this.dashboardGerminatorService.updateGerminatorDashboard();
+    });
+    this.subRefreshSettings = interval(2000).subscribe(() => {
+      if (this.germinatorSettings.isAuto) {
+        this.dashboardGerminatorService.getGerminatorSettings();
+      }
     });
     this.dashboardGerminatorService.logSensorGerminator.subscribe(
       (logSensorGerminator) => {
@@ -99,6 +105,7 @@ export class GerminatorControlPanelComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.subRefreshSensor.unsubscribe();
+    this.subRefreshSettings.unsubscribe();
   }
 
   onChangeSettings(settingNumber: number): void {
