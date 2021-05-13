@@ -173,25 +173,6 @@ void loop() {
           prevToggleTime = millis();
         }
       }
-
-      Serial.println("Update Germinator Hardware");
-
-      HTTPClient httpClient;
-      if (httpClient.begin(serverURL, serverPort, updateGerminatorSensorURL)) {
-        httpClient.addHeader("Content-Type", "application/json");
-
-        int httpResponseCode = httpClient.POST(getLogSensorGerminator_Json());
-        String httpResponse = httpClient.getString();
-
-        Serial.print("Status Code: ");
-        Serial.println(httpResponseCode);
-        Serial.print("Response: ");
-        Serial.println(httpResponse);
-
-        if (httpResponseCode < 0) {
-          Serial.printf("Error occurred while sending HTTP POST: %s\n\n", httpClient.errorToString(httpResponseCode).c_str());
-        }
-      }
     }
 
     updateHardware(led, pump);
