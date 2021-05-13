@@ -40,8 +40,8 @@ unsigned long prevToggleTime = 0;
 
 struct GerminatorSettings {
   int isAuto;
-  long lightOnTime;
-  long lightOffTime;
+  long lightsOnHour;
+  long lightsOffHour;
   float humidityLow;
   float humidityHigh;
   int led;
@@ -69,8 +69,8 @@ void setup() {
   printWiFiStatus();
 
   germinatorSettings.isAuto = 0;
-  germinatorSettings.lightOnTime = 0;
-  germinatorSettings.lightOffTime = 0;
+  germinatorSettings.lightsOnHour = 0;
+  germinatorSettings.lightsOffHour = 0;
   germinatorSettings.humidityLow = 0;
   germinatorSettings.humidityHigh = 0;
 
@@ -127,8 +127,8 @@ void loop() {
         Serial.println(root);
 
         germinatorSettings.isAuto = root["is_auto"];
-        germinatorSettings.lightOnTime = root["light_on_time"];
-        germinatorSettings.lightOffTime = root["light_off_time"];
+        germinatorSettings.lightsOnHour = root["lights_on_hour"];
+        germinatorSettings.lightsOffHour = root["lights_off_hour"];
         germinatorSettings.humidityLow = root["humidity_low"];
         germinatorSettings.humidityHigh = root["humidity_high"];
         germinatorSettings.led = root["led"];
@@ -162,12 +162,12 @@ void loop() {
       }
 
       if (germinatorSettings.led) {
-        if (millis() - prevToggleTime >= germinatorSettings.lightOnTime * 3600000) {
+        if (millis() - prevToggleTime >= germinatorSettings.lightsOnHour * 3600000) {
           germinatorSettings.led = 0;
           prevToggleTime = millis();
         }
       } else {
-        if (millis() - prevToggleTime >= germinatorSettings.lightOffTime * 3600000) {
+        if (millis() - prevToggleTime >= germinatorSettings.lightsOffHour * 3600000) {
           germinatorSettings.led = 1;
           prevToggleTime = millis();
         }
@@ -223,8 +223,8 @@ String getGerminatorSettings_Json() {
   DynamicJsonDocument doc(1024);
   doc["api_key"] = API_KEY;
   doc["is_auto"] = germinatorSettings.isAuto;
-  doc["light_on_time"] = germinatorSettings.lightOnTime;
-  doc["light_off_time"] = germinatorSettings.lightOffTime;
+  doc["lights_on_hour"] = germinatorSettings.lightsOnHour;
+  doc["lights_off_hour"] = germinatorSettings.lightsOffHour;
   doc["humidity_low"] = germinatorSettings.humidityLow;
   doc["humidity_high"] = germinatorSettings.humidityHigh;
   doc["led"] = germinatorSettings.led;
