@@ -32,9 +32,7 @@
           <input
             type="checkbox"
             [checked]="
-              germinatorSettings == undefined
-                ? false
-                : germinatorSettings.isAuto
+              germinatorSettings == undefined ? 0 : germinatorSettings.isAuto
             "
             (change)="onChangeSettings(0)"
           />

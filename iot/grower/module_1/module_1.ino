@@ -11,9 +11,9 @@
 #include <arduino-timer.h>
 #include <cstddef>
 
-#define moduleID 2;
-#define reservoirID 10;
-#define roomID 6;
+#define moduleID 2
+#define reservoirID 10
+#define roomID 6
 
 #if C
 #include <esp_wifi.h>
@@ -215,8 +215,10 @@ void loop() {
           continue;
 
         } else if (root.containsKey("reservoir_id")) {
-          reservoirSettings.svWater = root["sv_water"];
-          reservoirSettings.svNutrient = root["sv_nutrient"];
+          if (reservoirID == root["reservoir_id"]) {
+            reservoirSettings.svWater = root["sv_water"];
+            reservoirSettings.svNutrient = root["sv_nutrient"];
+          }
 
           client.println("HTTP/1.0 200 OK");
           client.println("Content-Type: application/json");
