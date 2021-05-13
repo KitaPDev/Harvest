@@ -22,8 +22,10 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.dashboardGrowerService.getAllReservoirSettings();
+
     this.dashboardGrowerService.lsReservoirSettings.subscribe(
-      (lsReservoirSettings) => {        
+      (lsReservoirSettings) => {
         for (let rs of lsReservoirSettings) {
           if (rs.reservoirID == this.reservoir.reservoirID) {
             this.reservoirSettings = rs;
@@ -41,6 +43,10 @@ export class GrowerReservoirControlPanelItemComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subRefreshSensor.unsubscribe();
   }
 
   getTds(): string {
