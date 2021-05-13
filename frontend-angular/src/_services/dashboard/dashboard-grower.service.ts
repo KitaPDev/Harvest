@@ -432,9 +432,16 @@ export class DashboardGrowerService {
         receivedModuleSettings.sv2 = fetchedModuleSettings['sv_2'];
 
         let tmpLsModuleSettings = this.lsModuleSettingsSource.getValue();
-        let index = tmpLsModuleSettings.findIndex(
-          (ms) => ms.moduleID == receivedModuleSettings.moduleID
-        );
+
+        let index = 0;
+        for (let ms of tmpLsModuleSettings) {
+          if (ms.moduleID == receivedModuleSettings.moduleID) {
+            break;
+          }
+
+          index++;
+        }
+
         tmpLsModuleSettings[index] = receivedModuleSettings;
 
         this.lsModuleSettingsSource.next(tmpLsModuleSettings);

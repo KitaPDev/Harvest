@@ -67,8 +67,8 @@ int levels = 2;
 
 struct ModuleSettings {
   int isAuto;
-  long lightsOnHour;
-  long lightsOffHour;
+  float lightsOnHour;
+  float lightsOffHour;
   float humidityRootLow;
   float humidityRootHigh;
   int led1;
